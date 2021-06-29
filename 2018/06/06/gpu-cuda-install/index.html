@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="cuda,gpu,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="[TOC] NVIDIANvidia显卡驱动安装CentOS7/RHEL安装依赖包 123yum -y updateyum -y groupinstall &quot;GNOME Desktop&quot; &quot;Development Tools&quot;yum -y install kernel-devel 下载最新的NVIDIA驱动，==&amp;gt; http://www.nvidia.com/object/unix.html">
+<meta name="keywords" content="cuda,gpu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CUDA的安装">
+<meta property="og:url" content="http://shaoguangleo.github.io/2018/06/06/gpu-cuda-install/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="[TOC] NVIDIANvidia显卡驱动安装CentOS7/RHEL安装依赖包 123yum -y updateyum -y groupinstall &quot;GNOME Desktop&quot; &quot;Development Tools&quot;yum -y install kernel-devel 下载最新的NVIDIA驱动，==&amp;gt; http://www.nvidia.com/object/unix.html">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-06-29T01:52:55.455Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CUDA的安装">
+<meta name="twitter:description" content="[TOC] NVIDIANvidia显卡驱动安装CentOS7/RHEL安装依赖包 123yum -y updateyum -y groupinstall &quot;GNOME Desktop&quot; &quot;Development Tools&quot;yum -y install kernel-devel 下载最新的NVIDIA驱动，==&amp;gt; http://www.nvidia.com/object/unix.html">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://shaoguangleo.github.io/2018/06/06/gpu-cuda-install/">
+
+
+
+
+
+  <title>CUDA的安装 | 浩瀚宇宙 灿烂星空</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">浩瀚宇宙 灿烂星空</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">工作和生活中的七七八八</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2018/06/06/gpu-cuda-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CUDA的安装</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-06T11:47:00+00:00">
+                2018-06-06
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-29T01:52:55+00:00">
+                2021-06-29
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/GPU/" itemprop="url" rel="index">
+                    <span itemprop="name">GPU</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/06/gpu-cuda-install/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/06/06/gpu-cuda-install/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/06/06/gpu-cuda-install/" class="leancloud_visitors" data-flag-title="CUDA的安装">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[TOC]</p>
+<h1 id="NVIDIA"><a href="#NVIDIA" class="headerlink" title="NVIDIA"></a>NVIDIA</h1><h2 id="Nvidia显卡驱动安装"><a href="#Nvidia显卡驱动安装" class="headerlink" title="Nvidia显卡驱动安装"></a>Nvidia显卡驱动安装</h2><h3 id="CentOS7-RHEL"><a href="#CentOS7-RHEL" class="headerlink" title="CentOS7/RHEL"></a>CentOS7/RHEL</h3><p>安装依赖包</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum -y <span class="keyword">update</span></span><br><span class="line">yum -y groupinstall <span class="string">"GNOME Desktop"</span> <span class="string">"Development Tools"</span></span><br><span class="line">yum -y <span class="keyword">install</span> kernel-devel</span><br></pre></td></tr></table></figure>
+<p>下载最新的NVIDIA驱动，==<strong>&gt;</strong> <a href="http://www.nvidia.com/object/unix.html" target="_blank" rel="noopener">http://www.nvidia.com/object/unix.html</a> ==<strong>&gt;</strong> Latest Long Lived Branch version</p>
+<p>增加自动内核编辑的选项</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y <span class="keyword">install</span> epel-<span class="keyword">release</span></span><br><span class="line">yum -y <span class="keyword">install</span> dkms</span><br></pre></td></tr></table></figure>
+<p>重新启动系统确保系统使用的为最新的内核版本。</p>
+<p>编辑 <code>/etc/default/grub</code>在 “<code>GRUB_CMDLINE_LINUX</code>”增加<em>rd.driver.blacklist=nouveau nouveau.modeset=0</em></p>
+<p>更新包含上述更改的grub文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grub2-mkconfig -o <span class="regexp">/boot/g</span>rub2<span class="regexp">/grub.cfg</span></span><br></pre></td></tr></table></figure>
+<p>编辑或创建文件`/etc/modprobe.d/blacklist.conf并增加内容<em>blacklist nouveau</em></p>
+<p>备份旧的initramfs文件并创建一个新的</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mv <span class="string">/boot/initramfs-</span><span class="params">(uname -r)</span><span class="string">.img</span> <span class="string">/boot/initramfs-</span><span class="params">(uname -r)</span>-nouveau.img</span><br><span class="line"></span><br><span class="line">dracut <span class="string">/boot/initramfs-</span>$<span class="params">(uname -r)</span><span class="string">.img</span> $<span class="params">(uname -r)</span></span><br></pre></td></tr></table></figure>
+<p>重启机器，切换到文本模式，<code>systemctl isolate multi-user.target</code>，运行<code>sh NVIDIA-Linux-x86_64-*.run</code>，选项全部选yes即可。</p>
+<h2 id="CUDA-Toolkit安装"><a href="#CUDA-Toolkit安装" class="headerlink" title="CUDA Toolkit安装"></a>CUDA Toolkit安装</h2><h2 id="Redhat-CentOS"><a href="#Redhat-CentOS" class="headerlink" title="Redhat/CentOS"></a>Redhat/CentOS</h2><p>下载最新的CUDA Toolkit文件 (run文件，不要下载rpm)<br>==&gt; <a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="noopener">https://developer.nvidia.com/cuda-downloads</a> ==&gt; Linux ==&gt; x86_64 ==&gt; RHEL/CentOS ==&gt; 7 ==&gt; runfile (local)</p>
+<p><code>sh cuda_*.run</code><br>在安装NVIDIA driver的时候选no，因为我们已经在前面安装了，一般CUDA内置的会旧一些。其他选项默认即可。</p>
+<p>添加环境变量：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>export PATH=<span class="regexp">/usr/local</span><span class="regexp">/cuda-9.2/bin</span><span class="symbol">:</span><span class="variable">$PATH</span></span><br><span class="line"><span class="variable">$ </span>export LD_LIBRARY_PATH=<span class="regexp">/usr/local</span><span class="regexp">/cuda-9.2/lib</span>64<span class="symbol">:</span><span class="variable">$LD_LIBRARY_PATH</span></span><br></pre></td></tr></table></figure>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br></pre></td><td class="code"><pre><span class="line">sudo ./cuda_9.2.88_396.26_linux.run </span><br><span class="line">Logging to /tmp/cuda_install_6554.log</span><br><span class="line">Using more to view the EULA.</span><br><span class="line">End User License Agreement</span><br><span class="line">--------------------------</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Preface</span><br><span class="line">-------</span><br><span class="line"></span><br><span class="line">The Software License Agreement <span class="keyword">in</span> Chapter 1 and the Supplement</span><br><span class="line"><span class="keyword">in</span> Chapter 2 contain license terms and conditions that govern</span><br><span class="line">the use of NVIDIA software. By accepting this agreement, you</span><br><span class="line">agree to comply with all the terms and conditions applicable</span><br><span class="line">to the product(s) included herein.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NVIDIA Driver</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Description</span><br><span class="line"></span><br><span class="line">This package contains the operating system driver and</span><br><span class="line">fundamental system software components <span class="keyword">for</span> NVIDIA GPUs.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NVIDIA CUDA Toolkit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Description</span><br><span class="line"></span><br><span class="line">The NVIDIA CUDA Toolkit provides <span class="built_in">command</span>-line and graphical</span><br><span class="line">tools <span class="keyword">for</span> building, debugging and optimizing the performance</span><br><span class="line">of applications accelerated by NVIDIA GPUs, runtime and math</span><br><span class="line">libraries, and documentation including programming guides,</span><br><span class="line">user manuals, and API references.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Default Install Location of CUDA Toolkit</span><br><span class="line"></span><br><span class="line">Windows platform:</span><br><span class="line"></span><br><span class="line">%ProgramFiles%\NVIDIA GPU Computing Toolkit\CUDA\v<span class="comment">#.#</span></span><br><span class="line"></span><br><span class="line">Linux platform:</span><br><span class="line"></span><br><span class="line">/usr/<span class="built_in">local</span>/cuda-<span class="comment">#.#</span></span><br><span class="line"></span><br><span class="line">Mac platform:</span><br><span class="line"></span><br><span class="line">/Developer/NVIDIA/CUDA-<span class="comment">#.#</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NVIDIA CUDA Samples</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Description</span><br><span class="line"></span><br><span class="line">This package includes over 100+ CUDA examples that demonstrate</span><br><span class="line">various CUDA programming principles, and efficient CUDA</span><br><span class="line">implementation of algorithms <span class="keyword">in</span> specific application domains.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Default Install Location of CUDA Samples</span><br><span class="line"></span><br><span class="line">Windows platform:</span><br><span class="line"></span><br><span class="line">%ProgramData%\NVIDIA Corporation\CUDA Samples\v<span class="comment">#.#</span></span><br><span class="line"></span><br><span class="line">Linux platform:</span><br><span class="line"></span><br><span class="line">/usr/<span class="built_in">local</span>/cuda-<span class="comment">#.#/samples</span></span><br><span class="line"></span><br><span class="line">and</span><br><span class="line"></span><br><span class="line"><span class="variable">$HOME</span>/NVIDIA_CUDA-<span class="comment">#.#_Samples</span></span><br><span class="line"></span><br><span class="line">Mac platform:</span><br><span class="line"></span><br><span class="line">/Developer/NVIDIA/CUDA-<span class="comment">#.#/samples</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">NVIDIA Nsight Visual Studio Edition (Windows only)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Description</span><br><span class="line"></span><br><span class="line">NVIDIA Nsight Development Platform, Visual Studio Edition is a</span><br><span class="line">development environment integrated into Microsoft Visual</span><br><span class="line">Studio that provides tools <span class="keyword">for</span> debugging, profiling, analyzing</span><br><span class="line">and optimizing your GPU computing and graphics applications.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Default Install Location of Nsight Visual Studio Edition</span><br><span class="line"></span><br><span class="line">Windows platform:</span><br><span class="line"></span><br><span class="line">%ProgramFiles(x86)%\NVIDIA Corporation\Nsight Visual Studio Edition <span class="comment">#.#</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">1. NVIDIA Software License Agreement</span><br><span class="line">------------------------------------</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Release Date: October 20, 2016</span><br><span class="line">------------------------------</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">IMPORTANT NOTICE -- READ BEFORE DOWNLOADING, INSTALLING,</span><br><span class="line">COPYING OR USING THE LICENSED SOFTWARE:</span><br><span class="line">--------------------------------------------------------</span><br><span class="line"></span><br><span class="line">This Software License Agreement (<span class="string">"SLA”), made and entered</span></span><br><span class="line"><span class="string">into as of the time and date of click through action</span></span><br><span class="line"><span class="string">(“Effective Date”), is a legal agreement between you and</span></span><br><span class="line"><span class="string">NVIDIA Corporation ("</span>NVIDIA<span class="string">") and governs the use of the</span></span><br><span class="line"><span class="string">NVIDIA computer software and the documentation made available</span></span><br><span class="line"><span class="string">for use with such NVIDIA software. By downloading, installing,</span></span><br><span class="line"><span class="string">copying, or otherwise using the NVIDIA software and/or</span></span><br><span class="line"><span class="string">documentation, you agree to be bound by the terms of this SLA.</span></span><br><span class="line"><span class="string">If you do not agree to the terms of this SLA, do not download,</span></span><br><span class="line"><span class="string">install, copy or use the NVIDIA software or documentation. IF</span></span><br><span class="line"><span class="string">YOU ARE ENTERING INTO THIS SLA ON BEHALF OF A COMPANY OR OTHER</span></span><br><span class="line"><span class="string">LEGAL ENTITY, YOU REPRESENT THAT YOU HAVE THE LEGAL AUTHORITY</span></span><br><span class="line"><span class="string">TO BIND THE ENTITY TO THIS SLA, IN WHICH CASE “YOU” WILL</span></span><br><span class="line"><span class="string">MEAN THE ENTITY YOU REPRESENT. IF YOU DON’T HAVE SUCH</span></span><br><span class="line"><span class="string">AUTHORITY, OR IF YOU DON’T ACCEPT ALL THE TERMS AND</span></span><br><span class="line"><span class="string">CONDITIONS OF THIS SLA, THEN NVIDIA DOES NOT AGREE TO LICENSE</span></span><br><span class="line"><span class="string">THE LICENSED SOFTWARE TO YOU, AND YOU MAY NOT DOWNLOAD,</span></span><br><span class="line"><span class="string">INSTALL, COPY OR USE IT.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1.1. License</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1.1.1. License Grant</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Subject to the terms of the AGREEMENT, NVIDIA hereby grants</span></span><br><span class="line"><span class="string">you a non-exclusive, non-transferable license, without the</span></span><br><span class="line"><span class="string">right to sublicense (except as expressly set forth in a</span></span><br><span class="line"><span class="string">Supplement), during the applicable license term unless earlier</span></span><br><span class="line"><span class="string">terminated as provided below, to have Authorized Users install</span></span><br><span class="line"><span class="string">and use the Software, including modifications (if expressly</span></span><br><span class="line"><span class="string">permitted in a Supplement), in accordance with the</span></span><br><span class="line"><span class="string">Documentation. You are only licensed to activate and use</span></span><br><span class="line"><span class="string">Licensed Software for which you a have a valid license, even</span></span><br><span class="line"><span class="string">if during the download or installation you are presented with</span></span><br><span class="line"><span class="string">other product options. No Orders are binding on NVIDIA until</span></span><br><span class="line"><span class="string">accepted by NVIDIA. Your Orders are subject to the AGREEMENT.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">SLA Supplements</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Certain Licensed Software licensed under this SLA may be</span></span><br><span class="line"><span class="string">subject to additional terms and conditions that will be</span></span><br><span class="line"><span class="string">presented to you in a Supplement for acceptance prior to the</span></span><br><span class="line"><span class="string">delivery of such Licensed Software under this SLA and the</span></span><br><span class="line"><span class="string">applicable Supplement. Licensed Software will only be</span></span><br><span class="line"><span class="string">delivered to you upon your acceptance of all applicable terms.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1.1.2. Limited Purposes Licenses</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">If your license is provided for one of the purposes indicated</span></span><br><span class="line"><span class="string">below, then notwithstanding contrary terms in Section 1.1 or</span></span><br><span class="line"><span class="string">in a Supplement, such licenses are for internal use and do not</span></span><br><span class="line"><span class="string">include any right or license to sub-license and distribute the</span></span><br><span class="line"><span class="string">Licensed Software or its output in any way in any public</span></span><br><span class="line"><span class="string">release, however limited, and/or in any manner that provides</span></span><br><span class="line"><span class="string">third parties with use of or access to the Licensed Software</span></span><br><span class="line"><span class="string">or its functionality or output, including (but not limited to)</span></span><br><span class="line"><span class="string">external alpha or beta testing or development phases. Further:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  1. </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Evaluation License: You may use evaluation licenses solely</span></span><br><span class="line"><span class="string">    for your internal evaluation of the Licensed Software for</span></span><br><span class="line"><span class="string">    broader adoption within your Enterprise or in connection</span></span><br><span class="line"><span class="string">    with a NVIDIA product purchase decision, and such licenses</span></span><br><span class="line"><span class="string">    have an expiration date as indicated by NVIDIA in its sole</span></span><br><span class="line"><span class="string">    discretion (or ninety days from the date of download if no</span></span><br><span class="line"><span class="string">    other duration is indicated).</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  2. </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Educational/Academic License: You may use</span></span><br><span class="line"><span class="string">    educational/academic licenses solely for educational</span></span><br><span class="line"><span class="string">    purposes and all users must be enrolled or employed by an</span></span><br><span class="line"><span class="string">    academic institution. If you do not meet NVIDIA’s</span></span><br><span class="line"><span class="string">    academic program requirements for educational</span></span><br><span class="line"><span class="string">    institutions, you have no rights under this license.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  3. </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Test/Development License. You may use test/development</span></span><br><span class="line"><span class="string">    licenses solely for your internal development, testing</span></span><br><span class="line"><span class="string">    and/or debugging of your software applications or for</span></span><br><span class="line"><span class="string">    interoperability testing with the Licensed Software, and</span></span><br><span class="line"><span class="string">    such licenses have an expiration date as indicated by</span></span><br><span class="line"><span class="string">    NVIDIA in its sole discretion (or one year from the date</span></span><br><span class="line"><span class="string">    of download if no other duration is indicated). NVIDIA</span></span><br><span class="line"><span class="string">    Confidential Information under the AGREEMENT includes</span></span><br><span class="line"><span class="string">    output from Licensed Software developer tools identified</span></span><br><span class="line"><span class="string">    as “Pro” versions, where the output reveals</span></span><br><span class="line"><span class="string">    functionality or performance data pertinent to NVIDIA</span></span><br><span class="line"><span class="string">    hardware or software products.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1.1.3. Pre-release Licenses</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">With respect to alpha, beta, preview, and other pre-release</span></span><br><span class="line"><span class="string">Software and Documentation (“Pre-Release Licensed</span></span><br><span class="line"><span class="string">Software”) delivered to you under the AGREEMENT you</span></span><br><span class="line"><span class="string">acknowledge and agree that such Pre-Release Licensed Software</span></span><br><span class="line"><span class="string">(i) may not be fully functional, may contain errors or design</span></span><br><span class="line"><span class="string">flaws, and may have reduced or different security, privacy,</span></span><br><span class="line"><span class="string">accessibility, availability, and reliability standards</span></span><br><span class="line"><span class="string">relative to commercially provided NVIDIA software and</span></span><br><span class="line"><span class="string">documentation, and (ii) use of such Pre-Release Licensed</span></span><br><span class="line"><span class="string">Software may result in unexpected results, loss of data,</span></span><br><span class="line"><span class="string">project delays or other unpredictable damage or loss.</span></span><br><span class="line"><span class="string">THEREFORE, PRE-RELEASE LICENSED SOFTWARE IS NOT INTENDED FOR</span></span><br><span class="line"><span class="string">USE, AND SHOULD NOT BE USED, IN PRODUCTION OR</span></span><br><span class="line"><span class="string">BUSINESS-CRITICAL SYSTEMS. NVIDIA has no obligation to make</span></span><br><span class="line"><span class="string">available a commercial version of any Pre-Release Licensed</span></span><br><span class="line"><span class="string">Software and NVIDIA has the right to abandon development of</span></span><br><span class="line"><span class="string">Pre-Release Licensed Software at any time without liability.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1.1.4. Enterprise and Contractor Usage</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">You may allow your Enterprise employees and Contractors to</span></span><br><span class="line"><span class="string">access and use the Licensed Software pursuant to the terms of</span></span><br><span class="line"><span class="string">the AGREEMENT solely to perform work on your behalf, provided</span></span><br><span class="line"><span class="string">further that with respect to Contractors: (i) you obtain a</span></span><br><span class="line"><span class="string">written agreement from each Contractor which contains terms</span></span><br><span class="line"><span class="string">and obligations with respect to access to and use of Licensed</span></span><br><span class="line"><span class="string">Software no less protective of NVIDIA than those set forth in</span></span><br><span class="line"><span class="string">the AGREEMENT, and (ii) such Contractor’s access and use</span></span><br><span class="line"><span class="string">expressly excludes any sublicensing or distribution rights for</span></span><br><span class="line"><span class="string">the Licensed Software. You are responsible for the compliance</span></span><br><span class="line"><span class="string">with the terms and conditions of the AGREEMENT by your</span></span><br><span class="line"><span class="string">Enterprise and Contractors. Any act or omission that, if</span></span><br><span class="line"><span class="string">committed by you, would constitute a breach of the AGREEMENT</span></span><br><span class="line"><span class="string">shall be deemed to constitute a breach of the AGREEMENT if</span></span><br><span class="line"><span class="string">committed by your Enterprise or Contractors.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1.1.5. Services</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Except as expressly indicated in an Order, NVIDIA is under no</span></span><br><span class="line"><span class="string">obligation to provide support for the Licensed Software or to</span></span><br><span class="line"><span class="string">provide any patches, maintenance, updates or upgrades under</span></span><br><span class="line"><span class="string">the AGREEMENT. Unless patches, maintenance, updates or</span></span><br><span class="line"><span class="string">upgrades are provided with their separate governing terms and</span></span><br><span class="line"><span class="string">conditions, they constitute Licensed Software licensed to you</span></span><br><span class="line"><span class="string">under the AGREEMENT.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1.2. Limitations</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1.2.1. License Restrictions</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Except as expressly authorized in the AGREEMENT, you agree</span></span><br><span class="line"><span class="string">that you will not (nor authorize third parties to): (i) copy</span></span><br><span class="line"><span class="string">and use Software that was licensed to you for use in one or</span></span><br><span class="line"><span class="string">more NVIDIA hardware products in other unlicensed products</span></span><br><span class="line"><span class="string">(provided that copies solely for backup purposes are allowed);</span></span><br><span class="line"><span class="string">(ii) reverse engineer, decompile, disassemble (except to the</span></span><br><span class="line"><span class="string">extent applicable laws specifically require that such</span></span><br><span class="line"><span class="string">activities be permitted) or attempt to derive the source code,</span></span><br><span class="line"><span class="string">underlying ideas, algorithm or structure of Software provided</span></span><br><span class="line"><span class="string">to you in object code form; (iii) sell, transfer, assign,</span></span><br><span class="line"><span class="string">distribute, rent, loan, lease, sublicense or otherwise make</span></span><br><span class="line"><span class="string">available the Licensed Software or its functionality to third</span></span><br><span class="line"><span class="string">parties (a) as an application services provider or service</span></span><br><span class="line"><span class="string">bureau, (b) by operating hosted/virtual system environments,</span></span><br><span class="line"><span class="string">(c) by hosting, time sharing or providing any other type of</span></span><br><span class="line"><span class="string">services, or (d) otherwise by means of the internet; (iv)</span></span><br><span class="line"><span class="string">modify, translate or otherwise create any derivative works of</span></span><br><span class="line"><span class="string">any Licensed Software; (v) remove, alter, cover or obscure any</span></span><br><span class="line"><span class="string">proprietary notice that appears on or with the Licensed</span></span><br><span class="line"><span class="string">Software or any copies thereof; (vi) use the Licensed</span></span><br><span class="line"><span class="string">Software, or allow its use, transfer, transmission or export</span></span><br><span class="line"><span class="string">in violation of any applicable export control laws, rules or</span></span><br><span class="line"><span class="string">regulations; (vii) distribute, permit access to, or sublicense</span></span><br><span class="line"><span class="string">the Licensed Software as a stand-alone product; (viii) bypass,</span></span><br><span class="line"><span class="string">disable, circumvent or remove any form of copy protection,</span></span><br><span class="line"><span class="string">encryption, security or digital rights management or</span></span><br><span class="line"><span class="string">authentication mechanism used by NVIDIA in connection with the</span></span><br><span class="line"><span class="string">Licensed Software, or use the Licensed Software together with</span></span><br><span class="line"><span class="string">any authorization code, serial number, or other copy</span></span><br><span class="line"><span class="string">protection device not supplied by NVIDIA directly or through</span></span><br><span class="line"><span class="string">an authorized reseller; (ix) use the Licensed Software for the</span></span><br><span class="line"><span class="string">purpose of developing competing products or technologies or</span></span><br><span class="line"><span class="string">assisting a third party in such activities; (x) use the</span></span><br><span class="line"><span class="string">Licensed Software with any system or application where the use</span></span><br><span class="line"><span class="string">or failure of such system or application can reasonably be</span></span><br><span class="line"><span class="string">expected to threaten or result in personal injury, death, or</span></span><br><span class="line"><span class="string">catastrophic loss including, without limitation, use in</span></span><br><span class="line"><span class="string">connection with any nuclear, avionics, navigation, military,</span></span><br><span class="line"><span class="string">medical, life support or other life critical application</span></span><br><span class="line"><span class="string">(“Critical Applications”), unless the parties have entered</span></span><br><span class="line"><span class="string">into a Critical Applications agreement; (xi) distribute any</span></span><br><span class="line"><span class="string">modification or derivative work you make to the Licensed</span></span><br><span class="line"><span class="string">Software under or by reference to the same name as used by</span></span><br><span class="line"><span class="string">NVIDIA; or (xii) use the Licensed Software in any manner that</span></span><br><span class="line"><span class="string">would cause the Licensed Software to become subject to an Open</span></span><br><span class="line"><span class="string">Source License. Nothing in the AGREEMENT shall be construed to</span></span><br><span class="line"><span class="string">give you a right to use, or otherwise obtain access to, any</span></span><br><span class="line"><span class="string">source code from which the Software or any portion thereof is</span></span><br><span class="line"><span class="string">compiled or interpreted. You acknowledge that NVIDIA does not</span></span><br><span class="line"><span class="string">design, test, manufacture or certify the Licensed Software for</span></span><br><span class="line"><span class="string">use in the context of a Critical Application and NVIDIA shall</span></span><br><span class="line"><span class="string">not be liable to you or any third party, in whole or in part,</span></span><br><span class="line"><span class="string">for any claims or damages arising from such use. You agree to</span></span><br><span class="line"><span class="string">defend, indemnify and hold harmless NVIDIA and its Affiliates,</span></span><br><span class="line"><span class="string">and their respective employees, contractors, agents, officers</span></span><br><span class="line"><span class="string">and directors, from and against any and all claims, damages,</span></span><br><span class="line"><span class="string">obligations, losses, liabilities, costs or debt, fines,</span></span><br><span class="line"><span class="string">restitutions and expenses (including but not limited to</span></span><br><span class="line"><span class="string">attorney’s fees and costs incident to establishing the right</span></span><br><span class="line"><span class="string">of indemnification) arising out of or related to you and your</span></span><br><span class="line"><span class="string">Enterprise, and their respective employees, contractors,</span></span><br><span class="line"><span class="string">agents, distributors, resellers, end users, officers and</span></span><br><span class="line"><span class="string">directors use of Licensed Software outside of the scope of the</span></span><br><span class="line"><span class="string">AGREEMENT or any other breach of the terms of the AGREEMENT.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1.2.2. Third Party License Obligations</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">You acknowledge and agree that the Licensed Software may</span></span><br><span class="line"><span class="string">include or incorporate third party technology (collectively</span></span><br><span class="line"><span class="string">“Third Party Components”), which is provided for use in or</span></span><br><span class="line"><span class="string">with the Software and not otherwise used separately. If the</span></span><br><span class="line"><span class="string">Licensed Software includes or incorporates Third Party</span></span><br><span class="line"><span class="string">Components, then the third-party pass-through terms and</span></span><br><span class="line"><span class="string">conditions (“Third Party Terms”) for the particular Third</span></span><br><span class="line"><span class="string">Party Component will be bundled with the Software or otherwise</span></span><br><span class="line"><span class="string">made available online as indicated by NVIDIA and will be</span></span><br><span class="line"><span class="string">incorporated by reference into the AGREEMENT. In the event of</span></span><br><span class="line"><span class="string">any conflict between the terms in the AGREEMENT and the Third</span></span><br><span class="line"><span class="string">Party Terms, the Third Party Terms shall govern. Copyright to</span></span><br><span class="line"><span class="string">Third Party Components are held by the copyright holders</span></span><br><span class="line"><span class="string">indicated in the copyright notices indicated in the Third</span></span><br><span class="line"><span class="string">Party Terms.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Audio/Video Encoders and Decoders</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">You acknowledge and agree that it is your sole responsibility</span></span><br><span class="line"><span class="string">to obtain any additional third party licenses required to</span></span><br><span class="line"><span class="string">make, have made, use, have used, sell, import, and offer for</span></span><br><span class="line"><span class="string">sale your products or services that include or incorporate any</span></span><br><span class="line"><span class="string">Third Party Components and content relating to audio and/or</span></span><br><span class="line"><span class="string">video encoders and decoders from, including but not limited</span></span><br><span class="line"><span class="string">to, Microsoft, Thomson, Fraunhofer IIS, Sisvel S.p.A.,</span></span><br><span class="line"><span class="string">MPEG-LA, and Coding Technologies as NVIDIA does not grant to</span></span><br><span class="line"><span class="string">you under the AGREEMENT any necessary patent or other rights</span></span><br><span class="line"><span class="string">with respect to audio and/or video encoders and decoders.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1.2.3. Limited Rights</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Your rights in the Licensed Software are limited to those</span></span><br><span class="line"><span class="string">expressly granted under the AGREEMENT and no other licenses</span></span><br><span class="line"><span class="string">are granted whether by implication, estoppel or otherwise.</span></span><br><span class="line"><span class="string">NVIDIA reserves all rights, title and interest in and to the</span></span><br><span class="line"><span class="string">Licensed Software not expressly granted under the AGREEMENT.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1.3. Confidentiality</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Neither party will use the other party’s Confidential</span></span><br><span class="line"><span class="string">Information, except as necessary for the performance of the</span></span><br><span class="line"><span class="string">AGREEMENT, nor will either party disclose such Confidential</span></span><br><span class="line"><span class="string">Information to any third party, except to personnel of NVIDIA</span></span><br><span class="line"><span class="string">and its Affiliates, you, your Enterprise, your Enterprise</span></span><br><span class="line"><span class="string">Contractors, and each party’s legal and financial advisors</span></span><br><span class="line"><span class="string">that have a need to know such Confidential Information for the</span></span><br><span class="line"><span class="string">performance of the AGREEMENT, provided that each such</span></span><br><span class="line"><span class="string">personnel, employee and Contractor is subject to a written</span></span><br><span class="line"><span class="string">agreement that includes confidentiality obligations consistent</span></span><br><span class="line"><span class="string">with those set forth herein. Each party will use all</span></span><br><span class="line"><span class="string">reasonable efforts to maintain the confidentiality of all of</span></span><br><span class="line"><span class="string">the other party’s Confidential Information in its possession</span></span><br><span class="line"><span class="string">or control, but in no event less than the efforts that it</span></span><br><span class="line"><span class="string">ordinarily uses with respect to its own Confidential</span></span><br><span class="line"><span class="string">Information of similar nature and importance. The foregoing</span></span><br><span class="line"><span class="string">obligations will not restrict either party from disclosing the</span></span><br><span class="line"><span class="string">other party’s Confidential Information or the terms and</span></span><br><span class="line"><span class="string">conditions of the AGREEMENT as required under applicable</span></span><br><span class="line"><span class="string">securities regulations or pursuant to the order or requirement</span></span><br><span class="line"><span class="string">of a court, administrative agency, or other governmental body,</span></span><br><span class="line"><span class="string">provided that the party required to make such disclosure (i)</span></span><br><span class="line"><span class="string">gives reasonable notice to the other party to enable it to</span></span><br><span class="line"><span class="string">contest such order or requirement prior to its disclosure</span></span><br><span class="line"><span class="string">(whether through protective orders or otherwise), (ii) uses</span></span><br><span class="line"><span class="string">reasonable effort to obtain confidential treatment or similar</span></span><br><span class="line"><span class="string">protection to the fullest extent possible to avoid such public</span></span><br><span class="line"><span class="string">disclosure, and (iii) discloses only the minimum amount of</span></span><br><span class="line"><span class="string">information necessary to comply with such requirements.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1.4. Ownership</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">You are not obligated to disclose to NVIDIA any modifications</span></span><br><span class="line"><span class="string">that you, your Enterprise or your Contractors make to the</span></span><br><span class="line"><span class="string">Licensed Software as permitted under the AGREEMENT. As between</span></span><br><span class="line"><span class="string">the parties, all modifications are owned by NVIDIA and</span></span><br><span class="line"><span class="string">licensed to you under the AGREEMENT unless otherwise expressly</span></span><br><span class="line"><span class="string">provided in a Supplement. The Licensed Software and all</span></span><br><span class="line"><span class="string">modifications owned by NVIDIA, and the respective Intellectual</span></span><br><span class="line"><span class="string">Property Rights therein, are and will remain the sole and</span></span><br><span class="line"><span class="string">exclusive property of NVIDIA or its licensors, whether the</span></span><br><span class="line"><span class="string">Licensed Software is separate from or combined with any other</span></span><br><span class="line"><span class="string">products or materials. You shall not engage in any act or</span></span><br><span class="line"><span class="string">omission that would impair NVIDIA’s and/or its licensors’</span></span><br><span class="line"><span class="string">Intellectual Property Rights in the Licensed Software or any</span></span><br><span class="line"><span class="string">Do you accept the previously read EULA?</span></span><br><span class="line"><span class="string">accept/decline/quit: accept</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Install NVIDIA Accelerated Graphics Driver for Linux-x86_64 396.26?</span></span><br><span class="line"><span class="string">(y)es/(n)o/(q)uit: y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Do you want to install the OpenGL libraries?</span></span><br><span class="line"><span class="string">(y)es/(n)o/(q)uit [ default is yes ]: </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Do you want to run nvidia-xconfig?</span></span><br><span class="line"><span class="string">This will update the system X configuration file so that the NVIDIA X driver</span></span><br><span class="line"><span class="string">is used. The pre-existing X configuration file will be backed up.</span></span><br><span class="line"><span class="string">This option should not be used on systems that require a custom</span></span><br><span class="line"><span class="string">X configuration, such as systems with multiple GPU vendors.</span></span><br><span class="line"><span class="string">(y)es/(n)o/(q)uit [ default is no ]: y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Install the CUDA 9.2 Toolkit?</span></span><br><span class="line"><span class="string">(y)es/(n)o/(q)uit: y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Enter Toolkit Location</span></span><br><span class="line"><span class="string"> [ default is /usr/local/cuda-9.2 ]: </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Do you want to install a symbolic link at /usr/local/cuda?</span></span><br><span class="line"><span class="string">(y)es/(n)o/(q)uit: y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Install the CUDA 9.2 Samples?</span></span><br><span class="line"><span class="string">(y)es/(n)o/(q)uit: y</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Enter CUDA Samples Location</span></span><br><span class="line"><span class="string"> [ default is /home/leo ]: /home/leo/cuda-example</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Installing the NVIDIA display driver...</span></span><br><span class="line"><span class="string">Installing the CUDA Toolkit in /usr/local/cuda-9.2 ...</span></span><br><span class="line"><span class="string">Missing recommended library: libGLU.so</span></span><br><span class="line"><span class="string">Missing recommended library: libXi.so</span></span><br><span class="line"><span class="string">Missing recommended library: libXmu.so</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Installing the CUDA Samples in /home/leo/cuda-example ...</span></span><br><span class="line"><span class="string">Copying samples to /home/leo/cuda-example/NVIDIA_CUDA-9.2_Samples now...</span></span><br><span class="line"><span class="string">Finished copying samples.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">===========</span></span><br><span class="line"><span class="string">= Summary =</span></span><br><span class="line"><span class="string">===========</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Driver:   Installed</span></span><br><span class="line"><span class="string">Toolkit:  Installed in /usr/local/cuda-9.2</span></span><br><span class="line"><span class="string">Samples:  Installed in /home/leo/cuda-example, but missing recommended libraries</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Please make sure that</span></span><br><span class="line"><span class="string"> -   PATH includes /usr/local/cuda-9.2/bin</span></span><br><span class="line"><span class="string"> -   LD_LIBRARY_PATH includes /usr/local/cuda-9.2/lib64, or, add /usr/local/cuda-9.2/lib64 to /etc/ld.so.conf and run ldconfig as root</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">To uninstall the CUDA Toolkit, run the uninstall script in /usr/local/cuda-9.2/bin</span></span><br><span class="line"><span class="string">To uninstall the NVIDIA Driver, run nvidia-uninstall</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Please see CUDA_Installation_Guide_Linux.pdf in /usr/local/cuda-9.2/doc/pdf for detailed information on setting up CUDA.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Logfile is /tmp/cuda_install_6554.log</span></span><br></pre></td></tr></table></figure>
+<h2 id="问题集锦"><a href="#问题集锦" class="headerlink" title="问题集锦"></a>问题集锦</h2><ol>
+<li>ERROR: Unable to load the ‘nvidia-drm’ kernel module.</li>
+</ol>
+<blockquote>
+<p>One probable reason is that the system is boot from UEFI but Secure Boot option is turned on in the BIOS setting. Turn it off and the problem will be solved.</p>
+</blockquote>
+<ol start="2">
+<li>Error: You Appear To Be Running An X Server; Please Exit X Before Installing<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1.按住CTRL+ALT+F1 进入命令行</span><br><span class="line"></span><br><span class="line">2.sudo service lightdm stop    或者   sudo stop lightdm</span><br><span class="line"></span><br><span class="line">3.sudo init 3</span><br><span class="line"></span><br><span class="line">4.安装驱动程序：＃:  sudo ./NVIDIA-Linux-x86_64-177.67-pkg2.run //当前目录下执行NVIDIA驱动程序</span><br><span class="line"></span><br><span class="line">5.按照提示安装完成，简单方法重启就好了     sudo  reboot</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qrcode.jpg" alt="郭大侠 wechat" style="width: 200px; max-width: 100%;">
+    <div>欢迎您扫一扫，订阅我的微信公众号！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果觉得我的文章对您有帮助，请随意打赏。您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    郭大侠
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://shaoguangleo.github.io/2018/06/06/gpu-cuda-install/" title="CUDA的安装">http://shaoguangleo.github.io/2018/06/06/gpu-cuda-install/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cuda/" rel="tag"># cuda</a>
+          
+            <a href="/tags/gpu/" rel="tag"># gpu</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/20/linux-automake-27-frequently-asked-questions-about-automake/" rel="next" title="Linux Automake 27 Frequently Asked Questions about Automake">
+                <i class="fa fa-chevron-left"></i> Linux Automake 27 Frequently Asked Questions about Automake
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/06/linux-centos-version/" rel="prev" title="Linux CentOS的版本">
+                Linux CentOS的版本 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="郭大侠">
+            
+              <p class="site-author-name" itemprop="name">郭大侠</p>
+              <p class="site-description motion-element" itemprop="description">郭大侠的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">722</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">184</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1142</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="guoshaoguang.com" target="_blank" title="Homepage">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Homepage</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/shaoguangleo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.weibo.com/1307276731" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.douban.com/people/shaoguangleo/" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/guoshaoguang.com" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:shaoguangleo@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://macshuo.com/" title="MacTalk" target="_blank">MacTalk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://huhuidong.wordpress.com/" title="小胡" target="_blank">小胡</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#NVIDIA"><span class="nav-number">1.</span> <span class="nav-text">NVIDIA</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Nvidia显卡驱动安装"><span class="nav-number">1.1.</span> <span class="nav-text">Nvidia显卡驱动安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CentOS7-RHEL"><span class="nav-number">1.1.1.</span> <span class="nav-text">CentOS7/RHEL</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CUDA-Toolkit安装"><span class="nav-number">1.2.</span> <span class="nav-text">CUDA Toolkit安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redhat-CentOS"><span class="nav-number">1.3.</span> <span class="nav-text">Redhat/CentOS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过程"><span class="nav-number">1.4.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题集锦"><span class="nav-number">1.5.</span> <span class="nav-text">问题集锦</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2007 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+<div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shaoguangleo.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://shaoguangleo.github.io/2018/06/06/gpu-cuda-install/';
+          this.page.identifier = '2018/06/06/gpu-cuda-install/';
+          this.page.title = 'CUDA的安装';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shaoguangleo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+        appKey: 'NTHrGJp71GzEGvNUEUFumVcR',
+        placeholder: '路过，即是缘分...',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz", "NTHrGJp71GzEGvNUEUFumVcR");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

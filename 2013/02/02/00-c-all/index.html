@@ -1,0 +1,2259 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="集锦,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="C 集锦汇总并总结一下关于C的命令集   Linux No such device eth0  PGPLOT cpgaxis绘制一个坐标轴  C语言 recv/recvfrom/recvmsg系统调用  好看的字体  BOOK 集锦  Qt问题集锦  傅里叶变换  PGPLOT 结束绘图  PGPLOT的属性简介 字符字体  Linux GNUplot  Linux的 rmdir 命令  Qt模态">
+<meta name="keywords" content="集锦">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C 集锦">
+<meta property="og:url" content="http://shaoguangleo.github.io/2013/02/02/00-c-all/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="C 集锦汇总并总结一下关于C的命令集   Linux No such device eth0  PGPLOT cpgaxis绘制一个坐标轴  C语言 recv/recvfrom/recvmsg系统调用  好看的字体  BOOK 集锦  Qt问题集锦  傅里叶变换  PGPLOT 结束绘图  PGPLOT的属性简介 字符字体  Linux GNUplot  Linux的 rmdir 命令  Qt模态">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-06-29T01:52:55.443Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C 集锦">
+<meta name="twitter:description" content="C 集锦汇总并总结一下关于C的命令集   Linux No such device eth0  PGPLOT cpgaxis绘制一个坐标轴  C语言 recv/recvfrom/recvmsg系统调用  好看的字体  BOOK 集锦  Qt问题集锦  傅里叶变换  PGPLOT 结束绘图  PGPLOT的属性简介 字符字体  Linux GNUplot  Linux的 rmdir 命令  Qt模态">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://shaoguangleo.github.io/2013/02/02/00-c-all/">
+
+
+
+
+
+  <title>C 集锦 | 浩瀚宇宙 灿烂星空</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">浩瀚宇宙 灿烂星空</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">工作和生活中的七七八八</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2013/02/02/00-c-all/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C 集锦</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-02-02T13:11:00+00:00">
+                2013-02-02
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-29T01:52:55+00:00">
+                2021-06-29
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/集锦/" itemprop="url" rel="index">
+                    <span itemprop="name">集锦</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2013/02/02/00-c-all/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/02/02/00-c-all/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2013/02/02/00-c-all/" class="leancloud_visitors" data-flag-title="C 集锦">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="C-集锦"><a href="#C-集锦" class="headerlink" title="C 集锦"></a>C 集锦</h1><p>汇总并总结一下关于C的命令集</p>
+<ul>
+<li><a href="http://shaoguangleo.github.io/2013/07/12/linux-no-such-device-eth"> Linux No such device eth0</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/28/pgplot-cpgaxis"> PGPLOT cpgaxis绘制一个坐标轴</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/10/24/c-recv"> C语言 recv/recvfrom/recvmsg系统调用</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/09/linux-font"> 好看的字体</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/02/00-book-all"> BOOK 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/08/19/qt-troubleshooting"> Qt问题集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/08/06/signal_and_system_ft"> 傅里叶变换</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-2-9-ending-the-plot"> PGPLOT 结束绘图</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-5-7-property-character-font"> PGPLOT的属性简介 字符字体</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-4-graphical-analysis-with-gnuplot-13-fundamental-graphical-methods"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-rmdir"> Linux的 rmdir 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/09/03/qt-model-dialog"> Qt模态对话框</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/03/vim-dot"> vim .(点)命令的强大功能</a></li>
+<li><a href="http://shaoguangleo.github.io/2021/06/23/00-summary-all"> 我们编程吧 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-1-what-is-tkinter"> Python 什么是Tkinter</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/23/linux-ps1"> Linux PS1参数</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/02/03/python-opensource"> 构建Python开源包</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/10/26/diary-to-great-man"> Diary 向逝去的大牛人致敬</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-django-tutorial02"> Python Django 教程2</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/26/git-contribution-policy"> git contribution policy</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-6-2-advanced-program-xy-plots"> PGPLOT的高级应用 XY绘图</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/08/02/linux-xfs-filesystem"> Linux xfs文件系统</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/05/06/linux-centos-install-idle"> CentOS安装IDLE</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/18/linux-centos-fedora-package-cleanup"> Linux package-cleanup的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/15/vim-jumps"> vim使用跳转列表来跟踪导航</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/30/diary-goodbye-jinyong"> 金庸再见</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/10/python-qt-0"> PyQt 教程</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/08/vim-replace"> VIM快速选中并复制粘贴替换一个单词</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/07/03/signal_and_system_signal_change"> 信号的变化</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/20/docker-run-gui-on-linux"> 在Linux平台上运行Docker GUI程序</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/17/c-beginner-struct-typedef"> C语言 简化struct的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/09/03/swift-2-set"> Swift 集合</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/24/c-beginner-prepare-work"> C语言 最适合学习C语言的开发环境</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/03/vim-auto-completion"> Vim 补全</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/07/06/signal_and_system_frequency_spectrum"> 信号的频谱分析</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-2-polishing-7-all-about-axes"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/07/02/signal_and_system_signal"> 信号的表示方法</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/31/c-beginner-operator-step3"> C语言 逻辑运算符</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/30/pgplot-cpglab"> PGPLOT cpglab</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/31/c-advance-operator-step1"> C语言 按位运算符</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-7-events-and-binding"> Python Tkinter 事件和绑定</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/05/05/pgplot-cpgclos"> PGPLOT cpgclos – 关闭选定的图形设备</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/12/16/book-how-to-read-a-book"> 如何阅读一本书? – 范多伦,艾德勒</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-2-4-start-pgplot"> PGPLOT 开始使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-4-graphical-analysis-with-gnuplot-14-techniques-of-graphical-analysis"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-2-0-simple-use-of-pgplot"> PGPLOT的简单使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/19/c-function"> c语言 file如何判断文件是否存在</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/09/c-beginner-data-type"> C语言 源码、反码和补码</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/14/c-beginner-array"> C语言 存储相同类型的数组</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/08/07/python-if"> Python 条件判断语句</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/06/python-list"> Python List列表</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/flex_manual_format_of_input_file"> 输入文件的格式</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/17/linux-automake-7-directories"> Linux Automake 7 目录</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/02/00-c-all"> C 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/07/19/vim-setlocale"> vim出错warning setlocale LC_CTYPE cannot change locale</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/11/22/vim-chinese"> Vim 中文乱码</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-cpgband"> PGPLOT cpgband读取有锚定点的光标位置</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/07/04/signal_and_system_lti"> LTI系统时域分析</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/05/06/linux-centos7-update-gitlab-ce"> CentOS7升级gitlab-ce</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/12/27/git-on-server"> 服务器上的Git</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-1-basic-4-practical-matters"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-5-10-property-get-property-func"> PGPLOT的属性简介 获取属性</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/02/24/radio-astronomy-install-fftw"> AstroSoft 安装 FFTW</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/09/02/macosx-linked-libgfortran"> MacOSX dyld</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/13/pgplot-cpgpanl"> PGPLOT cpgpanl – 切换到当前视图的不同面板</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/04/vim-tools"> Vim 编程工具</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-9-standard-dialogs"> Python Tkinter 标准对话框</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/06/c-beginner-for-sentence"> C语言 for循环语句</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-rm"> Linux的 rm 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/12/linux-top"> Linux的 top 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/05/07/linux-su"> Linux的su命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-django-tutorial06"> Python Django 教程6</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/05/06/linux-centos7-install-gitlab-ce"> CentOS7安装gitlab-ce</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/08/23/linux-opengl"> Linux OpenGL绘制图形</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/24/c-break-continue"> C语言 关于break和continue</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/27/linux-grep"> Linux的 grep 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/c-beginner-functions"> C语言 自定义函数</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/02/06/python-package-release"> Python 发布可执行文件</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/03/23/microsoft-visual-studio-code"> Microsoft Visual Studio Code技巧</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-4-6-element-area-fill"> PGPLOT的基元区域填充</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/02/00-linux-all"> LINUX 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/27/c-beginner-pointer"> C语言 指针初探</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/07/linux-ls"> Linux的 ls 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-cp"> Linux的 cp 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/19/vim-navigator"> vim 导航</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/04/02/linux-centos-booterror"> System BootOrder not found. Initializing defaults</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/08/19/qt-pyqt-introduction"> Qt PyQt5 简介</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/02/06/python-argparse"> Python argparse</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/05/07/linux-debian-sources-list"> Linux Debian sources.list</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/02/12/linux-hpc"> Linux的 HPC</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/24/c-file-type"> C语言 gcc对文件扩展名的解释</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/06/macosx-install-homebrew"> MacOSX 上 安装及使用homebrew</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/15/c-beginner-constant"> C语言 常量</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/02/12/linux-dmidecode"> Linux查看内存信息（型号、大小、速率等）</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/18/c-iteration"> C  递归和迭代</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/17/linux-man-pages"> Linux 安装man帮助程序</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/05/20/pgplot-cpgerrb"> PGPLOT cpgconb 绘制等高线图</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-5-9-property-fillarea-style"> PGPLOT的属性简介 填充区域类型</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/06/python-variable"> Python 常量和变量</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/01/03/linux-virtualbox"> Linux VirutalBox</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/07/07/linux-sed"> Linux sed命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/17/linux-shell-date"> Linux shell系统时间</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/23/python-conda"> python 虚拟环境conda</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/01/23/latex-process"> LaTex 排版流程</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/11/one-essay"> 美丽散文</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/08/c-cpp-doxygen-comments"> C语言 基于Doxygen的C/C++注释原则</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/12/docker-examples"> Docker examples</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/05/22/linux-anjuta"> anjuta的安装、配置以及第一个hello程序</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/23/c-beginner-scope"> C语言 作用域</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/06/08/linux-xfs"> CentOS 上源码升级安装xfs软件包</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/04/02/astronomy-softc"> Softc - an Operational Software Correlator</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-3-advanced-gnuplot-9-color"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/01/c-beginner-history"> C语言 历史</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/14/shell-system-information"> Shell 监视系统统计信息</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/02/12/linux-ulimit"> Linux的 ulimit 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/06/01/diary-csdn-support-wlw"> 哈哈，CSDN又支持Windows Live Writer了</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-3-5-annotating-viewport"> PGPLOT的窗口特性</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/15/c-beginner-struct-access"> C语言 访问struct的方式</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/03/04/c-standard-library"> C语言 标准函数库</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-cat"> Linux的 cat 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/03/c-beginner-function"> C语言 函数</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-tar"> Linux的 tar 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/09/29/c-off_t"> c语言 Linux下的off_t类型</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/10/19/linux-wait"> Linux wait函数进程进程</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/01/24/radio-astronomy-install-tempo2"> AstroSoft 安装 Tempo2</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/15/linux-language"> Linux的语言设置</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-1-3-manual-intro"> PGPLOT手册简介安装</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/06/python-books"> Python 参考书</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/03/07/git-gpg"> Git Generating a new GPG key and use it with GitHub</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/12/17/cmake-message"> CMake message</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/10/python-qt-2-helloworld"> PyQt5 教程</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/01/19/radio-astronomy-install-casacore"> casacore  installation</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/01/vim-write-file"> Vim 写文件的部分内容到另一个文件</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-man"> Linux的 man 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/08/28/radio-astronomy-install-obit"> Obit installation</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/05/06/linux-tmux"> Linux tmux终端复用神器</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/03/31/python-matplotlib-plot"> Python开发者Matplotlib指南</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/16/linux-fedora-upgrade"> Linux Fedora 升级</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/03/14/git-markdown"> git Markdown 格式</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-2-hello-tkinter"> Python Tkinter 你好</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/11/22/difmap-guide-1-start"> 开启Difmap</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-c"> PGPLOT 在C 中的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-5-5-property-line-width"> PGPLOT的属性简介 线条宽度</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/03/02/astronomy-miriad-introduction"> Miriad</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/02/12/linux-htop"> Linux的 htop 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/08/24/book-have-u-happy"> 幸福了吗？</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/12/04/linux-centos-troubleshooting"> Centos问题集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/16/linux-automake-6-scanning-configure-ac"> Linux Automake 6  解析<code>configure.ac</code></a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-pyqt5-ui"> python PyQt 界面设计</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/02/00-mac-all"> MAC 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/10/24/diary-share-memory-test"> WORK 完成share memory的测试</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/22/c-beginner-auto-register-static"> C语言 存储类型关键字auto/register和static</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-reStructuredText"> python中文档SPHINX的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2003/01/22/c-beginner-program-steps"> C语言编程开发步骤</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/15/linux-redhat-configure-network"> Linux Redhat配置网络</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/22/c-memcpy"> C语言 memcpy和strcpy比较</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/15/linux-kernal-study"> 深入研究Linux内核</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/18/c-define"> C语言 macro函数宏</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/20/ie-goodbye"> IE 再见</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/12/linux-gtk-config"> ubuntu10.04后不支持gtk-config</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-django-tutorial03"> Python Django 教程3</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/26/vim-swap"> Vim swap文件</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-7-3-interactive-graph-using-the-cursor"> PGPLOT图形交互 使用光标</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/01/23/python-venv-python3"> python3 内置虚拟环境venv</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-mv"> Linux的 mv 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/09/02/qt-new-action"> qt新建一个动作并与菜单连接</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/05/07/linux-cpu"> Linux查看物理CPU个数、核数、逻辑CPU个数</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/02/03/python-os-mkdir"> Python os mkdir</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/21/vim-tips-about-gvim"> gvim技巧</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/09/02/qt-open-menu-right-click"> Qt右键弹出菜单</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-5-11-property-save-and-back-property"> PGPLOT的属性 保存与复原</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/02/c-beginner-file"> C语言 文本文件读写</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/12/17/cmake-target-link-libraries"> CMake 设置要链接的库文件的名称TARGET_LINK_LIBRARIES</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/12/vim-quit"> Vim 退出</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/18/vim-sort"> Vim排序文件内容</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/09/02/linux-centos-install-hexo"> CentOS 如何安装hexo</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/11/one-word-insist"> persist</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/26/git-about"> 聊聊版本</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/01/python-tools"> Python 工具集大全</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/09/29/c-file"> c语言 使用FILE指针文件操作</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/12/21/git-fetch-and-pull"> Git 的 fetch与pull</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-5-3-property-color-disp"> PGPLOT的属性简介 颜色显示</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/12/17/cmake-include-directories"> CMake 头文件目录</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/24/c-memory"> C语言 memory释放内存</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/30/c-beginner-operator-step2"> C语言 测试等值运算符</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/07/02/signal_and_system_system"> 系统</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/06/pgplot-cpgmtxt"> PGPLOT cpgmtxt – 在视口相关位置做文本标记</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/09/linux-centos-install-django"> Centos 如何安装Django环境</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/18/c-beginner-union"> C语言 解决存储的共用体</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-1-simple-plot"> Linux gnuplot的第一幅绘图</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/28/c-beginner-variable-type"> C语言 赏心悦目的输出</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/03/31/python-matplotlib-scatter"> Python matplotlib scatter 的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/12/17/cmake-find-library"> CMake 查找库所在目录FIND_LIBRARY</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-2-2-example"> PGPLOT的一个示例程序</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-2-polishing-6-decorations"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/04/15/linux-debug-walk-around"> Linux debug 停下来环顾程序</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/23/python-string"> python 字符串操作</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/15/c-beginner-string"> C语言 “Hello”和 ‘H’,’e’,’l’,’l’,’o’的区别</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/02/12/linux-module"> Environment Modules</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/30/past-astronomy-meetings"> 天文相关会议[已结束]</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/06/macosx-xcode-import"> MacOSX import的定义</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/20/linux-chgrp"> linux设置特定的用户组</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/12/21/git-actions"> Git 新功能Actions</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/27/vim-swap-adjacent-characters"> 交换相邻的字符</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/05/03/diary-strong-heart"> 内心足够强大</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/11/30/linux-centos-install-docker"> CentOS 7 安装配置Docker</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/11/24/c-atan"> C语言 atan函数与atan2函数的一点区别</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/06/linux-enviroment"> 使用Linux环境变量</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-appendixs-b"> PGPLOT 附录 符号</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/03/06/linux-dos2unit"> Linux dos2unix命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-4-graphical-analysis-with-gnuplot-15-coda-understanding-data-with-graphs"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/01/20/docker-install-tzdata"> 构建Docker镜像时处理Configuring tzdata交互输入</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-vitualenv"> python 虚拟环境virtualenv</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/05/c-beginner-if-sentence"> C语言 if语句</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-7-4-interactive-graph-buffering"> PGPLOT图形交互 缓冲</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/15/c-endian"> C语言 extern用法解析</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/07/07/linux-lscpu"> Linux的 lscpu 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-2-6-labeling-the-axes"> PGPLOT 标记坐标轴</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/27/linux-gtk-text copy"> undefined reference to GTK_TEXT</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/08/c-sizeof-strlen"> C语言 sizeof和strlen的区别</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/11/01/intel-vt-technology"> Intel Virtualization Technology虚拟化技术</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/20/linux-automake-15-support-for-test-suites"> Linux Automake 15 Support for test suites</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/02/22/cpp-beginner-introduction"> C++语言 简介</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/05/06/linux-privilege"> Linux 权限设置</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/17/linux-shell-standard"> Linux shell 编写规范化、标准化</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/08/07/signal_and_system_fft"> 快速傅里叶变换</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-pythonpath"> python 环境变量设置PYTHONPATH</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/02/06/python-package"> Python 编写一个自己的包</a></li>
+<li><a href="http://shaoguangleo.github.io/2007/04/05/book-what-inside-black-hole"> 黑洞里面有什么</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/05/pgplot-cpgline"> PGPLOT cpgline – 绘制一个多线段的线条</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-1-basic-2-essential-gunplot"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/09/07/cpp-extern"> Cpp extern用法解析</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/09/04/qt-read-write-file"> QT读取写入二进制文件</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/03/01/c-dynamic-memory"> C语言 动态内存分配</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/02/06/python-module"> Python 导入模块</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/16/c-segment-fault"> C语言 segment fault</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/05/07/linux-sysctl"> Linux的sysctl命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/20/linux-automake-8-building-programs-and-libraries"> Linux Automake 8 编译程序和库</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/24/c-pseudocode"> C语言 pseudocode 伪码</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/27/c-makefile"> C语言 Makefile</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/07/07/signal_and_system_system_discrete"> 离散时间系统</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/07/07/linux-socket-gaierror"> Linux的 socket.gaierror</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/08/04/signal_and_system_impulse"> 奇异函数 - 冲激信号</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/05/06/linux-forget-passed"> VirtualBox虚拟机Linux忘记密码</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/20/vim-insert-command"> 在插入模式下执行一个Vim命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/20/linux-change-mac-address"> 更改linux的MAC地址</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/26/astronomy-aips-test"> Astro AIPS测试</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/28/c-beginner-function-pointer"> C语言 函数指针</a></li>
+<li><a href="http://shaoguangleo.github.io/2007/07/29/diary-beautiful-shangri-la"> 这样的美,我无法描绘!(香格里拉)</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/01/06/linux-slurm"> Linux slurm 作业提交系统</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/03/c-advance-assert"> C语言 assert的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/20/linux-execute-history-command"> 执行以特定字开头的历史命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-5-6-property-character-height"> PGPLOT的属性简介 字符高度</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/23/c-beginner-ternary"> C语言 唯一的三元操作符</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/12/21/book-8-good-habits"> 清晨8问夜晚8思８大自我提醒８大生活信念</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/09/07/git-tag"> Git标签tag相关操作</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-3-hello-tkinter-again"> Python Tkinter 你好2</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/22/book-open-with-knife"> 用小刀划开</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/08/08/windows7-open-nfs"> Windows 7开启NFS共享</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/14/vim-vimdiff"> Vim 使用vimdiff查看文件之间的不同</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/10/24/c-read"> C语言 read/write系统调用</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/24/c-return-many-values"> C语言 怎样从函数返回多个值</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/10/30/linux-delete-redundant-linux-kernel"> 删除Linux多余的内核</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-appendixs-f"> PGPLOT 附录 安装说明</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/01/linux-distributions"> Linux 十大发行版</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/22/c-beginner-extern"> C语言 存储类型关键字extern</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/06/vim-open-file"> Vim 打开文件</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-chmod"> Linux的 chmod 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/05/06/pgplot-cpgconb"> PGPLOT cpgconb 绘制等高线图</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/10/08/linux-shortcut"> linux技巧</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/26/radio_astronomy_aips_install_cont"> aips 初步安装与尝试</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/10/linux-automake-3-general-ideas"> Linux Automake 3 General ideas</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/12/02/erlang-getting-started-quickly"> Erlang 开始erlang</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/06/linux-decode"> Linux base64命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/12/21/git-rm"> Git rm删除文件</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-pip-change-source"> pip换源（更换软件镜像源）</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-5-2-property-color-index"> PGPLOT的属性简介 颜色索引</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/06/c-trigraph-sequences"> C语言 鲜为人知的“三字母词”</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-1-basic-1-understanding-data-with-gnuplot"> 使用gnuplot来理解数据</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/03/03/vim-why-use-vim"> Vim 为什么使用vim</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/04/c-beginner-helloworld"> C语言 Hello World</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/12/01/git-update-fork-repo"> github上更新fork的代码</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/08/08/signal_and_system_sampling"> 采样定理</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/07/vim-replace-character"> 替换文本</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/flex_manual_intro"> Flex 介绍</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/10/31/linux-centos-yum"> Linux CentOS下查看. 更新. 删除yum安装包</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/07/07/linux-socket"> Linux的 socket 相关</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/06/06/linux-centos-version"> Linux CentOS的版本</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/04/vim-bookmark"> Vim书签命令的快速总结</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-2-3-data-init"> PGPLOT的数据初始化</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/12/22/git-svn2git"> Git svn项目转移到git</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/02/vim-gvim"> Vim gVim</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/07/linux-od"> Linux的 od 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-4-graphical-analysis-with-gnuplot-13-fundamental-graphical-methods"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/31/linux-nohup"> Linux nohup 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-4-1-tkinter-button"> Python Tkinter Button窗口组件类</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/02/01/git-filter-branch"> 核弹级的git指令 git filter-branch</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/04/03/radio-astronomy-install-casa"> CASA installation</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/22/vim-color"> Vim 改变配置颜色</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/08/08/windows-connect-linux-desktop"> Windows 7开启NFS共享</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/08/linux-history"> Linux history命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/04/03/radio-astronomy-install-sextractor"> SExtractor installation</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-6-widget-styling"> Python Tkinter 组件外观</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/21/c-left-value"> C语言 left value左值</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/01/13/matlab-help"> Matlab帮助信息</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/08/06/signal_and_system_conv_corr"> 相关 与 卷积</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/16/c-beginner-enum"> C语言 枚举类型</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-1-basic-3-working-with-data"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-3-3-define-viewport"> PGPLOT的视图选择</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/12/22/gitbook"> Gitbook</a></li>
+<li><a href="http://shaoguangleo.github.io/at/difmap-guide-2-loading-data"> Difmap 载入数据</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-appendixs-g"> PGPLOT 附录 G 移植</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/08/c-beginner-switch-sentence"> C语言 switch分支选择语句</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/07/07/linux-lsblk"> Linux的 lsblk 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/07/16/mac-copy-to-usb"> Mac不能复制拷贝写入文件到移动硬盘,U盘怎么办</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/04/03/radio-astronomy-install-aegean"> Aegean installation</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/12/21/book-9-good-habits"> 二十几岁比别人幸运，就靠这9个好习惯</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/06/python-comment"> Python 注释</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/04/10/linux-rsync"> Linux rsync</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/09/03/qt-messagebox"> Qt中显示消息框</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/28/c-beginner-print"> C语言 赏心悦目的输出</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/01/linux-pkg-config"> pkg-config 自动解决依赖</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/05/26/linux-troubleshooting-no-newline-at-the-end-of-file"> 如何解决warning</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-6-3-advanced-program-histograms"> PGPLOT的高级应用 直方图</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/11/17/macosx-tools"> MacOSX的好工具</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/13/book-youth"> 超级时间整理术</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/05/c-develop-gui"> C语言 GUI开发图形界面</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-6-1-advanced-program-intro"> PGPLOT的高级应用</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/08/06/python-datatype"> Python 的数据类型</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-tail"> Linux的 tail 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/20/linux-df"> Linux df命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/06/linux-ntp-ntpdate"> 关于NTP及ntpdate</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/09/01/linux-xterm"> Linux XTerm的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/06/01/python-ide-ipython"> Python IDE 之 终端开发环境IPython</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/12/pgplot-cpgpage"> PGPLOT cpgpage – 前进到新的页面</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-2-1-intro"> PGPLOT的简单使用简介</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/31/c-statement"> C语言 语句</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/04/linux-ld"> Linux的 /usr/bin/ld</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/19/vim-copy-and-paste"> 在拷贝行/词/其它之后或之前粘贴</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-wc"> Linux的 wc 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/09/01/linux-centos-install-chinese-fonts"> CentOS下安装微软雅黑字体</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/10/python-qt-1-introduction"> PyQt 教程</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/08/vim-redraw"> VIM 重绘窗口</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/12/vim-save"> Vim 保存文件</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/20/vim-delete"> vim中的删除</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-vitualenvwrapper"> python 虚拟环境管理工具virtualenvwrapper</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/10/linux-semantic-version"> Linux 语义化版本</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/12/linux-gtk-glib"> Glib数据类型</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/16/linux-fdisk"> Linux fdisk</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/01/developement-tool"> 关于开发/编程工具</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/06/06/gpu-cuda-install"> CUDA的安装</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/03/c-assert"> C语言 assert的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/12/01/linux-hostname"> 修改Linux的hostname</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-appendixs-c"> PGPLOT 附录 C语言调用PGPLOT</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/02/02/book-import-3-things-in-one-day"> 每天最终好的3件事</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-3-advanced-gnuplot-12-macors-scripting-and-batch-operations"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-4-graphical-analysis-with-gnuplot-15-coda-understanding-data-with-graphs"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-3-advanced-gnuplot-11-terminals-in-depth"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/08/03/linux-filesystems"> Linux 我知道的一些文件系统</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/19/c-beginner-union-access"> C语言 共用体的成员访问</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/02/00-matplotlib-all"> MATPLOTLIB 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/11/22/astronomy-algorithm-1"> 注释与提示Difmap</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/05/07/linux-find-print"> Linux find命令print0和xargs命令-0</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/20/vim-tips-comand-line-hacks"> vim 命令行技巧</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/06/linux-automake"> Linux 自动化编译autotools的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/03/c-advance-abort"> C语言 abort函数</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/06/c-call"> C语言 函数调用三种方式–传值调用–引用调用和传地址调用</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-7-2-interactive-graph-the-cursor"> PGPLOT图形交互 光标</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/07/03/signal_and_system_system_classify"> 系统的分类</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/14/c-beginner-struct"> C语言 使用struct描述一个学生</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/05/14/difmap_install_on_macosx"> MacOSX 上安装 Difmap</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-tee"> Linux的 tee 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/23/python-pyinstaller"> python pyinstaller打包</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/11/diary-mi-problem"> 小米出问题，开机无法启动，换回原来的版本OK</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/27/linux-gtk-text"> undefined reference to GTK_TEXT</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/11/c-beginner-main"> C语言 main函数</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/07/linux-usermod"> Linux usermod</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/05/20/linux-automake-27-frequently-asked-questions-about-automake"> Linux Automake 27 Frequently Asked Questions about Automake</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/14/c-advance-library-function-and-system-call"> C语言 库函数和系统调用的区别</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-5-4-property-line-type"> PGPLOT的属性简介 线条类型</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/08/09/qt-signal-slot"> Qt信号和槽</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/06/03/radio-astronomy-install-difmap"> AstroSoft 安装 Difmap</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/07/linux-ping"> Linux的 ping 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/06/pgplot-non-standard"> PGPLOT 非标准函数</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/07/03/signal_and_system_signal_classify"> 信号的分类</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/06/08/linux-xargs"> Linux xargs 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/17/linux-shell-variable"> Linux shell变量</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/08/06/signal_and_system_dft"> 离散傅里叶变换</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/14/git-gitlab"> Git gitlab服务器迁移</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-4-5-element-fonts"> PGPLOT的基元文字</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/07/01/signal_and_system_introduction"> 信号与系统 简介</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-3-advanced-gnuplot-10-advanced-plotting-concepts"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/07/vim-ctrl-add-minus-number"> 使用CTRL键来增加和减少数量</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/24/book-applause-ppt"> 不做乔布斯，做最好的自己</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/01/19/radio-astronomy-install-python-casacore"> python-casacore  installation</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-1-basic-2-essential-gunplot"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-appendixs-d"> PGPLOT 附录 支持的设备</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/05/linux-command-line-shortcut"> Linux 命令行快捷键</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/12/21/git-pro-git"> Git Pro学习手册</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/11/one-song"> 优美歌曲</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-sphinx"> python中文档SPHINX的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/11/22/difmap-guide-3-examing-editing-data"> Difmap ： 检查和编辑数据</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/09/03/qt-window-modified"> Qt窗口时候更改过</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/07/linux-wget"> Linux wget 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/08/26/mac-nfs"> Mac Mounting NFS shares on Mac OS X</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-0-install-startup"> Linux gnuplot安装与启动</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-8-application-windows"> Python Tkinter 应用程序窗口</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/03/c-advance-compiler"> C语言 程序编译</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-appendixs"> PGPLOT 附录</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/07/08/windows-terminal-cmder"> Windows 终端软件cmder</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/04/16/virtualbox5"> VirtualBox 5.0即将到来</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/09/19/macosx-tips"> MacOSX 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/02/22/cpp-beginner-template"> C++语言 简介</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/18/c-beginner-keywords"> C语言 关键字</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/07/03/signal_and_system_signal_divide"> 信号的分解</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/03/python-introduction"> Python 编程概述</a></li>
+<li><a href="http://shaoguangleo.github.io/2021/02/02/radio-astronomy-install-swspec"> swspec installation</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/02/15/c-advance-static"> C语言 static的作用</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/17/linux-cd"> Linux cd命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/20/vim-introduction"> vim的一些基础知识</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/08/c-autoacceleration"> C语言 assert的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/25/casa-casavlbi2020-introduction"> CASA VLBI 2020 - Introduction to CASA</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/02/03/python-install-on-macosx"> Mac OSX 安装Python3和pip3</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/12/21/github-introduction"> 什么是github</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/17/linux-date"> Linux shell系统时间</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/10/23/linux-process-threads"> Linux 进程和线程</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/01/c-beginner-io-more"> C语言 输入和输出续</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/01/python-tkinter"> Python GUI编程(Tkinter)</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/11/24/docker-containers"> Docker Container</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-4-2-element-clipping"> PGPLOT的基元剪裁</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/03/vim-advance-navigate"> Vim高级导航</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/20/vim-tutuor"> Vim 入门联系</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/02/12/linux-mysql"> Linux的 mysql数据库安装和配置</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-4-1-element-intro"> PGPLOT的基元简介</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/18/dell"> Dell 显示器型号</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/03/pgplot-cpglcur"> PGPLOT cpglcur – 使用光标绘制线条</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/03/02/astronomy-vlbi-defination"> VLBI的定义</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/05/10/python-property"> Python property函数</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/27/c-beginner-variable-name"> C语言 优美的C语言命名方法</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/05/02/pgplot-cpgbin"> PGPLOT cpgbin – 数据的直方图</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/12/07/cmake-tutorial"> CMake 简便手册</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/09/03/swift-1-introduction"> Swift 简介</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/06/01/linux-fedora17-initial-configuration"> Fedora17初始配置</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/07/git-good-habit"> Git 好习惯</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-2-polishing-5-doing-it-with-style"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/25/casa-casavlbi2020-plot"> CASA VLBI 2020 - Plot tools in CASA</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-6-4-advanced-program-functions-of-two-variables"> PGPLOT的高级应用 两个变量的函数</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/01/linux-ubuntu11"> Ubuntu11.10初始配置</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-virtualenv"> python 虚拟环境virtualenv</a></li>
+<li><a href="http://shaoguangleo.github.io/at/radio_astronomy_difmap_load_data"> Difmap 载入数据</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/07/linux-automake-2-introduction-autotools"> Linux Automake 2 Autotools 简介</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/12/21/git-reference"> Git 参考材料</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-2-7-drawing-graph-markers"> PGPLOT 绘制图形标记</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/21/c-operator"> C语言 操作符和表达式</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-1-5-enviroment"> PGPLOT环境变量</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/17/linux-mac"> Linux CentOS修改MAC地址</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-1-1-intro"> PGPLOT简介</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/08/07/python-pygtk"> Python PyGtk 学习笔记</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/16/c-const"> C语言 const</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-1-basic-1-understanding-data-with-gnuplot"> 使用gnuplot来理解数据</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/10/astronomy-difx-troubleshooting"> DiFX问题集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/02/01/linux-ubuntu-busybox"> Ubuntu busybox 无法启动问题</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-3-6-routine-pgenv"> PGPLOT 集大成函数PGENV</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-3-advanced-gnuplot-12-macors-scripting-and-batch-operations"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-1-4-device"> PGPLOT图像设备</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/02/24/radio-astronomy-install-psrchive"> AstroSoft 安装 PSRCHIVE</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/17/c-time"> C语言 time函数学习</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/22/vim-configure"> Vim 配置文件</a></li>
+<li><a href="http://shaoguangleo.github.io/2007/04/07/book-asteroid-strike-earth"> 小行星会撞地球吗</a></li>
+<li><a href="http://shaoguangleo.github.io/2009/07/04/signal_and_system_equation"> 微分方程和差分方程</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/01/24/radio-astronomy-install-tempo"> AstroSoft 安装 Tempo</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/17/linux-shell-for-loop"> Linux shell中的for循环用法详解</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/05/17/linux-xfs-troubleshooting"> CentOS xfs 疑难解决</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/08/06/python-README"> Python学习</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/04/13/linux-debug-pre"> Linux 调试预备知识</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/29/vim-tips-register-file-navigator-change-case"> vim寄存器、文件浏览器、大小写转换</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-appendixs-a"> PGPLOT 附录a - 子函数描述</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-5-1-property-intro"> PGPLOT的属性简介</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/05/30/pgplot-cpgiden"> PGPLOT cpgiden – 在图形的底端标记上用户名、日期和时间</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/21/docker-run-gui-on-macosx"> 在Mac OS X平台上运行Docker GUI程序</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/12/17/cmake-link-libraries"> CMake 添加需要链接的库文件路径LINK_LIBRARIES</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/22/vim-commandline-navigator"> Vim命令行导航</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/05/cpp-const"> C++中const常量和define宏定义的区别联系</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/10/31/linux-centos-mount-ntfs"> Linux centos自动挂载ntfs</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-2-8-drawing-lines"> PGPLOT 绘制线</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-3-advanced-gnuplot-11-terminals-in-depth"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/07/07/linux-lshw"> Linux的 lshw 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/02/00-git-all"> GIT 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/10/linux-rpm"> Linux RPM 软件包</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/16/virtualbox-share-folder-with-windows7"> Windows7下设置VirtualBox共享文件夹</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/c-value"> C语言 value</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/06/vim-open-unix-man-page"> 从Vim中访问Unix的函数帮助页</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/11/24/docker-clean"> Docker清理命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-info"> Linux的 info 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/20/vim-help"> Vim 帮助信息</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/24/linux-ssh"> Linux ssh命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/06/pgplot-cpgmove"> PGPLOT cpgmove – 移动点(改变当前的点位置)</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/07/07/signal_and_system_signal_discrete"> 离散时间信号</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/09/02/macosx-install-hexo"> MacOSX 如何安装hexo</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/10/31/linux-mount"> Linux mount挂载nfs</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/11/24/python-extract-one-column"> Python 如何提取python中的一列</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/03/03/vim-macro"> Vim 记录和使用宏</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/21/linux-centos-yum-rpmdb"> solved - RPMDB altered outside of yum</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/08/06/python-helloworld"> 第一个Python程序</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/06/linux-signal"> Linux 进程信号</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/01/linux-ubuntu-install-latex"> Ubuntu 安装搭建LaTeX科研环境</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/12/22/git-branch"> Git 分支</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-1-basic-3-working-with-data"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/26/pgplot-cpgarro"> PGPLOT cpgarro绘制箭头</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/13/book-super-time-collection"> 超级时间整理术</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/02/00-pgplot-all"> PGPLOT 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/07/linux-useradd"> Linux useradd和adduser之区别</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/08/06/python-history"> Python 历史及由来</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/11/pgplot-cpgopen"> PGPLOT cpgopen – 打开一个图形设备</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/09/c-beginner-symbol-const"> C语言 符号常量</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/06/pgplot-cpgtext"> PGPLOT cpgtext</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/04/03/radio-astronomy-install-duchamp"> Duchamp installation</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/13/vim-encryption"> 在Vim 加密解密文件：</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/01/c-beginner-features"> C语言 历史</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/02/01/linux-ubuntu-install-ipp"> Ubuntu 安装Intel IPP</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/23/linux-bashrc"> Linux 启动命令如何不输入./</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/04/pgplot-cpglen"> PGPLOT cpglen – 计算字符串的长度（不同单位）</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/04/16/linux-debug-crash"> Linux debug 程序崩溃处理</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/07/linux-library"> Linux的静态库和动态库</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-appendixs-e"> PGPLOT 附录 写入设备</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/flex_manual_regular_expressions"> Flex expressions</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/25/vim-copy-content-to-paster-board"> 从文件中插入内容到剪切板</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/05/06/c-standard"> C语言的各种标准</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/27/pgplot-cpgask"> PGPLOT cpgask控制新页的提示</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/20/linux-editors"> Linux 編輯器</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/12/21/git-submodule"> Git 向Github增加SSH keys</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/07/linux-less"> Linux的 less 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2007/04/18/book-earth-live"> 其他星球上有生命吗</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/08/31/qt-set-windows-icon"> QT中设置窗口图标</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/03/22/linux-programming-api"> OpenCV/OpenCL/OpenGL区别：</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/09/linux-free-memory"> Linux下清理缓存，以释放内存</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/01/03/linux-vncviewer"> Linux VNCViewer远程桌面按d后最小化桌面</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/04/19/linux-debug-other-tools"> Linux 调试编译其他工具</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/02/04/mac-nearlock"> Mac 锁屏利器Nearlock</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/09/19/macosx-install-macports"> MacOS系统MacPort的按照与使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/04/10/book-change-world-is-a-faith"> 改变世界是一种信仰：乔布斯和他的苹果神话</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/03/23/linux-command-line-arg-max"> Linux ARG_MAX, maximum length of arguments for a new process</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/20/linux-dd"> Linux dd命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/11/30/linux-centos7-install-docker"> CentOS 7 安装配置Docker-CE</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/12/17/cmake-link-directories"> CMake 添加需要链接的库文件目录LINK_DIRECTORIES</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/03/02/astronomy-polarization"> 极化</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/05/02/cpp-beginner-ide"> C++语言 网上流传的最好的10个用于开发C/C++的IDE环境。</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/01/linux-ubuntu-install-gtk"> Ubuntu 安装GTK</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-2-5-defining-plot-scales-and-drawing-axes"> PGPLOT 绘图比例和坐标轴</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/24/astronomy-difx-install-on-centos"> CentOS 安装 DiFX</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-1-set-axis"> Linux gnuplot的坐标取值范围及刻度</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/17/linux-shell-shelltype"> Linux的几种可选shell</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/13/docker-data-management"> Docker Data Management</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/08/06/mac-code-editor"> Mac 平台上 13 款实用的代码编辑器推荐</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/09/04/qt-quick-application"> 创建一个Qt Quick 应用</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-2-polishing-7-all-about-axes"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/29/linux-iperf"> 使用iperf测试网络性能</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/07/11/pgplot-0-intro"> 关于PGPLOT的翻译</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/30/pgplot-cpgbbuf"> PGPLOT cpgbbuf开始批处理输出</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/06/python-lambda"> Python lambda表达式</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/05/06/pgplot-cpgcurs"> PGPLOT cpgconb 绘制等高线图</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/18/linux-gtk-simple"> GTK 创建最简单的一个创建窗口的示例</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/11/30/git-simple-tutorial"> Git 使用git将本地文件上传至github</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-2-polishing-5-doing-it-with-style"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/10/23/linux-aio"> Linux aio异步读写</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/flex_manual_simple_examples"> Flex 的一些简单例子</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/03/pgplot-cpgldev"> PGPLOT cpgldev –在标准输出上列出可用的设备类型</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/18/linux-centos-install-vnc"> CentOS 6 安装配置VNC</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-django-tutorial04"> Python Django 教程4</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/07/linux-ncurses"> Linux 解决lnurses库问题之/usr/bin/ld</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/06/python-class"> Python class类</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/23/python-read"> Python read() readline()以及readlines()用法</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/04/linux-loop"> Linux的 loop循环</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/10/20/c-file-exist"> c语言 file如何判断文件是否存在</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/03/08/c-advance-null-pointer"> C语言 空指针</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/07/linux-find"> Linux的find命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-3-advanced-gnuplot-10-advanced-plotting-concepts"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/12/21/git-ssh-keys"> Git 向Github增加SSH keys</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-4-4-element-graph-marker"> PGPLOT的基元图标记</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/08/30/qt-update-timer"> QT中定时更新日期时间控件</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/11/22/docker-centos"> CentOS 安装 docker</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/06/linux-diff"> Linux diff命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/22/vim-case"> Vim改变大小写</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/12/21/git-push"> git push用法</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/24/vim-search"> vim搜索技巧</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/25/c-string"> C语言 字符串、字符和字节</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/04/12/linux-debug"> Linux 调试预备知识</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/02/00-vim-all"> VIM 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/05/vim-syntax"> 让Vim智能的高亮你的代码</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/06/09/linux-fix-GDBusError"> Linux下 修正GDBus 错误</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/09/01/sublime-package-control"> Sublime Text 的 Package Control 安装使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-cpgbeg"> PGPLOT cpgbeg 打开一个图形设备</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-4-3-element-line"> PGPLOT的基元线条</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/15/book-docker-learn-docker-step-by-step"> 循序渐进学Docker</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/28/vim-tips-bonus-hacks"> vim 额外小技巧</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/01/24/radio-astronomy-install-dspsr"> AstroSoft 安装 dspsr</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/01/linux-study-method"> Linux学习之道</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/18/linux-glib"> GLib 编译应用程序</a></li>
+<li><a href="http://shaoguangleo.github.io/2009/08/06/signal_and_system_conv"> 信号与系统 卷积</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-1-2-install"> PGPLOT安装</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-3-advanced-gnuplot-9-color"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/28/django-forget-password"> Django 忘记管理员或忘记管理员密码</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/07/11/pgplot-0-all"> PGPLOT手册</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/10/c-beginner-argc-argv"> C语言 argc和argv</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/05/21/pgplot-cpgenv"> PGPLOT cpgenv 设置窗口、视口及标签框架</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/09/07/git-url-modify"> git修改远程仓库地址</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-head"> Linux的 head 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/05/08/astronomy-radio-recommend-reading"> 天文学推荐读物</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/06/linux-automake-1-introduction"> Linux Automake 1 简介</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-virtualenvwrapper"> python 虚拟环境管理工具virtualenvwrapper</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/29/diary-ibm-buy-redhat"> IBM 收购 Redhat &amp;&amp; 咏远有李</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/12/03/ubuntu-troubleshooting"> Ubuntu 问题集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/01/c-beginner-io"> C语言 输入和输出</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/04/03/radio_astronomy_difmap_introduction"> Difmap Introduction</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/11/22/docker-images"> Docker镜像</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/20/vim-insert"> vim 插入操作</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/08/27/linux-nfs"> Linux NFS 配置</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/04/02/linux-centos-install-vlc"> 如何在CentOS上安装VLC</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/09/c-beginner-scanf"> C语言 终端输入scanf函数</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-1-basic-4-practical-matters"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/06/linux-touch"> Linux的touch命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-2-10-compile-and-run"> PGPLOT 编译和运行</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/19/c-beginner-struct-bitfield"> C语言 struct的位域</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/02/c-advance-operator-step3"> C语言 数据运算符</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/02/06/python-path"> Python 模块的搜索路径</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/01/20/docker-container-size"> MacOSX Docker服务器如何分配硬盘空间大小？</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-pip"> pip 使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/29/c-beginner-operator-step1"> C语言 加减乘除运算符</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/28/linux-raid"> Linux的 RAID 冗余磁盘阵列</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-10-dialog-windows"></a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-3-1-window-intro"> PGPLOT的窗口和视图</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/08/07/signal_and_system_zt"> Z变换</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/15/linux-automake-5-create-makefile-in"> Linux Automake 5  创建<code>Makefile.in</code></a></li>
+<li><a href="http://shaoguangleo.github.io/2017/03/31/python-matplotlib-basic-plot-functions"> python中文档SPHINX的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/07/shell-9-struct-command"> 使用结构化命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/08/c-beginner-which-loop"> C语言 选择哪种循环语句</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/03/c-operator-summary"> C 集锦 一分钟看完C运算符</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/17/linux-centos-add-epel-repo"> CentOS 添加 EPEL 源</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/05/02/pgplot-cpgbox"> PGPLOT cpgbox - 在视口周围的框架上标记标签</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/11/25/diary-supervisor-train"> 研究生导师培训</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/04/c-beginner-i++-++i"> C语言 i++和++i</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/15/linux-pwd"> linux 命令pwd 查看目录命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/04/05/book-no-jobs-just-yourself"> 不做乔布斯，做最好的自己</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-4-tkinter-classes"> Python Tkinter 的窗口组件类</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/flex_manual_handle_ambiguous_patterns"> Flex handles ambiguous patterns</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/09/03/qt-read-write-setting"> QT读取写入配置文件</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-django-tutorial01"> Python Django 教程1</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/17/linux-shells"> Linux的几种可选shell</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/04/c-advance-io"> C语言 基本输入和输出操作</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-4-graphical-analysis-with-gnuplot-14-techniques-of-graphical-analysis"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/08/vim-repeat"> VIM 重复命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/20/linux-grafana"> linux grafana使用教程</a></li>
+<li><a href="http://shaoguangleo.github.io/2021/01/06/python-package-collection"> Python 包收集</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/09/04/swift-3-flow-control"> Swift 流程控制</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/06/linux-file"> Linux的file命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/08/vim-undo-redo"> VIM 撤销和重做</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-mkdir"> Linux的 mkdir 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/26/git-config"> git 初始配置</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/15/c-advance-string"> C语言 字符与字符串处理</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/02/00-qt-all"> QT 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/14/linux-automake-4-some-example-packages"> Linux Automake 4  一些示例包</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-5-8-property-text-background"> PGPLOT的属性简介 文本背景</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-3-advanced-gnuplot-8-three-dimensional-plots"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/06/08/linux-zabbix"> CentOS 安装配置zabbix库</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/06/python-name"> Python 命名规则</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/02/linux-beautify-fonts-in-console"> Linux 终端中漂亮的字体</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/10/diary-20120110"> Happy New Year. Buddies</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/05/06/redhat-using-centos-yum-source"> Redhat使用CentOS的源</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/31/c-advance-operator-step2"> C语言 赋值运算符</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/18/linux-google"> Installing Google Chrome on CentOS</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/21/radio-astronomy-install-pgplot"> Ubuntu/Debain/Fedora/Mac/CentOS 安装PGPLOT</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/10/26/diary-io-test"> WORK 今天完成文件io流的测试及LTA的测试</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/08/07/python-while"> Python 循环语句</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-2-polishing-6-decorations"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/11/one-poetry"> 美丽诗句</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/08/07/python-init"> Python <strong>init</strong>.py的作用</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/07/08/signal_and_system_system_frequency_domain"> 系统的频域分析</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/11/pgplot-3-2-select-view-surface"> PGPLOT的视图选择</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/27/c-typedef"> C语言 typedef</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/12/27/git-file-mode"> Git关于文件权限修改引起的冲突及忽略文件权限的办法</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnu-3-advanced-gnuplot-8-three-dimensional-plots"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/04/linux-ide"> Linux IDE</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/03/27/linux-ubuntu-delete-kernels"> Ubuntu 删除多余内核</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/11/02/docker-singularity">  Singularity 镜像无法更新</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/02/00-cpp-all"> CPP 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/02/06/book-eat-that-frog"> 吃掉那只青蛙</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/26/c-beginner-editors"> C语言 最适合学习C语言的编辑器</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-5-widget-configuration"> Python Tkinter 组件配置</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/03/03/vim-mode"> Vim 工作模式</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/15/linux-gnu-shell"> GNU 实用程序Shell</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/05/07/linux-debian-utc-setting"> Linux Debian 时区设定</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/02/24/radio-astronomy-install-psrcat"> AstroSoft 安装 PSRCAT</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/19/linux-free"> Linux free命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/23/book-how-to-run"> 跑步，该怎么跑</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-0-prepare-math"> Linux gnuplot的数学表达式</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/08/06/python-filetype"> Python 的文件类型</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/08/28/radio-astronomy-install-parseltongue"> Parseltongue installation</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/07/c-beginner-while-sentence"> C语言 while循环语句</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/23/python-django-tutorial05"> Python Django 教程5</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/02/c-learn-methods"> c语言 漫谈C语言及如何学习C语言</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/02/26/git-push-without-passwd"> Git linux服务器git pull/push时不输入密码</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/02/24/radio-astronomy-install-cfitsio"> AstroSoft 安装 CFITSIO</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/31/c-struct"> C语言 struct结构体</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/06/01/python-ide-PyCharm"> Python IDE 之开发利器PyCharm</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/02/00-python-all"> PYTHON 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-3-4-define-window"> PGPLOT的窗口特性</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/08/18/linux-centos-gui-command-screen"> Linux CentOS7图形界面与命令行界面切换</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/08/19/astronomy-radio-1-introduction"> 射电天文介绍</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/12/pgplot-cpgpap"> PGPLOT cpgpap – 改变视图表面的大小</a></li>
+<li><a href="http://shaoguangleo.github.io/2006/07/06/signal_and_system_formulas"> 信号与系统公式集锦及性质</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/12/17/cmake-add-executable"> CMake 为工程生成目标文件</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/18/c-malloc"> C语言 malloc的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/04/03/radio_astronomy_difmap_startup"> Difmap 启动</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/11/linux-fedora-install-gnome"> Linux Fedora安装gnome-gtk开发环境</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/09/06/ubuntu-old-release-update"> ubuntu10.4的更新源因过期无法更新的解决方法</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/02/03/python-format-string"> Python格式化字符串</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/09/02/macosx-svnadmin"> MacOSX svnadmin无法使用的问题</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-1-plot-simple-data"> Linux gnuplot的坐标取值范围及刻度</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/06/c-parameter"> C语言 实参和形参</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/06/12/pgplot-7-1-interactive-graph-intro"> PGPLOT图形交互 简介</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/07/20/vim-plugins"> vim 插件</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/05/19/linux-fedora-yum-is-dead-use-dnf"> YUM已死，DNF永生</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/30/astronomy-meetings"> 天文相关会议</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/24/book-no-tools-fitness"> 不做乔布斯，做最好的自己</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/09/04/qt-splash-window"> Qt如何编写程序启动界面</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/01/20/linux-ethtool"> Linux 强大的网络工具 ethtool</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qrcode.jpg" alt="郭大侠 wechat" style="width: 200px; max-width: 100%;">
+    <div>欢迎您扫一扫，订阅我的微信公众号！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果觉得我的文章对您有帮助，请随意打赏。您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    郭大侠
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://shaoguangleo.github.io/2013/02/02/00-c-all/" title="C 集锦">http://shaoguangleo.github.io/2013/02/02/00-c-all/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/集锦/" rel="tag"># 集锦</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/02/02/00-matplotlib-all/" rel="next" title="MATPLOTLIB 集锦">
+                <i class="fa fa-chevron-left"></i> MATPLOTLIB 集锦
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/02/02/00-mac-all/" rel="prev" title="MAC 集锦">
+                MAC 集锦 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="郭大侠">
+            
+              <p class="site-author-name" itemprop="name">郭大侠</p>
+              <p class="site-description motion-element" itemprop="description">郭大侠的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">722</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">184</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1142</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="guoshaoguang.com" target="_blank" title="Homepage">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Homepage</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/shaoguangleo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.weibo.com/1307276731" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.douban.com/people/shaoguangleo/" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/guoshaoguang.com" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:shaoguangleo@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://macshuo.com/" title="MacTalk" target="_blank">MacTalk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://huhuidong.wordpress.com/" title="小胡" target="_blank">小胡</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C-集锦"><span class="nav-number">1.</span> <span class="nav-text">C 集锦</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2007 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+<div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shaoguangleo.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://shaoguangleo.github.io/2013/02/02/00-c-all/';
+          this.page.identifier = '2013/02/02/00-c-all/';
+          this.page.title = 'C 集锦';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shaoguangleo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+        appKey: 'NTHrGJp71GzEGvNUEUFumVcR',
+        placeholder: '路过，即是缘分...',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz", "NTHrGJp71GzEGvNUEUFumVcR");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

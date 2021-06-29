@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="interferometry,fits,models,Softc,correlator,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Softc: an Operational Software Correlator By Stephen T. Lowe  概要Softc相关精度低于10-13秒。该程序可以关联真正的USB，真正的LSB或复杂的I/Q数据采样，支持1、2、4、8比特分辨率。 最近在一个Intel的CPU显示的softc时序测试处理延迟为8的1比特采样的采样率在10 M样点/秒。 介绍处理机只能定制，价格昂贵，维护">
+<meta name="keywords" content="interferometry,fits,models,Softc,correlator">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Softc - an Operational Software Correlator">
+<meta property="og:url" content="http://shaoguangleo.github.io/2010/04/02/astronomy-softc/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="Softc: an Operational Software Correlator By Stephen T. Lowe  概要Softc相关精度低于10-13秒。该程序可以关联真正的USB，真正的LSB或复杂的I/Q数据采样，支持1、2、4、8比特分辨率。 最近在一个Intel的CPU显示的softc时序测试处理延迟为8的1比特采样的采样率在10 M样点/秒。 介绍处理机只能定制，价格昂贵，维护">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-06-29T01:52:55.447Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Softc - an Operational Software Correlator">
+<meta name="twitter:description" content="Softc: an Operational Software Correlator By Stephen T. Lowe  概要Softc相关精度低于10-13秒。该程序可以关联真正的USB，真正的LSB或复杂的I/Q数据采样，支持1、2、4、8比特分辨率。 最近在一个Intel的CPU显示的softc时序测试处理延迟为8的1比特采样的采样率在10 M样点/秒。 介绍处理机只能定制，价格昂贵，维护">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://shaoguangleo.github.io/2010/04/02/astronomy-softc/">
+
+
+
+
+
+  <title>Softc - an Operational Software Correlator | 浩瀚宇宙 灿烂星空</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">浩瀚宇宙 灿烂星空</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">工作和生活中的七七八八</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2010/04/02/astronomy-softc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Softc - an Operational Software Correlator</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2010-04-02T06:05:49+00:00">
+                2010-04-02
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-29T01:52:55+00:00">
+                2021-06-29
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Radio/" itemprop="url" rel="index">
+                    <span itemprop="name">Radio</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Radio/Astronomy/" itemprop="url" rel="index">
+                    <span itemprop="name">Astronomy</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Radio/Astronomy/VLBI/" itemprop="url" rel="index">
+                    <span itemprop="name">VLBI</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2010/04/02/astronomy-softc/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2010/04/02/astronomy-softc/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2010/04/02/astronomy-softc/" class="leancloud_visitors" data-flag-title="Softc - an Operational Software Correlator">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Softc-an-Operational-Software-Correlator"><a href="#Softc-an-Operational-Software-Correlator" class="headerlink" title="Softc: an Operational Software Correlator"></a>Softc: an Operational Software Correlator</h1><blockquote>
+<p>By Stephen T. Lowe</p>
+</blockquote>
+<h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>Softc相关精度低于10-13秒。该程序可以关联真正的USB，真正的LSB或复杂的I/Q数据采样，支持1、2、4、8比特分辨率。</p>
+<p>最近在一个Intel的CPU显示的softc时序测试处理延迟为8的1比特采样的采样率在10 M样点/秒。</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>处理机只能定制，价格昂贵，维护和开发也需要很多费用。</p>
+<p>解决方案：①用磁盘取代磁带；②用通用计算机取代定制硬件。</p>
+<h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><p>Softc历经艰难险阻。</p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><p>Softc可移植性很好。softc的输入和输出数据格式十分简单，所以需要一个翻译程序来做一些转换。</p>
+<h2 id="代码调试"><a href="#代码调试" class="headerlink" title="代码调试"></a>代码调试</h2><p>softc创造了一个完整的蒙地卡罗数据发生器，该模拟发生器可以产生VLBI数据，然后通过softc处理，从而与通过预期的结果（可以被精确计算的先验，并从这些结果中的任何偏差表示与该相关的问题。）相比较，从而找到相关器的问题所在。</p>
+<p>softc蒙特卡洛模拟数据有两种方法：</p>
+<ul>
+<li>第一个是一个工程模式，通过用户选择的延迟，延迟率，分数采样偏移等产生数据；</li>
+<li>第二个是使用相关模型模拟数据。</li>
+</ul>
+<p>在完整的代码测试中，我们发现蒙地卡罗无法检测到由于建模错误而导致的错误。</p>
+<p>喷气推进实验室的未来发展方向</p>
+<p>部署softc软件、Fit（后相关软件）及Modest（参数估计软件）</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>softc的创建尽可能准确，基本上可以处理任何VLBI数据，用最通用的语言编写，且已被用于为航天器的导航业务2年以上，并将用于明年喷气推进实验室的Mark5相关。</p>
+<h2 id="原文Softc-an-Operational-Software-Correlator"><a href="#原文Softc-an-Operational-Software-Correlator" class="headerlink" title="原文Softc: an Operational Software Correlator"></a>原文Softc: an Operational Software Correlator</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">By Stephen T. Lowe</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Jet Propulsion Laboratory / California Institute of Technology</span><br><span class="line"></span><br><span class="line">IVS 2004 General Meeting Proceedings</span><br><span class="line"></span><br><span class="line">Abstract:</span><br><span class="line"></span><br><span class="line">Softc has been used operationally for spacecraft navigation at JPL for over 2 years and will be JPL’s Mark 5 correlator next year. Softc was written to be as close to an ideal correlator as possible, making approximations only below clip_image001 seconds. The program can correlate real USB, real LSB, or complex I/Q data sampled <span class="keyword">with</span> <span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="keyword">or</span> <span class="number">8</span>-<span class="built_in">bit</span> resolution, <span class="keyword">and</span> was developed <span class="keyword">with</span> strong debugging tools that made <span class="keyword">final</span> debugging relatively quick. Softc’s algorithms <span class="keyword">and</span> program structure <span class="keyword">are</span> fully documented. Timing tests <span class="keyword">on</span> a recent Intel CPU <span class="keyword">show</span> Softc processes <span class="number">8</span> lags <span class="keyword">of</span> <span class="number">1</span>-<span class="built_in">bit</span> sampled <span class="keyword">data</span> <span class="keyword">at</span> <span class="number">10</span> MSamples/sec, independent <span class="keyword">of</span> <span class="keyword">sample</span> rate.</span><br><span class="line"></span><br><span class="line"><span class="number">1.</span> Introduction</span><br><span class="line"></span><br><span class="line"><span class="keyword">Level</span>-one VLBI processing has traditionally <span class="keyword">required</span> state-<span class="keyword">of</span>-the-art processing <span class="keyword">power</span> <span class="keyword">and</span> <span class="keyword">data</span> bandwidths that could <span class="keyword">only</span> be implemented <span class="keyword">using</span> custom electronic hardware <span class="keyword">and</span> <span class="keyword">data</span> <span class="keyword">storage</span> equipment. These devices, correlators, often took many <span class="keyword">years</span> <span class="keyword">to</span> design <span class="keyword">and</span> <span class="keyword">build</span> followed <span class="keyword">by</span> <span class="keyword">at</span> <span class="keyword">least</span> a <span class="keyword">year</span> <span class="keyword">of</span> <span class="keyword">use</span> <span class="keyword">to</span> excise the more obvious processing problems. This <span class="keyword">long</span> development <span class="built_in">time</span> also ensured that <span class="keyword">by</span> the <span class="built_in">time</span> a correlator was debugged <span class="keyword">and</span> <span class="keyword">in</span> a stable operational <span class="keyword">mode</span> its equipment was obsolete. Because there was <span class="keyword">no</span> other processing <span class="keyword">option</span>, the VLBI community has endured <span class="keyword">high</span> costs associated <span class="keyword">with</span> these devices. These costs <span class="keyword">include</span> many millions <span class="keyword">of</span> dollars <span class="keyword">for</span> development, <span class="keyword">on</span> the <span class="keyword">order</span> <span class="keyword">of</span> $<span class="number">1</span>M annually <span class="keyword">to</span> pay <span class="keyword">for</span> the ongoing debugging, capability improvements, <span class="keyword">and</span> maintenance, a trained <span class="keyword">operator</span> staff, <span class="keyword">and</span> the infrastructure costs <span class="keyword">of</span> the correlator room such <span class="keyword">as</span> leasing, <span class="keyword">power</span>, <span class="keyword">and</span> air conditioning. <span class="keyword">Data</span> <span class="keyword">storage</span> <span class="keyword">and</span> transport has used custom tape technology, but this <span class="keyword">is</span> also expensive, <span class="keyword">and</span> <span class="keyword">as</span> the technology has been pushed <span class="keyword">to</span> higher densities, tape drive/<span class="keyword">head</span> maintenance costs have increased. Finally, <span class="keyword">some</span> indirect correlator costs <span class="keyword">include</span> lack <span class="keyword">of</span> flexibility <span class="keyword">for</span> novel experimental setups, lack <span class="keyword">of</span> transparent processing algorithms, lack <span class="keyword">of</span> repeatable <span class="keyword">output</span> due <span class="keyword">to</span> tape playback <span class="keyword">errors</span>, <span class="keyword">and</span> downtime <span class="keyword">for</span> maintenance, testing, <span class="keyword">and</span> modifications.</span><br><span class="line"></span><br><span class="line">It has been known <span class="keyword">for</span> <span class="keyword">some</span> <span class="built_in">time</span> that <span class="keyword">all</span> the disadvantages <span class="keyword">of</span> the traditional correlator noted above could be eliminated <span class="keyword">if</span> efficient <span class="keyword">data</span> handling could be moved <span class="keyword">from</span> tape <span class="keyword">to</span> disk, <span class="keyword">and</span> <span class="keyword">general</span>-purpose computers could meet the processing requirements. <span class="keyword">Until</span> recently, neither <span class="keyword">of</span> these conditions could be met adequately, but interestingly it <span class="keyword">now</span> appears the crossover points <span class="keyword">for</span> <span class="keyword">both</span> <span class="keyword">of</span> these competing technologies, custom tape vs. disk, <span class="keyword">and</span> custom hardware vs. <span class="keyword">general</span>-purpose computer, <span class="keyword">is</span> <span class="keyword">in</span> the recent past. <span class="keyword">Both</span> the recent Mark <span class="number">5</span> disk <span class="keyword">format</span> <span class="keyword">and</span> software correlators such <span class="keyword">as</span> Softc take advantage <span class="keyword">of</span> huge commercial R&amp;D budgets worldwide. These <span class="keyword">are</span> cases <span class="keyword">of</span> custom VLBI hardware capabilities being overtaken <span class="keyword">by</span> commercial products developed <span class="keyword">with</span> enormous resources compared <span class="keyword">to</span> those <span class="keyword">in</span> the VLBI community. <span class="keyword">By</span> extrapolation we <span class="keyword">are</span> likely <span class="keyword">to</span> experience other paradigm shifts soon <span class="keyword">in</span> the remaining custom VLBI hardware, namely station electronics. We <span class="keyword">are</span> also <span class="keyword">beginning</span> <span class="keyword">to</span> see how <span class="keyword">all</span> these changes <span class="keyword">are</span> significantly altering the optimum <span class="keyword">values</span> <span class="keyword">of</span> VLBI <span class="keyword">system</span> parameters. <span class="keyword">For</span> example, it will be more efficient <span class="keyword">to</span> have smaller antennas <span class="keyword">with</span> higher bandwidths, <span class="keyword">and</span> reliability should increase <span class="keyword">with</span> the improved hardware, disk <span class="keyword">storage</span>, <span class="keyword">and</span> <span class="built_in">real</span>-<span class="built_in">time</span> fringe verification.</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> History</span><br><span class="line"></span><br><span class="line"><span class="keyword">In</span> <span class="number">1995</span> JPL began <span class="keyword">to</span> decommission its Delta-Differenced One-way <span class="keyword">Range</span> (DeltaDOR) spacecraft navigation system. The decommissioning process was <span class="keyword">to</span> mothball the DeltaDOR capability, eliminate its near <span class="built_in">real</span>-<span class="built_in">time</span> <span class="keyword">Block</span> I hardware correlator, <span class="keyword">and</span> <span class="keyword">after</span> a <span class="keyword">short</span> <span class="built_in">time</span> cease DeltaDOR funding. <span class="keyword">At</span> around this same <span class="built_in">time</span>, <span class="keyword">test</span> programs were written <span class="keyword">to</span> assess software correlation speed <span class="keyword">and</span> <span class="keyword">to</span> find fringes <span class="keyword">in</span> <span class="keyword">old</span> <span class="keyword">Block</span> I quasar data. These tests showed the <span class="keyword">Block</span> I bandwidths were <span class="keyword">low</span> enough that it could be replaced <span class="keyword">with</span> a software correlator. Since there was <span class="keyword">no</span> other choice <span class="keyword">to</span> <span class="keyword">preserve</span> this capability, a <span class="keyword">project</span> <span class="keyword">to</span> <span class="keyword">replace</span> the <span class="keyword">Block</span> I <span class="keyword">with</span> a software correlator began <span class="keyword">in</span> <span class="number">1996.</span> This task was essentially completed but since this was a mothballing effort <span class="keyword">and</span> DeltaDOR was <span class="keyword">not</span> necessary <span class="keyword">for</span> <span class="keyword">any</span> mission, the program, called Softc, was <span class="keyword">never</span> used. This was probably fortunate <span class="keyword">as</span> the program, <span class="keyword">by</span> design, exactly duplicated the <span class="keyword">Block</span> I processing <span class="keyword">including</span> its many approximations <span class="keyword">and</span> flaws. <span class="keyword">In</span> <span class="number">1998</span>, the RadioAstron <span class="keyword">project</span> agreed <span class="keyword">to</span> fund further development <span class="keyword">of</span> Softc <span class="keyword">as</span> a debugging tool <span class="keyword">for</span> their project. This opportunity was used <span class="keyword">to</span> essentially <span class="keyword">start</span> <span class="keyword">over</span> <span class="keyword">and</span> <span class="keyword">build</span> a <span class="literal">true</span> software correlator <span class="keyword">with</span> <span class="keyword">all</span> its intrinsic advantages <span class="keyword">without</span> being constrained <span class="keyword">to</span> a hardware correlator’s shortcomings. Unfortunately, this effort was canceled <span class="keyword">in</span> <span class="number">1999</span> just <span class="keyword">as</span> <span class="keyword">full</span> code testing began. Softc <span class="keyword">then</span> remained <span class="keyword">complete</span> but <span class="keyword">unused</span> <span class="keyword">and</span> untested <span class="keyword">until</span> <span class="number">2001</span> <span class="keyword">when</span> the mis-navigation <span class="keyword">and</span> demise <span class="keyword">of</span> Mars Climate Orbiter prompted JPL <span class="keyword">to</span> resurrect the DeltaDOR navigation technique. Softc underwent <span class="keyword">full</span>-code testing <span class="keyword">using</span> geodetic experiments <span class="keyword">and</span> DeltaDOR passes <span class="keyword">of</span> Mars <span class="keyword">Global</span> Surveyor, <span class="keyword">in</span> orbit <span class="keyword">at</span> the <span class="built_in">time</span>, <span class="keyword">and</span> Mars Odyssey, which was <span class="keyword">on</span> its way <span class="keyword">to</span> Mars <span class="keyword">at</span> the time. Softc’s <span class="keyword">first</span> <span class="keyword">critical</span> <span class="keyword">use</span> was the successful Mars Odyssey orbit insertion <span class="keyword">in</span> <span class="keyword">Oct</span> <span class="number">2001.</span> Softc has also been used <span class="keyword">to</span> successfully navigate <span class="keyword">both</span> Mars Exploration Rover missions, Deep <span class="keyword">Space</span> <span class="number">1</span>, Europe’s Mars Express, <span class="keyword">and</span> Japan’s Nozomi <span class="keyword">and</span> Muses-C (Hayabusa) missions.</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span> Capabilities</span><br><span class="line"></span><br><span class="line">Softc was designed <span class="keyword">to</span> be <span class="keyword">as</span> <span class="keyword">close</span> <span class="keyword">as</span> possible <span class="keyword">to</span> an ideal correlator, <span class="keyword">where</span> ideal refers <span class="keyword">to</span> processing accuracy; no compromise in accuracy greater than clip_image001[1] sec was made to increase performance (or for any other reason). Softc can correlate 1, 2, 4, and 8-bit sampled data, upper, lower or double (I/Q) sideband data, and data using either of two sample encoding schemes. Softc is quite portable, as it was developed on a little-endian Alpha running VMS, it works operationally on a large endian machine running Solaris, and has been tested on little-endian Intel machines running Linux. It produces identical output on these machines <span class="keyword">with</span> <span class="keyword">no</span> code modifications, even <span class="keyword">with</span> different C compilers.</span><br><span class="line"></span><br><span class="line">Softc was designed <span class="keyword">to</span> process essentially <span class="keyword">any</span> VLBI data. <span class="keyword">To</span> <span class="keyword">do</span> this <span class="keyword">and</span> remain independent <span class="keyword">of</span> the hardware <span class="keyword">and</span> post-correlation software interfaces, Softc has its own <span class="keyword">input</span> <span class="keyword">and</span> <span class="keyword">output</span> <span class="keyword">data</span> formats. These formats were designed <span class="keyword">to</span> be <span class="keyword">as</span> simple <span class="keyword">as</span> possible, but a <span class="keyword">translation</span> program <span class="keyword">is</span> needed <span class="keyword">to</span> <span class="keyword">convert</span> the sampled <span class="keyword">data</span> <span class="keyword">into</span> Softc’s <span class="keyword">format</span>, <span class="keyword">and</span> another program <span class="keyword">is</span> needed <span class="keyword">to</span> <span class="keyword">translate</span> <span class="keyword">from</span> Softc’s <span class="keyword">output</span> <span class="keyword">to</span> the desired post-correlation format. It <span class="keyword">is</span> also possible <span class="keyword">to</span> place these translators inside Softc; this has been done on the output side for our DeltaDOR effort and will likely be done for Softc’s input in the future.</span><br><span class="line"></span><br><span class="line">4. Code Debugging</span><br><span class="line"></span><br><span class="line">One of the greatest hurdles in developing a VLBI correlator is the elimination of processing errors and inaccuracies. It is common for hardware correlator developers to spend years tracking down reasonably significant bugs. Also common are correlator users finding new, consequential errors long after all known problems were eliminated. An important limitation for correlator developers has been the lack of good debugging tools. For this reason, a significant effort, perhaps 40% of Softc’s development, went into the creation of a full Monte Carlo data generator. This generator creates simulated VLBI data that can then be processed by Softc. In this way, the expected results can be calculated exactly a priori, and any deviations from these results indicate problems <span class="keyword">with</span> the correlator.</span><br><span class="line"></span><br><span class="line">The Softc Monte Carlo can simulate <span class="keyword">data</span> <span class="keyword">in</span> two ways. The <span class="keyword">first</span> <span class="keyword">is</span> an engineering <span class="keyword">mode</span> <span class="keyword">where</span> <span class="keyword">data</span> can be <span class="keyword">generated</span> <span class="keyword">with</span> <span class="keyword">user</span> selected delays, delay rates, fractional <span class="keyword">sample</span> offsets, etc. This <span class="keyword">mode</span> was very useful <span class="keyword">in</span> the <span class="keyword">initial</span> stages <span class="keyword">of</span> debugging, <span class="keyword">as</span> the implied geometric models were quite simple <span class="keyword">and</span> covered a much greater parameter <span class="keyword">space</span> <span class="keyword">than</span> could be achieved <span class="keyword">by</span> Earth-based station models. <span class="keyword">For</span> example, <span class="keyword">data</span> can be <span class="keyword">generated</span> <span class="keyword">having</span> a <span class="keyword">constant</span> geometric fringe rate many times that possible <span class="keyword">for</span> <span class="keyword">any</span> Earth-based experiment; Softc’s performance under these extreme conditions is a good <span class="keyword">check</span> that fringe-frequency related calculations <span class="keyword">are</span> done correctly.</span><br><span class="line"></span><br><span class="line">The <span class="keyword">second</span> Monte Carlo <span class="keyword">mode</span> simulates <span class="keyword">data</span> <span class="keyword">using</span> the correlator model. Correlating this simulated <span class="keyword">data</span> <span class="keyword">with</span> Softc <span class="keyword">using</span> the same <span class="keyword">model</span> should <span class="keyword">result</span> <span class="keyword">in</span> <span class="keyword">no</span> residual delays <span class="keyword">or</span> phases, <span class="keyword">and</span> tests Softc <span class="keyword">in</span> its usual processing mode. The <span class="keyword">power</span> <span class="keyword">of</span> this <span class="keyword">type</span> <span class="keyword">of</span> <span class="keyword">test</span> was confirmed <span class="keyword">when</span> <span class="keyword">data</span> were simulated <span class="keyword">using</span> the <span class="keyword">Block</span> I correlator <span class="keyword">model</span> <span class="keyword">for</span> an <span class="keyword">old</span> experiment. <span class="keyword">When</span> the <span class="keyword">Block</span> I processed the simulated <span class="keyword">data</span>, the residual delay was <span class="keyword">not</span> zero, but a <span class="keyword">constant</span> <span class="number">1</span>-<span class="keyword">sample</span> delay. <span class="keyword">In</span> other words, it appears the <span class="keyword">Block</span> I had <span class="keyword">always</span> reported delays <span class="keyword">with</span> a <span class="keyword">constant</span> <span class="number">1</span>-<span class="keyword">sample</span> delay <span class="keyword">error</span>, <span class="keyword">and</span> this problem was <span class="keyword">never</span> <span class="keyword">found</span> throughout the life <span class="keyword">of</span> the correlator, but was <span class="keyword">found</span> immediately <span class="keyword">with</span> this Monte Carlo test. Softc has passed a <span class="keyword">large</span> <span class="built_in">number</span> <span class="keyword">of</span> extensive Monte Carlo tests, <span class="keyword">and</span> this, combined <span class="keyword">with</span> the fact that few calculational approximations <span class="keyword">are</span> made, gives great confidence that <span class="keyword">any</span> remaining processing <span class="keyword">errors</span> <span class="keyword">are</span> either insignificantly small <span class="keyword">or</span> easily corrected.</span><br><span class="line"></span><br><span class="line">Other tools were also created <span class="keyword">to</span> find <span class="keyword">errors</span> early <span class="keyword">in</span> Softc’s development. Because Softc was originally created <span class="keyword">to</span> correlate <span class="number">1</span> <span class="keyword">and</span> <span class="number">2</span>-<span class="built_in">bit</span> sampled <span class="keyword">data</span>, the core processing routines perform extensive <span class="built_in">bit</span>-<span class="keyword">level</span> manipulations. Several <span class="keyword">test</span> driver programs were developed <span class="keyword">for</span> <span class="keyword">each</span> <span class="built_in">bit</span>-manipulation routine <span class="keyword">to</span> <span class="keyword">check</span> its function. Although these drivers <span class="keyword">are</span> <span class="keyword">not</span> part <span class="keyword">of</span> the run-<span class="built_in">time</span> portion <span class="keyword">of</span> Softc, they should be considered part <span class="keyword">of</span> the code <span class="keyword">package</span> <span class="keyword">in</span> the same way the Monte Carlo <span class="keyword">is</span> part <span class="keyword">of</span> Softc. These programs were designed <span class="keyword">to</span> <span class="keyword">test</span> the <span class="built_in">bit</span>-manipulation routines <span class="keyword">under</span> the most extreme conditions, <span class="keyword">and</span> a significant effort went <span class="keyword">into</span> trying <span class="keyword">to</span> find processing <span class="keyword">errors</span> <span class="keyword">in</span> the core routines. The results <span class="keyword">of</span> these tests were that the core routines, which perform the <span class="keyword">bulk</span> <span class="keyword">of</span> the processing, could be considered essentially bug-free. This made <span class="keyword">full</span>-code debugging much easier because <span class="keyword">when</span> a strange problem was seen <span class="keyword">in</span> the results, many <span class="keyword">of</span> the most perverse explanations one might imagine could be dropped <span class="keyword">from</span> consideration.</span><br><span class="line"></span><br><span class="line"><span class="keyword">In</span> <span class="keyword">full</span> code testing we <span class="keyword">found</span> the unresolved <span class="keyword">errors</span> <span class="keyword">to</span> be dominated <span class="keyword">by</span> modeling errors. The Monte Carlo cannot detect such problems because the same bad <span class="keyword">model</span> <span class="keyword">both</span> generates <span class="keyword">and</span> correlates the <span class="keyword">data</span>, <span class="keyword">or</span> <span class="keyword">in</span> other words, Softc cannot assess what <span class="keyword">is</span> <span class="keyword">or</span> <span class="keyword">is</span> <span class="keyword">not</span> a realistic model. <span class="keyword">For</span> example, the <span class="keyword">first</span> significant problem <span class="keyword">found</span> turned <span class="keyword">out</span> <span class="keyword">to</span> be a <span class="keyword">sign</span> <span class="keyword">error</span> <span class="keyword">in</span> the troposphere model. The Monte Carlo did <span class="keyword">not</span> detect this (<span class="keyword">and</span> could <span class="keyword">not</span> possibly have done so), so <span class="keyword">only</span> <span class="keyword">full</span> code testing <span class="keyword">of</span> <span class="built_in">real</span> <span class="keyword">data</span> could find these types <span class="keyword">of</span> errors.</span><br><span class="line"></span><br><span class="line"><span class="number">5.</span> Future Directions <span class="keyword">at</span> JPL</span><br><span class="line"></span><br><span class="line">We recently obtained a <span class="keyword">new</span> <span class="number">18</span>-CPU Beowulf computer <span class="keyword">and</span> <span class="keyword">are</span> currently porting Softc, Fit (our post-correlation software), <span class="keyword">and</span> Modest (our parameter estimation software) onto this machine. We plan <span class="keyword">to</span> <span class="keyword">interface</span> this <span class="keyword">to</span> two Mark <span class="number">5</span> recorders <span class="keyword">by</span> Jan <span class="number">2004</span> <span class="keyword">and</span> this will be JPL’s VLBI correlator. <span class="keyword">Work</span> <span class="keyword">is</span> <span class="keyword">in</span> progress <span class="keyword">to</span> <span class="keyword">update</span> Fit <span class="keyword">and</span> <span class="keyword">to</span> <span class="keyword">add</span> additional Softc capabilities so we should have a clean, modern software <span class="keyword">system</span> <span class="keyword">in</span> early <span class="number">2004.</span> Timing tests <span class="keyword">on</span> this <span class="keyword">system</span> <span class="keyword">show</span> Softc can process <span class="number">8</span> lags <span class="keyword">of</span> <span class="number">10</span> MHz sampled <span class="built_in">real</span> USB single-<span class="built_in">bit</span> <span class="keyword">data</span> <span class="keyword">in</span> <span class="built_in">real</span> <span class="built_in">time</span>, <span class="keyword">and</span> that the processing <span class="built_in">time</span> <span class="keyword">is</span> roughly linear <span class="keyword">with</span> sampling rates <span class="keyword">from</span> <span class="number">1</span> <span class="keyword">to</span> <span class="number">100</span> MHz.</span><br><span class="line"></span><br><span class="line">We <span class="keyword">are</span> canceling the development <span class="keyword">of</span> our <span class="number">4</span>-station hardware correlator, which <span class="keyword">is</span> <span class="keyword">now</span> essentially complete. There <span class="keyword">is</span> <span class="keyword">nothing</span> wrong <span class="keyword">with</span> this correlator other <span class="keyword">than</span> it <span class="keyword">is</span> a hardware correlator <span class="keyword">with</span> <span class="keyword">all</span> its intrinsic disadvantages. Walking away <span class="keyword">from</span> our hardware correlator <span class="keyword">now</span> puts us <span class="keyword">on</span> a <span class="keyword">path</span> <span class="keyword">with</span> a future <span class="keyword">and</span> will likely <span class="keyword">save</span> significant money. Because the economics <span class="keyword">of</span> this decision <span class="keyword">are</span> probably common <span class="keyword">to</span> other institutions, we may <span class="keyword">not</span> see another <span class="number">4</span>-station hardware correlator being developed anywhere. The economics may also favor replacing larger correlators even <span class="keyword">now</span>, but the community probably needs <span class="keyword">to</span> <span class="keyword">go</span> up the software correlator learning curve <span class="keyword">beginning</span> <span class="keyword">with</span> the smaller systems.</span><br><span class="line"></span><br><span class="line"><span class="keyword">Work</span> <span class="keyword">is</span> <span class="keyword">under</span> way <span class="keyword">to</span> obtain an <span class="keyword">open</span> software license <span class="keyword">for</span> Softc so that others can benefit <span class="keyword">from</span> this program. Softc <span class="keyword">and</span> its algorithms <span class="keyword">are</span> documented <span class="keyword">and</span> that report should be publicly available very soon.</span><br><span class="line"></span><br><span class="line"><span class="number">6.</span> Summary</span><br><span class="line"></span><br><span class="line">Softc was created <span class="keyword">to</span> be <span class="keyword">as</span> accurate <span class="keyword">as</span> possible, capable <span class="keyword">of</span> processing essentially <span class="keyword">any</span> VLBI <span class="keyword">data</span>, pass strong debugging tests, have a simple <span class="keyword">user</span> <span class="keyword">interface</span>, have <span class="keyword">no</span> platform dependencies, <span class="keyword">and</span> be written modularly <span class="keyword">in</span> the most common programming language. It has been used operationally <span class="keyword">for</span> spacecraft navigation <span class="keyword">for</span> <span class="keyword">over</span> <span class="number">2</span> <span class="keyword">years</span> <span class="keyword">and</span> will be JPL’s Mark <span class="number">5</span> correlator <span class="keyword">next</span> year.</span><br><span class="line"></span><br><span class="line">Bibliography</span><br><span class="line"></span><br><span class="line"><span class="number">1</span></span><br><span class="line"></span><br><span class="line">See Whitney, R., “Mark <span class="number">5</span> Disk-Based Gbps VLBI <span class="keyword">Data</span> <span class="keyword">System</span>,” MIT Haystack Observatory, <span class="keyword">http</span>://web.haystack.mit.edu/mark5/software.html <span class="keyword">for</span> more <span class="keyword">on</span> the tape vs. disk issue.</span><br><span class="line"></span><br><span class="line"><span class="number">2</span></span><br><span class="line"></span><br><span class="line">Lowe, S., “Softc: a Software VLBI Correlator,” JPL Report, <span class="keyword">in</span> press.</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qrcode.jpg" alt="郭大侠 wechat" style="width: 200px; max-width: 100%;">
+    <div>欢迎您扫一扫，订阅我的微信公众号！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果觉得我的文章对您有帮助，请随意打赏。您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    郭大侠
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://shaoguangleo.github.io/2010/04/02/astronomy-softc/" title="Softc - an Operational Software Correlator">http://shaoguangleo.github.io/2010/04/02/astronomy-softc/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/interferometry/" rel="tag"># interferometry</a>
+          
+            <a href="/tags/fits/" rel="tag"># fits</a>
+          
+            <a href="/tags/models/" rel="tag"># models</a>
+          
+            <a href="/tags/Softc/" rel="tag"># Softc</a>
+          
+            <a href="/tags/correlator/" rel="tag"># correlator</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2010/03/02/astronomy-polarization/" rel="next" title="极化">
+                <i class="fa fa-chevron-left"></i> 极化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2010/08/06/python-history/" rel="prev" title="Python 历史及由来">
+                Python 历史及由来 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="郭大侠">
+            
+              <p class="site-author-name" itemprop="name">郭大侠</p>
+              <p class="site-description motion-element" itemprop="description">郭大侠的博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">722</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">184</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1142</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="guoshaoguang.com" target="_blank" title="Homepage">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Homepage</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/shaoguangleo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.weibo.com/1307276731" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.douban.com/people/shaoguangleo/" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/guoshaoguang.com" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:shaoguangleo@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://macshuo.com/" title="MacTalk" target="_blank">MacTalk</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://huhuidong.wordpress.com/" title="小胡" target="_blank">小胡</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Softc-an-Operational-Software-Correlator"><span class="nav-number">1.</span> <span class="nav-text">Softc: an Operational Software Correlator</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概要"><span class="nav-number">1.1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.2.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#历史"><span class="nav-number">1.3.</span> <span class="nav-text">历史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能"><span class="nav-number">1.4.</span> <span class="nav-text">功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码调试"><span class="nav-number">1.5.</span> <span class="nav-text">代码调试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原文Softc-an-Operational-Software-Correlator"><span class="nav-number">1.7.</span> <span class="nav-text">原文Softc: an Operational Software Correlator</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2007 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+<div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shaoguangleo.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://shaoguangleo.github.io/2010/04/02/astronomy-softc/';
+          this.page.identifier = '2010/04/02/astronomy-softc/';
+          this.page.title = 'Softc - an Operational Software Correlator';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shaoguangleo.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+        appKey: 'NTHrGJp71GzEGvNUEUFumVcR',
+        placeholder: '路过，即是缘分...',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz", "NTHrGJp71GzEGvNUEUFumVcR");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
