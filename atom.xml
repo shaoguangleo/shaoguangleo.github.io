@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>浩瀚宇宙 灿烂星空</title>
+  
+  <subtitle>工作和生活中的七七八八</subtitle>
+  <link href="http://shaoguangleo.github.io/atom.xml" rel="self"/>
+  
+  <link href="http://shaoguangleo.github.io/"/>
+  <updated>2024-02-24T09:28:45.322Z</updated>
+  <id>http://shaoguangleo.github.io/</id>
+  
+  <author>
+    <name>郭大侠</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://shaoguangleo.github.io/2024/02/24/linux-dir-beginner/"/>
+    <id>http://shaoguangleo.github.io/2024/02/24/linux-dir-beginner/</id>
+    <published>2024-02-24T09:28:45.322Z</published>
+    <updated>2024-02-24T09:28:45.322Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>我们编程吧 集锦</title>
+    <link href="http://shaoguangleo.github.io/2024/02/03/00-summary-all/"/>
+    <id>http://shaoguangleo.github.io/2024/02/03/00-summary-all/</id>
+    <published>2024-02-03T13:11:00.000Z</published>
+    <updated>2024-02-24T09:28:45.102Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="我们编程吧-集锦"><a href="#我们编程吧-集锦" class="headerlink" title="我们编程吧 集锦"></a>我们编程吧 集锦</h1><h2 id="BOOK"><a href="#BOOK" class="headerlink" title="BOOK"></a>BOOK</h2><p>目前共分享了<font color="red">** 19 **</font> 个技巧，详细参考:<a href="http://shaoguangleo.github.io/2013/02/02/00-book-all"> BOOK 集锦</a></p><h2 id="C"><a href="#C" class="headerlink" title="C"></a>C</h2><p>目前共分享了<font color="red">** 116 **</font> 个技巧，详细参考:<a href="http://shaoguangleo.github.io/2013/02/02/00-c-all"> C 集锦</a></p><h2 id="CPP"><a href="#CPP" class="headerlink" title="CPP"></a>CPP</h2><p>目前共分享了<font color="red">** 16 **</font> 个技巧，详细参考:<a href="http://shaoguangleo.github.io/2013/02/02/00-cpp-all"> CPP 集锦</a></p><h2 id="GIT"><a href="#GIT" class="headerlink" title="GIT"></a>GIT</h2><p>目前共分享了<font color="red">** 105 **</font> 个技巧，详细参考:<a href="http://shaoguangleo.github.io/2013/02/02/00-git-all"> GIT 集锦</a></p><h2 id="LINUX"><a href="#LINUX" class="headerlink" title="LINUX"></a>LINUX</h2><p>目前共分享了<font color="red">** 417 **</font> 个技巧，详细参考:<a href="http://shaoguangleo.github.io/2013/02/02/00-linux-all"> LINUX 集锦</a></p><h2 id="MAC"><a href="#MAC" class="headerlink" title="MAC"></a>MAC</h2><p>目前共分享了<font color="red">** 2 **</font> 个技巧，详细参考:<a href="http://shaoguangleo.github.io/2013/02/02/00-mac-all"> MAC 集锦</a></p><h2 id="PGPLOT"><a href="#PGPLOT" class="headerlink" title="PGPLOT"></a>PGPLOT</h2><p>目前共分享了<font color="red">** 86 **</font> 个技巧，详细参考:<a href="http://shaoguangleo.github.io/2013/02/02/00-pgplot-all"> PGPLOT 集锦</a></p><h2 id="PYTHON"><a href="#PYTHON" class="headerlink" title="PYTHON"></a>PYTHON</h2><p>目前共分享了<font color="red">** 60 **</font> 个技巧，详细参考:<a href="http://shaoguangleo.github.io/2013/02/02/00-python-all"> PYTHON 集锦</a></p><h2 id="MATPLOTLIB"><a href="#MATPLOTLIB" class="headerlink" title="MATPLOTLIB"></a>MATPLOTLIB</h2><p>目前共分享了<font color="red">** 1 **</font> 个技巧，详细参考:<a href="http://shaoguangleo.github.io/2013/02/02/00-matplotlib-all"> MATPLOTLIB 集锦</a></p><h2 id="QT"><a href="#QT" class="headerlink" title="QT"></a>QT</h2><p>目前共分享了<font color="red">** 3 **</font> 个技巧，详细参考:<a href="http://shaoguangleo.github.io/2013/02/02/00-qt-all"> QT 集锦</a></p><h2 id="VIM"><a href="#VIM" class="headerlink" title="VIM"></a>VIM</h2><p>目前共分享了<font color="red">** 50 **</font> 个技巧，详细参考:<a href="http://shaoguangleo.github.io/2013/02/02/00-vim-all"> VIM 集锦</a></p><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>目前共分享了<font color="red">** 1040 <strong></strong></font> 个技巧，平均每天 <font color="blue"> 0.17 **</font>个。持续更新中，欢迎来访。</p><p><img src="/2024/02/03/00-summary-all/rst.png" alt="Summary Plot"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;我们编程吧-集锦&quot;&gt;&lt;a href=&quot;#我们编程吧-集锦&quot; class=&quot;headerlink&quot; title=&quot;我们编程吧 集锦&quot;&gt;&lt;/a&gt;我们编程吧 集锦&lt;/h1&gt;&lt;h2 id=&quot;BOOK&quot;&gt;&lt;a href=&quot;#BOOK&quot; class=&quot;headerlink&quot; </summary>
+      
+    
+    
+    
+    <category term="集锦" scheme="http://shaoguangleo.github.io/categories/%E9%9B%86%E9%94%A6/"/>
+    
+    
+    <category term="集锦" scheme="http://shaoguangleo.github.io/tags/%E9%9B%86%E9%94%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux最有趣的几个命令</title>
+    <link href="http://shaoguangleo.github.io/2023/12/06/linux-collection-funny-commands/"/>
+    <id>http://shaoguangleo.github.io/2023/12/06/linux-collection-funny-commands/</id>
+    <published>2023-12-06T14:28:00.000Z</published>
+    <updated>2024-02-24T09:28:45.322Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Linux最有趣的几个命令"><a href="#Linux最有趣的几个命令" class="headerlink" title="Linux最有趣的几个命令"></a>Linux最有趣的几个命令</h1><blockquote><p>仅个人想法，会持续不间断更新和改进。</p></blockquote><p>这次介绍一些好玩有趣的命令，不过说实话，实用性倒不是很大，纯粹好玩，给单调的命令行界面增加了一些童趣和欢乐。</p><h2 id="命运的小火车sl"><a href="#命运的小火车sl" class="headerlink" title="命运的小火车sl"></a>命运的小火车sl</h2><p>发现这个命令是在输入<code>ls</code>命令的时候，一不小心敲反了，直接命运的小火车开始跑了起来。</p><p><code>sl</code> 是一个 “Steam Locomotive” 的缩写，它会显示一个老式的蒸汽火车在终端中穿梭。</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ sl</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  (  ) (@@) ( )  (@)  ()    @@    O     @     O     @      O</span><br><span class="line">@)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">______                ___________</span><br><span class="line">      \__I_I_____===__|_________|</span><br><span class="line">______/ |   |        =|___ ___|      _________________</span><br><span class="line">  |     |   |         ||_| |_||     _|                \_____A</span><br><span class="line">__--------------------| [___] |   =|                        |</span><br><span class="line">__|_____/[][]~\_______|       |   -|                        |</span><br><span class="line">-I_____I [][] []  D   |=======|____|________________________|_</span><br><span class="line">=====O=====O\ ____Y___________|__|__________________________|_</span><br><span class="line"> ||    ||    |_____/~\___/          |_D__D__D_|  |_D__D__D_|</span><br><span class="line">/  \__/  \__/      \_/               \_/   \_/    \_/   \_/</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure><h2 id="点亮终端的艺术之光figlet"><a href="#点亮终端的艺术之光figlet" class="headerlink" title="点亮终端的艺术之光figlet"></a>点亮终端的艺术之光figlet</h2><p>在Linux的世界中，figlet是一个神奇的命令，可以将文字艺术化.</p><p>特别适合作为标题、口号或者问候语，还有很多软件程序的招呼语，也可以用这个来实现。</p><p>比如：</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ figlet HELLO          </span><br><span class="line"> _   _ _____ _     _     ___  </span><br><span class="line">| | | | ____| |   | |   / _ \ </span><br><span class="line">| |_| |  _| | |   | |  | | | |</span><br><span class="line">|  _  | |___| |___| |__| |_| |</span><br><span class="line">|_| |_|_____|_____|_____\___/ </span><br><span class="line">                              </span><br></pre></td></tr></tbody></table></figure><h2 id="活灵活现的终端：发掘cowsay"><a href="#活灵活现的终端：发掘cowsay" class="headerlink" title="活灵活现的终端：发掘cowsay"></a>活灵活现的终端：发掘<code>cowsay</code></h2><p><code>cowsay</code>顾名思义就是一头牛为你加持，一款让命令行界面生动有趣的工具。</p><p><code>cowsay</code> 可说话、可思考，与fortune加持更可以变为一头睿智的牛。</p><p>该命令接受一个文本字符串，并输出一个牛说话的图形。</p><p>下面是一头牛在说它喜欢 Linux：</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$  cowsay I love linux.</span><br><span class="line"> _______________ </span><br><span class="line">&lt; I love linux. &gt;</span><br><span class="line"> --------------- </span><br><span class="line">        \   ^__^</span><br><span class="line">         \  (oo)\_______</span><br><span class="line">            (__)\       )\/\</span><br><span class="line">                ||----w |</span><br><span class="line">                ||     ||</span><br></pre></td></tr></tbody></table></figure><h2 id="探索Linux世界的智慧——fortunes命令"><a href="#探索Linux世界的智慧——fortunes命令" class="headerlink" title="探索Linux世界的智慧——fortunes命令"></a>探索Linux世界的智慧——fortunes命令</h2><p>在Linux中，有一条神奇的命令连接着智慧与幽默，那就是<code>fortunes</code>命令。</p><p>看似普通的指令，背后却藏匿着千言万语，无论是名人箴言还是妙趣横生的笑话，在这里都能找到它们的踪迹。</p><p>另外最重要的，还可以根据自己的需求进行增删，目前就用基于唐诗宋词的库。</p><p><code>fortune</code>并非只是简单的一句话，而是承载着古今中外智慧的涌泉。</p><p>每次执行，它都会带来截然不同的感受。或许是一位哲人的深刻格言，或是一句调皮的笑话，或者唐诗，或者宋词，与先贤对话，岂不快哉。</p><p>最简单的方法就是把这个命令，加到.bashrc文件中，每次启动，总会有触动。</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ fortune </span><br><span class="line">何以称英雄？识以领其先</span><br><span class="line"></span><br><span class="line">　　　　－　清·袁枚</span><br><span class="line">$ fortune</span><br><span class="line">一件作品的固有力量从来不会被长期地埋没或禁锢。一件艺术品可能被时间遗忘，可能遭到查禁，可能被埋进棺材，但威力强大的东西总要战胜没有过大前途的东西。</span><br><span class="line"></span><br><span class="line">　　　　－　茨威格</span><br><span class="line">$ fortune</span><br><span class="line">Yow!  We<span class="string">'re going to a new disco!</span></span><br></pre></td></tr></tbody></table></figure><h2 id="缤纷绚烂的终端体验：探索lolcat"><a href="#缤纷绚烂的终端体验：探索lolcat" class="headerlink" title="缤纷绚烂的终端体验：探索lolcat"></a>缤纷绚烂的终端体验：探索<code>lolcat</code></h2><p><code>lolcat</code>是一款让终端从黑白灰变得缤纷多彩的神奇工具。</p><p>通过将文字渲染成彩虹般的颜色，让你的终端充满欢乐与活力。</p><p>可以把这个命令替换掉cat，这样你的内容都灵动了起来</p><p>比如<code>lolcat /etc/resolv.conf</code>会生成如下信息：</p><p><img src="/2023/12/06/linux-collection-funny-commands/Users/leo/share/git_internal/mycode/3-Minutes-Programming/linux/images/lolcat-resolve-file.png"></p><h2 id="进入数字的魔幻世界：探秘cmatrix"><a href="#进入数字的魔幻世界：探秘cmatrix" class="headerlink" title="进入数字的魔幻世界：探秘cmatrix"></a>进入数字的魔幻世界：探秘<code>cmatrix</code></h2><p>来到黑客帝国的命令<code>cmatrix</code>，这不仅仅是一串字符在终端中的运动，它仿佛是数字的舞蹈，变幻着无穷的图案。从绿色的数字雨到模拟Matrix电影的效果，<code>cmatrix</code>让我们进入了数字的奇妙世界。</p><p><img src="/2023/12/06/linux-collection-funny-commands/Users/leo/share/git_internal/mycode/3-Minutes-Programming/linux/images/linux-cmatrix.png"></p><h2 id="显示系统风貌的screenfetch命令"><a href="#显示系统风貌的screenfetch命令" class="headerlink" title="显示系统风貌的screenfetch命令"></a>显示系统风貌的screenfetch命令</h2><p><code>screenfetch</code>命令的神奇之处在于其简单而又直观的功能，该命令能够快速地收集系统信息并以一种富有个性的方式展示出来。</p><p>从使用的发行版到内核版本，再到处理器和内存，一目了然地展现系统的全貌。</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ screenfetch</span><br><span class="line">                          ./+o+-       oper@localhost</span><br><span class="line">                  yyyyy- -yyyyyy+      OS: Ubuntu </span><br><span class="line">               ://+//////-yyyyyyo      Kernel: aarch64 Linux 6.4.16-linuxkit</span><br><span class="line">           .++ .:/++++++/-.+sss/`      Uptime: 33m</span><br><span class="line">         .:++o:  /++++++++/:--:/-      Packages: 134</span><br><span class="line">        o:+o+:++.`..```.-/oo+++++/     Shell: bash 5.1.16</span><br><span class="line">       .:+o:+o/.          `+sssoo+/    Disk: 32G / 59G (57%)</span><br><span class="line">  .++/+:+oo+o:`             /sssooo.   CPU: 12x Apple</span><br><span class="line"> /+++//+:`oo+o               /::--:.   RAM: 877MiB / 7844MiB</span><br><span class="line"> \+/+o+++`o++o               ++////.  </span><br><span class="line">  .++.o+++oo+:`             /dddhhh.  </span><br><span class="line">       .+.o+oo:.          `oddhhhh+   </span><br><span class="line">        \+.++o+o``-````.:ohdhhhhh+    </span><br><span class="line">         `:o+++ `ohhhhhhhhyo++os:     </span><br><span class="line">           .o:`.syhhhhhhh/.oo++o`     </span><br><span class="line">               /osyyyyyyo++ooo+++/    </span><br><span class="line">                   ````` +oo+++o\:    </span><br><span class="line">                          `oo++.  </span><br></pre></td></tr></tbody></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Linux最有趣的几个命令&quot;&gt;&lt;a href=&quot;#Linux最有趣的几个命令&quot; class=&quot;headerlink&quot; title=&quot;Linux最有趣的几个命令&quot;&gt;&lt;/a&gt;Linux最有趣的几个命令&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;仅个人想法，会持续不间断更</summary>
+      
+    
+    
+    
+    <category term="Linux集锦" scheme="http://shaoguangleo.github.io/categories/Linux%E9%9B%86%E9%94%A6/"/>
+    
+    
+    <category term="Linux" scheme="http://shaoguangleo.github.io/tags/Linux/"/>
+    
+    <category term="cmatrix" scheme="http://shaoguangleo.github.io/tags/cmatrix/"/>
+    
+    <category term="Linux汇总" scheme="http://shaoguangleo.github.io/tags/Linux%E6%B1%87%E6%80%BB/"/>
+    
+    <category term="有趣命令" scheme="http://shaoguangleo.github.io/tags/%E6%9C%89%E8%B6%A3%E5%91%BD%E4%BB%A4/"/>
+    
+    <category term="screenfetch" scheme="http://shaoguangleo.github.io/tags/screenfetch/"/>
+    
+    <category term="sl" scheme="http://shaoguangleo.github.io/tags/sl/"/>
+    
+    <category term="figlet" scheme="http://shaoguangleo.github.io/tags/figlet/"/>
+    
+    <category term="cowsay" scheme="http://shaoguangleo.github.io/tags/cowsay/"/>
+    
+    <category term="fortunes" scheme="http://shaoguangleo.github.io/tags/fortunes/"/>
+    
+    <category term="lolcat" scheme="http://shaoguangleo.github.io/tags/lolcat/"/>
+    
+    <category term="toilet" scheme="http://shaoguangleo.github.io/tags/toilet/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux最危险的几个命令</title>
+    <link href="http://shaoguangleo.github.io/2023/11/16/linux-collection-dangerous-commands/"/>
+    <id>http://shaoguangleo.github.io/2023/11/16/linux-collection-dangerous-commands/</id>
+    <published>2023-11-16T14:28:00.000Z</published>
+    <updated>2024-02-24T09:28:45.322Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Linux最危险的几个命令"><a href="#Linux最危险的几个命令" class="headerlink" title="Linux最危险的几个命令"></a>Linux最危险的几个命令</h1><blockquote><p>仅个人想法，会持续不间断更新和改进。</p></blockquote><p>Linux系统中的命令最美妙也最危险。</p><p>如果几个操作系统（Windows/MacOSX/Linux）的危险水平有段位，那么Linux应该首当其冲。</p><p>如若使用不当，轻则伤筋动骨摔键盘，重则历年数据烟消云散。</p><p>本文本着大家熟悉其危险性，尽量避免一些误操作。</p><p>为什么Linux最危险呢？那主要是因为root 用户对系统具有绝对的操作权限，可以执行任何命令、任何操作，所以会产生任何后果。</p><p>所以在以 root 用户身份进行操作时，尤其一定要特别小心。</p><p>如果不确定命令的执行结果，可以在虚拟环境线操作一下，再在生产环境执行。</p><h2 id="危险命令介绍"><a href="#危险命令介绍" class="headerlink" title="危险命令介绍"></a>危险命令介绍</h2><p>如果单纯按照熟悉或者段位来讲，<code>rm</code>首当其冲，轻则丢点数据，重则系统崩溃。目前看到的很多删库跑路的程序员大多就因为这个。</p><blockquote><p> 特别是<code>rm -rf /</code>，不要执行，不要执行，不要执行，重要的事情说三遍，这个命令会导致整个系统被毁坏</p></blockquote><p>随后的应该就是chmod和chown，特别是对于重要的数据，一般建议对于新手而言，仅仅具备只读权限即可；</p><p>接下来的dd以及mkfs命令，可能不太常见，但是也具备一定的杀伤力。</p><p>fork炸弹暂且不表，总之随便来的命令不要随便执行。</p><h2 id="删除文件和目录命令rm"><a href="#删除文件和目录命令rm" class="headerlink" title="删除文件和目录命令rm"></a>删除文件和目录命令rm</h2><p><code>rm</code> 命令用于删除文件或者目录。官方定义为：</p><blockquote><p>remove files or directories</p></blockquote><p>删除当前目录下的所有文件及目录，命令行为：</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">rm</span>  -r  * </span><br></pre></td></tr></tbody></table></figure><blockquote><p>文件一旦通过rm命令删除，则无法恢复，所以必须格外一定切记小心地使用该命令。</p><p>因为发生过很多欲哭无泪的故事。。。</p><p>主要的痛点就在如果是在root账户权限下，rm无所不能呀</p></blockquote><h2 id="Linux-的-dd-命令"><a href="#Linux-的-dd-命令" class="headerlink" title="Linux 的 dd 命令"></a>Linux 的 dd 命令</h2><p><code>dd</code>这个命令一直没有弄明白缩写的含义，这个命令应该归到Linux炫技里面，因为我也是很晚才用到，不过有些功能还可以尝试一下。</p><p>官方含义为：</p><blockquote><p><code>dd</code> - convert and copy a file</p></blockquote><blockquote><p>从官方含义来看，是不是定义为<code>cc</code>比较合适，^_^</p></blockquote><p><code>dd</code>命令用于复制文件，转换或者格式化文件，这里也是危险所在，如果使用dd对设备进行低级别的复制和转换操作时，如果命令行参数错误，可能导致数据丢失。</p><p>比如 <code>dd if=/dev/random of=/dev/sda</code>：这个命令将设备（例如硬盘）的内容重写为随机数据，导致设备上所有数据的永久丢失。</p><h2 id="mkfs-格式化硬盘分区"><a href="#mkfs-格式化硬盘分区" class="headerlink" title="mkfs 格式化硬盘分区"></a>mkfs 格式化硬盘分区</h2><p>万万不要制定了错误的硬盘，切记切记。</p><p>这个命令格式化的很彻底。</p><h2 id="shutdown"><a href="#shutdown" class="headerlink" title="shutdown"></a>shutdown</h2><p>在root账户下，可以直接立即关闭系统，很容易造成数据没有保存，一般需要延迟个1分钟，不要使用<code>shutdown -h now</code>来立即关闭系统。</p><h2 id="gt-file"><a href="#gt-file" class="headerlink" title="> file"></a>&gt; file</h2><p><code>&gt; file</code>：这个命令会清空文件内容。若对关键的系统文件使用这个命令，可能会破坏系统。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Linux最危险的几个命令&quot;&gt;&lt;a href=&quot;#Linux最危险的几个命令&quot; class=&quot;headerlink&quot; title=&quot;Linux最危险的几个命令&quot;&gt;&lt;/a&gt;Linux最危险的几个命令&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;仅个人想法，会持续不间断更</summary>
+      
+    
+    
+    
+    <category term="Linux集锦" scheme="http://shaoguangleo.github.io/categories/Linux%E9%9B%86%E9%94%A6/"/>
+    
+    
+    <category term="Linux" scheme="http://shaoguangleo.github.io/tags/Linux/"/>
+    
+    <category term="rm" scheme="http://shaoguangleo.github.io/tags/rm/"/>
+    
+    <category term="Linux汇总" scheme="http://shaoguangleo.github.io/tags/Linux%E6%B1%87%E6%80%BB/"/>
+    
+    <category term="危险命令" scheme="http://shaoguangleo.github.io/tags/%E5%8D%B1%E9%99%A9%E5%91%BD%E4%BB%A4/"/>
+    
+    <category term="dd" scheme="http://shaoguangleo.github.io/tags/dd/"/>
+    
+    <category term="mkfs" scheme="http://shaoguangleo.github.io/tags/mkfs/"/>
+    
+    <category term="shutdown" scheme="http://shaoguangleo.github.io/tags/shutdown/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux 终端中漂亮的几款字体</title>
+    <link href="http://shaoguangleo.github.io/2023/11/02/linux-beautify-fonts-in-console/"/>
+    <id>http://shaoguangleo.github.io/2023/11/02/linux-beautify-fonts-in-console/</id>
+    <published>2023-11-02T14:28:00.000Z</published>
+    <updated>2024-02-24T09:28:45.318Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="linux终端中最漂亮的几款字体"><a href="#linux终端中最漂亮的几款字体" class="headerlink" title="linux终端中最漂亮的几款字体"></a>linux终端中最漂亮的几款字体</h1><p>.. note::<br>  念去去，千里烟波，暮霭沉沉楚天阔。<br>  柳永 《雨霖铃·寒蝉凄切》</p><blockquote><p>仅个人想法，会持续不间断更新和改进。</p></blockquote><p>对于长时间盯着终端来操作的<strong>拥趸</strong>而言，漂亮赏心悦目的字体是不可或缺的。</p><p>但编程字体的选择，看似简单，实则深藏玄机，不同的字体设计初衷各有千秋。</p><p>而编码阅读字体，追求的是流畅的感觉，轻松的识别和愉悦的体验。</p><p>不过，在编程的世界里，字体的功能性有点凌驾于美学之上。</p><p>这也是缘何程序员们偏爱等宽字体的原因，不易出bug。</p><p>所以结合功能性，兼具美术感，就是最佳的字体选择了。</p><p>举个最简单的例子，不易区分的1和I，不同宽度的W和I，给编程带来的体验是不同的。</p><p>这里整理的一些字体尽量能兼具以上的优点，规避一些缺点，助力书写代码新篇章。</p><p>Ubuntu 发行版是最开始用的，可是对终端下的字体一直不是很满意，今天终于找到了一些比较好看的终端字体，尤其是<strong>Droid sans mono</strong>字体，超爱，linux迷在Ubuntu下一直用的就是这款字体，很漂亮，极力推荐下面的几种字体:</p><h2 id="Inconsolata-优雅漂亮的等宽字体"><a href="#Inconsolata-优雅漂亮的等宽字体" class="headerlink" title="Inconsolata 优雅漂亮的等宽字体"></a>Inconsolata 优雅漂亮的等宽字体</h2><p>我最喜欢的等宽字体，免费。线条清晰，很适合长时间的阅读和编写代码。</p><p>偶遇它之后，很快就把原来的默认字体<strong>DejaVu Sans Mono</strong>抛弃了。真正适合任何字号的好字体。感谢它的创造者<strong>Raph Levien</strong>！</p><p><img src="/2023/11/02/linux-beautify-fonts-in-console/../images/programming-fonts-Inconsolata.png" alt="programming-fonts-Inconsolata"></p><h2 id="monaspace-变成利器"><a href="#monaspace-变成利器" class="headerlink" title="monaspace 变成利器"></a>monaspace 变成利器</h2><p>Github出品的Monaspace字体家族，具有能够满足程序员挑剔需求的利器。</p><p><img src="/2023/11/02/linux-beautify-fonts-in-console/../images/programming-fonts-monaspace.png" alt="programming-fonts-monaspace"></p><p>Ubuntu安装命令如下：</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install fonts-inconsolata</span><br></pre></td></tr></tbody></table></figure><h2 id="Monaco"><a href="#Monaco" class="headerlink" title="Monaco"></a>Monaco</h2><p>Mac的默认字体，好像也只有Mac上有。小字号的时候表现不错，而且再大些也不寒碜。普遍被认为是写代码的专用字体。随后的Menlo字体也是相当的不错。</p><p><img src="/2023/11/02/linux-beautify-fonts-in-console/../images/programming-fonts-Monaco.png" alt="programming-fonts-Monaco"></p><h2 id="Profont"><a href="#Profont" class="headerlink" title="Profont"></a>Profont</h2><p>与Monaco类似的位图字体，你能够在Mac, Windows和Linux上面使用。小字号的时候表现好。非Mac平台上Monaco的最佳替代。喜欢小字号且不怕眼睛疲劳的同学可以考虑。</p><p><img src="/2023/11/02/linux-beautify-fonts-in-console/../images/programming-fonts-ProFont.svg.png" alt="programming-fonts-ProFont"></p><h2 id="Envy-Code-R-具备复古风格"><a href="#Envy-Code-R-具备复古风格" class="headerlink" title="Envy Code R 具备复古风格"></a>Envy Code R 具备复古风格</h2><p>复古的风格，线条流畅，字母衔接自然，代码阅读更流畅。</p><p><img src="/2023/11/02/linux-beautify-fonts-in-console/../images/programming-fonts-envycoder.png" alt="programming-fonts-envycoder"></p><h2 id="Droid-Sans-Mono"><a href="#Droid-Sans-Mono" class="headerlink" title="Droid Sans Mono"></a>Droid Sans Mono</h2><p>开源字体，适合手机屏幕。是等宽字体中最突出的一个。可惜0和O区别不大。</p><p>安装命令：</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install ttf-droid</span><br></pre></td></tr></tbody></table></figure><p><img src="/2023/11/02/linux-beautify-fonts-in-console/../images/programming-fonts-DroidSansMono.png" alt="programming-fonts-DroidSansMono"></p><h2 id="DejaVu-Sans-Mono-很多Linux发行版的标配"><a href="#DejaVu-Sans-Mono-很多Linux发行版的标配" class="headerlink" title="DejaVu Sans Mono 很多Linux发行版的标配"></a>DejaVu Sans Mono 很多Linux发行版的标配</h2><p>我以前最喜欢的免费字体系列，以<strong>Vera</strong>为基础，但是比后者提供更多字符了。</p><p>适于任何字号，最重要的是无论终端窗口如何变化，始终能保持字体的清晰。</p><p><img src="/2023/11/02/linux-beautify-fonts-in-console/../images/programming-fonts-DejaVu_Sans_Mono.png" alt="programming-fonts-DejaVu_Sans_Mono"></p><p>安装命令如下：</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install fonts-dejavu-core</span><br></pre></td></tr></tbody></table></figure><h2 id="Terminus-机械感十足"><a href="#Terminus-机械感十足" class="headerlink" title="Terminus 机械感十足"></a>Terminus 机械感十足</h2><p>机械感十足的字体，安装命令如下：</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install xfonts-terminus</span><br></pre></td></tr></tbody></table></figure><p><img src="/2023/11/02/linux-beautify-fonts-in-console/../images/programming-fonts-Terminus_Specimen.png" alt="programming-fonts-Terminus_Specimen"></p><h2 id="Fira-Code-特别好的编程字体"><a href="#Fira-Code-特别好的编程字体" class="headerlink" title="Fira Code 特别好的编程字体"></a>Fira Code 特别好的编程字体</h2><p>Fira Code也是一款等宽字体，以其独特的编码连字和ASCII支持而闻名。</p><p>这款字体能够提供清晰、易读的文本，非常适合长时间在终端中工作。</p><p><img src="/2023/11/02/linux-beautify-fonts-in-console/../images/programming-fonts--firacode.png" alt="programming-fonts--firacode"></p><p>安装方法如下：</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install firacode</span><br></pre></td></tr></tbody></table></figure><h2 id="SourceCode-Pro-优雅且剑指源码"><a href="#SourceCode-Pro-优雅且剑指源码" class="headerlink" title="SourceCode Pro 优雅且剑指源码"></a>SourceCode Pro 优雅且剑指源码</h2><p>SourceCode Pro单看这名字就知道剑指源码编辑，不过作为Adobe开发的字体，当然不仅仅为编码环境优化，清晰的线条和易读的字母，无论在何处使用，都能为你提供愉悦的体验。</p><p>更多详细的信息，可以参考官网：<a href="https://adobe-fonts.github.io/source-code-pro/">Source Code Pro (adobe-fonts.github.io)</a> </p><p><img src="/2023/11/02/linux-beautify-fonts-in-console/../images/programming-fonts-Source_Code.png" alt="programming-fonts-Source_Code"></p><h2 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h2><p>对于MacOSX而言，其他很多字体都已经打包好了，以monaspace为例，执行下面的两个命令即可安装。</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ brew tap homebrew/cask-fonts</span><br><span class="line">$ brew install font-monaspace</span><br></pre></td></tr></tbody></table></figure><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul><li><a href="https://en.wikipedia.org/wiki/Inconsolata">https://en.wikipedia.org/wiki/Inconsolata</a></li><li></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;linux终端中最漂亮的几款字体&quot;&gt;&lt;a href=&quot;#linux终端中最漂亮的几款字体&quot; class=&quot;headerlink&quot; title=&quot;linux终端中最漂亮的几款字体&quot;&gt;&lt;/a&gt;linux终端中最漂亮的几款字体&lt;/h1&gt;&lt;p&gt;.. note::&lt;br&gt; </summary>
+      
+    
+    
+    
+    <category term="Linux集锦" scheme="http://shaoguangleo.github.io/categories/Linux%E9%9B%86%E9%94%A6/"/>
+    
+    
+    <category term="linux" scheme="http://shaoguangleo.github.io/tags/linux/"/>
+    
+    <category term="ubuntu" scheme="http://shaoguangleo.github.io/tags/ubuntu/"/>
+    
+    <category term="DejaVu" scheme="http://shaoguangleo.github.io/tags/DejaVu/"/>
+    
+    <category term="droid" scheme="http://shaoguangleo.github.io/tags/droid/"/>
+    
+    <category term="envy" scheme="http://shaoguangleo.github.io/tags/envy/"/>
+    
+    <category term="inconsolata" scheme="http://shaoguangleo.github.io/tags/inconsolata/"/>
+    
+    <category term="monaco" scheme="http://shaoguangleo.github.io/tags/monaco/"/>
+    
+    <category term="Profont" scheme="http://shaoguangleo.github.io/tags/Profont/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux 集锦 之 最常用的几个命令</title>
+    <link href="http://shaoguangleo.github.io/2023/10/11/linux-collection-most-used-commands/"/>
+    <id>http://shaoguangleo.github.io/2023/10/11/linux-collection-most-used-commands/</id>
+    <published>2023-10-11T14:11:00.000Z</published>
+    <updated>2024-02-24T09:28:45.322Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Linux最常用的几个命令"><a href="#Linux最常用的几个命令" class="headerlink" title="Linux最常用的几个命令"></a>Linux最常用的几个命令</h1><p>​Linux系统中的命令那是相当地丰富，不同的版本可能还有不同的命令，不过Linux核心自带的命令大概有几百个，这个不管是什么发行版一般都是共用的。</p><p>​如果希望探索Linux的所有命令，可能不太实际，因为这个数字可能达到惊人的万计。</p><p>​不过还好的是，Linux命令的入门只要掌握不到100个命令即可，而如果相对而言行云流水的话也就200个命令足矣。</p><p>​而如果准备试试Linux，可能只需要下面的几个实用频率最高、功能最关键、也最常用的命令也就基本可以完成日常的工作、学习需要了。</p><p>​忽然想用姓氏排序的方法，不过感觉不太行，索性就大概按照使用率来统计了。</p><p>​仅个人习惯，会持续不间断更新和改进。</p><h2 id="ls-列出当前目录下的文件📃和文件夹📁列表"><a href="#ls-列出当前目录下的文件📃和文件夹📁列表" class="headerlink" title="ls 列出当前目录下的文件📃和文件夹📁列表"></a>ls 列出当前目录下的文件📃和文件夹📁列表</h2><p>​个人感觉这个命令，属于名副其实用的最多的命令，我们进入Linux的第一个命令，可能除了输入用户名密码就属它了。</p><p>​工欲善其事，必先利其器，你欲使用Linux，必先了解当前的文件和内容。</p><h3 id="不加任何参数"><a href="#不加任何参数" class="headerlink" title="不加任何参数"></a>不加任何参数</h3><p>如果不加任何参数，默认列出当前目录的内容。</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> /etc/sysconfig/network-scripts</span><br><span class="line">ifcfg-em1</span><br><span class="line">ifcfg-em2</span><br><span class="line">ifcfg-em3</span><br><span class="line">ifcfg-em4   </span><br><span class="line">....</span><br></pre></td></tr></tbody></table></figure><h3 id="使用-l显示更多细节"><a href="#使用-l显示更多细节" class="headerlink" title="使用-l显示更多细节"></a>使用-l显示更多细节</h3><p>-l 就是使用long listing format长格式，来显示更多的内容信息。</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> -l /etc/sysconfig/network-scripts</span><br><span class="line">total 264</span><br><span class="line">-rw-r--r--. 1 root root   341 Nov 30 10:56 ifcfg-em1</span><br><span class="line">-rw-r--r--. 1 root root   294 May 13  2016 ifcfg-em2</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em3</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em4</span><br><span class="line">......</span><br></pre></td></tr></tbody></table></figure><h3 id="使用-t按照时间排序"><a href="#使用-t按照时间排序" class="headerlink" title="使用-t按照时间排序"></a>使用-t按照时间排序</h3><p>如果希望看到最近创建的文件，就需要用到-t参数了。</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> -lt /etc/sysconfig/network-scripts/</span><br><span class="line">total 264</span><br><span class="line">-rw-r--r--. 1 root root   341 Nov 30 10:56 ifcfg-em1</span><br><span class="line">-rw-r--r--. 1 root root   294 May 13  2016 ifcfg-em2</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em4</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em3</span><br><span class="line">...</span><br></pre></td></tr></tbody></table></figure><h3 id="使用-r按照时间逆序"><a href="#使用-r按照时间逆序" class="headerlink" title="使用-r按照时间逆序"></a>使用-r按照时间逆序</h3><p>如果希望删除很早以前的文件，看到最早创建的文件，就需要用到-r参数了。</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> -ltr /etc/sysconfig/network-scripts/</span><br><span class="line">total 264</span><br><span class="line">...</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em3</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em4</span><br><span class="line">-rw-r--r--. 1 root root   294 May 13  2016 ifcfg-em2</span><br><span class="line">-rw-r--r--. 1 root root   341 Nov 30 10:56 ifcfg-em1</span><br></pre></td></tr></tbody></table></figure><h3 id="使用-S根据文件大小排序"><a href="#使用-S根据文件大小排序" class="headerlink" title="使用-S根据文件大小排序"></a>使用-S根据文件大小排序</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> -lS /etc/sysconfig/network-scripts/</span><br><span class="line">total 264</span><br><span class="line">...</span><br><span class="line">-rw-r--r--. 1 root root   341 Nov 30 10:56 ifcfg-em1</span><br><span class="line">-rw-r--r--. 1 root root   294 May 13  2016 ifcfg-em2</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em3</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em4</span><br></pre></td></tr></tbody></table></figure><h2 id="cd-改变当前的工作目录"><a href="#cd-改变当前的工作目录" class="headerlink" title="cd 改变当前的工作目录"></a>cd 改变当前的工作目录</h2><p>这个命令可能估计能排在第二，类似于Winows的双击，在不同目录件徜徉。</p><p>在各个文件夹遍历是我们的习惯和倔强的证明。</p><p>cd命令没有太多参数，但是有一些技巧所在，可以N多人从来没有用过。</p><p>cd直接使用即可，技巧是下面几个：</p><h3 id="进入刚才的目录"><a href="#进入刚才的目录" class="headerlink" title="进入刚才的目录"></a>进入刚才的目录</h3><p>想要进入刚才进入的地方（目测没有很多人再用，但是真的很好用）运行：</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> –</span><br></pre></td></tr></tbody></table></figure><h3 id="快速返回家目录"><a href="#快速返回家目录" class="headerlink" title="快速返回家目录"></a>快速返回家目录</h3><p>需要快速地回到你的家目录，输入<code>cd</code>即可，这里其实不用一级一级的进入</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span></span><br></pre></td></tr></tbody></table></figure><h3 id="进入某用户的家目录"><a href="#进入某用户的家目录" class="headerlink" title="进入某用户的家目录"></a>进入某用户的家目录</h3><p>这个需要你有root权限</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~username</span><br></pre></td></tr></tbody></table></figure><p>进入username的家目录。</p><h2 id="mkdir-创建目录"><a href="#mkdir-创建目录" class="headerlink" title="mkdir - 创建目录"></a>mkdir - 创建目录</h2><p>说到cd到某个目录，就需要提高创建目录，也就新建文件夹。</p><p>参数不过，处理默认什么参数也不加，会一个-p递归创建文件夹即可。</p><h3 id="创建一个空目录"><a href="#创建一个空目录" class="headerlink" title="创建一个空目录"></a>创建一个空目录</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> hello</span><br></pre></td></tr></tbody></table></figure><h3 id="递归创建多个目录"><a href="#递归创建多个目录" class="headerlink" title="递归创建多个目录"></a>递归创建多个目录</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> -p a/b/c/d/e/f/g</span><br></pre></td></tr></tbody></table></figure><h2 id="rm-删除文件"><a href="#rm-删除文件" class="headerlink" title="rm - 删除文件"></a>rm - 删除文件</h2><p><code>rm</code> 命令用于删除文件或者目录。</p><p>这个命令其实我不想把它归为最常用的命令，因为它也是最危险⚠️的命令之一，文件一旦通过rm命令删除❌，则无法恢复，所以必须格外一定切记小心地使用该命令。因为发生过很多欲哭无泪的故事。。。</p><p>文件如果少，可以使用<code>-i</code> 删除前逐一询问确认，确认时比较好用；</p><p>而下面的两个参数十分残暴，除非百分之两百确认，否则慎用：</p><ul><li><code>-f</code> 即使原档案属性设为唯读，也直接删除，无需逐一确认，是<strong>force</strong>的意思。</li><li><code>-r</code> 将目录及里面的子文件逐一删除。</li></ul><h2 id="cp-复制文件"><a href="#cp-复制文件" class="headerlink" title="cp - 复制文件"></a>cp - 复制文件</h2><p>cp可以实现文件和目录的复制，如果你只会<code>cp a b</code>，或者加上-r来递归目录，那么你还需要挖掘很多呀，比如只复制不存在或者更新的文件。</p><p>以下就是<code>cp</code>常用的选项如下所示：</p><ul><li><code>i</code> : 覆盖一个已经存在的文件前，提示用户进行确认</li><li><code>r</code>：递归地复制目录及其内容，复制目录的时候必须使用这个参数</li><li><code>u</code>：只复制不存在或者更新的文件</li><li><code>v</code>：复制文件时，显示复制信息</li></ul><h3 id="组合rv-可以拷贝文件或文件夹"><a href="#组合rv-可以拷贝文件或文件夹" class="headerlink" title="组合rv - 可以拷贝文件或文件夹"></a>组合rv - 可以拷贝文件或文件夹</h3><p>这个在显示复制信息的时候，也可以复制目录</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cp</span> -rv dir1/* dir2/</span><br><span class="line">‘dir1/a’ -&gt; ‘dir2/a’</span><br><span class="line">‘dir1/b’ -&gt; ‘dir2/b’</span><br><span class="line">‘dir1/c’ -&gt; ‘dir2/c’</span><br><span class="line">‘dir1/d’ -&gt; ‘dir2/d’</span><br></pre></td></tr></tbody></table></figure><h3 id="拷贝时提示确认"><a href="#拷贝时提示确认" class="headerlink" title="拷贝时提示确认"></a>拷贝时提示确认</h3><p>这个参数在使用rm的时候已经记得使用，不然就像<code>rm -rf /</code>一样，一个公司没有了。</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cp</span> -i dir1/* dir2/</span><br><span class="line"><span class="built_in">cp</span>: overwrite ‘dir2/a’? y</span><br><span class="line"><span class="built_in">cp</span>: overwrite ‘dir2/b’? y</span><br><span class="line"><span class="built_in">cp</span>: overwrite ‘dir2/c’? y</span><br></pre></td></tr></tbody></table></figure><blockquote><p>这个选项在文件超级多时候，慎用！！</p></blockquote><h3 id="只拷贝不存在或更新的文件"><a href="#只拷贝不存在或更新的文件" class="headerlink" title="只拷贝不存在或更新的文件"></a>只拷贝不存在或更新的文件</h3><p><code>u</code>表示<code>update</code>，也就是从一个目录拷贝到另外一个目录时，只会复制那些不存在或者目标目录相应文件的更新文件。</p><p>执行下面的命令：</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cp</span> -u dir1/* dir2/</span><br></pre></td></tr></tbody></table></figure><p>可以得到：</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ ll *</span><br><span class="line">dir1:</span><br><span class="line">total 0</span><br><span class="line">-rw-rw-r-- 1 user user 0 Jul 20 21:23 a</span><br><span class="line">-rw-rw-r-- 1 user user 0 Jul 20 21:23 b</span><br><span class="line">-rw-rw-r-- 1 user user 0 Jul 20 21:23 c</span><br><span class="line">-rw-rw-r-- 1 user user 0 Jul 20 21:23 d</span><br><span class="line"></span><br><span class="line">dir2:</span><br><span class="line">total 0</span><br><span class="line">-rw-rw-r-- 1 user user 0 Jul 20 21:29 a</span><br><span class="line">-rw-rw-r-- 1 user user 0 Jul 20 21:25 b</span><br><span class="line">-rw-rw-r-- 1 user user 0 Jul 20 21:29 c</span><br><span class="line">-rw-rw-r-- 1 user user 0 Jul 20 21:25 d</span><br><span class="line">-rw-rw-r-- 1 user user 0 Jul 20 21:25 e</span><br></pre></td></tr></tbody></table></figure><h3 id="如何用cp拷贝指定序号的文件"><a href="#如何用cp拷贝指定序号的文件" class="headerlink" title="如何用cp拷贝指定序号的文件"></a>如何用cp拷贝指定序号的文件</h3><p>现在有文件夹<code>filename</code>，内有文档，名字是从<code>1.txt, 2.txt, 3.txt</code> 一直到<code>9999.txt,10000.txt</code>,现在希望从第<code>N</code>组数据即<code>N.txt</code>到第<code>M</code>组数据<code>M.txt</code>的文件拷贝到别的文件夹中，方法如下：</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cp</span> {N..M}.txt   newfilename/</span><br></pre></td></tr></tbody></table></figure><p>这个方法可是相当的赞呀<del>(≧▽≦)/</del>，基本可以秒掉大多数的GUI程序了。</p><h2 id="mv-文件移动或者叫重命名"><a href="#mv-文件移动或者叫重命名" class="headerlink" title="mv - 文件移动或者叫重命名"></a>mv - 文件移动或者叫重命名</h2><p>如果mv的命令还停留在重命名一个文件或者文件夹，那么就花3分钟看一下。</p><p>mv能做的还很多。</p><p>比如为了防止误删，mv可以提前做个备份；比如为了防止覆盖，可以考虑只有文件较新的时候才移动。</p><p>详细如下：</p><p>mv几个比较常用的选项如下：</p><ul><li><strong>-b</strong>: 当目标文件或目录存在时，在执行覆盖前，会为其创建一个备份，文件后缀用~表示；</li><li><strong>-i</strong>或–interactive: 如果指定移动的源目录或文件与目标的目录或文件同名，则会先询问是否覆盖旧文件，输入 y 表示直接覆盖，输入 n 表示取消该操作，一般而言，对于不确定的时候可以用此选项，不过文件或文件夹居多时，最好不要用</li><li><strong>-f</strong>或–force: 如果指定移动的源目录或文件与目标的目录或文件同名，不会询问，直接覆盖旧文件，强制的意思force</li><li><strong>-n</strong>或–no-clobber: 不要覆盖任何已存在的文件或目录。</li><li><strong>-u</strong>：当源文件比目标文件新或者目标文件不存在时，才执行移动操作。</li></ul><h3 id="常规操作"><a href="#常规操作" class="headerlink" title="常规操作"></a>常规操作</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">a.txt</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">mv</span> a.txt b.txt</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">b.txt</span><br></pre></td></tr></tbody></table></figure><p>直接移动或者叫做重命名，文件夹也类似的操作。</p><h3 id="覆盖前备份"><a href="#覆盖前备份" class="headerlink" title="覆盖前备份"></a>覆盖前备份</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">a.txt  a.txt~</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cp</span> -b ../a.txt a.txt</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">a.txt  a.txt~</span><br></pre></td></tr></tbody></table></figure><blockquote><p>可以看到此时多了一个备份文件</p></blockquote><h3 id="增量更新"><a href="#增量更新" class="headerlink" title="增量更新"></a>增量更新</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cp</span> -u a b</span><br></pre></td></tr></tbody></table></figure><blockquote><p>此时的操作为，只有a比b更新或者b不存在的时候，才会进行更新，否则失败。</p><p>这个用法多用在：当横向对比两个文价夹有无重要更新的时候才会用到。</p></blockquote><h3 id="交互提示"><a href="#交互提示" class="headerlink" title="交互提示"></a>交互提示</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cp</span> -i b.txt a.txt</span><br><span class="line"><span class="built_in">cp</span>：是否覆盖<span class="string">"a.txt"</span>？ </span><br></pre></td></tr></tbody></table></figure><blockquote><p>在文件存在的时候，-i选项会进行提示，此时需要输入y才能覆盖，而输入n就会取消这个操作。</p></blockquote><h2 id="pwd-查看目录所在的命令"><a href="#pwd-查看目录所在的命令" class="headerlink" title="pwd - 查看目录所在的命令"></a>pwd - 查看目录所在的命令</h2><p><code>pwd</code>命令的作用是查看当前目录，没有参数，输入后回车即可显示当前绝对路径， 所以<code>pwd</code>是<strong>P</strong>rint <strong>W</strong>orking  <strong>D</strong>irectory第一个字的缩写。</p><p>唯二需要了解的参数如下：</p><ul><li><code>-L</code>, <code>--logical</code>：打印逻辑路径，与<code>pwd</code>一致</li><li><code>-P</code>, <code>--physical</code>：打印物理路径，这里可以从超级链接直达原处</li></ul><h3 id="实例展示"><a href="#实例展示" class="headerlink" title="实例展示"></a>实例展示</h3><p>此时比如我们进入一个目录，然后在打印出来，如下：</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /etc/sysconfig/network-scripts/</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">pwd</span></span><br><span class="line">/etc/sysconfig/network-scripts</span><br></pre></td></tr></tbody></table></figure><blockquote><p>可以看到pwd将输出完全路径</p></blockquote><h3 id="逻辑与物理路径"><a href="#逻辑与物理路径" class="headerlink" title="逻辑与物理路径"></a>逻辑与物理路径</h3><p>比如如下：</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">pwd</span></span><br><span class="line">/opt/test</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">ls</span> -l</span><br><span class="line">总用量 1</span><br><span class="line">lrwxrwxrwx  1 root root   14 Jan 15 2012 <span class="built_in">dir</span> -&gt; <span class="built_in">source</span>/dir</span><br><span class="line">drwxrwxrwx  1 root root   14 Jan 15 2012 <span class="built_in">source</span></span><br></pre></td></tr></tbody></table></figure><p>可以看到此时的路径在<u>/opt/test/</u>里面有两个目录<u>source</u>和<u>dir</u>，其中<u>dir</u>链接到<u>source</u>里面的dir。</p><p>接下来对比一下-L和-P的区别。</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> <span class="built_in">dir</span></span><br><span class="line"></span><br><span class="line">$ <span class="built_in">pwd</span></span><br><span class="line">/opt/test/dir</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">pwd</span> -L</span><br><span class="line">/opt/test/dir</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">pwd</span> -P</span><br><span class="line">/opt/test/source/dir</span><br></pre></td></tr></tbody></table></figure><p>从上面的输出可以发现，<code>-P</code>参数会显示文件最原始的路径；而<code>-L</code>则是逻辑上的路径。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Linux最常用的几个命令&quot;&gt;&lt;a href=&quot;#Linux最常用的几个命令&quot; class=&quot;headerlink&quot; title=&quot;Linux最常用的几个命令&quot;&gt;&lt;/a&gt;Linux最常用的几个命令&lt;/h1&gt;&lt;p&gt;​	Linux系统中的命令那是相当地丰富，不同的版本</summary>
+      
+    
+    
+    
+    <category term="Linux集锦" scheme="http://shaoguangleo.github.io/categories/Linux%E9%9B%86%E9%94%A6/"/>
+    
+    
+    <category term="Linux" scheme="http://shaoguangleo.github.io/tags/Linux/"/>
+    
+    <category term="cd" scheme="http://shaoguangleo.github.io/tags/cd/"/>
+    
+    <category term="Linux汇总" scheme="http://shaoguangleo.github.io/tags/Linux%E6%B1%87%E6%80%BB/"/>
+    
+    <category term="常用命令" scheme="http://shaoguangleo.github.io/tags/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+    
+    <category term="ls" scheme="http://shaoguangleo.github.io/tags/ls/"/>
+    
+    <category term="mkdir" scheme="http://shaoguangleo.github.io/tags/mkdir/"/>
+    
+    <category term="cp" scheme="http://shaoguangleo.github.io/tags/cp/"/>
+    
+    <category term="mv" scheme="http://shaoguangleo.github.io/tags/mv/"/>
+    
+    <category term="Linux集锦" scheme="http://shaoguangleo.github.io/tags/Linux%E9%9B%86%E9%94%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux 入门命令汇总</title>
+    <link href="http://shaoguangleo.github.io/2023/10/09/linux-collection-beginner/"/>
+    <id>http://shaoguangleo.github.io/2023/10/09/linux-collection-beginner/</id>
+    <published>2023-10-09T14:28:00.000Z</published>
+    <updated>2024-02-24T09:28:45.318Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Linux入门命令汇总"><a href="#Linux入门命令汇总" class="headerlink" title="Linux入门命令汇总"></a>Linux入门命令汇总</h1><p>从2021年8月19日开始分享以前陆陆续续汇总的一些小技巧，截止到今天（2021年11月29）为止，100天，100个技巧。</p><p>Bingo，第一个小汇总顺利完成。</p><p>从发送的顺序上来看，100个命令的链接如下所示，PDF汇总文件根据这个顺序，或者字母表顺序，或者分类顺序来进行阅读。<strong>具体参考公众号商店</strong>。</p><ol><li>ls</li><li>cd</li><li>cat</li><li>file</li><li>less</li><li>more</li><li>whatis</li><li>apropos</li><li>man</li><li>mkdir</li><li>cp</li><li>mv</li><li>rm</li><li>rmdir</li><li>df</li><li>du</li><li>pwd</li><li>ln</li><li>chmod</li><li>chown</li><li>su</li><li>sudo</li><li>tail</li><li>head</li><li>free</li><li>touch</li><li>stat</li><li>ping</li><li>ifconfig</li><li>ip</li><li>wall</li><li>write</li><li>tracepath</li><li>date</li><li>useradd</li><li>userdel</li><li>passwd</li><li>tty</li><li>uname</li><li>whoami</li><li>who</li><li>w</li><li>id</li><li>top</li><li>dd</li><li>echo</li><li>kill</li><li>wget</li><li>ps</li><li>wc</li><li>last</li><li>time</li><li>find</li><li>scp</li><li>rsync</li><li>grep</li><li>uniq</li><li>sort</li><li>which</li><li>tar</li><li>history</li><li>alias</li><li>diff</li><li>curl</li><li>usermod</li><li>cal</li><li>sleep</li><li>ssh</li><li>locate</li><li>split</li><li>hostname</li><li>lscpu</li><li>lspci</li><li>tr</li><li>tree</li><li>bc</li><li>pstree</li><li>tac</li><li>xargs</li><li>pgrep</li><li>pkill</li><li>env</li><li>chgrp</li><li>whereis</li><li>tee</li><li>nice</li><li>shutdown</li><li>reboot</li><li>poweroff</li><li>halt</li><li>fdisk</li><li>join</li><li>ulimit</li><li>traceroute</li><li>zip</li><li>unzip</li><li>login–</li><li>logname—</li><li>logout–</li><li>arp–</li><li>locatedb </li><li>glob(3)</li><li>telnet—</li><li>netconfig–</li><li>nc—</li><li>minicom—</li><li>mesg—</li><li>netstat—</li><li>talk—</li><li>tcpdump—</li><li>get–</li><li>mcopy—</li><li>ftp—</li><li>fsck–</li><li>hdparm–</li><li>sync–</li><li>exit–</li><li>finger–</li><li>suspend–</li><li>rsh–</li><li>rlogin–</li><li>pstree–</li><li>screen–</li><li>chsh—-</li><li>whois—</li><li>skill—</li><li>reset–</li><li>clear–</li><li>bind–</li><li>chroot–</li><li>clock–</li><li>dmesg—</li><li>export—</li><li>rpm—</li><li>set—</li><li>resize—</li><li>setenv—</li><li>chkconfig—</li><li>unalias—</li><li>ar—</li><li>dump–</li><li>gzip–</li></ol><p>而从分类来讲，主要包括了大概N个类别</p><h2 id="文件管理类"><a href="#文件管理类" class="headerlink" title="文件管理类"></a>文件管理类</h2><ol><li>ls</li><li>cat</li><li>tac</li><li>file</li><li>less</li><li>more</li><li>tail</li><li>pwd</li><li>echo</li><li>ln</li><li>chmod</li><li>chown</li><li>chgrp</li><li>tee</li></ol><h2 id="时间"><a href="#时间" class="headerlink" title="时间"></a>时间</h2><ol><li>date</li><li>cal</li></ol><h2 id="磁盘管理类"><a href="#磁盘管理类" class="headerlink" title="磁盘管理类"></a>磁盘管理类</h2><ol><li>cd</li><li>df</li><li>du</li><li>mkdir</li><li>rmdir</li><li>pwd</li><li>stat</li><li>find</li><li>locate</li></ol><h2 id="文档编辑类"><a href="#文档编辑类" class="headerlink" title="文档编辑类"></a>文档编辑类</h2><ol><li>grep</li><li>join</li><li>sort</li><li>wc</li><li>uniq</li><li>diff</li><li>split</li><li>pgrep/pkill</li></ol><h2 id="帮助类"><a href="#帮助类" class="headerlink" title="帮助类"></a>帮助类</h2><ol><li>whatis</li><li>apropos</li><li>man</li><li>which</li><li>whereis</li></ol><h2 id="文件传输类"><a href="#文件传输类" class="headerlink" title="文件传输类"></a>文件传输类</h2><ol><li>cp</li><li>mv</li><li>scp</li><li>rsync</li><li>rcp—</li><li>mcopy—</li><li>ftp—</li><li>tftp—</li><li>ncftp—</li><li>ftpshut—</li><li>ftpwho–</li></ol><h2 id="磁盘维护类"><a href="#磁盘维护类" class="headerlink" title="磁盘维护类"></a>磁盘维护类</h2><ol><li>dd</li><li>fsck–</li><li>hdparm–</li><li>sync–</li></ol><ul><li><a href="https://www.linuxcool.com/fio">fio命令 – 对磁盘进行压力测试</a></li><li><a href="https://www.linuxcool.com/lvscan">lvscan命令 – 扫描LVM逻辑卷</a></li><li><a href="https://www.linuxcool.com/parted">parted命令 – 磁盘分区工具</a></li><li><a href="https://www.linuxcool.com/partx">partx命令 – 显示内核磁盘上分区情况</a></li><li><a href="https://www.linuxcool.com/mkfs-ext4">mkfs.ext4 命令 – 对磁盘设备进行Ext4格式化</a></li><li><a href="https://www.linuxcool.com/vgchange">vgchange命令 – 修改卷组属性</a></li><li><a href="https://www.linuxcool.com/quotaon">quotaon命令 – 激活Linux内核中指定文件系统的磁盘配额功能</a></li><li><a href="https://www.linuxcool.com/lvextend">lvextend命令 – 扩展逻辑卷设备</a></li><li><a href="https://www.linuxcool.com/pvck">pvck命令 – 检测物理卷LVM元数据一致性</a></li><li><a href="https://www.linuxcool.com/mdadm">mdadm命令 – 管理RAID磁盘阵列组</a></li></ul><h2 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h2><ol><li>wget</li><li>curl</li></ol><h2 id="网络通信类"><a href="#网络通信类" class="headerlink" title="网络通信类"></a>网络通信类</h2><ol><li>telnet—</li><li>netconfig–</li><li>nc–</li><li>minicom—</li><li>wall</li><li>netstat—</li><li>talk—</li><li>traceroute</li><li>tty—</li><li>write</li><li>tcpdump—</li></ol><h2 id="系统管理类"><a href="#系统管理类" class="headerlink" title="系统管理类"></a>系统管理类</h2><ol><li>adduser–</li><li>useradd</li><li>exit–</li><li>finger–</li><li>sleep</li><li>suspend–</li><li>groupadd—</li><li>groupdel–</li><li>groupmod–</li><li>kill</li><li>last</li><li>halt</li><li>login–</li><li>logname—</li><li>logout–</li><li>ps</li><li>nice</li><li>top</li><li>reboot</li><li>poweroff</li><li>rsh–</li><li>rlogin–</li><li>pstree–</li><li>screen–</li><li>shutdown</li><li>sudo</li><li>uname</li><li>chsh—</li><li>userdel</li><li>usermod</li><li>who</li><li>whoami</li><li>whois—</li><li>su</li><li>skill—</li><li>w</li><li>id</li><li>free</li></ol><h2 id="系统设置类"><a href="#系统设置类" class="headerlink" title="系统设置类"></a>系统设置类</h2><ol><li>reset–</li><li>clear–</li><li>alias</li><li>bind–</li><li>chroot–</li><li>clock–</li><li>crontab–</li><li>dmesg—</li><li>export—</li><li>rpm—</li><li>insmod—</li><li>lsmod—</li><li>set—</li><li>passwd</li><li>resize—</li><li>rmmod—</li><li>modinfo—</li><li>time—</li><li>setup—</li><li>setenv—</li><li>ulimit</li><li>chkconfig—</li><li>hwclock—</li><li>unalias—</li></ol><h2 id="压缩备份类"><a href="#压缩备份类" class="headerlink" title="压缩备份类"></a>压缩备份类</h2><ol><li>ar</li><li>cpio–</li><li>dump–</li><li>gzip–</li><li>tar</li><li>zip</li><li>unzip</li></ol><ul><li><a href="https://www.linuxcool.com/zip">zip命令 – 压缩文件</a></li><li><a href="https://www.linuxcool.com/unzip">unzip命令 – 解压缩zip文件</a></li><li><a href="https://www.linuxcool.com/zipinfo">zipinfo命令 – 查看压缩文件信息</a></li><li><a href="https://www.linuxcool.com/gzip">gzip命令 – 压缩和解压文件</a></li><li><a href="https://www.linuxcool.com/unarj">unarj命令 – 解压.arj文件</a></li></ul><h2 id="炫技类"><a href="#炫技类" class="headerlink" title="炫技类"></a>炫技类</h2><ol><li>awk–</li><li>xargs</li></ol><h3 id="炫技-快速执行上一条命令"><a href="#炫技-快速执行上一条命令" class="headerlink" title="炫技 - 快速执行上一条命令"></a>炫技 - 快速执行上一条命令</h3><p>第一种方法：在终端输入两个感叹号，然后回车就可以快速地执行上一条命令了。</p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ !!</span><br></pre></td></tr></tbody></table></figure><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol><li>history</li><li>ssh</li><li>tree</li></ol><h2 id="危险命令"><a href="#危险命令" class="headerlink" title="危险命令"></a>危险命令</h2><ul><li>rm</li><li>chmod</li><li>chown</li><li>hostname</li><li>reboot</li><li>poweroff</li><li>halt</li><li>shutdown</li></ul><h2 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h2><ul><li>lscpu</li><li>lspci</li><li>reboot</li><li>poweroff</li><li>halt</li><li>shutdown</li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Linux入门命令汇总&quot;&gt;&lt;a href=&quot;#Linux入门命令汇总&quot; class=&quot;headerlink&quot; title=&quot;Linux入门命令汇总&quot;&gt;&lt;/a&gt;Linux入门命令汇总&lt;/h1&gt;&lt;p&gt;从2021年8月19日开始分享以前陆陆续续汇总的一些小技巧，截止到今</summary>
+      
+    
+    
+    
+    <category term="Linux集锦" scheme="http://shaoguangleo.github.io/categories/Linux%E9%9B%86%E9%94%A6/"/>
+    
+    
+    <category term="Linux" scheme="http://shaoguangleo.github.io/tags/Linux/"/>
+    
+    <category term="Linux汇总" scheme="http://shaoguangleo.github.io/tags/Linux%E6%B1%87%E6%80%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux 入门命令汇总</title>
+    <link href="http://shaoguangleo.github.io/2023/10/08/linux-collection-advanced/"/>
+    <id>http://shaoguangleo.github.io/2023/10/08/linux-collection-advanced/</id>
+    <published>2023-10-08T14:28:00.000Z</published>
+    <updated>2024-02-24T09:28:45.318Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Linux入门命令汇总"><a href="#Linux入门命令汇总" class="headerlink" title="Linux入门命令汇总"></a>Linux入门命令汇总</h1><p>从2021年8月19日开始分享以前陆陆续续汇总的一些小技巧，截止到今天（2021年11月29）为止，100天，100个技巧。</p><p>Bingo，第一个小汇总顺利完成。</p><p>从发送的顺序上来看，100个命令的链接如下所示，PDF汇总文件根据这个顺序，或者字母表顺序，或者分类顺序来进行阅读。<strong>具体参考公众号商店</strong>。</p><ol><li>ls</li><li>cd</li><li>cat</li><li>file</li><li>less</li><li>more</li><li>whatis</li><li>apropos</li><li>man</li><li>mkdir</li><li>cp</li><li>mv</li><li>rm</li><li>rmdir</li><li>df</li><li>du</li><li>pwd</li><li>ln</li><li>chmod</li><li>chown</li><li>su</li><li>sudo</li><li>tail</li><li>head</li><li>free</li><li>touch</li><li>stat</li><li>ping</li><li>ifconfig</li><li>ip</li><li>wall</li><li>write</li><li>tracepath</li><li>date</li><li>useradd</li><li>userdel</li><li>passwd</li><li>tty</li><li>uname</li><li>whoami</li><li>who</li><li>w</li><li>id</li><li>top</li><li>dd</li><li>echo</li><li>kill</li><li>wget</li><li>ps</li><li>wc</li><li>last</li><li>time</li><li>find</li><li>scp</li><li>rsync</li><li>grep</li><li>uniq</li><li>sort</li><li>which</li><li>tar</li><li>history</li><li>alias</li><li>diff</li><li>curl</li><li>usermod</li><li>cal</li><li>sleep</li><li>nice–</li><li>halt–</li><li>login–</li><li>logname—</li><li>logout–</li><li>reboot–</li><li>arp–</li><li>xargs–</li><li>telnet—</li><li>netconfig–</li><li>nc—</li><li>minicom—</li><li>mesg—</li><li>netstat—</li><li>talk—</li><li>traceroute—</li><li>write—</li><li>tcpdump—</li><li>chgrp—</li><li>split—</li><li>join–</li><li>whereis—</li><li>get–</li><li>mcopy—</li><li>ftp—</li><li>fsck–</li><li>hdparm–</li><li>mkfs.xfs—</li><li>sync–</li><li>fdisk–</li><li>exit–</li><li>finger–</li><li>suspend–</li><li>groupdel–</li><li>groupmod–</li><li>rsh–</li><li>rlogin–</li><li>pstree–</li><li>screen–</li><li>chsh—-</li><li>whois—</li><li>skill—</li><li>groupadd—</li><li>reset–</li><li>clear–</li><li>bind–</li><li>chroot–</li><li>clock–</li><li>dmesg—</li><li>export—</li><li>rpm—</li><li>set—</li><li>resize—</li><li>setenv—</li><li>ulimit—</li><li>chkconfig—</li><li>unalias—</li><li>ar—</li><li>dump–</li><li>gzip–</li><li>zip—</li></ol><p>而从分类来讲，主要包括了大概N个类别</p><h2 id="文件管理类"><a href="#文件管理类" class="headerlink" title="文件管理类"></a>文件管理类</h2><ol><li>ls</li><li>cat</li><li>file</li><li>less</li><li>more</li><li>tail</li><li>pwd</li><li>echo</li><li>ln</li><li>chmod</li><li>chown</li><li>chgrp—</li><li>split—</li></ol><h2 id="时间"><a href="#时间" class="headerlink" title="时间"></a>时间</h2><ol><li>date</li><li>cal</li></ol><h2 id="磁盘管理类"><a href="#磁盘管理类" class="headerlink" title="磁盘管理类"></a>磁盘管理类</h2><ol><li>cd</li><li>df</li><li>du</li><li>mkdir</li><li>rmdir</li><li>pwd</li><li>stat</li><li>find</li></ol><h2 id="文档编辑类"><a href="#文档编辑类" class="headerlink" title="文档编辑类"></a>文档编辑类</h2><ol><li>grep</li><li>join–</li><li>sort</li><li>wc</li><li>uniq</li><li>diff</li></ol><h2 id="帮助类"><a href="#帮助类" class="headerlink" title="帮助类"></a>帮助类</h2><ol><li>whatis</li><li>apropos</li><li>man</li><li>which</li><li>whereis</li></ol><h2 id="文件传输类"><a href="#文件传输类" class="headerlink" title="文件传输类"></a>文件传输类</h2><ol><li>cp</li><li>mv</li><li>scp</li><li>rsync</li><li>rcp—</li><li>mcopy—</li><li>ftp—</li><li>tftp—</li><li>ncftp—</li><li>ftpshut—</li><li>ftpwho–</li></ol><h2 id="磁盘维护类"><a href="#磁盘维护类" class="headerlink" title="磁盘维护类"></a>磁盘维护类</h2><ol><li>dd</li><li>fsck–</li><li>hdparm–</li><li>mkfs.xfs—</li><li>sync–</li><li>fdisk–</li></ol><h2 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a>文件传输</h2><ol><li>wget</li><li>curl</li></ol><h2 id="网络通信类"><a href="#网络通信类" class="headerlink" title="网络通信类"></a>网络通信类</h2><ol><li>telnet—</li><li>netconfig–</li><li>nc—</li><li>ifconfig</li><li>ip</li><li>minicom—</li><li>wall</li><li>netstat—</li><li>ping</li><li>talk—</li><li>traceroute—</li><li>tty—</li><li>write</li><li>tcpdump—</li></ol><h2 id="系统管理类"><a href="#系统管理类" class="headerlink" title="系统管理类"></a>系统管理类</h2><ol><li>adduser–</li><li>useradd</li><li>exit–</li><li>finger–</li><li>sleep</li><li>suspend–</li><li>groupdel–</li><li>groupmod–</li><li>kill</li><li>last</li><li>halt–</li><li>login–</li><li>logname—</li><li>logout–</li><li>ps</li><li>nice–</li><li>top</li><li>reboot–</li><li>rsh–</li><li>rlogin–</li><li>pstree–</li><li>screen–</li><li>shutdown–</li><li>sudo</li><li>uname</li><li>chsh—</li><li>userdel</li><li>usermod</li><li>who</li><li>whoami</li><li>whois—</li><li>su</li><li>skill—</li><li>w</li><li>id</li><li>groupadd—</li><li>free</li></ol><h2 id="系统设置类"><a href="#系统设置类" class="headerlink" title="系统设置类"></a>系统设置类</h2><ol><li>reset–</li><li>clear–</li><li>alias</li><li>bind–</li><li>chroot–</li><li>clock–</li><li>crontab–</li><li>dmesg—</li><li>export—</li><li>rpm—</li><li>insmod—</li><li>lsmod—</li><li>set—</li><li>passwd</li><li>resize—</li><li>rmmod—</li><li>modinfo—</li><li>time—</li><li>setup—</li><li>setenv—</li><li>ulimit—</li><li>chkconfig—</li><li>hwclock—</li><li>unalias—</li></ol><h2 id="压缩备份类"><a href="#压缩备份类" class="headerlink" title="压缩备份类"></a>压缩备份类</h2><ol><li>ar</li><li>cpio–</li><li>dump–</li><li>gzip–</li><li>tar</li><li>zip—</li></ol><h2 id="炫技类"><a href="#炫技类" class="headerlink" title="炫技类"></a>炫技类</h2><ol><li>awk–</li><li>xargs–</li></ol><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol><li>history</li><li></li></ol><h2 id="危险命令"><a href="#危险命令" class="headerlink" title="危险命令"></a>危险命令</h2><ul><li>rm</li><li>chmod</li><li>chown</li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Linux入门命令汇总&quot;&gt;&lt;a href=&quot;#Linux入门命令汇总&quot; class=&quot;headerlink&quot; title=&quot;Linux入门命令汇总&quot;&gt;&lt;/a&gt;Linux入门命令汇总&lt;/h1&gt;&lt;p&gt;从2021年8月19日开始分享以前陆陆续续汇总的一些小技巧，截止到今</summary>
+      
+    
+    
+    
+    <category term="Linux集锦" scheme="http://shaoguangleo.github.io/categories/Linux%E9%9B%86%E9%94%A6/"/>
+    
+    
+    <category term="Linux" scheme="http://shaoguangleo.github.io/tags/Linux/"/>
+    
+    <category term="Linux汇总" scheme="http://shaoguangleo.github.io/tags/Linux%E6%B1%87%E6%80%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>比尔布莱森-万物简史-a-really-short-history-of-nearly-everything.md</title>
+    <link href="http://shaoguangleo.github.io/2023/03/02/diary-%E6%AF%94%E5%B0%94%E5%B8%83%E8%8E%B1%E6%A3%AE-%E4%B8%87%E7%89%A9%E7%AE%80%E5%8F%B2-a-really-short-history-of-nearly-everything/"/>
+    <id>http://shaoguangleo.github.io/2023/03/02/diary-%E6%AF%94%E5%B0%94%E5%B8%83%E8%8E%B1%E6%A3%AE-%E4%B8%87%E7%89%A9%E7%AE%80%E5%8F%B2-a-really-short-history-of-nearly-everything/</id>
+    <published>2023-03-02T14:28:00.000Z</published>
+    <updated>2024-02-24T09:28:45.110Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="比尔布莱森-万物简史-a-really-short-history-of-nearly-everything"><a href="#比尔布莱森-万物简史-a-really-short-history-of-nearly-everything" class="headerlink" title="比尔布莱森-万物简史-a-really-short-history-of-nearly-everything"></a>比尔布莱森-万物简史-a-really-short-history-of-nearly-everything</h1><p>为天地立传 为万物简史</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;比尔布莱森-万物简史-a-really-short-history-of-nearly-everything&quot;&gt;&lt;a href=&quot;#比尔布莱森-万物简史-a-really-short-history-of-nearly-everything&quot; class=&quot;hea</summary>
+      
+    
+    
+    
+    <category term="天文兄弟" scheme="http://shaoguangleo.github.io/categories/%E5%A4%A9%E6%96%87%E5%85%84%E5%BC%9F/"/>
+    
+    
+    <category term="儿童" scheme="http://shaoguangleo.github.io/tags/%E5%84%BF%E7%AB%A5/"/>
+    
+    <category term="life" scheme="http://shaoguangleo.github.io/tags/life/"/>
+    
+    <category term="绘本" scheme="http://shaoguangleo.github.io/tags/%E7%BB%98%E6%9C%AC/"/>
+    
+    <category term="比尔布莱森" scheme="http://shaoguangleo.github.io/tags/%E6%AF%94%E5%B0%94%E5%B8%83%E8%8E%B1%E6%A3%AE/"/>
+    
+    <category term="欧盟委员会笛卡尔科普奖" scheme="http://shaoguangleo.github.io/tags/%E6%AC%A7%E7%9B%9F%E5%A7%94%E5%91%98%E4%BC%9A%E7%AC%9B%E5%8D%A1%E5%B0%94%E7%A7%91%E6%99%AE%E5%A5%96/"/>
+    
+    <category term="英国皇家学会安万特奖" scheme="http://shaoguangleo.github.io/tags/%E8%8B%B1%E5%9B%BD%E7%9A%87%E5%AE%B6%E5%AD%A6%E4%BC%9A%E5%AE%89%E4%B8%87%E7%89%B9%E5%A5%96/"/>
+    
+    <category term="美国科学杂志最佳科学著作奖" scheme="http://shaoguangleo.github.io/tags/%E7%BE%8E%E5%9B%BD%E7%A7%91%E5%AD%A6%E6%9D%82%E5%BF%97%E6%9C%80%E4%BD%B3%E7%A7%91%E5%AD%A6%E8%91%97%E4%BD%9C%E5%A5%96/"/>
+    
+    <category term="首届中华优秀出版物奖" scheme="http://shaoguangleo.github.io/tags/%E9%A6%96%E5%B1%8A%E4%B8%AD%E5%8D%8E%E4%BC%98%E7%A7%80%E5%87%BA%E7%89%88%E7%89%A9%E5%A5%96/"/>
+    
+    <category term="吴大猷科学普及奖及著作奖" scheme="http://shaoguangleo.github.io/tags/%E5%90%B4%E5%A4%A7%E7%8C%B7%E7%A7%91%E5%AD%A6%E6%99%AE%E5%8F%8A%E5%A5%96%E5%8F%8A%E8%91%97%E4%BD%9C%E5%A5%96/"/>
+    
+    <category term="国家图书馆文津图书奖" scheme="http://shaoguangleo.github.io/tags/%E5%9B%BD%E5%AE%B6%E5%9B%BE%E4%B9%A6%E9%A6%86%E6%96%87%E6%B4%A5%E5%9B%BE%E4%B9%A6%E5%A5%96/"/>
+    
+    <category term="新中国60年最具影响力的600本书" scheme="http://shaoguangleo.github.io/tags/%E6%96%B0%E4%B8%AD%E5%9B%BD60%E5%B9%B4%E6%9C%80%E5%85%B7%E5%BD%B1%E5%93%8D%E5%8A%9B%E7%9A%84600%E6%9C%AC%E4%B9%A6/"/>
+    
+    <category term="改革开发30年最具影响力的300本书" scheme="http://shaoguangleo.github.io/tags/%E6%94%B9%E9%9D%A9%E5%BC%80%E5%8F%9130%E5%B9%B4%E6%9C%80%E5%85%B7%E5%BD%B1%E5%93%8D%E5%8A%9B%E7%9A%84300%E6%9C%AC%E4%B9%A6/"/>
+    
+    <category term="改革开发30年30部优秀科普翻译图书" scheme="http://shaoguangleo.github.io/tags/%E6%94%B9%E9%9D%A9%E5%BC%80%E5%8F%9130%E5%B9%B430%E9%83%A8%E4%BC%98%E7%A7%80%E7%A7%91%E6%99%AE%E7%BF%BB%E8%AF%91%E5%9B%BE%E4%B9%A6/"/>
+    
+    <category term="大块头" scheme="http://shaoguangleo.github.io/tags/%E5%A4%A7%E5%9D%97%E5%A4%B4/"/>
+    
+    <category term="6岁" scheme="http://shaoguangleo.github.io/tags/6%E5%B2%81/"/>
+    
+    <category term="中国" scheme="http://shaoguangleo.github.io/tags/%E4%B8%AD%E5%9B%BD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>diary-米莱童书-生命简史从宇宙起源到人类文明</title>
+    <link href="http://shaoguangleo.github.io/2023/03/02/diary-%E7%B1%B3%E8%8E%B1%E7%AB%A5%E4%B9%A6-%E7%94%9F%E5%91%BD%E7%AE%80%E5%8F%B2%E4%BB%8E%E5%AE%87%E5%AE%99%E8%B5%B7%E6%BA%90%E5%88%B0%E4%BA%BA%E7%B1%BB%E6%96%87%E6%98%8E/"/>
+    <id>http://shaoguangleo.github.io/2023/03/02/diary-%E7%B1%B3%E8%8E%B1%E7%AB%A5%E4%B9%A6-%E7%94%9F%E5%91%BD%E7%AE%80%E5%8F%B2%E4%BB%8E%E5%AE%87%E5%AE%99%E8%B5%B7%E6%BA%90%E5%88%B0%E4%BA%BA%E7%B1%BB%E6%96%87%E6%98%8E/</id>
+    <published>2023-03-02T14:28:00.000Z</published>
+    <updated>2024-02-24T09:28:45.110Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="米莱童书-生命简史从宇宙起源到人类文明"><a href="#米莱童书-生命简史从宇宙起源到人类文明" class="headerlink" title="米莱童书-生命简史从宇宙起源到人类文明"></a>米莱童书-生命简史从宇宙起源到人类文明</h1><p>天文最爱看的是几次生物大灭绝事件</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;米莱童书-生命简史从宇宙起源到人类文明&quot;&gt;&lt;a href=&quot;#米莱童书-生命简史从宇宙起源到人类文明&quot; class=&quot;headerlink&quot; title=&quot;米莱童书-生命简史从宇宙起源到人类文明&quot;&gt;&lt;/a&gt;米莱童书-生命简史从宇宙起源到人类文明&lt;/h1&gt;&lt;p&gt;天文</summary>
+      
+    
+    
+    
+    <category term="天文兄弟" scheme="http://shaoguangleo.github.io/categories/%E5%A4%A9%E6%96%87%E5%85%84%E5%BC%9F/"/>
+    
+    
+    <category term="儿童" scheme="http://shaoguangleo.github.io/tags/%E5%84%BF%E7%AB%A5/"/>
+    
+    <category term="life" scheme="http://shaoguangleo.github.io/tags/life/"/>
+    
+    <category term="绘本" scheme="http://shaoguangleo.github.io/tags/%E7%BB%98%E6%9C%AC/"/>
+    
+    <category term="大块头" scheme="http://shaoguangleo.github.io/tags/%E5%A4%A7%E5%9D%97%E5%A4%B4/"/>
+    
+    <category term="6岁" scheme="http://shaoguangleo.github.io/tags/6%E5%B2%81/"/>
+    
+    <category term="中国" scheme="http://shaoguangleo.github.io/tags/%E4%B8%AD%E5%9B%BD/"/>
+    
+    <category term="米莱童书" scheme="http://shaoguangleo.github.io/tags/%E7%B1%B3%E8%8E%B1%E7%AB%A5%E4%B9%A6/"/>
+    
+    <category term="自然资源部优秀科普图书" scheme="http://shaoguangleo.github.io/tags/%E8%87%AA%E7%84%B6%E8%B5%84%E6%BA%90%E9%83%A8%E4%BC%98%E7%A7%80%E7%A7%91%E6%99%AE%E5%9B%BE%E4%B9%A6/"/>
+    
+    <category term="原动力中国原创动漫出版大奖" scheme="http://shaoguangleo.github.io/tags/%E5%8E%9F%E5%8A%A8%E5%8A%9B%E4%B8%AD%E5%9B%BD%E5%8E%9F%E5%88%9B%E5%8A%A8%E6%BC%AB%E5%87%BA%E7%89%88%E5%A4%A7%E5%A5%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>小脚尖蒂米的故事-the-tale-of-timmy-tiptose</title>
+    <link href="http://shaoguangleo.github.io/2022/10/30/diary-%E6%AF%95%E7%BF%A0%E5%85%8B%E4%B8%9D%E6%B3%A2%E7%89%B9-%E5%B0%8F%E8%84%9A%E5%B0%96%E8%92%82%E7%B1%B3%E7%9A%84%E6%95%85%E4%BA%8B-the-tale-of-timmy-tiptose/"/>
+    <id>http://shaoguangleo.github.io/2022/10/30/diary-%E6%AF%95%E7%BF%A0%E5%85%8B%E4%B8%9D%E6%B3%A2%E7%89%B9-%E5%B0%8F%E8%84%9A%E5%B0%96%E8%92%82%E7%B1%B3%E7%9A%84%E6%95%85%E4%BA%8B-the-tale-of-timmy-tiptose/</id>
+    <published>2022-10-30T14:47:00.000Z</published>
+    <updated>2024-02-24T09:28:45.110Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="小脚尖蒂米的故事"><a href="#小脚尖蒂米的故事" class="headerlink" title="小脚尖蒂米的故事"></a>小脚尖蒂米的故事</h1><p>听到吃胖了爬不出洞来， 让人忍俊不禁~</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;小脚尖蒂米的故事&quot;&gt;&lt;a href=&quot;#小脚尖蒂米的故事&quot; class=&quot;headerlink&quot; title=&quot;小脚尖蒂米的故事&quot;&gt;&lt;/a&gt;小脚尖蒂米的故事&lt;/h1&gt;&lt;p&gt;听到吃胖了爬不出洞来， 让人忍俊不禁~&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    <category term="天文兄弟" scheme="http://shaoguangleo.github.io/categories/%E5%A4%A9%E6%96%87%E5%85%84%E5%BC%9F/"/>
+    
+    
+    <category term="儿童" scheme="http://shaoguangleo.github.io/tags/%E5%84%BF%E7%AB%A5/"/>
+    
+    <category term="life" scheme="http://shaoguangleo.github.io/tags/life/"/>
+    
+    <category term="绘本" scheme="http://shaoguangleo.github.io/tags/%E7%BB%98%E6%9C%AC/"/>
+    
+    <category term="毕翠克丝波特" scheme="http://shaoguangleo.github.io/tags/%E6%AF%95%E7%BF%A0%E5%85%8B%E4%B8%9D%E6%B3%A2%E7%89%B9/"/>
+    
+    <category term="3岁" scheme="http://shaoguangleo.github.io/tags/3%E5%B2%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>比特兔的故事-the-tale-of-peter-rabbit</title>
+    <link href="http://shaoguangleo.github.io/2022/10/12/diary-%E6%AF%95%E7%BF%A0%E5%85%8B%E4%B8%9D%E6%B3%A2%E7%89%B9-%E6%AF%94%E7%89%B9%E5%85%94%E7%9A%84%E6%95%85%E4%BA%8B-the-tale-of-peter-rabbit/"/>
+    <id>http://shaoguangleo.github.io/2022/10/12/diary-%E6%AF%95%E7%BF%A0%E5%85%8B%E4%B8%9D%E6%B3%A2%E7%89%B9-%E6%AF%94%E7%89%B9%E5%85%94%E7%9A%84%E6%95%85%E4%BA%8B-the-tale-of-peter-rabbit/</id>
+    <published>2022-10-12T14:47:00.000Z</published>
+    <updated>2024-02-24T09:28:45.110Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="彼得兔的故事-the-tale-of-peter-rabbit"><a href="#彼得兔的故事-the-tale-of-peter-rabbit" class="headerlink" title="彼得兔的故事-the tale of peter rabbit"></a>彼得兔的故事-the tale of peter rabbit</h1><p>历经百年，获奖无数，依旧被世界喜欢的彼得兔。</p><p>所有的孩子都应该知道的“彼得兔”。</p><p>《比得兔》的创作来自于1893年，波特小姐写给她家庭教师的五岁儿子的信件。<br>这位家庭老师的儿子长期卧病在床，波特小姐不知道这封信该说些什么，就讲个故事作为这位小男孩的娱乐，并且在故事当中鼓励他。 </p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;彼得兔的故事-the-tale-of-peter-rabbit&quot;&gt;&lt;a href=&quot;#彼得兔的故事-the-tale-of-peter-rabbit&quot; class=&quot;headerlink&quot; title=&quot;彼得兔的故事-the tale of peter rabbi</summary>
+      
+    
+    
+    
+    <category term="天文兄弟" scheme="http://shaoguangleo.github.io/categories/%E5%A4%A9%E6%96%87%E5%85%84%E5%BC%9F/"/>
+    
+    
+    <category term="儿童" scheme="http://shaoguangleo.github.io/tags/%E5%84%BF%E7%AB%A5/"/>
+    
+    <category term="life" scheme="http://shaoguangleo.github.io/tags/life/"/>
+    
+    <category term="绘本" scheme="http://shaoguangleo.github.io/tags/%E7%BB%98%E6%9C%AC/"/>
+    
+    <category term="毕翠克丝波特" scheme="http://shaoguangleo.github.io/tags/%E6%AF%95%E7%BF%A0%E5%85%8B%E4%B8%9D%E6%B3%A2%E7%89%B9/"/>
+    
+    <category term="3岁" scheme="http://shaoguangleo.github.io/tags/3%E5%B2%81/"/>
+    
+    <category term="百年绘本" scheme="http://shaoguangleo.github.io/tags/%E7%99%BE%E5%B9%B4%E7%BB%98%E6%9C%AC/"/>
+    
+    <category term="美国纽约公共图书馆-每个人都应该知道的100种图画书" scheme="http://shaoguangleo.github.io/tags/%E7%BE%8E%E5%9B%BD%E7%BA%BD%E7%BA%A6%E5%85%AC%E5%85%B1%E5%9B%BE%E4%B9%A6%E9%A6%86-%E6%AF%8F%E4%B8%AA%E4%BA%BA%E9%83%BD%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84100%E7%A7%8D%E5%9B%BE%E7%94%BB%E4%B9%A6/"/>
+    
+    <category term="美国出版者周刊-所有时代最畅销童书-第2名" scheme="http://shaoguangleo.github.io/tags/%E7%BE%8E%E5%9B%BD%E5%87%BA%E7%89%88%E8%80%85%E5%91%A8%E5%88%8A-%E6%89%80%E6%9C%89%E6%97%B6%E4%BB%A3%E6%9C%80%E7%95%85%E9%94%80%E7%AB%A5%E4%B9%A6-%E7%AC%AC2%E5%90%8D/"/>
+    
+    <category term="美国全国教育协会-100本最佳童书" scheme="http://shaoguangleo.github.io/tags/%E7%BE%8E%E5%9B%BD%E5%85%A8%E5%9B%BD%E6%95%99%E8%82%B2%E5%8D%8F%E4%BC%9A-100%E6%9C%AC%E6%9C%80%E4%BD%B3%E7%AB%A5%E4%B9%A6/"/>
+    
+    <category term="美国全国教育协会-教师们推荐的100本书" scheme="http://shaoguangleo.github.io/tags/%E7%BE%8E%E5%9B%BD%E5%85%A8%E5%9B%BD%E6%95%99%E8%82%B2%E5%8D%8F%E4%BC%9A-%E6%95%99%E5%B8%88%E4%BB%AC%E6%8E%A8%E8%8D%90%E7%9A%84100%E6%9C%AC%E4%B9%A6/"/>
+    
+    <category term="日本儿童文学者协会-世界图画书100选" scheme="http://shaoguangleo.github.io/tags/%E6%97%A5%E6%9C%AC%E5%84%BF%E7%AB%A5%E6%96%87%E5%AD%A6%E8%80%85%E5%8D%8F%E4%BC%9A-%E4%B8%96%E7%95%8C%E5%9B%BE%E7%94%BB%E4%B9%A6100%E9%80%89/"/>
+    
+    <category term="1902年" scheme="http://shaoguangleo.github.io/tags/1902%E5%B9%B4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>和我一起玩 play with me</title>
+    <link href="http://shaoguangleo.github.io/2022/10/12/diary-%E7%8E%9B%E4%B8%BD%E8%8D%B7%E8%89%BE%E6%96%AF-%E5%92%8C%E6%88%91%E4%B8%80%E8%B5%B7%E7%8E%A9-play-with-me/"/>
+    <id>http://shaoguangleo.github.io/2022/10/12/diary-%E7%8E%9B%E4%B8%BD%E8%8D%B7%E8%89%BE%E6%96%AF-%E5%92%8C%E6%88%91%E4%B8%80%E8%B5%B7%E7%8E%A9-play-with-me/</id>
+    <published>2022-10-12T14:47:00.000Z</published>
+    <updated>2024-02-24T09:28:45.110Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="和我一起玩-play-with-me"><a href="#和我一起玩-play-with-me" class="headerlink" title="和我一起玩 play with me"></a>和我一起玩 play with me</h1><p>虽然是1955年的绘本，读来还是真挚而怀念。</p><p>小女孩走在草地上，陆续邀请小动物和她一起玩，可是每当她提出邀请时，动物们却都离开了，直到她静静地坐在石头上，令人意外的事情发生了……小动物们又回来了！</p><p>静观万物的纯真童年</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;和我一起玩-play-with-me&quot;&gt;&lt;a href=&quot;#和我一起玩-play-with-me&quot; class=&quot;headerlink&quot; title=&quot;和我一起玩 play with me&quot;&gt;&lt;/a&gt;和我一起玩 play with me&lt;/h1&gt;&lt;p&gt;虽然是195</summary>
+      
+    
+    
+    
+    <category term="天文兄弟" scheme="http://shaoguangleo.github.io/categories/%E5%A4%A9%E6%96%87%E5%85%84%E5%BC%9F/"/>
+    
+    
+    <category term="儿童" scheme="http://shaoguangleo.github.io/tags/%E5%84%BF%E7%AB%A5/"/>
+    
+    <category term="life" scheme="http://shaoguangleo.github.io/tags/life/"/>
+    
+    <category term="绘本" scheme="http://shaoguangleo.github.io/tags/%E7%BB%98%E6%9C%AC/"/>
+    
+    <category term="美国凯迪克大奖" scheme="http://shaoguangleo.github.io/tags/%E7%BE%8E%E5%9B%BD%E5%87%AF%E8%BF%AA%E5%85%8B%E5%A4%A7%E5%A5%96/"/>
+    
+    <category term="3岁" scheme="http://shaoguangleo.github.io/tags/3%E5%B2%81/"/>
+    
+    <category term="玛丽·荷·艾斯" scheme="http://shaoguangleo.github.io/tags/%E7%8E%9B%E4%B8%BD%C2%B7%E8%8D%B7%C2%B7%E8%89%BE%E6%96%AF/"/>
+    
+    <category term="国际安徒生文学奖优秀作品奖" scheme="http://shaoguangleo.github.io/tags/%E5%9B%BD%E9%99%85%E5%AE%89%E5%BE%92%E7%94%9F%E6%96%87%E5%AD%A6%E5%A5%96%E4%BC%98%E7%A7%80%E4%BD%9C%E5%93%81%E5%A5%96/"/>
+    
+    <category term="1955年" scheme="http://shaoguangleo.github.io/tags/1955%E5%B9%B4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sed 入门</title>
+    <link href="http://shaoguangleo.github.io/2022/07/07/linux-sed-beginner/"/>
+    <id>http://shaoguangleo.github.io/2022/07/07/linux-sed-beginner/</id>
+    <published>2022-07-07T14:28:00.000Z</published>
+    <updated>2024-02-24T09:28:45.350Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="sed-command-examples"><a href="#sed-command-examples" class="headerlink" title="sed command examples"></a>sed command examples</h1><p>When you copy a DOS file to Unix, you could find \r\n in the end of each line. This example converts the DOS file format to Unix file format using sed command.</p><figure class="highlight arcade"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">$sed</span> <span class="string">'s/.$//'</span> filename</span><br></pre></td></tr></tbody></table></figure><p>Print file content in reverse order</p><figure class="highlight dart"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sed -n <span class="string">'1!G;h;<span class="subst">$p</span>'</span> thegeekstuff.txt</span><br></pre></td></tr></tbody></table></figure><p>Add line number for all non-empty-lines in a file</p><figure class="highlight elixir"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>sed <span class="string">'/./='</span> thegeekstuff.txt | sed <span class="string">'N; s/\n/ /'</span></span><br></pre></td></tr></tbody></table></figure><p>More sed examples: <a href="https://www.thegeekstuff.com/2009/10/unix-sed-tutorial-advanced-sed-substitution-examples/">Advanced Sed Substitution Examples</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;sed-command-examples&quot;&gt;&lt;a href=&quot;#sed-command-examples&quot; class=&quot;headerlink&quot; title=&quot;sed command examples&quot;&gt;&lt;/a&gt;sed command examples&lt;/h1&gt;&lt;</summary>
+      
+    
+    
+    
+    <category term="Linux入门" scheme="http://shaoguangleo.github.io/categories/Linux%E5%85%A5%E9%97%A8/"/>
+    
+    
+    <category term="linux" scheme="http://shaoguangleo.github.io/tags/linux/"/>
+    
+    <category term="目录导航" scheme="http://shaoguangleo.github.io/tags/%E7%9B%AE%E5%BD%95%E5%AF%BC%E8%88%AA/"/>
+    
+    <category term="ls" scheme="http://shaoguangleo.github.io/tags/ls/"/>
+    
+    <category term="文件管理" scheme="http://shaoguangleo.github.io/tags/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>黑珠圆笔</title>
+    <link href="http://shaoguangleo.github.io/2022/04/16/diary-20220416-ballpoint-pen/"/>
+    <id>http://shaoguangleo.github.io/2022/04/16/diary-20220416-ballpoint-pen/</id>
+    <published>2022-04-16T14:47:00.000Z</published>
+    <updated>2024-02-24T09:28:45.110Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="黑珠圆笔"><a href="#黑珠圆笔" class="headerlink" title="黑珠圆笔"></a>黑珠圆笔</h1><p>文文：爸爸..，给我用一下你的黑珠圆笔</p><p>爸爸：【黑线飘过】啥？</p><p>文文：黑珠圆笔，就这个 【手里拿着一个黑色圆珠笔】</p><p>爸爸：好吧，这就是黑珠圆笔</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;黑珠圆笔&quot;&gt;&lt;a href=&quot;#黑珠圆笔&quot; class=&quot;headerlink&quot; title=&quot;黑珠圆笔&quot;&gt;&lt;/a&gt;黑珠圆笔&lt;/h1&gt;&lt;p&gt;文文：爸爸..，给我用一下你的黑珠圆笔&lt;/p&gt;
+&lt;p&gt;爸爸：【黑线飘过】啥？&lt;/p&gt;
+&lt;p&gt;文文：黑珠圆笔，就这个 【手里拿</summary>
+      
+    
+    
+    
+    <category term="日记" scheme="http://shaoguangleo.github.io/categories/%E6%97%A5%E8%AE%B0/"/>
+    
+    <category term="生活" scheme="http://shaoguangleo.github.io/categories/%E6%97%A5%E8%AE%B0/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+    <category term="life" scheme="http://shaoguangleo.github.io/tags/life/"/>
+    
+    <category term="童言无忌" scheme="http://shaoguangleo.github.io/tags/%E7%AB%A5%E8%A8%80%E6%97%A0%E5%BF%8C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>老脚？</title>
+    <link href="http://shaoguangleo.github.io/2022/04/12/diary-20220412-feet/"/>
+    <id>http://shaoguangleo.github.io/2022/04/12/diary-20220412-feet/</id>
+    <published>2022-04-12T14:47:00.000Z</published>
+    <updated>2024-02-24T09:28:45.110Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="老脚和小脚"><a href="#老脚和小脚" class="headerlink" title="老脚和小脚"></a>老脚和小脚</h1><p>文文：爸爸..，我的脚好看吧</p><p>爸爸：好看，特别好看，跟爸爸的一样</p><p>文文：不一样，爸爸的是老脚，我的是漂亮的小脚</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;老脚和小脚&quot;&gt;&lt;a href=&quot;#老脚和小脚&quot; class=&quot;headerlink&quot; title=&quot;老脚和小脚&quot;&gt;&lt;/a&gt;老脚和小脚&lt;/h1&gt;&lt;p&gt;文文：爸爸..，我的脚好看吧&lt;/p&gt;
+&lt;p&gt;爸爸：好看，特别好看，跟爸爸的一样&lt;/p&gt;
+&lt;p&gt;文文：不一样，爸爸的是</summary>
+      
+    
+    
+    
+    <category term="日记" scheme="http://shaoguangleo.github.io/categories/%E6%97%A5%E8%AE%B0/"/>
+    
+    <category term="生活" scheme="http://shaoguangleo.github.io/categories/%E6%97%A5%E8%AE%B0/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+    <category term="life" scheme="http://shaoguangleo.github.io/tags/life/"/>
+    
+    <category term="童言无忌" scheme="http://shaoguangleo.github.io/tags/%E7%AB%A5%E8%A8%80%E6%97%A0%E5%BF%8C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>永远永远爱你</title>
+    <link href="http://shaoguangleo.github.io/2022/04/12/diary-%E5%AE%AB%E8%A5%BF%E8%BE%BE%E4%B9%9F-%E4%BD%A0%E7%9C%8B%E8%B5%B7%E6%9D%A5%E5%A5%BD%E5%83%8F%E5%BE%88%E5%A5%BD%E5%90%83-you-are-yumyum/"/>
+    <id>http://shaoguangleo.github.io/2022/04/12/diary-%E5%AE%AB%E8%A5%BF%E8%BE%BE%E4%B9%9F-%E4%BD%A0%E7%9C%8B%E8%B5%B7%E6%9D%A5%E5%A5%BD%E5%83%8F%E5%BE%88%E5%A5%BD%E5%90%83-you-are-yumyum/</id>
+    <published>2022-04-12T14:47:00.000Z</published>
+    <updated>2024-02-24T09:28:45.110Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="永远永远爱你"><a href="#永远永远爱你" class="headerlink" title="永远永远爱你"></a>永远永远爱你</h1><p>可爱萌萌哒霸王龙</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;永远永远爱你&quot;&gt;&lt;a href=&quot;#永远永远爱你&quot; class=&quot;headerlink&quot; title=&quot;永远永远爱你&quot;&gt;&lt;/a&gt;永远永远爱你&lt;/h1&gt;&lt;p&gt;可爱萌萌哒霸王龙&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    <category term="天文兄弟" scheme="http://shaoguangleo.github.io/categories/%E5%A4%A9%E6%96%87%E5%85%84%E5%BC%9F/"/>
+    
+    
+    <category term="儿童" scheme="http://shaoguangleo.github.io/tags/%E5%84%BF%E7%AB%A5/"/>
+    
+    <category term="life" scheme="http://shaoguangleo.github.io/tags/life/"/>
+    
+    <category term="绘本" scheme="http://shaoguangleo.github.io/tags/%E7%BB%98%E6%9C%AC/"/>
+    
+    <category term="宫西达也" scheme="http://shaoguangleo.github.io/tags/%E5%AE%AB%E8%A5%BF%E8%BE%BE%E4%B9%9F/"/>
+    
+    <category term="蒲蒲兰" scheme="http://shaoguangleo.github.io/tags/%E8%92%B2%E8%92%B2%E5%85%B0/"/>
+    
+    <category term="日本" scheme="http://shaoguangleo.github.io/tags/%E6%97%A5%E6%9C%AC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>你真好</title>
+    <link href="http://shaoguangleo.github.io/2022/04/12/diary-%E5%AE%AB%E8%A5%BF%E8%BE%BE%E4%B9%9F-%E4%BD%A0%E7%9C%9F%E5%A5%BD-how-wonderful-you-are/"/>
+    <id>http://shaoguangleo.github.io/2022/04/12/diary-%E5%AE%AB%E8%A5%BF%E8%BE%BE%E4%B9%9F-%E4%BD%A0%E7%9C%9F%E5%A5%BD-how-wonderful-you-are/</id>
+    <published>2022-04-12T14:47:00.000Z</published>
+    <updated>2024-02-24T09:28:45.110Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="你真好"><a href="#你真好" class="headerlink" title="你真好"></a>你真好</h1><p>可爱的薄片龙改变了霸王龙</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;你真好&quot;&gt;&lt;a href=&quot;#你真好&quot; class=&quot;headerlink&quot; title=&quot;你真好&quot;&gt;&lt;/a&gt;你真好&lt;/h1&gt;&lt;p&gt;可爱的薄片龙改变了霸王龙&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    <category term="天文兄弟" scheme="http://shaoguangleo.github.io/categories/%E5%A4%A9%E6%96%87%E5%85%84%E5%BC%9F/"/>
+    
+    
+    <category term="儿童" scheme="http://shaoguangleo.github.io/tags/%E5%84%BF%E7%AB%A5/"/>
+    
+    <category term="life" scheme="http://shaoguangleo.github.io/tags/life/"/>
+    
+    <category term="绘本" scheme="http://shaoguangleo.github.io/tags/%E7%BB%98%E6%9C%AC/"/>
+    
+    <category term="宫西达也" scheme="http://shaoguangleo.github.io/tags/%E5%AE%AB%E8%A5%BF%E8%BE%BE%E4%B9%9F/"/>
+    
+    <category term="蒲蒲兰" scheme="http://shaoguangleo.github.io/tags/%E8%92%B2%E8%92%B2%E5%85%B0/"/>
+    
+    <category term="日本" scheme="http://shaoguangleo.github.io/tags/%E6%97%A5%E6%9C%AC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>永远永远爱你</title>
+    <link href="http://shaoguangleo.github.io/2022/04/12/diary-%E5%AE%AB%E8%A5%BF%E8%BE%BE%E4%B9%9F-%E6%88%91%E7%88%B1%E4%BD%A0-i-ove-you/"/>
+    <id>http://shaoguangleo.github.io/2022/04/12/diary-%E5%AE%AB%E8%A5%BF%E8%BE%BE%E4%B9%9F-%E6%88%91%E7%88%B1%E4%BD%A0-i-ove-you/</id>
+    <published>2022-04-12T14:47:00.000Z</published>
+    <updated>2024-02-24T09:28:45.110Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="永远永远爱你"><a href="#永远永远爱你" class="headerlink" title="永远永远爱你"></a>永远永远爱你</h1><p>可爱萌萌哒霸王龙</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;永远永远爱你&quot;&gt;&lt;a href=&quot;#永远永远爱你&quot; class=&quot;headerlink&quot; title=&quot;永远永远爱你&quot;&gt;&lt;/a&gt;永远永远爱你&lt;/h1&gt;&lt;p&gt;可爱萌萌哒霸王龙&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    <category term="天文兄弟" scheme="http://shaoguangleo.github.io/categories/%E5%A4%A9%E6%96%87%E5%85%84%E5%BC%9F/"/>
+    
+    
+    <category term="儿童" scheme="http://shaoguangleo.github.io/tags/%E5%84%BF%E7%AB%A5/"/>
+    
+    <category term="life" scheme="http://shaoguangleo.github.io/tags/life/"/>
+    
+    <category term="绘本" scheme="http://shaoguangleo.github.io/tags/%E7%BB%98%E6%9C%AC/"/>
+    
+    <category term="宫西达也" scheme="http://shaoguangleo.github.io/tags/%E5%AE%AB%E8%A5%BF%E8%BE%BE%E4%B9%9F/"/>
+    
+    <category term="蒲蒲兰" scheme="http://shaoguangleo.github.io/tags/%E8%92%B2%E8%92%B2%E5%85%B0/"/>
+    
+    <category term="日本" scheme="http://shaoguangleo.github.io/tags/%E6%97%A5%E6%9C%AC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我相信你</title>
+    <link href="http://shaoguangleo.github.io/2022/04/12/diary-%E5%AE%AB%E8%A5%BF%E8%BE%BE%E4%B9%9F-%E6%88%91%E7%9B%B8%E4%BF%A1%E4%BD%A0-i-believe-in-you/"/>
+    <id>http://shaoguangleo.github.io/2022/04/12/diary-%E5%AE%AB%E8%A5%BF%E8%BE%BE%E4%B9%9F-%E6%88%91%E7%9B%B8%E4%BF%A1%E4%BD%A0-i-believe-in-you/</id>
+    <published>2022-04-12T14:47:00.000Z</published>
+    <updated>2024-02-24T09:28:45.110Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="你真好"><a href="#你真好" class="headerlink" title="你真好"></a>你真好</h1><p>信任可以改变霸王龙</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;你真好&quot;&gt;&lt;a href=&quot;#你真好&quot; class=&quot;headerlink&quot; title=&quot;你真好&quot;&gt;&lt;/a&gt;你真好&lt;/h1&gt;&lt;p&gt;信任可以改变霸王龙&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    <category term="天文兄弟" scheme="http://shaoguangleo.github.io/categories/%E5%A4%A9%E6%96%87%E5%85%84%E5%BC%9F/"/>
+    
+    
+    <category term="儿童" scheme="http://shaoguangleo.github.io/tags/%E5%84%BF%E7%AB%A5/"/>
+    
+    <category term="life" scheme="http://shaoguangleo.github.io/tags/life/"/>
+    
+    <category term="绘本" scheme="http://shaoguangleo.github.io/tags/%E7%BB%98%E6%9C%AC/"/>
+    
+    <category term="宫西达也" scheme="http://shaoguangleo.github.io/tags/%E5%AE%AB%E8%A5%BF%E8%BE%BE%E4%B9%9F/"/>
+    
+    <category term="蒲蒲兰" scheme="http://shaoguangleo.github.io/tags/%E8%92%B2%E8%92%B2%E5%85%B0/"/>
+    
+    <category term="日本" scheme="http://shaoguangleo.github.io/tags/%E6%97%A5%E6%9C%AC/"/>
+    
+  </entry>
+  
+</feed>
