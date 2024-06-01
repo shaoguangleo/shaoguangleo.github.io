@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="linux中最常用的文件管理命令  仅个人想法，会持续不间断更新和改进。  在 Linux 系统中，文件管理是基础且重要。 如何显示，如何查找，如何编辑，如何删除，如何复制，如何移动，如何重命名，如何创建，如何修改，如何查看文件的属性等等，都是我们在日常工作中经常会用到的命令。 Linux的文件管理命令也会帮助你更高效地在终端中操作文件和目录。 而其中最绕不开的当属以下几个。  最常用的且没有之一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux中最常用的文件管理命令">
+<meta property="og:url" content="http://shaoguangleo.github.io/2023/10/17/linux-collection-file-management/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="linux中最常用的文件管理命令  仅个人想法，会持续不间断更新和改进。  在 Linux 系统中，文件管理是基础且重要。 如何显示，如何查找，如何编辑，如何删除，如何复制，如何移动，如何重命名，如何创建，如何修改，如何查看文件的属性等等，都是我们在日常工作中经常会用到的命令。 Linux的文件管理命令也会帮助你更高效地在终端中操作文件和目录。 而其中最绕不开的当属以下几个。  最常用的且没有之一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.githubassets.com/images/icons/emoji/unicode/1f601.png?v8">
+<meta property="og:image" content="http://shaoguangleo.github.io/2023/10/17/linux-collection-file-management/images/linux-chmod.jpg">
+<meta property="article:published_time" content="2023-10-17T14:28:00.000Z">
+<meta property="article:modified_time" content="2024-06-01T02:53:15.896Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="echo">
+<meta property="article:tag" content="cat">
+<meta property="article:tag" content="pwd">
+<meta property="article:tag" content="chgrp">
+<meta property="article:tag" content="chmod">
+<meta property="article:tag" content="chown">
+<meta property="article:tag" content="ls">
+<meta property="article:tag" content="tac">
+<meta property="article:tag" content="file">
+<meta property="article:tag" content="less">
+<meta property="article:tag" content="more">
+<meta property="article:tag" content="tail">
+<meta property="article:tag" content="ln">
+<meta property="article:tag" content="tee">
+<meta property="article:tag" content="文件管理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.githubassets.com/images/icons/emoji/unicode/1f601.png?v8">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2023/10/17/linux-collection-file-management/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>linux中最常用的文件管理命令 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2023/10/17/linux-collection-file-management/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linux中最常用的文件管理命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-10-17 22:28:00" itemprop="dateCreated datePublished" datetime="2023-10-17T22:28:00+08:00">2023-10-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-06-01 10:53:15" itemprop="dateModified" datetime="2024-06-01T10:53:15+08:00">2024-06-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux%E9%9B%86%E9%94%A6/" itemprop="url" rel="index"><span itemprop="name">Linux集锦</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2023/10/17/linux-collection-file-management/" class="post-meta-item leancloud_visitors" data-flag-title="linux中最常用的文件管理命令" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2023/10/17/linux-collection-file-management/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/10/17/linux-collection-file-management/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/10/17/linux-collection-file-management/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/10/17/linux-collection-file-management/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="linux中最常用的文件管理命令"><a href="#linux中最常用的文件管理命令" class="headerlink" title="linux中最常用的文件管理命令"></a>linux中最常用的文件管理命令</h1><blockquote>
+<p> 仅个人想法，会持续不间断更新和改进。</p>
+</blockquote>
+<p>在 Linux 系统中，文件管理是基础且重要。</p>
+<p>如何显示，如何查找，如何编辑，如何删除，如何复制，如何移动，如何重命名，如何创建，如何修改，如何查看文件的属性等等，都是我们在日常工作中经常会用到的命令。</p>
+<p>Linux的文件管理命令也会帮助你更高效地在终端中操作文件和目录。</p>
+<p>而其中最绕不开的当属以下几个。</p>
+<hr>
+<h1 id="最常用的且没有之一的-ls"><a href="#最常用的且没有之一的-ls" class="headerlink" title="最常用的且没有之一的  ls"></a>最常用的且没有之一的  ls</h1><p>如果<code>linux</code>命令来个排名，<code>ls</code>命令应该是最常用的命令，除非你像<em>黄蓉</em>的母亲，有过目不忘的本领，惹得黄药师抱憾终身。</p>
+<p><code>ls</code>命令是<code>list</code>的缩写，通过ls命令，我们可以查看目录的内容，确定各种重要文件和目录的属性。</p>
+<h2 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h2><figure class="highlight css"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls <span class="selector-attr">[参数]</span> <span class="selector-attr">[路径]</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="不加任何参数"><a href="#不加任何参数" class="headerlink" title="不加任何参数"></a>不加任何参数</h2><p>如果不加任何参数，默认列出当前目录的内容。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> /etc/sysconfig/network-scripts</span><br><span class="line">ifcfg-em1</span><br><span class="line">ifcfg-em2</span><br><span class="line">ifcfg-em3</span><br><span class="line">ifcfg-em4   </span><br><span class="line">....</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="使用-l显示更多细节"><a href="#使用-l显示更多细节" class="headerlink" title="使用-l显示更多细节"></a>使用-l显示更多细节</h2><p>-l 就是使用long listing format长格式，来显示更多的内容信息。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> -l /etc/sysconfig/network-scripts</span><br><span class="line">total 264</span><br><span class="line">-rw-r--r--. 1 root root   341 Nov 30 10:56 ifcfg-em1</span><br><span class="line">-rw-r--r--. 1 root root   294 May 13  2016 ifcfg-em2</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em3</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em4</span><br><span class="line">......</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="使用-t按照时间排序"><a href="#使用-t按照时间排序" class="headerlink" title="使用-t按照时间排序"></a>使用-t按照时间排序</h2><p>如果希望看到最近创建的文件，就需要用到-t参数了。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> -lt /etc/sysconfig/network-scripts/</span><br><span class="line">total 264</span><br><span class="line">-rw-r--r--. 1 root root   341 Nov 30 10:56 ifcfg-em1</span><br><span class="line">-rw-r--r--. 1 root root   294 May 13  2016 ifcfg-em2</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em4</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em3</span><br><span class="line">...</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="使用-r按照时间逆序"><a href="#使用-r按照时间逆序" class="headerlink" title="使用-r按照时间逆序"></a>使用-r按照时间逆序</h2><p>如果希望删除很早以前的文件，看到最早创建的文件，就需要用到-r参数了。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> -ltr /etc/sysconfig/network-scripts/</span><br><span class="line">total 264</span><br><span class="line">...</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em3</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em4</span><br><span class="line">-rw-r--r--. 1 root root   294 May 13  2016 ifcfg-em2</span><br><span class="line">-rw-r--r--. 1 root root   341 Nov 30 10:56 ifcfg-em1</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="使用-S根据文件大小排序"><a href="#使用-S根据文件大小排序" class="headerlink" title="使用-S根据文件大小排序"></a>使用-S根据文件大小排序</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> -lS /etc/sysconfig/network-scripts/</span><br><span class="line">total 264</span><br><span class="line">...</span><br><span class="line">-rw-r--r--. 1 root root   341 Nov 30 10:56 ifcfg-em1</span><br><span class="line">-rw-r--r--. 1 root root   294 May 13  2016 ifcfg-em2</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em3</span><br><span class="line">-rw-r--r--. 1 root root   272 May 10  2016 ifcfg-em4</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="查看庐山真面貌的cat"><a href="#查看庐山真面貌的cat" class="headerlink" title="查看庐山真面貌的cat"></a>查看庐山真面貌的cat</h1><p>cat命令可用于输出文件的内容到标准输出。</p>
+<p><code>cat</code>的官方定义为：</p>
+<blockquote>
+<p>concatenate files and print on the standard output</p>
+<p>翻译过来就是：把档案串连接后传到基本输出</p>
+</blockquote>
+<p>其用法一般为：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> [OPTION]... [FILE]...</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>cat</code>命令的可选参数<code>[OPTION]</code>如下所示：</p>
+<ul>
+<li><code>-n</code> 或 <code>--number</code>： 由 1 开始对所有输出的行数编号</li>
+<li><code>-b</code> 或 <code>--number-nonblank</code>： 和 -n 相似，只不过对于空白行不编号</li>
+<li><code>-s</code> 或<code> --squeeze-blank</code> ：当遇到有连续两行以上的空白行，就代换为一行的空白行</li>
+<li><code>-T</code>或<code>--show-tabs</code>：显示TAB字符，显示为<code>^I</code></li>
+<li><code>-E</code>或<code>--show-ends</code>：显示行末符号，字符为<code>$</code></li>
+<li><code>-A</code>或<code>--show-all</code>：显示所有的信息</li>
+</ul>
+<p>此时假定我们的文件为hello.c，内容为最经典的：</p>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> * argv[])</span></span><br><span class="line">{</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello World\n"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>接下来的实例全部根据这个文件展开，Hello World. Hello Linux</p>
+</blockquote>
+<h2 id="实例-：简单显示内容"><a href="#实例-：简单显示内容" class="headerlink" title="实例 ：简单显示内容"></a>实例 ：简单显示内容</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> hello.c </span><br><span class="line"></span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"></span><br><span class="line">int main(int argc, char * argv[])</span><br><span class="line">{</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Hello World\n"</span>);</span><br><span class="line">	        </span><br><span class="line">	<span class="built_in">return</span> 0;</span><br><span class="line">}</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="实例-：显示行号-n"><a href="#实例-：显示行号-n" class="headerlink" title="实例 ：显示行号 -n"></a>实例 ：显示行号 <u>-n</u></h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> -n hello.c </span><br><span class="line"></span><br><span class="line">     1	<span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line">     2	</span><br><span class="line">     3	int main(int argc, char * argv[])</span><br><span class="line">     4	{</span><br><span class="line">     5		<span class="built_in">printf</span>(<span class="string">"Hello World\n"</span>);</span><br><span class="line">     6		        </span><br><span class="line">     7		<span class="built_in">return</span> 0;</span><br><span class="line">     8	}</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="实例-：-显示行末"><a href="#实例-：-显示行末" class="headerlink" title="实例 ： 显示行末"></a>实例 ： 显示行末</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> -E hello.c </span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;$</span></span><br><span class="line">$</span><br><span class="line">int main(int argc, char * argv[])$</span><br><span class="line">{$</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Hello World\n"</span>);$</span><br><span class="line">	        $</span><br><span class="line">	<span class="built_in">return</span> 0;$</span><br><span class="line">}$</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="实例：显示空白字符"><a href="#实例：显示空白字符" class="headerlink" title="实例：显示空白字符"></a>实例：显示空白字符</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> -T hello.c </span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"></span><br><span class="line">int main(int argc, char * argv[])</span><br><span class="line">{</span><br><span class="line">^Iprintf(<span class="string">"Hello World\n"</span>);</span><br><span class="line">^I        </span><br><span class="line">^Ireturn 0;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>此时可以看到^I，which means Tab charcter.</p>
+</blockquote>
+<h2 id="加一个管道"><a href="#加一个管道" class="headerlink" title="加一个管道"></a>加一个管道</h2><p>比如，此时希望看到你的源码文件一共多少行，每行代表什么意思，就可以把含有行号的输入通过管道发送到另外一个文件，如下所示：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> -n hello.c &gt; hello_number.c</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cat</span> hello_number.c </span><br><span class="line"></span><br><span class="line">     1	<span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line">     2	</span><br><span class="line">     3	int main(int argc, char * argv[])</span><br><span class="line">     4	{</span><br><span class="line">     5		<span class="built_in">printf</span>(<span class="string">"Hello World\n"</span>);</span><br><span class="line">     6		        </span><br><span class="line">     7		<span class="built_in">return</span> 0;</span><br><span class="line">     8	}</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<blockquote>
+<p>其他的一些选项可以自行尝试。</p>
+</blockquote>
+<h1 id="反向显示之-tac"><a href="#反向显示之-tac" class="headerlink" title="反向显示之 tac"></a>反向显示之 tac</h1><p><code>tac</code>命令将文件反向输出，刚好与前面的<code>cat</code>输出相反，<code>cat</code>命令可用于输出文件的内容到标准输出。</p>
+<p>这个命令其实就是<code>cat</code>的反向输出，<span class="github-emoji"><span>😁</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f601.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>。</p>
+<p><code>tac</code>的官方定义为：</p>
+<blockquote>
+<p><code>tac</code> - concatenate and print files in reverse</p>
+</blockquote>
+<p>其用法一般为：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">tac</span> [OPTION]... [FILE]...</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p><code>tac</code>命令的可选参数<code>[OPTION]</code>如下所示：</p>
+<ul>
+<li><code>-b</code>, <code>--before</code> ：在行前而不是行尾添加分割标志</li>
+<li><code>-r</code>, <code>--regex</code>：将分割标志作为正则表达式来解析</li>
+<li><code>-s</code>, <code>--separator=STRING</code>：使用<code>STRING</code>作为分割标志</li>
+</ul>
+<p>同样使用前面的<strong>hello.c</strong>文件，内容为：</p>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> * argv[])</span></span><br><span class="line">{</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello World\n"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>接下来的实例全部根据这个文件展开，Hello World. Hello Linux</p>
+</blockquote>
+<h2 id="显示内容"><a href="#显示内容" class="headerlink" title="显示内容"></a>显示内容</h2><p>与cat比对输出如下所示：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> hello.c </span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"></span><br><span class="line">int main(int argc, char * argv[])</span><br><span class="line">{</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello World\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> 0;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">tac</span> hello.c</span><br><span class="line">}</span><br><span class="line">    <span class="built_in">return</span> 0;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello World\n"</span>);</span><br><span class="line">{</span><br><span class="line">int main(int argc, char * argv[])</span><br><span class="line"></span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>其他几个参数用的到时不多，不过搭配起来还是有一些帮助的，比如做一个反序输出，搭配使用<code>-s</code>和<code>-r</code>参数，如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> <span class="string">'Hello World.'</span> | <span class="built_in">tac</span> -r -s <span class="string">"."</span></span><br><span class="line">.dlroW olleH</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这个方法就用到了管道、正则表达式。</p>
+<h1 id="识别文件类型的file"><a href="#识别文件类型的file" class="headerlink" title="识别文件类型的file"></a>识别文件类型的file</h1><p>file鉴别大神</p>
+<p>file的官方解释为：</p>
+<figure class="highlight delphi"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">file</span> - determine <span class="keyword">file</span> <span class="keyword">type</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>也就是说可以识别文件类型的意思，也可用来辨别一些文件的编码格式。它是通过查看文件的头部信息来获取文件类型，而不是像Windows通过扩展名来确定文件类型的，所以加不加后缀真的无所谓，谁会爱上谁，说起Windows吗，啥也不说了。</p>
+<p>下面看几个比较使用的例子。</p>
+<h2 id="实例一-：默认"><a href="#实例一-：默认" class="headerlink" title="实例一 ：默认"></a>实例一 ：默认</h2><p>file后直接跟文件，得到如下所示信息</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ file book.pdf</span><br><span class="line">delete.pdf: PDF document, version 1.3</span><br><span class="line">➜   file book</span><br><span class="line">delete: PDF document, version 1.3</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>可以看出加不加后缀都是没有关系的。</p>
+</blockquote>
+<h2 id="实例二：不显示名称"><a href="#实例二：不显示名称" class="headerlink" title="实例二：不显示名称"></a>实例二：不显示名称</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ file -b book.pdf</span><br><span class="line">PDF document, version 1.3</span><br></pre></td></tr></tbody></table></figure>
+
+<p>加上<code>-b</code>参数，是<code>brief</code>的含义，将只显示文件辨识结果，不显示文件名称了，这个其实对于很多文件而言，不是很友好。</p>
+<h2 id="实例三：输出易懂信息"><a href="#实例三：输出易懂信息" class="headerlink" title="实例三：输出易懂信息"></a>实例三：输出易懂信息</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ file -i  delete.pdf</span><br><span class="line">delete.pdf: application/pdf; charset=binary</span><br></pre></td></tr></tbody></table></figure>
+
+<p>加上<code>-i</code>参数，是<code>mime</code>类型的含义，我也不懂是啥意思，但是我能刚方便地读懂我想知道的文件类型的含义。这就够了，不是吗，毕竟我们是来是用<code>file</code>命令的。</p>
+<h2 id="实例四：查看文件中的文件名的文件信息"><a href="#实例四：查看文件中的文件名的文件信息" class="headerlink" title="实例四：查看文件中的文件名的文件信息"></a>实例四：查看文件中的文件名的文件信息</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> hello.txt</span><br><span class="line">sunset.jpg</span><br><span class="line">$ file -f hello.txt</span><br><span class="line">sunset.jpg: JPEG image data, JFIF standard 1.01</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这个咋听着这么拗口，<code>其实很简单，其实并不难</code>，加上·-f·参数，是<code>file-from</code>类型的含义，到底是几个意思呢，也就是你想查看文件的类型信息的文件名在一个文件里面，从这个文件里面读取文件的信息。</p>
+<h2 id="实例五：好看的鸡肋"><a href="#实例五：好看的鸡肋" class="headerlink" title="实例五：好看的鸡肋"></a>实例五：好看的鸡肋</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ file -F <span class="string">" === "</span> sunset.jpg</span><br><span class="line">sunset.jpg ===  JPEG image data, JFIF standard 1.01</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这个功能说实话，没搞明白有什么作用，默认的:感觉挺好用的，当然这个应该属于定制型的，就是默认替换掉一些提示信息。</p>
+<h2 id="实例六：查看软链接的文件信息"><a href="#实例六：查看软链接的文件信息" class="headerlink" title="实例六：查看软链接的文件信息"></a>实例六：查看软链接的文件信息</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ file a.jpg</span><br><span class="line">a.jpg: symbolic <span class="built_in">link</span> to `sunset.jpg<span class="string">'</span></span><br><span class="line"><span class="string">$ file -L a.jpg</span></span><br><span class="line"><span class="string">a.jpg: JPEG image data, JFIF standard 1.01</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>默认情况下，如果没有<code>-L</code>参数，只能得到这个文件是软链接的信息，如果加上这个参数，就能看到源文件的文件信息，这个功能还是很赞的。</p>
+<h1 id="less-少就是多"><a href="#less-少就是多" class="headerlink" title="less - 少就是多"></a>less - 少就是多</h1><p>在<code>Linux</code>系统如果希望查阅文件，有三个命令，是在命令行里面，如果GUI界面，请自行绕过，选择太多了。</p>
+<ul>
+<li><code>cat</code> 入门级的</li>
+<li><code>more</code> 文件内容一屏幕装不下的时候使用的</li>
+<li><code>less</code> 可以简单地认为是<code>more</code>的升级版 , 首推</li>
+</ul>
+<p>我首推<code>less</code>命令的原因是该命令可以往回卷动浏览已经看过的部分，但是<code>more</code>是不可以的。或者可以认为<code>less</code>是查看模式下的<code>vim</code>。</p>
+<p>首先看看为什么用<code>less</code>命令吧。</p>
+<blockquote>
+<p>If the file is longer than the size of Terminal window then it will be not easy to read or view all the content of the file easily. But there is a tweak, you can use <em>less</em> with <em>cat</em> command. It will give user an ability to scroll forward and backward through the content of the files using PgUp and PgDn keys or Up and Down Arrow keys on the keyboard.</p>
+</blockquote>
+<p>如题，在文件内容足够多的时候，屏幕足够不大的时候，就会出现上面描述的问题，这就出现了<code>less</code>命令。</p>
+<p><code>Linux</code>系统可以说把<code>少就是多</code>这个哲学用到了极致，恰如小巧优美的<strong>C</strong>语言，不该有的功能坚决不给你提供，应该有的也不给你提供，哈哈，比如内存的管理，<strong>程序员就是神</strong>，你就是神。</p>
+<h2 id="命令简介"><a href="#命令简介" class="headerlink" title="命令简介"></a>命令简介</h2><blockquote>
+<p>less - opposite of more # 我觉得这是废话</p>
+</blockquote>
+<p>我嘞个去，什么鬼？这是什么意思，我也知道少的反义词是多，大的反义词是小。</p>
+<p>别急，那就看看more的含义吧，不会是 <code>opposite of less</code> 吧。OMG</p>
+<blockquote>
+<p>more - file perusal filter for crt viewing</p>
+</blockquote>
+<p>什么意思，淡定，听我说，在<code>Linux</code>系统中有三种命令可以用来查阅全部的文件，分别是<code>cat</code>、<code>more</code>和<code>less</code>命令，关于<code>more</code>的解释主要针对在上古年代的计算机，你不理解<code>crt</code>也没有关系，毕竟现在已经是<code>Retina</code>的年代了。</p>
+<p>一起看看下面的实例吧。</p>
+<h2 id="命令格式-1"><a href="#命令格式-1" class="headerlink" title="命令格式"></a>命令格式</h2><figure class="highlight cmake"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">less</span> [参数] 文件</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>与其他命令类似，直接跟上文件名即可。</p>
+</blockquote>
+<p>接下来依旧使用/etc/services来进行示例。</p>
+<h2 id="m-显示类似more命令的百分比"><a href="#m-显示类似more命令的百分比" class="headerlink" title="-m 显示类似more命令的百分比"></a>-m 显示类似more命令的百分比</h2><p>这个是more命令比较好用的一个功能，可以显示目前浏览的百分比。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ less -m /etc/services</span><br><span class="line"></span><br><span class="line">auditd          48/udp                  <span class="comment"># Digital Audit Daemon</span></span><br><span class="line">la-maint        51/tcp                  <span class="comment"># IMP Logical Address Maintenance</span></span><br><span class="line">la-maint        51/udp                  <span class="comment"># IMP Logical Address Maintenance</span></span><br><span class="line">xns-time        52/tcp                  <span class="comment"># XNS Time Protocol</span></span><br><span class="line">xns-time        52/udp                  <span class="comment"># XNS Time Protocol</span></span><br><span class="line">xns-ch          54/tcp                  <span class="comment"># XNS Clearinghouse</span></span><br><span class="line">xns-ch          54/udp                  <span class="comment"># XNS Clearinghouse</span></span><br><span class="line">isi-gl          55/tcp                  <span class="comment"># ISI Graphics Language</span></span><br><span class="line">isi-gl          55/udp                  <span class="comment"># ISI Graphics Language</span></span><br><span class="line">xns-auth        56/tcp                  <span class="comment"># XNS Authentication</span></span><br><span class="line">xns-auth        56/udp                  <span class="comment"># XNS Authentication</span></span><br><span class="line">xns-mail        58/tcp                  <span class="comment"># XNS Mail</span></span><br><span class="line">xns-mail        58/udp                  <span class="comment"># XNS Mail</span></span><br><span class="line">ni-mail         61/tcp                  <span class="comment"># NI MAIL</span></span><br><span class="line">ni-mail         61/udp                  <span class="comment"># NI MAIL</span></span><br><span class="line">5%</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>此时可以在左下角看到，有个百分比。</p>
+</blockquote>
+<h2 id="N-显示行号"><a href="#N-显示行号" class="headerlink" title="-N 显示行号"></a>-N 显示行号</h2><p>使用-N可以实现cat中-n的效果，显示行号</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> $ less -N /etc/services</span><br><span class="line"> 1 <span class="comment"># /etc/services:</span></span><br><span class="line"> 2 <span class="comment"># $Id: services,v 1.55 2013/04/14 ovasik Exp $</span></span><br><span class="line"> 3 <span class="comment">#</span></span><br><span class="line"> 4 <span class="comment"># Network services, Internet style</span></span><br><span class="line"> 5 <span class="comment"># IANA services version: last updated 2013-04-10</span></span><br><span class="line"> 6 <span class="comment">#</span></span><br><span class="line"> 7 <span class="comment"># Note that it is presently the policy of IANA to assign a single well-known</span></span><br><span class="line"> 8 <span class="comment"># port number for both TCP and UDP; hence, most entries here have two entries</span></span><br><span class="line"> 9 <span class="comment"># even if the protocol doesn't support UDP operations.</span></span><br><span class="line">10 <span class="comment"># Updated from RFC 1700, ``Assigned Numbers'' (October 1994).  Not all ports</span></span><br><span class="line">11 <span class="comment"># are included, only the more common ones.</span></span><br><span class="line">12 <span class="comment">#</span></span><br><span class="line">13 <span class="comment"># The latest IANA port assignments can be gotten from</span></span><br><span class="line">14 <span class="comment">#       http://www.iana.org/assignments/port-numbers</span></span><br><span class="line">15 <span class="comment"># The Well Known Ports are those from 0 through 1023.</span></span><br><span class="line">16 <span class="comment"># The Registered Ports are those from 1024 through 49151</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="搜索字符串"><a href="#搜索字符串" class="headerlink" title="搜索字符串"></a>搜索字符串</h2><p>在less中，可以比较容易的搜索字符串，比如可以：</p>
+<ul>
+<li>/字符串：向下搜索“字符串”的功能</li>
+<li>?字符串：向上搜索“字符串”的功能</li>
+<li>n：重复前一个搜索（与 / 或 ? 有关）</li>
+<li>N：反向重复前一个搜索（与 / 或 ? 有关）</li>
+</ul>
+<blockquote>
+<p>其实这些功能或者热键与vim相同。</p>
+</blockquote>
+<p>在用less打开文件后，可以直接输入<code>/number</code>来搜索nubmer这个字符串，回车后可以看到该字符串高亮显示，这个也是优于more的一点；同样<code>?number</code>可以反向搜索number字符串。</p>
+<blockquote>
+<p>可以通过-i选项来忽略搜索时的大小写</p>
+</blockquote>
+<h2 id="设置缓冲区的大小"><a href="#设置缓冲区的大小" class="headerlink" title="设置缓冲区的大小"></a>设置缓冲区的大小</h2><p>可以通过-b &lt;缓冲区大小&gt; 设置缓冲区的大小，这个一般用于文件很大、巨大、不是一般大的时候，此时你的内容可能不足以承载打开整个文件，比如4G的内存，而你却要打开10G的文件，此时可以通过该选项来设置，默认单位为KB，比如</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ less -b 1024 filename</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>即打开1024KB的文件缓冲</p>
+</blockquote>
+<h2 id="编辑less浏览的文件"><a href="#编辑less浏览的文件" class="headerlink" title="编辑less浏览的文件"></a>编辑less浏览的文件</h2><p>要编辑一个正在用<code>less</code>浏览的文件，可以按下<code>v</code>。你就可以用变量<code>$EDITOR</code>所指定的编辑器来编辑了： 按下v键来编辑文件,退出编辑器后，你可以继续用less浏览了。</p>
+<h2 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h2><p>我比较喜欢<code>less</code>的原因是对于该命令的很多操作都是与<code>vim</code>相同，而我是一个重度<code>vimer</code>，so 推荐<code>less</code>。</p>
+<p>说几个比较简单的移动：</p>
+<ul>
+<li><code>j</code> 向下移动</li>
+<li><code>k</code> 向上移动</li>
+<li><code>g</code> 移动到第一行</li>
+<li><code>G</code> 移动到最后一行</li>
+<li><code>b</code> 向后翻一页</li>
+<li><code>d</code> 向后翻半页</li>
+<li><code>u</code> 向前滚动半页</li>
+<li><code>y</code> 向前滚动一行</li>
+<li><code>空格键</code> 滚动一行</li>
+<li><code>回车键</code> 滚动一页</li>
+</ul>
+<h1 id="more-多多益善"><a href="#more-多多益善" class="headerlink" title="more - 多多益善"></a>more - 多多益善</h1><p>more功能类似 cat ，cat命令是整个文件的内容从上到下显示在屏幕上。 more会以一页一页的显示方便使用者逐页阅读，而最基本的指令就是按空白键（space）就往下一页显示，按 b 键就会往回（back）一页显示，而且还有搜寻字串的功能 。more命令从前向后读取文件，因此在启动时就加载整个文件。</p>
+<p>在查阅文件的时候，我们说过可以用cat命令，不过这个是入门级别的，但凡用了几天Linux的，基本不太会再使用cat，而是另外两个指令，more或者less。这次说一下more，more是在文件的内容一个屏幕装不小的时候使用的。而less是more的升级版本，稍后会介绍。</p>
+<blockquote>
+<p> <code>more</code> : 文件内容一屏幕装不下的时候使用的</p>
+</blockquote>
+<p>看看为什么用<code>less</code>命令吧。</p>
+<blockquote>
+<p>more - file perusal filter for crt viewing</p>
+</blockquote>
+<p>看不懂，什么是CRT，莫慌，关于<code>more</code>的解释主要针对在上古年代的计算机，你不理解<code>crt</code>也没有关系，毕竟现在已经是<code>Retina</code>的年代了。</p>
+<h2 id="命令格式-2"><a href="#命令格式-2" class="headerlink" title="命令格式"></a>命令格式</h2><p>less的命令格式与cat一样，可以直接跟上文件名，如下：</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">less</span> [参数] 文件</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中的参数如下所示：</p>
+<ul>
+<li>+n   从笫n行开始显示</li>
+<li>-n    定义屏幕大小为n行</li>
+<li>+/pattern 在每个档案显示前搜寻该字串（pattern），然后从该字串前两行之后开始显示 </li>
+<li>-c    从顶部清屏，然后显示</li>
+<li>-d    提示“Press space to continue，’q’ to quit（按空格键继续，按q键退出）”，禁用响铃功能</li>
+<li>-l    忽略Ctrl+l（换页）字符</li>
+<li>-p    通过清除窗口而不是滚屏来对文件进行换页，与-c选项相似</li>
+<li>-s    把连续的多个空行显示为一行</li>
+<li>-u    把文件内容中的下画线去掉</li>
+</ul>
+<p>一起看看下面的实例吧，这里以文件<code>/etc/services</code>为例：</p>
+<p>这个文件的开始信息如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># /etc/services:</span></span><br><span class="line"><span class="comment"># $Id: services,v 1.55 2013/04/14 ovasik Exp $</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Network services, Internet style</span></span><br><span class="line"><span class="comment"># IANA services version: last updated 2013-04-10</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Note that it is presently the policy of IANA to assign a single well-known</span></span><br><span class="line"><span class="comment"># port number for both TCP and UDP; hence, most entries here have two entries</span></span><br><span class="line"><span class="comment"># even if the protocol doesn't support UDP operations.</span></span><br><span class="line"><span class="comment"># Updated from RFC 1700, ``Assigned Numbers'' (October 1994).  Not all ports</span></span><br><span class="line"><span class="comment"># are included, only the more common ones.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># The latest IANA port assignments can be gotten from</span></span><br><span class="line"><span class="comment">#       http://www.iana.org/assignments/port-numbers</span></span><br><span class="line"><span class="comment"># The Well Known Ports are those from 0 through 1023.</span></span><br><span class="line"><span class="comment"># The Registered Ports are those from 1024 through 49151</span></span><br><span class="line"><span class="comment"># The Dynamic and/or Private Ports are those from 49152 through 65535</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Each line describes one service, and is of the form:</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># service-name  port/protocol  [aliases ...]   [# comment]</span></span><br><span class="line"></span><br><span class="line">tcpmux          1/tcp                           <span class="comment"># TCP port service multiplexer</span></span><br><span class="line">tcpmux          1/udp                           <span class="comment"># TCP port service multiplexer</span></span><br><span class="line">rje             5/tcp                           <span class="comment"># Remote Job Entry</span></span><br><span class="line">rje             5/udp                           <span class="comment"># Remote Job Entry</span></span><br><span class="line"><span class="built_in">echo</span>            7/tcp</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+<h2 id="n-从第n行开始显示"><a href="#n-从第n行开始显示" class="headerlink" title="+n 从第n行开始显示"></a>+n 从第n行开始显示</h2><p>接下来的命令从第10行开始显示：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">$ more +10 /etc/service</span><br><span class="line"></span><br><span class="line"><span class="comment"># Updated from RFC 1700, ``Assigned Numbers'' (October 1994).  Not all ports</span></span><br><span class="line"><span class="comment"># are included, only the more common ones.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># The latest IANA port assignments can be gotten from</span></span><br><span class="line"><span class="comment">#       http://www.iana.org/assignments/port-numbers</span></span><br><span class="line"><span class="comment"># The Well Known Ports are those from 0 through 1023.</span></span><br><span class="line"><span class="comment"># The Registered Ports are those from 1024 through 49151</span></span><br><span class="line"><span class="comment"># The Dynamic and/or Private Ports are those from 49152 through 65535</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Each line describes one service, and is of the form:</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># service-name  port/protocol  [aliases ...]   [# comment]</span></span><br><span class="line"></span><br><span class="line">tcpmux          1/tcp                           <span class="comment"># TCP port service multiplexer</span></span><br><span class="line">tcpmux          1/udp                           <span class="comment"># TCP port service multiplexer</span></span><br><span class="line">rje             5/tcp                           <span class="comment"># Remote Job Entry</span></span><br><span class="line">rje             5/udp                           <span class="comment"># Remote Job Entry</span></span><br><span class="line"><span class="built_in">echo</span>            7/tcp</span><br><span class="line"><span class="built_in">echo</span>            7/udp</span><br><span class="line">discard         9/tcp           sink null</span><br><span class="line">discard         9/udp           sink null</span><br><span class="line">systat          11/tcp          <span class="built_in">users</span></span><br><span class="line">systat          11/udp          <span class="built_in">users</span></span><br><span class="line">daytime         13/tcp</span><br><span class="line">daytime         13/udp</span><br><span class="line">qotd            17/tcp          quote</span><br><span class="line">qotd            17/udp          quote</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>可以看到前面的10行是没有显示的。</p>
+</blockquote>
+<h2 id="n-定义屏幕大小为n行"><a href="#n-定义屏幕大小为n行" class="headerlink" title="-n 定义屏幕大小为n行"></a>-n 定义屏幕大小为n行</h2><p>这里的含义为定义输出的内容为10行，你的屏幕可能足够大，不过显示的内容只有n行，如下：只显示10行的内容，此时终端可能还会残留以前的内容：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ more -10 /etc/services</span><br><span class="line"><span class="comment"># /etc/services:</span></span><br><span class="line"><span class="comment"># $Id: services,v 1.55 2013/04/14 ovasik Exp $</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Network services, Internet style</span></span><br><span class="line"><span class="comment"># IANA services version: last updated 2013-04-10</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Note that it is presently the policy of IANA to assign a single well-known</span></span><br><span class="line"><span class="comment"># port number for both TCP and UDP; hence, most entries here have two entries</span></span><br><span class="line"><span class="comment"># even if the protocol doesn't support UDP operations.</span></span><br><span class="line"><span class="comment"># Updated from RFC 1700, ``Assigned Numbers'' (October 1994).  Not all ports</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>可以关注一下，此时每次显示的只有10行。</p>
+</blockquote>
+<h2 id="x2F-pattern-搜寻字符串（pattern）"><a href="#x2F-pattern-搜寻字符串（pattern）" class="headerlink" title="+/pattern 搜寻字符串（pattern）"></a>+/pattern 搜寻字符串（pattern）</h2><p>这个参数用于在文件中搜索字符串pattern，然后在该字符串的前两行之前开始显示。比如搜索number，会显示以下内容：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">$ more +/number /etc/services</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Note that it is presently the policy of IANA to assign a single well-known</span></span><br><span class="line"><span class="comment"># port number for both TCP and UDP; hence, most entries here have two entries</span></span><br><span class="line"><span class="comment"># even if the protocol doesn't support UDP operations.</span></span><br><span class="line"><span class="comment"># Updated from RFC 1700, ``Assigned Numbers'' (October 1994).  Not all ports</span></span><br><span class="line"><span class="comment"># are included, only the more common ones.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># The latest IANA port assignments can be gotten from</span></span><br><span class="line"><span class="comment">#       http://www.iana.org/assignments/port-numbers</span></span><br><span class="line"><span class="comment"># The Well Known Ports are those from 0 through 1023.</span></span><br><span class="line"><span class="comment"># The Registered Ports are those from 1024 through 49151</span></span><br><span class="line"><span class="comment"># The Dynamic and/or Private Ports are those from 49152 through 65535</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Each line describes one service, and is of the form:</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># service-name  port/protocol  [aliases ...]   [# comment]</span></span><br><span class="line"></span><br><span class="line">tcpmux          1/tcp                           <span class="comment"># TCP port service multiplexer</span></span><br><span class="line">tcpmux          1/udp                           <span class="comment"># TCP port service multiplexer</span></span><br><span class="line">rje             5/tcp                           <span class="comment"># Remote Job Entry</span></span><br><span class="line">rje             5/udp                           <span class="comment"># Remote Job Entry</span></span><br><span class="line"><span class="built_in">echo</span>            7/tcp</span><br><span class="line"><span class="built_in">echo</span>            7/udp</span><br><span class="line">discard         9/tcp           sink null</span><br><span class="line">discard         9/udp           sink null</span><br><span class="line">systat          11/tcp          <span class="built_in">users</span></span><br><span class="line">systat          11/udp          <span class="built_in">users</span></span><br><span class="line">daytime         13/tcp</span><br><span class="line">......</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>可以留意，此时显示的内容，第三行即包含搜索的字符串。</p>
+</blockquote>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>除以上介绍的以外，还有比较容易理解的以下参数：</p>
+<ul>
+<li>-c    从顶部清屏，然后显示</li>
+<li>-p    通过清除窗口而不是滚屏来对文件进行换页，与-c选项相似</li>
+<li>-s    把连续的多个空行显示为一行</li>
+<li>-u    把文件内容中的下画线去掉</li>
+</ul>
+<h1 id="不可狗尾续貂的tail"><a href="#不可狗尾续貂的tail" class="headerlink" title="不可狗尾续貂的tail"></a>不可狗尾续貂的tail</h1><p><code>tail</code>命令用来查看文件尾部的<strong>n</strong>行，如果没有指定的<strong>n</strong>，默认显示<strong>10</strong>行。</p>
+<p><strong>命令格式：</strong></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">tail</span> [option] [filename]  </span><br></pre></td></tr></tbody></table></figure>
+
+<p>参数option比较常用的如下所示：</p>
+<ul>
+<li><code>-f</code> 循环读取</li>
+<li><code>-c &lt;数目&gt;</code> 显示的字节数</li>
+<li><code>-n &lt;行数&gt;</code> 显示文件的尾部 n 行内容</li>
+</ul>
+<h2 id="常规使用"><a href="#常规使用" class="headerlink" title="常规使用"></a>常规使用</h2><p>假定文件text.txt有20行，从1-20，默认情况下的使用如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">tail</span> text.txt</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="显示N行"><a href="#显示N行" class="headerlink" title="显示N行"></a>显示N行</h2><p>可以通过-n参数来只显示N行，而不是默认的10行，比如15行，如下:</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">tail</span> -n 15 text.txt</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="从第N行显示"><a href="#从第N行显示" class="headerlink" title="从第N行显示"></a>从第N行显示</h2><p>此时如果希望从第N行显示，而不是显示N行，可以通过下面的参数，比如从第15行显示</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">tail</span> -n +15 text.txt</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="按照字符显示"><a href="#按照字符显示" class="headerlink" title="按照字符显示"></a>按照字符显示</h2><p>如果希望显示文件的最后几个字符，比如6个，如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">tail</span> -c 6 text.txt</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line"></span><br><span class="line"><span class="comment"># NICE</span></span><br><span class="line"><span class="comment"># 查看文件的后60KB</span></span><br><span class="line">$ <span class="built_in">tail</span> -c 60k filename</span><br><span class="line"><span class="comment"># 查看文件的后60MB</span></span><br><span class="line">$ <span class="built_in">tail</span> -c 60m filename</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+<h2 id="特别赞的一个实时更新的功能"><a href="#特别赞的一个实时更新的功能" class="headerlink" title="特别赞的一个实时更新的功能"></a>特别赞的一个实时更新的功能</h2><p>参数 <code>-f</code> 常常用于查阅正在改变的日志文件。如下面👇所示：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">tail</span> -f filename</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果<strong>filename</strong>的内容在增加，那么显示在屏幕上的内容就会一直更新。</p>
+<h1 id="查看目录命令pwd"><a href="#查看目录命令pwd" class="headerlink" title="查看目录命令pwd"></a>查看目录命令pwd</h1><p><code>pwd</code>命令的作用是查看当前目录，没有参数，输入后回车即可显示当前绝对路径。</p>
+<p>官方定义为：</p>
+<blockquote>
+<p>pwd - print name of current/working directory</p>
+</blockquote>
+<p> 所以<code>pwd</code>是<strong>P</strong>rint <strong>W</strong>orking  <strong>D</strong>irectory第一个字的缩写。</p>
+<p>唯二需要了解的参数如下：</p>
+<ul>
+<li><code>-L</code>, <code>--logical</code>：打印逻辑路径，与<code>pwd</code>一致</li>
+<li><code>-P</code>, <code>--physical</code>：打印物理路径，这里可以从超级链接直达原处</li>
+</ul>
+<h2 id="实例展示"><a href="#实例展示" class="headerlink" title="实例展示"></a>实例展示</h2><p>此时比如我们进入一个目录，然后在打印出来，如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /etc/sysconfig/network-scripts/</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">pwd</span></span><br><span class="line">/etc/sysconfig/network-scripts</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>可以看到pwd将输出完全路径</p>
+</blockquote>
+<h2 id="逻辑与物理路径"><a href="#逻辑与物理路径" class="headerlink" title="逻辑与物理路径"></a>逻辑与物理路径</h2><p>比如如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">pwd</span></span><br><span class="line">/opt/test</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">ls</span> -l</span><br><span class="line">总用量 1</span><br><span class="line">lrwxrwxrwx  1 root root   14 Jan 15 2012 <span class="built_in">dir</span> -&gt; <span class="built_in">source</span>/dir</span><br><span class="line">drwxrwxrwx  1 root root   14 Jan 15 2012 <span class="built_in">source</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>可以看到此时的路径在<u>/opt/test/</u>里面有两个目录<u>source</u>和<u>dir</u>，其中<u>dir</u>链接到<u>source</u>里面的dir。</p>
+<p>接下来对比一下-L和-P的区别。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> <span class="built_in">dir</span></span><br><span class="line"></span><br><span class="line">$ <span class="built_in">pwd</span></span><br><span class="line">/opt/test/dir</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">pwd</span> -L</span><br><span class="line">/opt/test/dir</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">pwd</span> -P</span><br><span class="line">/opt/test/source/dir</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>从上面的输出可以发现，<code>-P</code>参数会显示文件最原始的路径；而<code>-L</code>则是逻辑上的路径。</p>
+<h1 id="Linux-的-echo-命令"><a href="#Linux-的-echo-命令" class="headerlink" title="Linux 的 echo 命令"></a>Linux 的 echo 命令</h1><p><code>echo</code>命令用于在终端设备上输出字符串或变量的值，类似于<strong>Python</strong>的<code>print</code>和<strong>C</strong>语言的<code>printf</code>，是<strong>Linux</strong>系统中最常用的命令之一。</p>
+<p>其中输出字符串主要在shell脚本中使用，常用的还是输出变量的值。</p>
+<p>命令格式为：<code>echo [参数] [字符串]</code></p>
+<p>其中常用的参数为：</p>
+<ul>
+<li>-n	不输出结尾的换行符</li>
+<li>-e “\a”发出警告音</li>
+<li>-e “\n”换行，光标移至行首</li>
+<li>-e “\r”光标移至行首，但不换行、主用用在打印循环的情况下</li>
+</ul>
+<h2 id="几个示例"><a href="#几个示例" class="headerlink" title="几个示例"></a>几个示例</h2><p>输出一段字符串：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$  <span class="built_in">echo</span> <span class="string">"Hello Linux"</span> </span><br><span class="line">Hello Linux</span><br></pre></td></tr></tbody></table></figure>
+
+<p>输出变量提取后的值：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="variable">$PATH</span></span><br><span class="line">/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin</span><br></pre></td></tr></tbody></table></figure>
+<p>一般使用在变量前加上$符号的方式提取出变量的值，例如：$PATH，然后再用echo命令予以输出。或者直接使用echo命令输出一段字符串到屏幕上，起到给用户提示的作用。</p>
+<blockquote>
+<p>其中的PATH与Windows的环境变量类似</p>
+</blockquote>
+<p>几个Linux命令来输出：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> `<span class="built_in">date</span>`</span><br><span class="line">Sat 12 Feb 2011 22:19:03 PM CST</span><br></pre></td></tr></tbody></table></figure>
+
+
+<p>查询上一次的执行结果</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$echo</span> $?</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>$?</code>是Shell中的一个特殊变量，表示上一条命令的退出状态，0表示成功。</p>
+<h1 id="Linux-ln-命令"><a href="#Linux-ln-命令" class="headerlink" title="Linux ln 命令"></a>Linux ln 命令</h1><p><code>ln</code> 命令是一个非常重要的命令，可以为某一个文件或目录在其他不同的位置建立一个同步的链接。<u>部分功能与Windows的快捷方式类似</u>。但更加强大。</p>
+<p>官方解释为：</p>
+<blockquote>
+<p>ln - make links between files</p>
+</blockquote>
+<p>当我们需要在不同的目录，或者不同的工程，甚至是不同的人员需要用到同一个文件的时候，此时不需要每个位置都通过<code>cp</code>来拷贝一份，因为在源文件更新的时候，这个文件是不会同步更新的 。而此时<code>ln</code>命令就不一样了，通过该命令链接到源文件或目录，不仅可以不用占用重复的更多的磁盘空间，还可以同步更新。<strong>NICE</strong>。</p>
+<h2 id="使用格式"><a href="#使用格式" class="headerlink" title="使用格式"></a>使用格式</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ln</span> [参数][源文件或目录][目标文件或目录]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中参数的格式为</p>
+<ul>
+<li>-b ，或   like –backup but does not accept an argument</li>
+<li><code>-f</code>,或 <code>--force</code> : 强制执行，这个在链接已经存在的情况下必用</li>
+<li><code>-s</code>,或 <code>--symbolic</code>:创建符号链接</li>
+</ul>
+<p>在Linux文件系统中，又有两种链接类型：</p>
+<ol>
+<li>硬链接(hard link)</li>
+<li>软链接(symbolic link)：又称符号链接，类似于Windows的快捷方式</li>
+</ol>
+<p>硬链接会复制一份相同大小的源文件，而软链接是一种特殊的文件，占用很小的磁盘空间。</p>
+<h2 id="创建硬链接"><a href="#创建硬链接" class="headerlink" title="创建硬链接"></a>创建硬链接</h2><p>默认情况下，不加任何参数，创建的是硬链接，如下，创建源文件<u>a.log</u>的硬链接<u>a1.log</u>：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ln</span> a.log a1.log</span><br><span class="line"></span><br><span class="line">$ ll</span><br><span class="line">-rw-rw-r--. 3 user user 85710 Apr  5 21:29 a.log</span><br><span class="line">-rw-rw-r--. 3 user user 85710 Apr  5 21:29 a1.log</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这个时候修改源文件a.log的部分内容，可以看到硬链接也同步更新。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ vim a.log</span><br><span class="line"></span><br><span class="line">$ ll</span><br><span class="line">-rw-rw-r--. 3 user user 85716 Apr  5 21:34 a.log</span><br><span class="line">-rw-rw-r--. 3 user user 85716 Apr  5 21:34 a1.log</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="创建软链接"><a href="#创建软链接" class="headerlink" title="创建软链接"></a>创建软链接</h2><p>如果需要创建软链接，就需要参数<code>-s</code>，如下，创建源文件<u>a.log</u>的软链接<u>a1.log</u>：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ln</span> -s a.log a1.log</span><br><span class="line"></span><br><span class="line">$ ll</span><br><span class="line">-rw-rw-r--. 3 user user 85710 Apr  5 21:29 a.log</span><br><span class="line">lrwxrwxrwx. 1 user user     5 Apr  5 21:30 a1.log -&gt; a.log</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这个时候修改源文件a.log的部分内容，可以看到软链接没有更新，不过其指向的内容依然更新了。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ vim a.log</span><br><span class="line"></span><br><span class="line">$ ll</span><br><span class="line">-rw-rw-r--. 3 user user 85716 Apr  5 21:34 a.log</span><br><span class="line">lrwxrwxrwx. 1 user user     5 Apr  5 21:30 a1.log -&gt; a.log</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时可以看到，对于软链接<strong>a1.log</strong>而言，其仅为一个符号链接，用<code>file</code>看一下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ file a1.log</span><br><span class="line">a1.log: symbolic <span class="built_in">link</span> to `a.log<span class="string">'</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="删除源文件后的情况"><a href="#删除源文件后的情况" class="headerlink" title="删除源文件后的情况"></a>删除源文件后的情况</h2><p>此时通过ln创建a.log的硬链接ah.log和软链接as.log，然后看一下如果删除源文件会发生什么情况。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建软硬链接</span></span><br><span class="line">$ <span class="built_in">ln</span> a.log ah.log</span><br><span class="line">$ <span class="built_in">ln</span> -s a.log as.log</span><br><span class="line">$ ll</span><br><span class="line">-rw-rw-r--. 2 user user 85716 Apr  5 21:34 a.log</span><br><span class="line">lrwxrwxrwx. 1 user user     5 Apr  5 21:30 as.log -&gt; a.log</span><br><span class="line">-rw-rw-r--. 2 user user 85716 Apr  5 21:34 ah.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除源文件</span></span><br><span class="line">$ <span class="built_in">rm</span> a.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 此时如果有颜色显示，as.log应该会是红色的警告色</span></span><br><span class="line">$ ll</span><br><span class="line">lrwxrwxrwx. 1 user user     5 Apr  5 21:30 as.log -&gt; a.log</span><br><span class="line">-rw-rw-r--. 2 user user 85716 Apr  5 21:34 ah.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># 此时看一下as.log的状态</span></span><br><span class="line">$ file as.log</span><br><span class="line">as.log: broken symbolic <span class="built_in">link</span> to `a.log<span class="string">'</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>可以看到如果删除了源文件，硬链接不受影响，但是软链接已经提示链接损坏了。</p>
+<h2 id="强制更新软链接"><a href="#强制更新软链接" class="headerlink" title="强制更新软链接"></a>强制更新软链接</h2><p>在软链接存在的情况下，如果再创建一个同名的，会报错，此时就需要强制创建了，加上<code>-f</code>参数即可。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ln</span> -s b.log as.log</span><br><span class="line"><span class="built_in">ln</span>: failed to create symbolic <span class="built_in">link</span> <span class="string">'as.log'</span>: File exists</span><br><span class="line"></span><br><span class="line"><span class="comment"># 强制创建</span></span><br><span class="line">$ <span class="built_in">ln</span> -sf b.log as.log</span><br><span class="line"></span><br><span class="line">$ ll</span><br><span class="line">-rw-rw-r--. 1 user user 85716 Apr  5 22:16 a.log</span><br><span class="line">-rw-rw-r--. 2 user user 85716 Apr  5 21:34 ah.log</span><br><span class="line">lrwxrwxrwx. 1 user user     5 Apr  5 22:21 as.log -&gt; b.log</span><br><span class="line">-rw-rw-r--. 1 user user 85716 Apr  5 22:17 b.log</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h1 id="文件权限设置命令-chmod"><a href="#文件权限设置命令-chmod" class="headerlink" title="文件权限设置命令 chmod"></a>文件权限设置命令 chmod</h1><p>文件权限指的是文件是否可以执行、写入、读取等操作。</p>
+<p>而Linux/Unix的文件存取权限分为三级 : 文件所有者、用户组及其他，分别使用以下字母来表示：</p>
+<ul>
+<li>u：所有者</li>
+<li>g：用户组</li>
+<li>o：其他用户</li>
+</ul>
+<p>如下图所示，每个级别都可以设置为rwx三种权限 。</p>
+<p><img src="/2023/10/17/linux-collection-file-management/images/linux-chmod.jpg" alt="Linux chmod"></p>
+<p>该命令官方定义为：</p>
+<blockquote>
+<p>chmod - change mode</p>
+</blockquote>
+<p>所以可以通过<code>chmod</code>来控制文件如何被他人所存取。</p>
+<p>使用的语法如下所示：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">chmod</span> [-cfvR] [--<span class="built_in">help</span>] [--version] mode file...</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>其中<u>mode</u>权限设定的格式如下 : <u>[ugoa] [+-=] [rwxX]</u></p>
+<p>其中<strong>u</strong>表示该文件的拥有者，g表示与该文件的拥有者属于同一个群体(group)者，<strong>o</strong>表示其他以外的人，<strong>a</strong>表示这三者皆是。</p>
+<ul>
+<li><code>+</code> 表示加权限、<code>–</code> 表示减权限、<code>=</code> 表示设定唯一权限。</li>
+<li><code>r</code> 表示可读取，<code>w</code> 表示可写入，<code>x</code> 表示可执行，<code>X</code> 表示只有当该文件是个子目录或者该文件已经被设定过为可执行。</li>
+<li><code>-R</code> : 对目前目录下的所有文件与子目录进行相同的权限变更(即以递回的方式逐个变更)</li>
+</ul>
+<blockquote>
+<p>对于chmod的使用而言，<strong>只有文件所有者和超级用户</strong>可以修改文件或目录的权限。</p>
+</blockquote>
+<p>具体的方法为可以使用符号模式或者绝对模式来进行操作。</p>
+<p>而我比较喜欢用的是绝对数字模式，比较粗暴简单。</p>
+<h2 id="符号模式"><a href="#符号模式" class="headerlink" title="符号模式"></a>符号模式</h2><p>使用符号模式需要考虑多个因素，其中包括用户类型，操作符 和设定权限。</p>
+<table>
+<thead>
+<tr>
+<th align="center">who</th>
+<th align="center">用户类型</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>u</code></td>
+<td align="center"><strong>u</strong>ser</td>
+<td align="center">文件所有者</td>
+</tr>
+<tr>
+<td align="center"><code>g</code></td>
+<td align="center"><strong>g</strong>roup</td>
+<td align="center">文件所有者所在组</td>
+</tr>
+<tr>
+<td align="center"><code>o</code></td>
+<td align="center"><strong>o</strong>thers</td>
+<td align="center">所有其他用户</td>
+</tr>
+<tr>
+<td align="center"><code>a</code></td>
+<td align="center"><strong>a</strong>ll</td>
+<td align="center">所用用户, 相当于 <em>ugo</em></td>
+</tr>
+</tbody></table>
+<p><strong>operator</strong> 的符号模式表:</p>
+<table>
+<thead>
+<tr>
+<th align="center">Operator</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>+</code></td>
+<td align="center">为指定的用户类型增加权限</td>
+</tr>
+<tr>
+<td align="center"><code>-</code></td>
+<td align="center">去除指定用户类型的权限</td>
+</tr>
+<tr>
+<td align="center"><code>=</code></td>
+<td align="center">设置指定用户权限的设置，即将用户类型的所有权限重新设置</td>
+</tr>
+</tbody></table>
+<p><strong>permission</strong> 的符号模式表:</p>
+<table>
+<thead>
+<tr>
+<th align="center">模式</th>
+<th align="center">名字</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>r</code></td>
+<td align="center">读</td>
+<td align="center">设置为可读权限</td>
+</tr>
+<tr>
+<td align="center"><code>w</code></td>
+<td align="center">写</td>
+<td align="center">设置为可写权限</td>
+</tr>
+<tr>
+<td align="center"><code>x</code></td>
+<td align="center">执行权限</td>
+<td align="center">设置为可执行权限</td>
+</tr>
+</tbody></table>
+<h2 id="绝对数字模式"><a href="#绝对数字模式" class="headerlink" title="绝对数字模式"></a>绝对数字模式</h2><p><code>chmod</code>命令可以使用八进制数来指定权限。文件或目录的权限位是由9个权限位来控制，每三位为一组，它们分别是文件所有者的读、写、执行权限，用户组的读、写、执行以及其它用户的读、写、执行。历史上，文件权限被放在一个比特掩码中，掩码中指定的比特位设为1，用来说明一个类具有相应的优先级。比如下面的0-7分别表示各自的权限定义。</p>
+<table>
+<thead>
+<tr>
+<th align="center">No</th>
+<th align="center">权限</th>
+<th align="center">rwx</th>
+<th align="center">二进制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">7</td>
+<td align="center">读 + 写 + 执行</td>
+<td align="center">rwx</td>
+<td align="center">111</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">读 + 写</td>
+<td align="center">rw-</td>
+<td align="center">110</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">读 + 执行</td>
+<td align="center">r-x</td>
+<td align="center">101</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">只读</td>
+<td align="center">r–</td>
+<td align="center">100</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">写 + 执行</td>
+<td align="center">-wx</td>
+<td align="center">011</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">只写</td>
+<td align="center">-w-</td>
+<td align="center">010</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">只执行</td>
+<td align="center">–x</td>
+<td align="center">001</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">无</td>
+<td align="center">—</td>
+<td align="center">000</td>
+</tr>
+</tbody></table>
+<p>如表所示：</p>
+<ul>
+<li>对于7而言就表示所有者的权限为可读、可写、可执行，也就是对应的八进制为111，所以就是7；</li>
+<li>而对于 5而言，表示所有者的权限为可读、可执行，对应的八进制为101，所以就是5；</li>
+</ul>
+<p>其他类似。</p>
+<h2 id="实例更改为全部可读"><a href="#实例更改为全部可读" class="headerlink" title="实例更改为全部可读"></a>实例更改为全部可读</h2><p>接下来将文件 a.c 设为所有人皆可读取 ，有三种方式可以使用，如下，分别为 ：</p>
+<ol>
+<li><code>chmod ugo+r filename</code></li>
+<li><code>chmod a+r filename</code></li>
+<li><code>chmod 444 filename</code></li>
+</ol>
+<p>具体如下所示：</p>
+<p>通过方法1：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认设定为没有任何属性</span></span><br><span class="line">$ ll</span><br><span class="line">----------  1 user  user     5KB  Feb  12 22:22 a.c</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改为全部可读</span></span><br><span class="line">$ <span class="built_in">chmod</span> ugo+r file1.txt</span><br><span class="line"></span><br><span class="line">$ ll</span><br><span class="line">-r--r--r--  1 user  user     5KB  Feb  12 22:22 a.c</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>通过方法2：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认设定为没有任何属性</span></span><br><span class="line">$ ll</span><br><span class="line">----------  1 user  user     5KB  Feb  12 22:23 a.c</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改为全部可读</span></span><br><span class="line">$ <span class="built_in">chmod</span> a+r file1.txt</span><br><span class="line"></span><br><span class="line">$ ll</span><br><span class="line">-r--r--r--  1 user  user     5KB  Feb  12 22:23 a.c</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>通过方法3：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 默认设定为没有任何属性</span></span><br><span class="line">$ ll</span><br><span class="line">----------  1 user  user     5KB  Feb  12 22:23 a.c</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改为全部可读</span></span><br><span class="line">$ <span class="built_in">chmod</span> 444 file1.txt</span><br><span class="line"></span><br><span class="line">$ ll</span><br><span class="line">-r--r--r--  1 user  user     5KB  Feb  12 22:24 a.c</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="设置用户及组可读写，其他用户无法写入但可以查看"><a href="#设置用户及组可读写，其他用户无法写入但可以查看" class="headerlink" title="设置用户及组可读写，其他用户无法写入但可以查看"></a>设置用户及组可读写，其他用户无法写入但可以查看</h2><p>接下来继续把文件 a.c设置为用户 和组可以读写，而其他 用户无法写入但是 可以查看 。</p>
+<p>使用符号模式如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ ll</span><br><span class="line">-r--r--r--  1 user  user     5KB  Feb  12 22:24 a.c</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">chmod</span> ug+rw,o+r,o-w a.c</span><br><span class="line"></span><br><span class="line">$ ll</span><br><span class="line">-rw-rw-r--  1 user  user     5KB  Feb  12 22:26 a.c</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>使用数字模式如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ ll</span><br><span class="line">-r--r--r--  1 user  user     5KB  Feb  12 22:24 b.c</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">chmod</span> 664 a.c</span><br><span class="line"></span><br><span class="line">$ ll</span><br><span class="line">-rw-rw-r--  1 user  user     5KB  Feb  12 22:26 b.c</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="设定为所有人只有可执行权限"><a href="#设定为所有人只有可执行权限" class="headerlink" title="设定为所有人只有可执行权限"></a>设定为所有人只有可执行权限</h2><p>此时不管文件的权限是什么，因为只具有可执行权限，所以符号模式可以使用**=**，而数字模式只需要1即可，如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">chmod</span> a=x filename</span><br><span class="line"><span class="comment">#或者</span></span><br><span class="line">$ <span class="built_in">chmod</span> 111 filename</span><br><span class="line"></span><br><span class="line"><span class="comment"># 无法读取</span></span><br><span class="line">$ <span class="built_in">cat</span> a.c </span><br><span class="line"><span class="built_in">cat</span>: a.c: Permission denied</span><br></pre></td></tr></tbody></table></figure>
+
+<p>所以对于只有可执行权限的文件，是无法执行读取或者写入操作的，这也保证了文件的安全性。</p>
+<h2 id="炫技-TODO"><a href="#炫技-TODO" class="headerlink" title="炫技 - TODO"></a>炫技 - TODO</h2><p>其实对于每个文件或者目录而言，除了rwx权限，还有 一个权限位，这个权限为一般为特殊权限。</p>
+<table>
+<thead>
+<tr>
+<th align="center">模式</th>
+<th align="center">名字</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>X</code></td>
+<td align="center">特殊执行权限</td>
+<td align="center">只有当文件为目录文件，或者其他类型的用户有可执行权限时，才将文件权限设置可执行</td>
+</tr>
+<tr>
+<td align="center"><code>s</code></td>
+<td align="center">setuid/gid</td>
+<td align="center">当文件被执行时，根据who参数指定的用户类型设置文件的setuid或者setgid权限</td>
+</tr>
+<tr>
+<td align="center"><code>t</code></td>
+<td align="center">粘贴位</td>
+<td align="center">设置粘贴位，只有超级用户可以设置该位，只有文件所有者u可以使用该位</td>
+</tr>
+</tbody></table>
+<p>若用 <strong>chmod 4755 filename</strong> 可使此程序具有 root 的权限。</p>
+<h3 id="更多说明"><a href="#更多说明" class="headerlink" title="更多说明"></a>更多说明</h3><table>
+<thead>
+<tr>
+<th align="left"><code>命令</code></th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>chmod 4755 *file*</code></td>
+<td align="left"><code>4</code>设置了设置<a href="https://www.runoob.com/wiki/%E7%94%A8%E6%88%B7ID">用户ID</a>位，剩下的相当于 u=rwx (4+2+1),go=rx (4+1 &amp; 4+1)。</td>
+</tr>
+<tr>
+<td align="left"><code>find path/ -type d -exec chmod a-x {} \;</code></td>
+<td align="left">删除可执行权限对path/以及其所有的目录（不包括文件）的所有用户，使用’-type f’匹配文件</td>
+</tr>
+<tr>
+<td align="left"><code>find path/ -type d -exec chmod a+x {} \;</code></td>
+<td align="left">允许所有用户浏览或通过目录path/</td>
+</tr>
+</tbody></table>
+<h1 id="极具归属感的-chown"><a href="#极具归属感的-chown" class="headerlink" title="极具归属感的 - chown"></a>极具归属感的 - chown</h1><p>Linux <code>chown</code> 命令用于设置文件所有者和文件关联组的命令。</p>
+<p>官方的定义为：</p>
+<blockquote>
+<p>chown - change file owner and group</p>
+</blockquote>
+<p>Linux/Unix 的有个理念就是一切皆文件，而对于每个文件也是如<code>chmod</code>所述，均拥有所有者。</p>
+<p>此时就可以利用 <code>chown</code> 指定文件的拥有者或者指定的用户或组，用户可以是用户名或者用户 <strong>ID</strong>，组可以是组名或者组 <strong>ID</strong>，文件是以空格分开的要改变权限的文件列表，支持<u>通配符</u>。</p>
+<p>不过需要注意的是 <code>chown</code> 需要超级用户 <strong>root</strong> 的权限才能执行此命令，或者使用<code>sudo</code>也可以。</p>
+<h2 id="使用语法"><a href="#使用语法" class="headerlink" title="使用语法"></a>使用语法</h2><p>使用语法如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">chown</span> [option] [user[:group]] file...</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">$ <span class="built_in">chown</span> [option] --reference=RFILE file...</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中user为新的文件拥有者的用户名或者<strong>ID</strong>，<strong>group</strong>为新的文件拥有者的用户组名或<strong>ID****。</strong></p>
+<p>并且可以通过<code>--referenc=RFILE</code>选项来设定希望修改的文件和目录。</p>
+<p>其他的选项可以为： :</p>
+<ul>
+<li><code>-c</code> : 与<code>-v</code>类似，不过只显示更改的信息</li>
+<li><code>-R</code> : 递归地处理指定的目录以及其子目录下的所有文件</li>
+</ul>
+<h2 id="通用实例"><a href="#通用实例" class="headerlink" title="通用实例"></a>通用实例</h2><p>最简单的使用方式应该就是指定用户和用户组了，如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ ll </span><br><span class="line">-rw-rw-r--. 1 user user 5 May   7 14:56 a</span><br><span class="line"></span><br><span class="line">$ sudo <span class="built_in">chown</span> user1:group1 a</span><br><span class="line"></span><br><span class="line">$ ll </span><br><span class="line">-rw-rw-r--. 1 user1 group1 5 May   7 14:56 a</span><br></pre></td></tr></tbody></table></figure>
+
+<p>上面的命令将把<strong>a</strong>指定为用户<strong>user1</strong>，组<strong>group1</strong>。注意<strong>user1</strong>和<strong>group1</strong>必须存在，不然会提示无效的用户或者组。</p>
+<h2 id="更新组而不更新用户"><a href="#更新组而不更新用户" class="headerlink" title="更新组而不更新用户"></a>更新组而不更新用户</h2><p>这个选项一般用在，希望把某个用户的文件共享到一个组，此时的方法如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo <span class="built_in">chown</span> :newgroup filename</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时的用户所有者不变，而仅仅更改了文件所属组。</p>
+<h2 id="提示更新"><a href="#提示更新" class="headerlink" title="提示更新"></a>提示更新</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ sudo <span class="built_in">chown</span> -c user1 a b c d</span><br><span class="line">changed ownership of <span class="string">"b"</span> from user to user1</span><br><span class="line">changed ownership of <span class="string">"c"</span> from user to user1</span><br><span class="line">changed ownership of <span class="string">"d"</span> from user to user1</span><br><span class="line"></span><br><span class="line">$ sudo <span class="built_in">chown</span> -v user1 a b c d</span><br><span class="line">changed ownership of <span class="string">"a"</span> from user to user1</span><br><span class="line">changed ownership of <span class="string">"b"</span> from user to user1</span><br><span class="line">changed ownership of <span class="string">"c"</span> from user to user1</span><br><span class="line">changed ownership of <span class="string">"d"</span> from user to user1</span><br></pre></td></tr></tbody></table></figure>
+
+<p>从这个例子可以看出，对于-c和-v的区别，-v全部显示，而-c仅仅显示更新的部分。</p>
+<h2 id="递归处理文件或文件夹"><a href="#递归处理文件或文件夹" class="headerlink" title="递归处理文件或文件夹"></a>递归处理文件或文件夹</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo <span class="built_in">chown</span> -R user:group file directory</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此条命令将递归地将文件<strong>file</strong>和目录<strong>directory</strong>及其子目录的文件更新为<strong>user</strong>用户拥有，<strong>group</strong>组拥有。</p>
+<h1 id="有所依靠的chgrp"><a href="#有所依靠的chgrp" class="headerlink" title="有所依靠的chgrp"></a>有所依靠的chgrp</h1><p>.. code::<br>  鸿鹄志、向炎天。<br>  宋 刘克庄《贺新郎·杜子昕凯歌》</p>
+<p>Linux的<code>chgrp</code>命令用于变更文件或者目录所属的组group。</p>
+<p>这里的变更不仅限于本人的组，只要用户属于的组，均可以使用<code>chgrp</code>更改相应的权限而不是必须使用管理员权限。</p>
+<p>很多权限的操作可以与<code>chmod</code>来交叉。比如如果希望文件只有本组成员访问，可以通过<code>chmod 770 file/directory</code>，此时就涉及到组的概念了。</p>
+<p>官方定义为：</p>
+<blockquote>
+<p><code>chgrp</code> - change group ownership</p>
+</blockquote>
+<p>语法为：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">chgrp</span> [OPTION]... GROUP FILE...</span><br><span class="line">$ <span class="built_in">chgrp</span> [OPTION]... --reference=RFILE FILE...</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>常用的几个参数为：</p>
+<ul>
+<li><p><code>--reference=RFILE</code> : 参考指定文件进行所属组更换</p>
+</li>
+<li><p><code>-R, --recursive</code> ：递归处理，将某个目录的所有文件均更改用户组</p>
+</li>
+</ul>
+<h2 id="默认用法"><a href="#默认用法" class="headerlink" title="默认用法"></a>默认用法</h2><p>最简单的使用为将文件file归属到组group，使用方法为：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">chgrp</span> group file</span><br><span class="line">$ <span class="built_in">chgrp</span> group1 file1</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时的file数组组group，file1属于组group1。</p>
+<h2 id="更改文件夹的所属组"><a href="#更改文件夹的所属组" class="headerlink" title="更改文件夹的所属组"></a>更改文件夹的所属组</h2><p>对于文件夹而言，就需要使用<code>-R</code>参数来递归实现了，不然会报错的。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">chgrp</span> -R group1 directory1</span><br><span class="line">$ <span class="built_in">chgrp</span> -R group2 directory2</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="根据指定文件来修改组"><a href="#根据指定文件来修改组" class="headerlink" title="根据指定文件来修改组"></a>根据指定文件来修改组</h2><p>这个参数比较有趣，也比较高效，如果希望某个用户的组权限与另外一个文件一致，此时<code>--reference</code>强势出现</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">chgrp</span> --reference=ref_file stage_file</span><br></pre></td></tr></tbody></table></figure>
+
+<p>该命令执行后，stage_file的权限将与ref_file的组权限一样。</p>
+<h1 id="Linux的-tee-命令"><a href="#Linux的-tee-命令" class="headerlink" title="Linux的 tee 命令"></a>Linux的 tee 命令</h1><p>Linux的<code>tee</code>命令可以将输出输出到终端的同时写入文件。</p>
+<p>这个命令对于既想试试看到输出保存到文件稍后查看的操作十分有用。</p>
+<p>官方定义为：</p>
+<blockquote>
+<p><code>tee</code> - read from standard input and write to standard output and files</p>
+</blockquote>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>具体的使用方法为：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">tee</span> [OPTION]... [FILE]...</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p><strong>参数</strong>：</p>
+<ul>
+<li><code>-a, --append</code> 　追加到现有文件的后面，而非覆盖它．</li>
+<li><code>-i, --ignore-interrupts</code> 　忽略中断信号。</li>
+</ul>
+<h2 id="一般使用"><a href="#一般使用" class="headerlink" title="一般使用"></a>一般使用</h2><p>比如最简单的想查看一下当前有哪些文件并保存到一个日志，如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">a.txt b.txt c.txt d.txt e.txt</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">ls</span> | <span class="built_in">tee</span> list.log</span><br><span class="line">a.txt b.txt c.txt d.txt e.txt</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cat</span> list.log</span><br><span class="line">a.txt b.txt c.txt d.txt e.txt</span><br></pre></td></tr></tbody></table></figure>
+
+<p>可以看到<code>tee</code>在保证同时显示在终端上还输出到了文件 list.log中。</p>
+<h2 id="同时保存到多个文件"><a href="#同时保存到多个文件" class="headerlink" title="同时保存到多个文件"></a>同时保存到多个文件</h2><p><code>tee</code>当然也是可以同时输出到多个文件的，比如：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">a.txt b.txt c.txt d.txt e.txt</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">ls</span> | <span class="built_in">tee</span> list.log listB.<span class="built_in">log</span></span><br><span class="line">a.txt b.txt c.txt d.txt e.txt</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cat</span> list.log</span><br><span class="line">a.txt b.txt c.txt d.txt e.txt</span><br><span class="line">$ <span class="built_in">cat</span> listB.<span class="built_in">log</span></span><br><span class="line">a.txt b.txt c.txt d.txt e.txt</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+<h2 id="与自己对话"><a href="#与自己对话" class="headerlink" title="与自己对话"></a>与自己对话</h2><p>与自己对话如何呢，或者叫做复读机？ </p>
+<p><code>tee</code>命令直接跟文件的话，会等待输入，并同步进行输出到终端和文件的操作。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">tee</span> test.log </span><br><span class="line">hello</span><br><span class="line">hello</span><br><span class="line">world</span><br><span class="line">world</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cat</span> test.log</span><br><span class="line">hello</span><br><span class="line">world</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>​    </p>
+<hr>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/echo/" rel="tag"># echo</a>
+              <a href="/tags/cat/" rel="tag"># cat</a>
+              <a href="/tags/pwd/" rel="tag"># pwd</a>
+              <a href="/tags/chgrp/" rel="tag"># chgrp</a>
+              <a href="/tags/chmod/" rel="tag"># chmod</a>
+              <a href="/tags/chown/" rel="tag"># chown</a>
+              <a href="/tags/ls/" rel="tag"># ls</a>
+              <a href="/tags/tac/" rel="tag"># tac</a>
+              <a href="/tags/file/" rel="tag"># file</a>
+              <a href="/tags/less/" rel="tag"># less</a>
+              <a href="/tags/more/" rel="tag"># more</a>
+              <a href="/tags/tail/" rel="tag"># tail</a>
+              <a href="/tags/ln/" rel="tag"># ln</a>
+              <a href="/tags/tee/" rel="tag"># tee</a>
+              <a href="/tags/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" rel="tag"># 文件管理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/10/11/linux-collection-most-used-commands/" rel="prev" title="Linux 集锦 之 最常用的几个命令">
+      <i class="fa fa-chevron-left"></i> Linux 集锦 之 最常用的几个命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/11/02/linux-beautify-fonts-in-console/" rel="next" title="Linux 终端中漂亮的几款字体">
+      Linux 终端中漂亮的几款字体 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linux%E4%B8%AD%E6%9C%80%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">linux中最常用的文件管理命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E5%B8%B8%E7%94%A8%E7%9A%84%E4%B8%94%E6%B2%A1%E6%9C%89%E4%B9%8B%E4%B8%80%E7%9A%84-ls"><span class="nav-number">2.</span> <span class="nav-text">最常用的且没有之一的  ls</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">命令格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%8A%A0%E4%BB%BB%E4%BD%95%E5%8F%82%E6%95%B0"><span class="nav-number">2.2.</span> <span class="nav-text">不加任何参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-l%E6%98%BE%E7%A4%BA%E6%9B%B4%E5%A4%9A%E7%BB%86%E8%8A%82"><span class="nav-number">2.3.</span> <span class="nav-text">使用-l显示更多细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-t%E6%8C%89%E7%85%A7%E6%97%B6%E9%97%B4%E6%8E%92%E5%BA%8F"><span class="nav-number">2.4.</span> <span class="nav-text">使用-t按照时间排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-r%E6%8C%89%E7%85%A7%E6%97%B6%E9%97%B4%E9%80%86%E5%BA%8F"><span class="nav-number">2.5.</span> <span class="nav-text">使用-r按照时间逆序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-S%E6%A0%B9%E6%8D%AE%E6%96%87%E4%BB%B6%E5%A4%A7%E5%B0%8F%E6%8E%92%E5%BA%8F"><span class="nav-number">2.6.</span> <span class="nav-text">使用-S根据文件大小排序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%BA%90%E5%B1%B1%E7%9C%9F%E9%9D%A2%E8%B2%8C%E7%9A%84cat"><span class="nav-number">3.</span> <span class="nav-text">查看庐山真面貌的cat</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B-%EF%BC%9A%E7%AE%80%E5%8D%95%E6%98%BE%E7%A4%BA%E5%86%85%E5%AE%B9"><span class="nav-number">3.1.</span> <span class="nav-text">实例 ：简单显示内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B-%EF%BC%9A%E6%98%BE%E7%A4%BA%E8%A1%8C%E5%8F%B7-n"><span class="nav-number">3.2.</span> <span class="nav-text">实例 ：显示行号 -n</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B-%EF%BC%9A-%E6%98%BE%E7%A4%BA%E8%A1%8C%E6%9C%AB"><span class="nav-number">3.3.</span> <span class="nav-text">实例 ： 显示行末</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%EF%BC%9A%E6%98%BE%E7%A4%BA%E7%A9%BA%E7%99%BD%E5%AD%97%E7%AC%A6"><span class="nav-number">3.4.</span> <span class="nav-text">实例：显示空白字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%AE%A1%E9%81%93"><span class="nav-number">3.5.</span> <span class="nav-text">加一个管道</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%8D%E5%90%91%E6%98%BE%E7%A4%BA%E4%B9%8B-tac"><span class="nav-number">4.</span> <span class="nav-text">反向显示之 tac</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E5%86%85%E5%AE%B9"><span class="nav-number">4.1.</span> <span class="nav-text">显示内容</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%86%E5%88%AB%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E7%9A%84file"><span class="nav-number">5.</span> <span class="nav-text">识别文件类型的file</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E4%B8%80-%EF%BC%9A%E9%BB%98%E8%AE%A4"><span class="nav-number">5.1.</span> <span class="nav-text">实例一 ：默认</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E4%BA%8C%EF%BC%9A%E4%B8%8D%E6%98%BE%E7%A4%BA%E5%90%8D%E7%A7%B0"><span class="nav-number">5.2.</span> <span class="nav-text">实例二：不显示名称</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E4%B8%89%EF%BC%9A%E8%BE%93%E5%87%BA%E6%98%93%E6%87%82%E4%BF%A1%E6%81%AF"><span class="nav-number">5.3.</span> <span class="nav-text">实例三：输出易懂信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%9B%9B%EF%BC%9A%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E7%9A%84%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="nav-number">5.4.</span> <span class="nav-text">实例四：查看文件中的文件名的文件信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E4%BA%94%EF%BC%9A%E5%A5%BD%E7%9C%8B%E7%9A%84%E9%B8%A1%E8%82%8B"><span class="nav-number">5.5.</span> <span class="nav-text">实例五：好看的鸡肋</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%85%AD%EF%BC%9A%E6%9F%A5%E7%9C%8B%E8%BD%AF%E9%93%BE%E6%8E%A5%E7%9A%84%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="nav-number">5.6.</span> <span class="nav-text">实例六：查看软链接的文件信息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#less-%E5%B0%91%E5%B0%B1%E6%98%AF%E5%A4%9A"><span class="nav-number">6.</span> <span class="nav-text">less - 少就是多</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E7%AE%80%E4%BB%8B"><span class="nav-number">6.1.</span> <span class="nav-text">命令简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%A0%BC%E5%BC%8F-1"><span class="nav-number">6.2.</span> <span class="nav-text">命令格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#m-%E6%98%BE%E7%A4%BA%E7%B1%BB%E4%BC%BCmore%E5%91%BD%E4%BB%A4%E7%9A%84%E7%99%BE%E5%88%86%E6%AF%94"><span class="nav-number">6.3.</span> <span class="nav-text">-m 显示类似more命令的百分比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#N-%E6%98%BE%E7%A4%BA%E8%A1%8C%E5%8F%B7"><span class="nav-number">6.4.</span> <span class="nav-text">-N 显示行号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">6.5.</span> <span class="nav-text">搜索字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%BC%93%E5%86%B2%E5%8C%BA%E7%9A%84%E5%A4%A7%E5%B0%8F"><span class="nav-number">6.6.</span> <span class="nav-text">设置缓冲区的大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%BE%91less%E6%B5%8F%E8%A7%88%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">6.7.</span> <span class="nav-text">编辑less浏览的文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8"><span class="nav-number">6.8.</span> <span class="nav-text">移动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#more-%E5%A4%9A%E5%A4%9A%E7%9B%8A%E5%96%84"><span class="nav-number">7.</span> <span class="nav-text">more - 多多益善</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%A0%BC%E5%BC%8F-2"><span class="nav-number">7.1.</span> <span class="nav-text">命令格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#n-%E4%BB%8E%E7%AC%ACn%E8%A1%8C%E5%BC%80%E5%A7%8B%E6%98%BE%E7%A4%BA"><span class="nav-number">7.2.</span> <span class="nav-text">+n 从第n行开始显示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#n-%E5%AE%9A%E4%B9%89%E5%B1%8F%E5%B9%95%E5%A4%A7%E5%B0%8F%E4%B8%BAn%E8%A1%8C"><span class="nav-number">7.3.</span> <span class="nav-text">-n 定义屏幕大小为n行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x2F-pattern-%E6%90%9C%E5%AF%BB%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%88pattern%EF%BC%89"><span class="nav-number">7.4.</span> <span class="nav-text">+&#x2F;pattern 搜寻字符串（pattern）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">7.5.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E7%8B%97%E5%B0%BE%E7%BB%AD%E8%B2%82%E7%9A%84tail"><span class="nav-number">8.</span> <span class="nav-text">不可狗尾续貂的tail</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%84%E4%BD%BF%E7%94%A8"><span class="nav-number">8.1.</span> <span class="nav-text">常规使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%BE%E7%A4%BAN%E8%A1%8C"><span class="nav-number">8.2.</span> <span class="nav-text">显示N行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E7%AC%ACN%E8%A1%8C%E6%98%BE%E7%A4%BA"><span class="nav-number">8.3.</span> <span class="nav-text">从第N行显示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%89%E7%85%A7%E5%AD%97%E7%AC%A6%E6%98%BE%E7%A4%BA"><span class="nav-number">8.4.</span> <span class="nav-text">按照字符显示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%88%AB%E8%B5%9E%E7%9A%84%E4%B8%80%E4%B8%AA%E5%AE%9E%E6%97%B6%E6%9B%B4%E6%96%B0%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">8.5.</span> <span class="nav-text">特别赞的一个实时更新的功能</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%9B%AE%E5%BD%95%E5%91%BD%E4%BB%A4pwd"><span class="nav-number">9.</span> <span class="nav-text">查看目录命令pwd</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%B1%95%E7%A4%BA"><span class="nav-number">9.1.</span> <span class="nav-text">实例展示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E4%B8%8E%E7%89%A9%E7%90%86%E8%B7%AF%E5%BE%84"><span class="nav-number">9.2.</span> <span class="nav-text">逻辑与物理路径</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E7%9A%84-echo-%E5%91%BD%E4%BB%A4"><span class="nav-number">10.</span> <span class="nav-text">Linux 的 echo 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E7%A4%BA%E4%BE%8B"><span class="nav-number">10.1.</span> <span class="nav-text">几个示例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-ln-%E5%91%BD%E4%BB%A4"><span class="nav-number">11.</span> <span class="nav-text">Linux ln 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">11.1.</span> <span class="nav-text">使用格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%A1%AC%E9%93%BE%E6%8E%A5"><span class="nav-number">11.2.</span> <span class="nav-text">创建硬链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="nav-number">11.3.</span> <span class="nav-text">创建软链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%BA%90%E6%96%87%E4%BB%B6%E5%90%8E%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-number">11.4.</span> <span class="nav-text">删除源文件后的情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%BA%E5%88%B6%E6%9B%B4%E6%96%B0%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="nav-number">11.5.</span> <span class="nav-text">强制更新软链接</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E8%AE%BE%E7%BD%AE%E5%91%BD%E4%BB%A4-chmod"><span class="nav-number">12.</span> <span class="nav-text">文件权限设置命令 chmod</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7%E6%A8%A1%E5%BC%8F"><span class="nav-number">12.1.</span> <span class="nav-text">符号模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9D%E5%AF%B9%E6%95%B0%E5%AD%97%E6%A8%A1%E5%BC%8F"><span class="nav-number">12.2.</span> <span class="nav-text">绝对数字模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E6%9B%B4%E6%94%B9%E4%B8%BA%E5%85%A8%E9%83%A8%E5%8F%AF%E8%AF%BB"><span class="nav-number">12.3.</span> <span class="nav-text">实例更改为全部可读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%8F%8A%E7%BB%84%E5%8F%AF%E8%AF%BB%E5%86%99%EF%BC%8C%E5%85%B6%E4%BB%96%E7%94%A8%E6%88%B7%E6%97%A0%E6%B3%95%E5%86%99%E5%85%A5%E4%BD%86%E5%8F%AF%E4%BB%A5%E6%9F%A5%E7%9C%8B"><span class="nav-number">12.4.</span> <span class="nav-text">设置用户及组可读写，其他用户无法写入但可以查看</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E5%AE%9A%E4%B8%BA%E6%89%80%E6%9C%89%E4%BA%BA%E5%8F%AA%E6%9C%89%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%9D%83%E9%99%90"><span class="nav-number">12.5.</span> <span class="nav-text">设定为所有人只有可执行权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%AB%E6%8A%80-TODO"><span class="nav-number">12.6.</span> <span class="nav-text">炫技 - TODO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E5%A4%9A%E8%AF%B4%E6%98%8E"><span class="nav-number">12.6.1.</span> <span class="nav-text">更多说明</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%81%E5%85%B7%E5%BD%92%E5%B1%9E%E6%84%9F%E7%9A%84-chown"><span class="nav-number">13.</span> <span class="nav-text">极具归属感的 - chown</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%AF%AD%E6%B3%95"><span class="nav-number">13.1.</span> <span class="nav-text">使用语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="nav-number">13.2.</span> <span class="nav-text">通用实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E7%BB%84%E8%80%8C%E4%B8%8D%E6%9B%B4%E6%96%B0%E7%94%A8%E6%88%B7"><span class="nav-number">13.3.</span> <span class="nav-text">更新组而不更新用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E7%A4%BA%E6%9B%B4%E6%96%B0"><span class="nav-number">13.4.</span> <span class="nav-text">提示更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6%E6%88%96%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="nav-number">13.5.</span> <span class="nav-text">递归处理文件或文件夹</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%89%E6%89%80%E4%BE%9D%E9%9D%A0%E7%9A%84chgrp"><span class="nav-number">14.</span> <span class="nav-text">有所依靠的chgrp</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E7%94%A8%E6%B3%95"><span class="nav-number">14.1.</span> <span class="nav-text">默认用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%94%B9%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E6%89%80%E5%B1%9E%E7%BB%84"><span class="nav-number">14.2.</span> <span class="nav-text">更改文件夹的所属组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B9%E6%8D%AE%E6%8C%87%E5%AE%9A%E6%96%87%E4%BB%B6%E6%9D%A5%E4%BF%AE%E6%94%B9%E7%BB%84"><span class="nav-number">14.3.</span> <span class="nav-text">根据指定文件来修改组</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E7%9A%84-tee-%E5%91%BD%E4%BB%A4"><span class="nav-number">15.</span> <span class="nav-text">Linux的 tee 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95"><span class="nav-number">15.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E8%88%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">15.2.</span> <span class="nav-text">一般使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%97%B6%E4%BF%9D%E5%AD%98%E5%88%B0%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="nav-number">15.3.</span> <span class="nav-text">同时保存到多个文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8E%E8%87%AA%E5%B7%B1%E5%AF%B9%E8%AF%9D"><span class="nav-number">15.4.</span> <span class="nav-text">与自己对话</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">950</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">182</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1389</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2023/10/17/linux-collection-file-management/";
+    this.page.identifier = "2023/10/17/linux-collection-file-management/";
+    this.page.title = "linux中最常用的文件管理命令";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
