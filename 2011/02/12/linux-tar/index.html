@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Linux 的归档命令 tarLinux的tar命令可以用来压缩或者解压缩文件。 官方定义为：  tar - an archiving utility  语法1$ tar optionA [optionsB] filename    使用该命令时，optionA选项是必须要有的，它告诉tar要做什么事情，optionsB选项是辅助使用的，可以选用。 其中optionsA主要为：  -c 创建新的档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 的 tar 命令">
+<meta property="og:url" content="http://shaoguangleo.github.io/2011/02/12/linux-tar/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="Linux 的归档命令 tarLinux的tar命令可以用来压缩或者解压缩文件。 官方定义为：  tar - an archiving utility  语法1$ tar optionA [optionsB] filename    使用该命令时，optionA选项是必须要有的，它告诉tar要做什么事情，optionsB选项是辅助使用的，可以选用。 其中optionsA主要为：  -c 创建新的档">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2011-02-12T14:11:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.904Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="tar">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2011/02/12/linux-tar/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux 的 tar 命令 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2011/02/12/linux-tar/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux 的 tar 命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2011-02-12 22:11:00" itemprop="dateCreated datePublished" datetime="2011-02-12T22:11:00+08:00">2011-02-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2011/02/12/linux-tar/" class="post-meta-item leancloud_visitors" data-flag-title="Linux 的 tar 命令" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2011/02/12/linux-tar/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/02/12/linux-tar/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2011/02/12/linux-tar/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2011/02/12/linux-tar/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Linux-的归档命令-tar"><a href="#Linux-的归档命令-tar" class="headerlink" title="Linux 的归档命令 tar"></a>Linux 的归档命令 tar</h1><p>Linux的tar命令可以用来压缩或者解压缩文件。</p>
+<p>官方定义为：</p>
+<blockquote>
+<p><code>tar</code> - an archiving utility</p>
+</blockquote>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar optionA [optionsB] filename</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>使用该命令时，<strong>optionA</strong>选项是必须要有的，它告诉<code>tar</code>要做什么事情，<strong>optionsB</strong>选项是辅助使用的，可以选用。</p>
+<p>其中<strong>optionsA</strong>主要为：</p>
+<ul>
+<li><code>-c</code> 创建新的档案文件。如果用户想备份一个目录或是一些文件，就要选择这个选项。相当于打包。</li>
+<li><code>-x</code> 从档案文件中释放文件。相当于拆包。</li>
+<li><code>-t</code> 列出档案文件的内容，查看已经备份了哪些文件。</li>
+</ul>
+<p>不过需要注意的是，这三个参数仅仅能存在一个。</p>
+<p>辅助选项常用的为：</p>
+<ul>
+<li><code>-z</code> ：是否同时具有 gzip 的属性，有的话压缩文件格式为：<u>filename.tar.gz</u></li>
+<li><code>-j</code> ：是否同时具有 bzip2 的属性，有的话压缩文件格式为：<u>filename.tar.bz2</u>  </li>
+<li><code>-v</code> ：压缩的过程中显示文件，这个基本都需要带上</li>
+<li><code>-p</code> ：使用原文件的原来属性（属性不会依据使用者而变）</li>
+<li><code>--exclude FILE</code>：在压缩的过程中，不要将 FILE 打包！</li>
+</ul>
+<h2 id="压缩文件"><a href="#压缩文件" class="headerlink" title="压缩文件"></a>压缩文件</h2><p>接下来的命令为把a,b,c,d压缩到文件test.tar.gz中。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ tar czvf test.tar.gz a b c d</span><br><span class="line">a</span><br><span class="line">b</span><br><span class="line">c</span><br><span class="line">d</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="查看压缩文件的内容"><a href="#查看压缩文件的内容" class="headerlink" title="查看压缩文件的内容"></a>查看压缩文件的内容</h2><p>接下来的命令将列出压缩文件的内容，但是不解压，所以可以先确定，再解压不迟</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ tar tzvf test.tar.gz a b c d</span><br><span class="line">-rw-rw-r-- oper/oper           12 2010-05-24 22:51 a</span><br><span class="line">-rw-rw-r-- oper/oper           18 2010-05-24 22:51 b</span><br><span class="line">-rw-rw-r-- oper/oper           15 2010-05-24 22:51 c</span><br><span class="line">-rw-rw-r-- oper/oper           28 2010-05-24 22:51 d</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="解压文件"><a href="#解压文件" class="headerlink" title="解压文件"></a>解压文件</h2><p>接下来就可以解压操作了。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ tar zxvf test.tar.gz</span><br><span class="line">a</span><br><span class="line">b</span><br><span class="line">c</span><br><span class="line">d</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ul>
+<li><p>-A或–catenate 新增文件到已存在的备份文件。</p>
+</li>
+<li><p>-b&lt;区块数目&gt;或–blocking-factor=&lt;区块数目&gt; 设置每笔记录的区块数目，每个区块大小为12Bytes。</p>
+</li>
+<li><p>-B或–read-full-records 读取数据时重设区块大小。</p>
+</li>
+<li><p>-c或–create 建立新的备份文件。</p>
+</li>
+<li><p>-C&lt;目的目录&gt;或–directory=&lt;目的目录&gt; 切换到指定的目录。</p>
+</li>
+<li><p>-d或–diff或–compare 对比备份文件内和文件系统上的文件的差异。</p>
+</li>
+<li><p>-f&lt;备份文件&gt;或–file=&lt;备份文件&gt; 指定备份文件。</p>
+</li>
+<li><p>-F&lt;Script文件&gt;或–info-script=&lt;Script文件&gt; 每次更换磁带时，就执行指定的Script文件。</p>
+</li>
+<li><p>-g或–listed-incremental 处理GNU格式的大量备份。</p>
+</li>
+<li><p>-G或–incremental 处理旧的GNU格式的大量备份。</p>
+</li>
+<li><p>-h或–dereference 不建立符号连接，直接复制该连接所指向的原始文件。</p>
+</li>
+<li><p>-i或–ignore-zeros 忽略备份文件中的0 Byte区块，也就是EOF。</p>
+</li>
+<li><p>-k或–keep-old-files 解开备份文件时，不覆盖已有的文件。</p>
+</li>
+<li><p>-K&lt;文件&gt;或–starting-file=&lt;文件&gt; 从指定的文件开始还原。</p>
+</li>
+<li><p>-l或–one-file-system 复制的文件或目录存放的文件系统，必须与tar指令执行时所处的文件系统相同，否则不予复制。</p>
+</li>
+<li><p>-L&lt;媒体容量&gt;或-tape-length=&lt;媒体容量&gt; 设置存放每体的容量，单位以1024 Bytes计算。</p>
+</li>
+<li><p>-m或–modification-time 还原文件时，不变更文件的更改时间。</p>
+</li>
+<li><p>-M或–multi-volume 在建立，还原备份文件或列出其中的内容时，采用多卷册模式。</p>
+</li>
+<li><p>-N&lt;日期格式&gt;或–newer=&lt;日期时间&gt; 只将较指定日期更新的文件保存到备份文件里。</p>
+</li>
+<li><p>-o或–old-archive或–portability 将资料写入备份文件时使用V7格式。</p>
+</li>
+<li><p>-O或–stdout 把从备份文件里还原的文件输出到标准输出设备。</p>
+</li>
+<li><p>-p或–same-permissions 用原来的文件权限还原文件。</p>
+</li>
+<li><p>-P或–absolute-names 文件名使用绝对名称，不移除文件名称前的”/“号。</p>
+</li>
+<li><p>-r或–append 新增文件到已存在的备份文件的结尾部分。</p>
+</li>
+<li><p>-R或–block-number 列出每个信息在备份文件中的区块编号。</p>
+</li>
+<li><p>-s或–same-order 还原文件的顺序和备份文件内的存放顺序相同。</p>
+</li>
+<li><p>-S或–sparse 倘若一个文件内含大量的连续0字节，则将此文件存成稀疏文件。</p>
+</li>
+<li><p>-t或–list 列出备份文件的内容。</p>
+</li>
+<li><p>-T&lt;范本文件&gt;或–files-from=&lt;范本文件&gt; 指定范本文件，其内含有一个或多个范本样式，让tar解开或建立符合设置条件的文件。</p>
+</li>
+<li><p>-u或–update 仅置换较备份文件内的文件更新的文件。</p>
+</li>
+<li><p>-U或–unlink-first 解开压缩文件还原文件之前，先解除文件的连接。</p>
+</li>
+<li><p>-v或–verbose 显示指令执行过程。</p>
+</li>
+<li><p>-V&lt;卷册名称&gt;或–label=&lt;卷册名称&gt; 建立使用指定的卷册名称的备份文件。</p>
+</li>
+<li><p>-w或–interactive 遭遇问题时先询问用户。</p>
+</li>
+<li><p>-W或–verify 写入备份文件后，确认文件正确无误。</p>
+</li>
+<li><p>-x或–extract或–get 从备份文件中还原文件。</p>
+</li>
+<li><p>-X&lt;范本文件&gt;或–exclude-from=&lt;范本文件&gt; 指定范本文件，其内含有一个或多个范本样式，让ar排除符合设置条件的文件。</p>
+</li>
+<li><p>-z或–gzip或–ungzip 通过gzip指令处理备份文件。</p>
+</li>
+<li><p>-Z或–compress或–uncompress 通过compress指令处理备份文件。</p>
+</li>
+<li><p>-&lt;设备编号&gt;&lt;存储密度&gt; 设置备份用的外围设备编号及存放数据的密度。</p>
+</li>
+<li><p>–after-date=&lt;日期时间&gt; 此参数的效果和指定”-N”参数相同。</p>
+</li>
+<li><p>–atime-preserve 不变更文件的存取时间。</p>
+</li>
+<li><p>–backup=&lt;备份方式&gt;或–backup 移除文件前先进行备份。</p>
+</li>
+<li><p>–checkpoint 读取备份文件时列出目录名称。</p>
+</li>
+<li><p>–concatenate 此参数的效果和指定”-A”参数相同。</p>
+</li>
+<li><p>–confirmation 此参数的效果和指定”-w”参数相同。</p>
+</li>
+<li><p>–delete 从备份文件中删除指定的文件。</p>
+</li>
+<li><p>–exclude=&lt;范本样式&gt; 排除符合范本样式的文件。</p>
+</li>
+<li><p>–group=&lt;群组名称&gt; 把加入设备文件中的文件的所属群组设成指定的群组。</p>
+</li>
+<li><p>–help 在线帮助。</p>
+</li>
+<li><p>–ignore-failed-read 忽略数据读取错误，不中断程序的执行。</p>
+</li>
+<li><p>–new-volume-script=&lt;Script文件&gt; 此参数的效果和指定”-F”参数相同。</p>
+</li>
+<li><p>–newer-mtime 只保存更改过的文件。</p>
+</li>
+<li><p>–no-recursion 不做递归处理，也就是指定目录下的所有文件及子目录不予处理。</p>
+</li>
+<li><p>–null 从null设备读取文件名称。</p>
+</li>
+<li><p>–numeric-owner 以用户识别码及群组识别码取代用户名称和群组名称。</p>
+</li>
+<li><p>–owner=&lt;用户名称&gt; 把加入备份文件中的文件的拥有者设成指定的用户。</p>
+</li>
+<li><p>–posix 将数据写入备份文件时使用POSIX格式。</p>
+</li>
+<li><p>–preserve 此参数的效果和指定”-ps”参数相同。</p>
+</li>
+<li><p>–preserve-order 此参数的效果和指定”-A”参数相同。</p>
+</li>
+<li><p>–preserve-permissions 此参数的效果和指定”-p”参数相同。</p>
+</li>
+<li><p>–record-size=&lt;区块数目&gt; 此参数的效果和指定”-b”参数相同。</p>
+</li>
+<li><p>–recursive-unlink 解开压缩文件还原目录之前，先解除整个目录下所有文件的连接。</p>
+</li>
+<li><p>–remove-files 文件加入备份文件后，就将其删除。</p>
+</li>
+<li><p>–rsh-command=&lt;执行指令&gt; 设置要在远端主机上执行的指令，以取代rsh指令。</p>
+</li>
+<li><p>–same-owner 尝试以相同的文件拥有者还原文件。</p>
+</li>
+<li><p>–suffix=&lt;备份字尾字符串&gt; 移除文件前先行备份。</p>
+</li>
+<li><p>–totals 备份文件建立后，列出文件大小。</p>
+</li>
+<li><p>–use-compress-program=&lt;执行指令&gt; 通过指定的指令处理备份文件。</p>
+</li>
+<li><p>–volno-file=&lt;编号文件&gt; 使用指定文件内的编号取代预设的卷册编号。</p>
+<pre><code> For example, the c option requires creating the archive, the v option requests the verbose operation, and  the
+ f  option takes an argument that sets the name of the archive to operate upon.  The following command, written
+ in the traditional style, instructs tar to store all files from the  directory  /etc  into  the  archive  file
+ etc.tar verbosely listing the files being archived:
+
+ tar cfv a.tar /etc
+
+ In  UNIX  or  short-option  style, each option letter is prefixed with a single dash, as in other command line
+ utilities.  If an option takes argument, the argument follows it, either as a separate command line  word,  or
+ immediately following the option.  However, if the option takes an optional argument, the argument must follow
+ the option letter without any intervening whitespace, as in -g/tmp/snar.db.
+
+ Any number of options not taking arguments can be clustered together after a single dash, e.g. -vkp.   Options
+ that  take  arguments  (whether  mandatory  or  optional), can appear at the end of such a cluster, e.g. -vkpf
+ a.tar.
+
+ The example command above written in the short-option style could look like:
+
+ tar -cvf a.tar /etc
+ or
+ tar -c -v -f a.tar /etc
+
+ In GNU or long-option style, each option begins with two dashes and  has  a  meaningful  name,  consisting  of
+ lower-case letters and dashes.  When used, the long option can be abbreviated to its initial letters, provided
+ that this does not create ambiguity.  Arguments to long options are supplied either as a separate command line
+ word,  immediately  following  the  option, or separated from the option by an equals sign with no intervening
+ whitespace.  Optional arguments must always use the latter method.
+
+ Here are several ways of writing the example command in this style:
+
+ tar --create --file a.tar --verbose /etc
+ or (abbreviating some options):
+ tar --cre --file=a.tar --verb /etc
+
+ The options in all three styles can be intermixed, although doing so with old options is not encouraged.
+</code></pre>
+<p> Operation mode<br> The options listed in the table below tell GNU tar what operation it is to perform.  Exactly one of them  must<br> be given.  Meaning of non-optional arguments depends on the operation mode requested.<br><br> -A, –catenate, –concatenate<br>        Append  archive  to  the end of another archive.  The arguments are treated as the names of archives to<br>        append.  All archives must be of the same format as the archive they are appended to, otherwise the re‐<br>        sulting archive might be unusable with non-GNU implementations of tar.  Notice also that when more than<br>        one archive is given, the members from archives other than the first one will be accessible in the  re‐<br>        sulting archive only if using the -i (–ignore-zeros) option.<br><br>        Compressed archives cannot be concatenated.<br><br> -c, –create<br>        Create  a  new  archive.   Arguments  supply  the  names  of the files to be archived.  Directories are<br>        archived recursively, unless the –no-recursion option is given.<br><br> -d, –diff, –compare<br>        Find differences between archive and file system.  The arguments are optional and specify archive  mem‐<br>        bers to compare.  If not given, the current working directory is assumed.<br><br> –delete<br>        Delete  from  the  archive.  The arguments supply names of the archive members to be removed.  At least<br>        one argument must be given.<br><br>        This option does not operate on compressed archives.  There is no short option equivalent.<br><br> -r, –append<br>        Append files to the end of an archive.  Arguments have the same meaning as for -c (–create).<br><br> -t, –list<br>        List the contents of an archive.  Arguments are optional.  When given, they specify the  names  of  the<br>        members to list.<br><br> –test-label<br>        Test  the  archive  volume label and exit.  When used without arguments, it prints the volume label (if<br>        any) and exits with status 0.  When one or more command line arguments are  given.   tar  compares  the<br>        volume  label with each argument.  It exits with code 0 if a match is found, and with code 1 otherwise.<br>        No output is displayed, unless used together with the -v (–verbose) option.<br><br>        There is no short option equivalent for this option.<br><br> -u, –update<br>        Append files which are newer than the corresponding copy in the archive.  Arguments have the same mean‐<br>        ing  as  with  -c and -r options.  Notice, that newer files don’t replace their old archive copies, but<br>        instead are appended to the end of archive.  The resulting archive can thus contain several members  of<br>        the same name, corresponding to various versions of the same file.<br><br> -x, –extract, –get<br>        Extract  files from an archive.  Arguments are optional.  When given, they specify names of the archive<br>        members to be extracted.<br><br> –show-defaults<br>        Show built-in defaults for various tar options and exit.  No arguments are allowed.<br><br> -?, –help<br>        Display a short option summary and exit.  No arguments allowed.<br><br> –usage<br>        Display a list of available options and exit.  No arguments allowed.<br><br> –version<br>        Print program version and copyright information and exit.</p>
+</li>
+</ul>
+<p>OPTIONS<br>   Operation modifiers<br>       –check-device<br>              Check device numbers when creating incremental archives (default).</p>
+<pre><code>   -g, --listed-incremental=FILE
+          Handle new GNU-format incremental backups.  FILE is the name of a snapshot file, where tar stores addi‐
+          tional information which is used to decide which files changed since the previous incremental dump and,
+          consequently, must be dumped again.  If FILE does not exist when creating an archive, it will  be  cre‐
+          ated  and  all  files will be added to the resulting archive (the level 0 dump).  To create incremental
+          archives of non-zero level N, create a copy of the snapshot file created during the level N-1, and  use
+          it as FILE.
+
+          When listing or extracting, the actual contents of FILE is not inspected, it is needed only due to syn‐
+          tactical requirements.  It is therefore common practice to use /dev/null in its place.
+
+   --hole-detection=METHOD
+          Use METHOD to detect holes in sparse files.  This option implies --sparse.  Valid values for METHOD are
+          seek and raw.  Default is seek with fallback to raw when not applicable.
+
+   -G, --incremental
+          Handle old GNU-format incremental backups.
+
+   --ignore-failed-read
+          Do not exit with nonzero on unreadable files.
+
+   --level=NUMBER
+          Set  dump level for created listed-incremental archive.  Currently only --level=0 is meaningful: it in‐
+          structs tar to truncate the snapshot file before dumping, thereby forcing a level 0 dump.
+
+   -n, --seek
+          Assume the archive is seekable.  Normally tar determines  automatically  whether  the  archive  can  be
+          seeked  or not.  This option is intended for use in cases when such recognition fails.  It takes effect
+          only if the archive is open for reading (e.g. with --list or --extract options).
+
+   --no-check-device
+          Do not check device numbers when creating incremental archives.
+
+   --no-seek
+          Assume the archive is not seekable.
+
+   --occurrence[=N]
+          Process only the Nth occurrence of each file in the archive.  This option is valid only when used  with
+          one  of  the  following  subcommands: --delete, --diff, --extract or --list and when a list of files is
+          given either on the command line or via the -T option.  The default N is 1.
+
+   --restrict
+          Disable the use of some potentially harmful options.
+
+   --sparse-version=MAJOR[.MINOR]
+          Set version of the sparse format to use (implies --sparse).  This option implies --sparse.  Valid argu‐
+          ment  values  are 0.0, 0.1, and 1.0.  For a detailed discussion of sparse formats, refer to the GNU Tar
+          Manual, appendix D, "Sparse Formats".  Using info reader, it can be accessed running the following com‐
+          mand: info tar 'Sparse Formats'.
+
+   -S, --sparse
+          Handle  sparse  files efficiently.  Some files in the file system may have segments which were actually
+          never written (quite often these are database files created by such systems as DBM).  When  given  this
+          option, tar attempts to determine if the file is sparse prior to archiving it, and if so, to reduce the
+          resulting archive size by not dumping empty parts of the file.
+</code></pre>
+<p>   Overwrite control<br>       These options control tar actions when extracting a file over an existing copy on disk.</p>
+<pre><code>   -k, --keep-old-files
+          Don't replace existing files when extracting.
+
+   --keep-newer-files
+          Don't replace existing files that are newer than their archive copies.
+
+   --keep-directory-symlink
+          Don't replace existing symlinks to directories when extracting.
+
+   --no-overwrite-dir
+          Preserve metadata of existing directories.
+
+   --one-top-level[=DIR]
+          Extract all files into DIR, or, if used without argument, into a subdirectory named by the base name of
+          the archive (minus standard compression suffixes recognizable by --auto-compress).
+
+   --overwrite
+          Overwrite existing files when extracting.
+
+   --overwrite-dir
+          Overwrite metadata of existing directories when extracting (default).
+
+   --recursive-unlink
+          Recursively remove all files in the directory prior to extracting it.
+
+   --remove-files
+          Remove files from disk after adding them to the archive.
+
+   --skip-old-files
+          Don't replace existing files when extracting, silently skip over them.
+
+   -U, --unlink-first
+          Remove each file prior to extracting over it.
+
+   -W, --verify
+          Verify the archive after writing it.
+</code></pre>
+<p>   Output stream selection<br>       –ignore-command-error</p>
+<pre><code>   Ignore subprocess exit codes.
+
+   --no-ignore-command-error
+          Treat non-zero exit codes of children as error (default).
+
+   -O, --to-stdout
+          Extract files to standard output.
+
+   --to-command=COMMAND
+          Pipe  extracted files to COMMAND.  The argument is the pathname of an external program, optionally with
+          command line arguments.  The program will be invoked and the contents of the file being extracted  sup‐
+          plied  to  it  on  its standard output.  Additional data will be supplied via the following environment
+          variables:
+
+          TAR_FILETYPE
+                 Type of the file. It is a single letter with the following meaning:
+
+                         f           Regular file
+                         d           Directory
+                         l           Symbolic link
+                         h           Hard link
+                         b           Block device
+                         c           Character device
+
+                 Currently only regular files are supported.
+
+          TAR_MODE
+                 File mode, an octal number.
+
+          TAR_FILENAME
+                 The name of the file.
+
+          TAR_REALNAME
+                 Name of the file as stored in the archive.
+
+          TAR_UNAME
+                 Name of the file owner.
+
+          TAR_GNAME
+                 Name of the file owner group.
+
+          TAR_ATIME
+                 Time of last access. It is a decimal number, representing seconds since the Epoch.  If  the  ar‐
+                 chive  provides  times  with nanosecond precision, the nanoseconds are appended to the timestamp
+                 after a decimal point.
+
+          TAR_MTIME
+                 Time of last modification.
+
+          TAR_CTIME
+                 Time of last status change.
+
+          TAR_SIZE
+                 Size of the file.
+
+          TAR_UID
+                 UID of the file owner.
+
+          TAR_GID
+                 GID of the file owner.
+
+          Additionally, the following variables contain information about tar operation mode and the archive  be‐
+          ing processed:
+
+          TAR_VERSION
+                 GNU tar version number.
+
+          TAR_ARCHIVE
+                 The name of the archive tar is processing.
+
+          TAR_BLOCKING_FACTOR
+                 Current blocking factor, i.e. number of 512-byte blocks in a record.
+
+          TAR_VOLUME
+                 Ordinal number of the volume tar is processing (set if reading a multi-volume archive).
+
+          TAR_FORMAT
+                 Format of the archive being processed.  One of: gnu, oldgnu, posix, ustar, v7.  TAR_SUBCOMMAND A
+                 short option (with a leading dash) describing the operation tar is executing.
+</code></pre>
+<p>   Handling of file attributes<br>       –atime-preserve[=METHOD]<br>              Preserve access times on dumped files, either by restoring the  times  after  reading  (METHOD=replace,<br>              this is the default) or by not setting the times in the first place (METHOD=system)</p>
+<pre><code>   --delay-directory-restore
+          Delay  setting modification times and permissions of extracted directories until the end of extraction.
+          Use this option when extracting from an archive which has unusual member ordering.
+
+   --group=NAME[:GID]
+          Force NAME as group for added files.  If GID is not supplied, NAME can be either a user name or numeric
+          GID.   In this case the missing part (GID or name) will be inferred from the current host's group data‐
+          base.
+
+          When used with --group-map=FILE, affects only those files whose owner group is not listed in FILE.
+
+   --group-map=FILE
+          Read group translation map from FILE.  Empty lines are ignored.  Comments are introduced  with  #  sign
+          and extend to the end of line.  Each non-empty line in FILE defines translation for a single group.  It
+          must consist of two fields, delimited by any amount of whitespace:
+
+          OLDGRP NEWGRP[:NEWGID]
+
+          OLDGRP is either a valid group name or a GID prefixed with +.  Unless NEWGID is supplied,  NEWGRP  must
+          also  be  either a valid group name or a +GID.  Otherwise, both NEWGRP and NEWGID need not be listed in
+          the system group database.
+
+          As a result, each input file with owner group OLDGRP will be stored in archive with owner group  NEWGRP
+          and GID NEWGID.
+
+   --mode=CHANGES
+          Force symbolic mode CHANGES for added files.
+
+   --mtime=DATE-OR-FILE
+          Set  mtime for added files.  DATE-OR-FILE is either a date/time in almost arbitrary format, or the name
+          of an existing file.  In the latter case the mtime of that file will be used.
+
+   -m, --touch
+          Don't extract file modified time.
+
+   --no-delay-directory-restore
+          Cancel the effect of the prior --delay-directory-restore option.
+
+   --no-same-owner
+          Extract files as yourself (default for ordinary users).
+
+   --no-same-permissions
+          Apply the user's umask when extracting permissions from the archive (default for ordinary users).
+
+   --numeric-owner
+          Always use numbers for user/group names.
+
+   --owner=NAME[:UID]
+          Force NAME as owner for added files.  If UID is not supplied, NAME can be either a user name or numeric
+          UID.   In  this case the missing part (UID or name) will be inferred from the current host's user data‐
+          base.
+
+          When used with --owner-map=FILE, affects only those files whose owner is not listed in FILE.
+
+   --owner-map=FILE
+          Read owner translation map from FILE.  Empty lines are ignored.  Comments are introduced  with  #  sign
+          and  extend  to the end of line.  Each non-empty line in FILE defines translation for a single UID.  It
+          must consist of two fields, delimited by any amount of whitespace:
+
+          OLDUSR NEWUSR[:NEWUID]
+
+          OLDUSR is either a valid user name or a UID prefixed with +.  Unless NEWUID is  supplied,  NEWUSR  must
+          also  be  either  a valid user name or a +UID.  Otherwise, both NEWUSR and NEWUID need not be listed in
+          the system user database.
+
+          As a result, each input file owned by OLDUSR will be stored in archive with owner name NEWUSR  and  UID
+          NEWUID.
+
+   -p, --preserve-permissions, --same-permissions
+          extract information about file permissions (default for superuser)
+
+   --preserve
+          Same as both -p and -s.
+
+   --same-owner
+          Try extracting files with the same ownership as exists in the archive (default for superuser).
+
+   -s, --preserve-order, --same-order
+          Sort names to extract to match archive
+
+   --sort=ORDER
+          When creating an archive, sort directory entries according to ORDER, which is one of none, name, or in‐
+          ode.
+
+          The default is --sort=none, which stores archive members in the same order as returned by the operating
+          system.
+
+          Using --sort=name ensures the member ordering in the created archive is uniform and reproducible.
+
+          Using --sort=inode reduces the number of disk seeks made when creating the archive and thus can consid‐
+          erably speed up archivation.  This sorting order is supported only if the  underlying  system  provides
+          the necessary information.
+</code></pre>
+<p>   Extended file attributes<br>       –acls Enable POSIX ACLs support.</p>
+<pre><code>   --no-acls
+          Disable POSIX ACLs support.
+
+   --selinux
+          Enable SELinux context support.
+
+   --no-selinux
+          Disable SELinux context support.
+
+   --xattrs
+          Enable extended attributes support.
+
+   --no-xattrs
+          Disable extended attributes support.
+
+   --xattrs-exclude=PATTERN
+          Specify  the  exclude pattern for xattr keys.  PATTERN is a POSIX regular expression, e.g. --xattrs-ex‐
+          clude='^user.', to exclude attributes from the user namespace.
+
+   --xattrs-include=PATTERN
+          Specify the include pattern for xattr keys.  PATTERN is a POSIX regular expression.
+</code></pre>
+<p>   Device selection and switching<br>       -f, –file=ARCHIVE<br>              Use archive file or device ARCHIVE.  If this option is not given, tar will first examine  the  environ‐<br>              ment  variable  `TAPE’.  If it is set, its value will be used as the archive name.  Otherwise, tar will<br>              assume the compiled-in default.  The default value can be inspected either  using  the  –show-defaults<br>              option, or at the end of the tar –help output.</p>
+<pre><code>          An archive name that has a colon in it specifies a file or device on a remote machine.  The part before
+          the colon is taken as the machine name or IP address, and the part after it as the file or device path‐
+          name, e.g.:
+
+          --file=remotehost:/dev/sr0
+
+          An optional username can be prefixed to the hostname, placing a @ sign between them.
+
+          By  default,  the  remote host is accessed via the rsh(1) command.  Nowadays it is common to use ssh(1)
+          instead.  You can do so by giving the following command line option:
+
+          --rsh-command=/usr/bin/ssh
+
+          The remote machine should have the rmt(8) command installed.  If its pathname does not match tar's  de‐
+          fault, you can inform tar about the correct pathname using the --rmt-command option.
+
+   --force-local
+          Archive file is local even if it has a colon.
+
+   -F, --info-script=COMMAND, --new-volume-script=COMMAND
+          Run COMMAND at the end of each tape (implies -M).  The command can include arguments.  When started, it
+          will inherit tar's environment plus the following variables:
+
+          TAR_VERSION
+                 GNU tar version number.
+
+          TAR_ARCHIVE
+                 The name of the archive tar is processing.
+
+          TAR_BLOCKING_FACTOR
+                 Current blocking factor, i.e. number of 512-byte blocks in a record.
+
+          TAR_VOLUME
+                 Ordinal number of the volume tar is processing (set if reading a multi-volume archive).
+
+          TAR_FORMAT
+                 Format of the archive being processed.  One of: gnu, oldgnu, posix, ustar, v7.
+
+          TAR_SUBCOMMAND
+                 A short option (with a leading dash) describing the operation tar is executing.
+
+          TAR_FD File descriptor which can be used to communicate the new volume name to tar.
+
+          If the info script fails, tar exits; otherwise, it begins writing the next volume.
+
+   -L, --tape-length=N
+          Change tape after writing Nx1024 bytes.  If N is followed by a size suffix  (see  the  subsection  Size
+          suffixes below), the suffix specifies the multiplicative factor to be used instead of 1024.
+
+          This option implies -M.
+
+   -M, --multi-volume
+          Create/list/extract multi-volume archive.
+
+   --rmt-command=COMMAND
+          Use  COMMAND  instead  of  rmt  when  accessing remote archives.  See the description of the -f option,
+          above.
+
+   --rsh-command=COMMAND
+          Use COMMAND instead of rsh when accessing remote archives.  See  the  description  of  the  -f  option,
+          above.
+
+   --volno-file=FILE
+          When  this  option is used in conjunction with --multi-volume, tar will keep track of which volume of a
+          multi-volume archive it is working in FILE.
+</code></pre>
+<p>   Device blocking<br>       -b, –blocking-factor=BLOCKS<br>              Set record size to BLOCKSx512 bytes.</p>
+<pre><code>   -B, --read-full-records
+          When listing or extracting, accept incomplete input records after end-of-file marker.
+
+   -i, --ignore-zeros
+          Ignore zeroed blocks in archive.  Normally two consecutive 512-blocks filled with zeroes mean  EOF  and
+          tar stops reading after encountering them.  This option instructs it to read further and is useful when
+          reading archives created with the -A option.
+
+   --record-size=NUMBER
+          Set record size.  NUMBER is the number of bytes per record.  It must be multiple of 512.  It can can be
+          suffixed  with  a  size suffix, e.g. --record-size=10K, for 10 Kilobytes.  See the subsection Size suf‐
+          fixes, for a list of valid suffixes.
+</code></pre>
+<p>   Archive format selection<br>       -H, –format=FORMAT<br>              Create archive of the given format.  Valid formats are:</p>
+<pre><code>          gnu    GNU tar 1.13.x format
+
+          oldgnu GNU format as per tar &lt;= 1.12.
+
+          pax, posix
+                 POSIX 1003.1-2001 (pax) format.
+
+          ustar  POSIX 1003.1-1988 (ustar) format.
+
+          v7     Old V7 tar format.
+
+   --old-archive, --portability
+          Same as --format=v7.
+
+   --pax-option=keyword[[:]=value][,keyword[[:]=value]]...
+          Control pax keywords when creating PAX archives (-H pax).  This option is equivalent to the  -o  option
+          of the pax(1)utility.
+
+   --posix
+          Same as --format=posix.
+
+   -V, --label=TEXT
+          Create  archive  with  volume  name TEXT.  If listing or extracting, use TEXT as a globbing pattern for
+          volume name.
+</code></pre>
+<p>   Compression options<br>       -a, –auto-compress<br>              Use archive suffix to determine the compression program.</p>
+<pre><code>   -I, --use-compress-program=COMMAND
+          Filter data through COMMAND.  It must accept the -d option, for decompression.  The argument  can  con‐
+          tain command line options.
+
+   -j, --bzip2
+          Filter the archive through bzip2(1).
+
+   -J, --xz
+          Filter the archive through xz(1).
+
+   --lzip Filter the archive through lzip(1).
+
+   --lzma Filter the archive through lzma(1).
+
+   --lzop Filter the archive through lzop(1).
+
+   --no-auto-compress
+          Do not use archive suffix to determine the compression program.
+
+   -z, --gzip, --gunzip, --ungzip
+          Filter the archive through gzip(1).
+
+   -Z, --compress, --uncompress
+          Filter the archive through compress(1).
+
+   --zstd Filter the archive through zstd(1).
+</code></pre>
+<p>   Local file selection<br>       –add-file=FILE<br>              Add FILE to the archive (useful if its name starts with a dash).</p>
+<pre><code>   --backup[=CONTROL]
+          Backup  before removal.  The CONTROL argument, if supplied, controls the backup policy.  Its valid val‐
+          ues are:
+
+          none, off
+                 Never make backups.
+
+          t, numbered
+                 Make numbered backups.
+
+          nil, existing
+                 Make numbered backups if numbered backups exist, simple backups otherwise.
+
+          never, simple
+                 Always make simple backups
+
+          If CONTROL is not given, the value is taken from the VERSION_CONTROL environment variable.   If  it  is
+          not set, existing is assumed.
+
+   -C, --directory=DIR
+          Change  to  DIR  before performing any operations.  This option is order-sensitive, i.e. it affects all
+          options that follow.
+
+   --exclude=PATTERN
+          Exclude files matching PATTERN, a glob(3)-style wildcard pattern.
+
+   --exclude-backups
+          Exclude backup and lock files.
+
+   --exclude-caches
+          Exclude contents of directories containing file CACHEDIR.TAG, except for the tag file itself.
+
+   --exclude-caches-all
+          Exclude directories containing file CACHEDIR.TAG and the file itself.
+
+   --exclude-caches-under
+          Exclude everything under directories containing CACHEDIR.TAG
+
+   --exclude-ignore=FILE
+          Before dumping a directory, see if it contains FILE.  If so, read exclusion patterns  from  this  file.
+          The patterns affect only the directory itself.
+
+   --exclude-ignore-recursive=FILE
+          Same  as  --exclude-ignore, except that patterns from FILE affect both the directory and all its subdi‐
+          rectories.
+
+   --exclude-tag=FILE
+          Exclude contents of directories containing FILE, except for FILE itself.
+
+   --exclude-tag-all=FILE
+          Exclude directories containing FILE.
+
+   --exclude-tag-under=FILE
+          Exclude everything under directories containing FILE.
+
+   --exclude-vcs
+          Exclude version control system directories.
+
+   --exclude-vcs-ignores
+          Exclude files that match patterns read from VCS-specific ignore files.  Supported  files  are:  .cvsig‐
+          nore, .gitignore, .bzrignore, and .hgignore.
+
+   -h, --dereference
+          Follow symlinks; archive and dump the files they point to.
+
+   --hard-dereference
+          Follow hard links; archive and dump the files they refer to.
+
+   -K, --starting-file=MEMBER
+          Begin at the given member in the archive.
+
+   --newer-mtime=DATE
+          Work  on  files whose data changed after the DATE.  If DATE starts with / or . it is taken to be a file
+          name; the mtime of that file is used as the date.
+
+   --no-null
+          Disable the effect of the previous --null option.
+
+   --no-recursion
+          Avoid descending automatically in directories.
+
+   --no-unquote
+          Do not unquote input file or member names.
+
+   --no-verbatim-files-from
+          Treat each line read from a file list as if it were supplied in the command line.   I.e.,  leading  and
+          trailing  whitespace  is  removed and, if the resulting string begins with a dash, it is treated as tar
+          command line option.
+
+          This is the default behavior.  The --no-verbatim-files-from option is provided as a way to  restore  it
+          after --verbatim-files-from option.
+
+          This  option  is positional: it affects all --files-from options that occur after it in, until --verba‐
+          tim-files-from option or end of line, whichever occurs first.
+
+          It is implied by the --no-null option.
+
+   --null Instruct subsequent -T options to read null-terminated names verbatim  (disables  special  handling  of
+          names that start with a dash).
+
+          See also --verbatim-files-from.
+
+   -N, --newer=DATE, --after-date=DATE
+          Only  store files newer than DATE.  If DATE starts with / or . it is taken to be a file name; the ctime
+          of that file is used as the date.
+
+   --one-file-system
+          Stay in local file system when creating archive.
+
+   -P, --absolute-names
+          Don't strip leading slashes from file names when creating archives.
+
+   --recursion
+          Recurse into directories (default).
+
+   --suffix=STRING
+          Backup before removal, override usual suffix.  Default suffix is ~, unless  overridden  by  environment
+          variable SIMPLE_BACKUP_SUFFIX.
+
+   -T, --files-from=FILE
+          Get names to extract or create from FILE.
+
+          Unless  specified otherwise, the FILE must contain a list of names separated by ASCII LF (i.e. one name
+          per line).  The names read are handled the same way as command line arguments.  They undergo quote  re‐
+          moval and word splitting, and any string that starts with a - is handled as tar command line option.
+
+          If this behavior is undesirable, it can be turned off using the --verbatim-files-from option.
+
+          The --null option instructs tar that the names in FILE are separated by ASCII NUL character, instead of
+          LF.  It is useful if the list is generated by find(1) -print0 predicate.
+
+   --unquote
+          Unquote file or member names (default).
+
+   --verbatim-files-from
+          Treat each line obtained from a file list as a file name, even if it starts with a  dash.   File  lists
+          are  supplied  with  the --files-from (-T) option.  The default behavior is to handle names supplied in
+          file lists as if they were typed in the command line, i.e. any names starting with a dash  are  treated
+          as tar options.  The --verbatim-files-from option disables this behavior.
+
+          This  option  affects  all --files-from options that occur after it in the command line.  Its effect is
+          reverted by the --no-verbatim-files-from} option.
+
+          This option is implied by the --null option.
+
+          See also --add-file.
+
+   -X, --exclude-from=FILE
+          Exclude files matching patterns listed in FILE.
+</code></pre>
+<p>   File name transformations<br>       –strip-components=NUMBER<br>              Strip NUMBER leading components from file names on extraction.</p>
+<pre><code>   --transform=EXPRESSION, --xform=EXPRESSION
+          Use sed replace EXPRESSION to transform file names.
+</code></pre>
+<p>   File name matching options<br>       These options affect both exclude and include patterns.</p>
+<pre><code>   --anchored
+          Patterns match file name start.
+
+   --ignore-case
+          Ignore case.
+
+   --no-anchored
+          Patterns match after any / (default for exclusion).
+
+   --no-ignore-case
+          Case sensitive matching (default).
+
+   --no-wildcards
+          Verbatim string matching.
+
+   --no-wildcards-match-slash
+          Wildcards do not match /.
+
+   --wildcards
+          Use wildcards (default for exclusion).
+
+   --wildcards-match-slash
+          Wildcards match / (default for exclusion).
+</code></pre>
+<p>   Informative output<br>       –checkpoint[=N]<br>              Display progress messages every Nth record (default 10).</p>
+<pre><code>   --checkpoint-action=ACTION
+          Run ACTION on each checkpoint.
+
+   --clamp-mtime
+          Only set time when the file is more recent than what was given with --mtime.
+
+   --full-time
+          Print file time to its full resolution.
+
+   --index-file=FILE
+          Send verbose output to FILE.
+
+   -l, --check-links
+          Print a message if not all links are dumped.
+
+   --no-quote-chars=STRING
+          Disable quoting for characters from STRING.
+
+   --quote-chars=STRING
+          Additionally quote characters from STRING.
+
+   --quoting-style=STYLE
+          Set quoting style for file and member names.  Valid values for STYLE are literal, shell,  shell-always,
+          c, c-maybe, escape, locale, clocale.
+
+   -R, --block-number
+          Show block number within archive with each message.
+
+   --show-omitted-dirs
+          When listing or extracting, list each directory that does not match search criteria.
+
+   --show-transformed-names, --show-stored-names
+          Show file or archive names after transformation by --strip and --transform options.
+
+   --totals[=SIGNAL]
+          Print total bytes after processing the archive.  If SIGNAL is given, print total bytes when this signal
+          is delivered.  Allowed signals are: SIGHUP, SIGQUIT, SIGINT, SIGUSR1, and SIGUSR2.  The SIG prefix  can
+          be omitted.
+
+   --utc  Print file modification times in UTC.
+
+   -v, --verbose
+          Verbosely list files processed.
+
+   --warning=KEYWORD
+          Enable  or  disable  warning messages identified by KEYWORD.  The messages are suppressed if KEYWORD is
+          prefixed with no- and enabled otherwise.
+
+          Multiple --warning messages accumulate.
+
+          Keywords controlling general tar operation:
+
+          all    Enable all warning messages.  This is the default.
+
+          none   Disable all warning messages.
+
+          filename-with-nuls
+                 "%s: file name read contains nul character"
+
+          alone-zero-block
+                 "A lone zero block at %s"
+
+          Keywords applicable for tar --create:
+
+          cachedir
+                 "%s: contains a cache directory tag %s; %s"
+
+          file-shrank
+                 "%s: File shrank by %s bytes; padding with zeros"
+
+          xdev   "%s: file is on a different filesystem; not dumped"
+
+          file-ignored
+                 "%s: Unknown file type; file ignored"
+                 "%s: socket ignored"
+                 "%s: door ignored"
+
+          file-unchanged
+                 "%s: file is unchanged; not dumped"
+
+          ignore-archive
+                 "%s: file is the archive; not dumped"
+
+          file-removed
+                 "%s: File removed before we read it"
+
+          file-changed
+                 "%s: file changed as we read it"
+
+          failed-read
+                 Suppresses warnings about unreadable files or directories. This keyword applies only if used to‐
+                 gether with the --ignore-failed-read option.
+
+          Keywords applicable for tar --extract:
+
+          existing-file
+                 "%s: skipping existing file"
+
+          timestamp
+                 "%s: implausibly old time stamp %s"
+                 "%s: time stamp %s is %s s in the future"
+
+          contiguous-cast
+                 "Extracting contiguous files as regular files"
+
+          symlink-cast
+                 "Attempting extraction of symbolic links as hard links"
+
+          unknown-cast
+                 "%s: Unknown file type '%c', extracted as normal file"
+
+          ignore-newer
+                 "Current %s is newer or same age"
+
+          unknown-keyword
+                 "Ignoring unknown extended header keyword '%s'"
+
+          decompress-program
+                 Controls  verbose  description of failures occurring when trying to run alternative decompressor
+                 programs.  This warning is disabled by default (unless --verbose is used).  A common example  of
+                 what you can get when using this warning is:
+
+                 $ tar --warning=decompress-program -x -f archive.Z
+                 tar (child): cannot run compress: No such file or directory
+                 tar (child): trying gzip
+
+                 This  means  that tar first tried to decompress archive.Z using compress, and, when that failed,
+                 switched to gzip.
+
+          record-size
+                 "Record size = %lu blocks"
+
+          Keywords controlling incremental extraction:
+
+          rename-directory
+                 "%s: Directory has been renamed from %s"
+                 "%s: Directory has been renamed"
+
+          new-directory
+                 "%s: Directory is new"
+
+          xdev   "%s: directory is on a different device: not purging"
+
+          bad-dumpdir
+                 "Malformed dumpdir: 'X' never used"
+
+   -w, --interactive, --confirmation
+          Ask for confirmation for every action.
+</code></pre>
+<p>   Compatibility options<br>       -o     When creating, same as –old-archive.  When extracting, same as –no-same-owner.</p>
+<p>   Size suffixes<br>               Suffix    Units                   Byte Equivalent<br>               b         Blocks                  SIZE x 512<br>               B         Kilobytes               SIZE x 1024<br>               c         Bytes                   SIZE<br>               G         Gigabytes               SIZE x 1024^3<br>               K         Kilobytes               SIZE x 1024<br>               k         Kilobytes               SIZE x 1024<br>               M         Megabytes               SIZE x 1024^2<br>               P         Petabytes               SIZE x 1024^5<br>               T         Terabytes               SIZE x 1024^4<br>               w         Words                   SIZE x 2</p>
+<p>RETURN VALUE<br>       Tar exit code indicates whether it was able to successfully perform the requested operation, and if not,  what<br>       kind of error occurred.</p>
+<pre><code>   0      Successful termination.
+
+   1      Some  files differ.  If tar was invoked with the --compare (--diff, -d) command line option, this means
+          that some files in the archive differ from their disk counterparts.  If tar was given one of the --cre‐
+          ate,  --append  or  --update  options,  this  exit  code means that some files were changed while being
+          archived and so the resulting archive does not contain the exact copy of the file set.
+
+   2      Fatal error.  This means that some fatal, unrecoverable error occurred.
+
+   If a subprocess that had been invoked by tar exited with a nonzero exit code, tar itself exits with that  code
+   as well.  This can happen, for example, if a compression option (e.g. -z) was used and the external compressor
+   program failed.  Another example is rmt failure during backup to a remote device.
+</code></pre>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/tar/" rel="tag"># tar</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2011/02/12/linux-tee-beginner/" rel="prev" title="双向输出的 tee">
+      <i class="fa fa-chevron-left"></i> 双向输出的 tee
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2011/02/12/linux-tar-beginner/" rel="next" title="解压方法之一 tar">
+      解压方法之一 tar <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E7%9A%84%E5%BD%92%E6%A1%A3%E5%91%BD%E4%BB%A4-tar"><span class="nav-number">1.</span> <span class="nav-text">Linux 的归档命令 tar</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">压缩文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-number">1.3.</span> <span class="nav-text">查看压缩文件的内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.</span> <span class="nav-text">解压文件</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2011/02/12/linux-tar/";
+    this.page.identifier = "2011/02/12/linux-tar/";
+    this.page.title = "Linux 的 tar 命令";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

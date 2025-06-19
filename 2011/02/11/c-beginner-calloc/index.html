@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="聊聊main函数main字面的意思就是主要的意思，在程序里面也是，并且更重要了，是主函数，何为主函数，就是程序运行会执行的第一个程序，意即程序的入口，如果说眼睛是心灵的窗户，那么main就是程序的大门。 在C99标准之前，main函数可以没有返回类型或者使用void，如下所示： 12345&#x2F;*beginner&#x2F;main&#x2F;main1.c*&#x2F;main(){}  或者 123456&#x2F;*beginner&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言 main函数">
+<meta property="og:url" content="http://shaoguangleo.github.io/2011/02/11/c-beginner-calloc/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="聊聊main函数main字面的意思就是主要的意思，在程序里面也是，并且更重要了，是主函数，何为主函数，就是程序运行会执行的第一个程序，意即程序的入口，如果说眼睛是心灵的窗户，那么main就是程序的大门。 在C99标准之前，main函数可以没有返回类型或者使用void，如下所示： 12345&#x2F;*beginner&#x2F;main&#x2F;main1.c*&#x2F;main(){}  或者 123456&#x2F;*beginner&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2011-02-11T14:28:20.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.704Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="c">
+<meta property="article:tag" content="argc">
+<meta property="article:tag" content="argv">
+<meta property="article:tag" content="c-beginner">
+<meta property="article:tag" content="C语言从小白到入门">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2011/02/11/c-beginner-calloc/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C语言 main函数 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2011/02/11/c-beginner-calloc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C语言 main函数
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2011-02-11 22:28:20" itemprop="dateCreated datePublished" datetime="2011-02-11T22:28:20+08:00">2011-02-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2011/02/11/c-beginner-calloc/" class="post-meta-item leancloud_visitors" data-flag-title="C语言 main函数" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2011/02/11/c-beginner-calloc/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/02/11/c-beginner-calloc/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2011/02/11/c-beginner-calloc/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2011/02/11/c-beginner-calloc/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="聊聊main函数"><a href="#聊聊main函数" class="headerlink" title="聊聊main函数"></a>聊聊main函数</h1><p><code>main</code>字面的意思就是主要的意思，在程序里面也是，并且更重要了，是主函数，何为主函数，就是程序运行会执行的第一个程序，意即程序的入口，如果说眼睛是心灵的窗户，那么main就是程序的大门。</p>
+<p>在C99标准之前，main函数可以没有返回类型或者使用void，如下所示：</p>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*beginner/main/main1.c*/</span></span><br><span class="line"></span><br><span class="line">main()</span><br><span class="line">{</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>或者</p>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*beginner/main/main2.c*/</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">{</span><br><span class="line">}</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>这两个可以称为最短小精悍的程序了，不会出错，因为没有语句。</p>
+<p>如果使用C99标准编译，就可以看到如下的警告信息：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">main1.c:3:1: warning: <span class="built_in">type</span> specifier missing, defaults to <span class="string">'int'</span> [-Wimplicit-int]</span><br><span class="line">main()</span><br><span class="line">^</span><br><span class="line">1 warning generated.</span><br><span class="line">gcc -o main2 main2.c</span><br><span class="line">main2.c:3:1: warning: <span class="built_in">return</span> <span class="built_in">type</span> of <span class="string">'main'</span> is not <span class="string">'int'</span> [-Wmain-return-type]</span><br><span class="line">void main()</span><br><span class="line">^</span><br><span class="line">main2.c:3:1: note: change <span class="built_in">return</span> <span class="built_in">type</span> to <span class="string">'int'</span></span><br><span class="line">void main()</span><br><span class="line">^~~~</span><br><span class="line">int</span><br><span class="line">1 warning generated.</span><br></pre></td></tr></tbody></table></figure>
+
+<p>警告的含义就是我们的mian函数是有血有肉的，是有正儿八经的返回值的，这个返回值的类型就是int，所以这个程序：</p>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*beginner/main/main3.c*/</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">{</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>OK，完美编译，没有任何报错信息，不过终归看着少了点什么，是的，如果定义了返回类型，就需要有相应的返回，所以第一个标准的简单C语言函数如下所示：</p>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*beginner/main/main4.c*/</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">{</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="main函数的形式"><a href="#main函数的形式" class="headerlink" title="main函数的形式"></a>main函数的形式</h2><p>恩，既然写出了main函数的标准形式，这里就需要讨论一个问题，为什么有时候看到int main()，有时候又看到int main(int argc, char *argv[])呢，具体的形式如下所示：</p>
+<h3 id="无参数的main函数"><a href="#无参数的main函数" class="headerlink" title="无参数的main函数"></a>无参数的main函数</h3><figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*beginner/main/main5.c*/</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">{</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello World\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p>可以看到上面这个例子，只是打印了hello world，并没有其他语句。</p>
+<p>而下面的例子，我们看到使用到了argc和argv，所谓的形参，所以在有需要的时候才会出现这种形式，就好像是黄蓉给郭靖的几个锦囊^_^。</p>
+<h3 id="有参数的main函数"><a href="#有参数的main函数" class="headerlink" title="有参数的main函数"></a>有参数的main函数</h3><figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*beginner/main/main6.c*/</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span><br><span class="line">{</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"The are %d arguments.\n"</span>, argc);</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; argc; i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%s "</span>, argv[i]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h2><p>直接输入<code>make</code>就可以了。</p>
+<figure class="highlight makefile"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#beginner/main/Makefile</span></span><br><span class="line">ALL : main1 main2 main3 main4 main5 main6</span><br><span class="line"></span><br><span class="line"><span class="section">main1: main1.c</span></span><br><span class="line">	gcc -o main1 main1.c</span><br><span class="line"></span><br><span class="line"><span class="section">main2: main2.c</span></span><br><span class="line">	gcc -o main2 main2.c</span><br><span class="line"></span><br><span class="line"><span class="section">main3: main3.c</span></span><br><span class="line">	gcc -o main3 main3.c</span><br><span class="line"></span><br><span class="line"><span class="section">main4: main4.c</span></span><br><span class="line">	gcc -o main4 main4.c</span><br><span class="line"></span><br><span class="line"><span class="section">main5: main5.c</span></span><br><span class="line">	gcc -o main5 main5.c</span><br><span class="line"></span><br><span class="line"><span class="section">main6: main6.c</span></span><br><span class="line">	gcc -o main6 main6.c</span><br><span class="line"></span><br><span class="line">.PHONY : clean</span><br><span class="line"></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm -f main1 main2 main3 main4 main5 main6</span><br></pre></td></tr></tbody></table></figure>
+
+<p>MALLOC(3)                                                                          Linux Programmer’s Manual                                                                         MALLOC(3)</p>
+<p>NAME<br>       malloc, free, calloc, realloc - allocate and free dynamic memory</p>
+<p>SYNOPSIS<br>       #include &lt;stdlib.h&gt;</p>
+<pre><code>   void *malloc(size_t size);
+   void free(void *ptr);
+   void *calloc(size_t nmemb, size_t size);
+   void *realloc(void *ptr, size_t size);
+   void *reallocarray(void *ptr, size_t nmemb, size_t size);
+</code></pre>
+<p>   Feature Test Macro Requirements for glibc (see feature_test_macros(7)):</p>
+<pre><code>   reallocarray():
+       Since glibc 2.29:
+           _DEFAULT_SOURCE
+       Glibc 2.28 and earlier:
+           _GNU_SOURCE
+</code></pre>
+<p>DESCRIPTION<br>       The malloc() function allocates size bytes and returns a pointer to the allocated memory.  The memory is not initialized.  If size is 0, then malloc() returns either NULL, or a unique<br>       pointer value that can later be successfully passed to free().</p>
+<pre><code>   The free() function frees the memory space pointed to by ptr, which must have been returned by a previous call to malloc(), calloc(), or realloc().  Otherwise, or if free(ptr) has al‐
+   ready been called before, undefined behavior occurs.  If ptr is NULL, no operation is performed.
+
+   The  calloc()  function allocates memory for an array of nmemb elements of size bytes each and returns a pointer to the allocated memory.  The memory is set to zero.  If nmemb or size
+   is 0, then calloc() returns either NULL, or a unique pointer value that can later be successfully passed to free().  If the multiplication of nmemb and size would  result  in  integer
+   overflow, then calloc() returns an error.  By contrast, an integer overflow would not be detected in the following call to malloc(), with the result that an incorrectly sized block of
+   memory would be allocated:
+
+       malloc(nmemb * size);
+
+   The realloc() function changes the size of the memory block pointed to by ptr to size bytes.  The contents will be unchanged in the range from the start of the region up to the  mini‐
+   mum of the old and new sizes.  If the new size is larger than the old size, the added memory will not be initialized.  If ptr is NULL, then the call is equivalent to malloc(size), for
+   all values of size; if size is equal to zero, and ptr is not NULL, then the call is equivalent to free(ptr).  Unless ptr is NULL, it must have been returned by an earlier call to mal‐
+   loc(), calloc(), or realloc().  If the area pointed to was moved, a free(ptr) is done.
+
+   The reallocarray() function changes the size of the memory block pointed to by ptr to be large enough for an array of nmemb elements, each of which is size bytes.  It is equivalent to
+   the call
+
+           realloc(ptr, nmemb * size);
+
+   However, unlike that realloc() call, reallocarray() fails safely in the case where the multiplication would overflow.  If such an overflow occurs, reallocarray()  returns  NULL,  sets
+   errno to ENOMEM, and leaves the original block of memory unchanged.
+</code></pre>
+<p>RETURN VALUE<br>       The  malloc()  and calloc() functions return a pointer to the allocated memory, which is suitably aligned for any built-in type.  On error, these functions return NULL.  NULL may also<br>       be returned by a successful call to malloc() with a size of zero, or by a successful call to calloc() with nmemb or size equal to zero.</p>
+<pre><code>   The free() function returns no value.
+
+   The realloc() function returns a pointer to the newly allocated memory, which is suitably aligned for any built-in type, or NULL if the request failed.  The returned  pointer  may  be
+   the  same as ptr if the allocation was not moved (e.g., there was room to expand the allocation in-place), or different from ptr if the allocation was moved to a new address.  If size
+   was equal to 0, either NULL or a pointer suitable to be passed to free() is returned.  If realloc() fails, the original block is left untouched; it is not freed or moved.
+
+   On success, the reallocarray() function returns a pointer to the newly allocated memory.  On failure, it returns NULL and the original block of memory is left untouched.
+</code></pre>
+<p>ERRORS<br>       calloc(), malloc(), realloc(), and reallocarray() can fail with the following error:</p>
+<pre><code>   ENOMEM Out of memory.  Possibly, the application hit the RLIMIT_AS or RLIMIT_DATA limit described in getrlimit(2).
+</code></pre>
+<p>ATTRIBUTES<br>       For an explanation of the terms used in this section, see attributes(7).</p>
+<pre><code>   ┌─────────────────────┬───────────────┬─────────┐
+   │Interface            │ Attribute     │ Value   │
+   ├─────────────────────┼───────────────┼─────────┤
+   │malloc(), free(),    │ Thread safety │ MT-Safe │
+   │calloc(), realloc()  │               │         │
+   └─────────────────────┴───────────────┴─────────┘
+</code></pre>
+<p>CONFORMING TO<br>       malloc(), free(), calloc(), realloc(): POSIX.1-2001, POSIX.1-2008, C89, C99.</p>
+<pre><code>   reallocarray() is a nonstandard extension that first appeared in OpenBSD 5.6 and FreeBSD 11.0.
+</code></pre>
+<p>NOTES<br>       By default, Linux follows an optimistic memory allocation strategy.  This means that when malloc() returns non-NULL there is no guarantee that the memory really is available.  In case<br>       it turns out that the system is out of memory, one or more processes will be killed by the OOM killer.  For more information, see the description of /proc/sys/vm/overcommit_memory and<br>       /proc/sys/vm/oom_adj in proc(5), and the Linux kernel source file Documentation/vm/overcommit-accounting.rst.</p>
+<pre><code>   Normally, malloc() allocates memory from the heap, and adjusts the size of the heap as required, using sbrk(2).  When allocating blocks of memory larger than MMAP_THRESHOLD bytes, the
+   glibc  malloc()  implementation  allocates the memory as a private anonymous mapping using mmap(2).  MMAP_THRESHOLD is 128 kB by default, but is adjustable using mallopt(3).  Prior to
+   Linux 4.7 allocations performed using mmap(2) were unaffected by the RLIMIT_DATA resource limit; since Linux 4.7, this limit is also enforced for allocations performed using mmap(2).
+
+   To avoid corruption in multithreaded applications, mutexes are used internally to protect the memory-management data structures employed by these functions.  In a multithreaded appli‐
+   cation  in  which  threads  simultaneously  allocate and free memory, there could be contention for these mutexes.  To scalably handle memory allocation in multithreaded applications,
+   glibc creates additional memory allocation arenas if mutex contention is detected.  Each arena is a large region of memory that is internally allocated by the system (using brk(2)  or
+   mmap(2)), and managed with its own mutexes.
+
+   SUSv2 requires malloc(), calloc(), and realloc() to set errno to ENOMEM upon failure.  Glibc assumes that this is done (and the glibc versions of these routines do this); if you use a
+   private malloc implementation that does not set errno, then certain library routines may fail without having a reason in errno.
+
+   Crashes in malloc(), calloc(), realloc(), or free() are almost always related to heap corruption, such as overflowing an allocated chunk or freeing the same pointer twice.
+
+   The malloc() implementation is tunable via environment variables; see mallopt(3) for details.
+</code></pre>
+<p>SEE ALSO<br>       valgrind(1), brk(2), mmap(2), alloca(3), malloc_get_state(3), malloc_info(3), malloc_trim(3), malloc_usable_size(3), mallopt(3), mcheck(3), mtrace(3), posix_memalign(3)</p>
+<pre><code>   For details of the GNU C library implementation, see ⟨https://sourceware.org/glibc/wiki/MallocInternals⟩.
+</code></pre>
+<p>COLOPHON<br>       This page is part of release 5.05 of the Linux man-pages project.  A description of the project, information about reporting bugs, and the latest version of this page, can be found at<br>       <a href="https://www.kernel.org/doc/man-pages/">https://www.kernel.org/doc/man-pages/</a>.</p>
+<p>GNU                                                                                       2020-02-09                                                                                 MALLOC(3)</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/c/" rel="tag"># c</a>
+              <a href="/tags/argc/" rel="tag"># argc</a>
+              <a href="/tags/argv/" rel="tag"># argv</a>
+              <a href="/tags/c-beginner/" rel="tag"># c-beginner</a>
+              <a href="/tags/C%E8%AF%AD%E8%A8%80%E4%BB%8E%E5%B0%8F%E7%99%BD%E5%88%B0%E5%85%A5%E9%97%A8/" rel="tag"># C语言从小白到入门</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2011/02/11/c-beginner-main/" rel="prev" title="C语言 main函数">
+      <i class="fa fa-chevron-left"></i> C语言 main函数
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2011/02/12/linux-whatis/" rel="next" title="Linux 的 whatis 命令">
+      Linux 的 whatis 命令 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%81%8A%E8%81%8Amain%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">聊聊main函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#main%E5%87%BD%E6%95%B0%E7%9A%84%E5%BD%A2%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">main函数的形式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E5%8F%82%E6%95%B0%E7%9A%84main%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text">无参数的main函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E5%8F%82%E6%95%B0%E7%9A%84main%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.2.</span> <span class="nav-text">有参数的main函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8C"><span class="nav-number">1.2.</span> <span class="nav-text">编译运行</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2011/02/11/c-beginner-calloc/";
+    this.page.identifier = "2011/02/11/c-beginner-calloc/";
+    this.page.title = "C语言 main函数";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

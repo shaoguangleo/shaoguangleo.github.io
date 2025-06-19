@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="载入数据现在我们已经在Difmap环境中了，将有一个如下的提示符： 10&gt;  现在我们开始输入第一个命令，用于载入数据。 10&gt; observe YOUR_DATA  提示：这里可以简单地输入obs然后使用Tab即可补全剩余的命令。这项技术有助于在整个Difmap的使用过程中节省宝贵的时间。随时随地掌握这些技巧，可以提升软件使用体验^_^。此时应该可以看到下述输出了。 12345678">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Difmap 载入数据">
+<meta property="og:url" content="http://shaoguangleo.github.io/2016/04/03/radio_astronomy_difmap_load_data/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="载入数据现在我们已经在Difmap环境中了，将有一个如下的提示符： 10&gt;  现在我们开始输入第一个命令，用于载入数据。 10&gt; observe YOUR_DATA  提示：这里可以简单地输入obs然后使用Tab即可补全剩余的命令。这项技术有助于在整个Difmap的使用过程中节省宝贵的时间。随时随地掌握这些技巧，可以提升软件使用体验^_^。此时应该可以看到下述输出了。 12345678">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-04-03T13:25:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.940Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="astronomy">
+<meta property="article:tag" content="radio">
+<meta property="article:tag" content="radio astronomy">
+<meta property="article:tag" content="difmap">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2016/04/03/radio_astronomy_difmap_load_data/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Difmap 载入数据 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2016/04/03/radio_astronomy_difmap_load_data/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Difmap 载入数据
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-04-03 21:25:00" itemprop="dateCreated datePublished" datetime="2016-04-03T21:25:00+08:00">2016-04-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B0%84%E7%94%B5%E5%A4%A9%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">射电天文</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B0%84%E7%94%B5%E5%A4%A9%E6%96%87/%E5%A4%A9%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">天文</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B0%84%E7%94%B5%E5%A4%A9%E6%96%87/%E5%A4%A9%E6%96%87/%E5%B0%84%E7%94%B5/" itemprop="url" rel="index"><span itemprop="name">射电</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2016/04/03/radio_astronomy_difmap_load_data/" class="post-meta-item leancloud_visitors" data-flag-title="Difmap 载入数据" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/04/03/radio_astronomy_difmap_load_data/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/04/03/radio_astronomy_difmap_load_data/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2016/04/03/radio_astronomy_difmap_load_data/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/04/03/radio_astronomy_difmap_load_data/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="载入数据"><a href="#载入数据" class="headerlink" title="载入数据"></a>载入数据</h1><p>现在我们已经在Difmap环境中了，将有一个如下的提示符：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">0&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>现在我们开始输入第一个命令，用于载入数据。</p>
+<figure class="highlight erlang-repl"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">0&gt; </span>observe YOUR_DATA</span><br></pre></td></tr></tbody></table></figure>
+
+<p>提示：这里可以简单地输入obs然后使用Tab即可补全剩余的命令。这项技术有助于在整个Difmap的使用过程中节省宝贵的时间。随时随地掌握这些技巧，可以提升软件使用体验^_^。<br>此时应该可以看到下述输出了。</p>
+<figure class="highlight tap"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Reading UV FITS file: 3C219.L(A.butDefinitelyB).postProc.uvf</span><br><span class="line">AN table 1:<span class="number"> 2454 </span>integrations on<span class="number"> 406 </span>of<span class="number"> 406 </span>possible baselines.</span><br><span class="line">Apparent sampling: 0.732128 visibilities/baseline/integration-bin.</span><br><span class="line">Found source: 3C219</span><br><span class="line"></span><br><span class="line">There are<span class="number"> 2 </span>IFs, and a total of<span class="number"> 2 </span>channels:</span><br><span class="line"></span><br><span class="line"> IF  Channel    Frequency  Freq offset  Number of   Overall IF</span><br><span class="line">      origin    at origin  per channel   channels    bandwidth</span><br><span class="line"> ------------------------------------------------------------- (Hz)</span><br><span class="line"><span class="number"> 01 </span>      <span class="number"> 1 </span>   1.385e+09      2.5e+07         <span class="number"> 1 </span>     2.5e+07</span><br><span class="line"><span class="number"> 02 </span>      <span class="number"> 2 </span>   1.665e+09      2.5e+07         <span class="number"> 1 </span>     2.5e+07</span><br><span class="line"></span><br><span class="line">Polarization(s): RR LL RL LR</span><br><span class="line"></span><br><span class="line">Read<span class="number"> 307 </span>lines of history.</span><br><span class="line"></span><br><span class="line">Reading<span class="number"> 5835496 </span>visibilities.</span><br></pre></td></tr></tbody></table></figure>
+
+<p>该命令详细列出了源的相关信息。检查所有的Ifs，通道、频率等都是正确的。如果出现了诸如“”的错误，你可能需要返回AIPS来确定输出了正确的数据。如果需要得到更多的信息，可以输入下述命令：</p>
+<figure class="highlight subunit"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">0&gt; header</span><br><span class="line">UV FITS miscellaneous header keyword values:</span><br><span class="line"> OBSERVER = "AC149"</span><br><span class="line"> DATE-OBS = "1986<span class="string">-05</span><span class="string">-18</span>"</span><br><span class="line"> ORIGIN   = "AIPSlocalhost    LOCALHOST            31DEC11"</span><br><span class="line"> TELESCOP = "VLA"</span><br><span class="line"> INSTRUME = "VLA"</span><br><span class="line"> EQUINOX  = 2000.00</span><br><span class="line"></span><br><span class="line">Sub-array 1 contains:</span><br><span class="line">406 baselines   29 stations</span><br><span class="line">2454 integrations    4 scans</span><br><span class="line"></span><br><span class="line"> Station  name               X (m)            Y (m)             Z(m)</span><br><span class="line">   01     VLA:_N28      <span class="string">-1</span>.600864e<span class="string">+06</span>    <span class="string">-5</span>.041770e<span class="string">+06</span>     3.557965e<span class="string">+06</span></span><br><span class="line">   02     VLA:_W28      <span class="string">-1</span>.604866e<span class="string">+06</span>    <span class="string">-5</span>.046527e<span class="string">+06</span>     3.552962e<span class="string">+06</span></span><br><span class="line">   03     VLA:_N16      <span class="string">-1</span>.601062e<span class="string">+06</span>    <span class="string">-5</span>.041898e<span class="string">+06</span>     3.556058e<span class="string">+06</span></span><br><span class="line">   04     VLA:_W24      <span class="string">-1</span>.604009e<span class="string">+06</span>    <span class="string">-5</span>.045468e<span class="string">+06</span>     3.553404e<span class="string">+06</span></span><br><span class="line">   05     VLA:_W12      <span class="string">-1</span>.602045e<span class="string">+06</span>    <span class="string">-5</span>.043040e<span class="string">+06</span>     3.554428e<span class="string">+06</span></span><br><span class="line">   06     VLA:_W04      <span class="string">-1</span>.601316e<span class="string">+06</span>    <span class="string">-5</span>.042139e<span class="string">+06</span>     3.554808e<span class="string">+06</span></span><br><span class="line">   07     VLA:_W20      <span class="string">-1</span>.603250e<span class="string">+06</span>    <span class="string">-5</span>.044530e<span class="string">+06</span>     3.553798e<span class="string">+06</span></span><br><span class="line">   08     VLA:_W36      <span class="string">-1</span>.606842e<span class="string">+06</span>    <span class="string">-5</span>.048973e<span class="string">+06</span>     3.551913e<span class="string">+06</span></span><br><span class="line">   09     VLA:_W08      <span class="string">-1</span>.601614e<span class="string">+06</span>    <span class="string">-5</span>.042508e<span class="string">+06</span>     3.554652e<span class="string">+06</span></span><br><span class="line">   10     VLA:_E32      <span class="string">-1</span>.597053e<span class="string">+06</span>    <span class="string">-5</span>.036606e<span class="string">+06</span>     3.553059e<span class="string">+06</span></span><br><span class="line">   11     VLA:_OUT      <span class="string">-1</span>.601185e<span class="string">+06</span>    <span class="string">-5</span>.041978e<span class="string">+06</span>     3.554876e<span class="string">+06</span></span><br><span class="line">   12     VLA:_N36      <span class="string">-1</span>.600691e<span class="string">+06</span>    <span class="string">-5</span>.041658e<span class="string">+06</span>     3.559632e<span class="string">+06</span></span><br><span class="line">   13     VLA:_E36      <span class="string">-1</span>.596128e<span class="string">+06</span>    <span class="string">-5</span>.035403e<span class="string">+06</span>     3.552652e<span class="string">+06</span></span><br><span class="line">   14     VLA:_W16      <span class="string">-1</span>.602593e<span class="string">+06</span>    <span class="string">-5</span>.043718e<span class="string">+06</span>     3.554141e<span class="string">+06</span></span><br><span class="line">15     VLA:_N32      <span class="string">-1</span>.600781e<span class="string">+06</span>    <span class="string">-5</span>.041716e<span class="string">+06</span>     3.558761e<span class="string">+06</span></span><br><span class="line">   16     VLA:_N20      <span class="string">-1</span>.601005e<span class="string">+06</span>    <span class="string">-5</span>.041861e<span class="string">+06</span>     3.556610e<span class="string">+06</span></span><br><span class="line">   17     VLA:_E12      <span class="string">-1</span>.600416e<span class="string">+06</span>    <span class="string">-5</span>.040979e<span class="string">+06</span>     3.554536e<span class="string">+06</span></span><br><span class="line">   18     VLA:_E20      <span class="string">-1</span>.599341e<span class="string">+06</span>    <span class="string">-5</span>.039580e<span class="string">+06</span>     3.554065e<span class="string">+06</span></span><br><span class="line">   19     VLA:_E28      <span class="string">-1</span>.597900e<span class="string">+06</span>    <span class="string">-5</span>.037707e<span class="string">+06</span>     3.553432e<span class="string">+06</span></span><br><span class="line">   20     VLA:_E24      <span class="string">-1</span>.598663e<span class="string">+06</span>    <span class="string">-5</span>.038699e<span class="string">+06</span>     3.553767e<span class="string">+06</span></span><br><span class="line">   21     VLA:_N08      <span class="string">-1</span>.601148e<span class="string">+06</span>    <span class="string">-5</span>.041953e<span class="string">+06</span>     3.555236e<span class="string">+06</span></span><br><span class="line">   22     VLA:_N04      <span class="string">-1</span>.601174e<span class="string">+06</span>    <span class="string">-5</span>.041970e<span class="string">+06</span>     3.554987e<span class="string">+06</span></span><br><span class="line">   23     VLA:_E08      <span class="string">-1</span>.600802e<span class="string">+06</span>    <span class="string">-5</span>.041479e<span class="string">+06</span>     3.554706e<span class="string">+06</span></span><br><span class="line">   24     VLA:_E16      <span class="string">-1</span>.599926e<span class="string">+06</span>    <span class="string">-5</span>.040341e<span class="string">+06</span>     3.554320e<span class="string">+06</span></span><br><span class="line">   25     VLA:_E04      <span class="string">-1</span>.601069e<span class="string">+06</span>    <span class="string">-5</span>.041826e<span class="string">+06</span>     3.554825e<span class="string">+06</span></span><br><span class="line">   26     VLA:_N12      <span class="string">-1</span>.601110e<span class="string">+06</span>    <span class="string">-5</span>.041929e<span class="string">+06</span>     3.555597e<span class="string">+06</span></span><br><span class="line">   27     VLA:_N24      <span class="string">-1</span>.600930e<span class="string">+06</span>    <span class="string">-5</span>.041813e<span class="string">+06</span>     3.557330e<span class="string">+06</span></span><br><span class="line">   28     VLA:_W32      <span class="string">-1</span>.605809e<span class="string">+06</span>    <span class="string">-5</span>.047694e<span class="string">+06</span>     3.552459e<span class="string">+06</span></span><br><span class="line">   29     VPT:_OUT      <span class="string">-1</span>.601185e<span class="string">+06</span>    <span class="string">-5</span>.041978e<span class="string">+06</span>     3.554876e<span class="string">+06</span></span><br><span class="line"></span><br><span class="line">There are 2 IFs, and a total of 2 channels:</span><br><span class="line"></span><br><span class="line"> IF  Channel    Frequency  Freq offset  Number of   Overall IF</span><br><span class="line">      origin    at origin  per channel   channels    bandwidth</span><br><span class="line"> ------------------------------------------------------------- (Hz)</span><br><span class="line"> 01        1    1.385e<span class="string">+09</span>      2.5e<span class="string">+07</span>          1      2.5e<span class="string">+07</span></span><br><span class="line"> 02        2    1.665e<span class="string">+09</span>      2.5e<span class="string">+07</span>          1      2.5e<span class="string">+07</span></span><br><span class="line"></span><br><span class="line">Source parameters:</span><br><span class="line"> Source: 	 3C219</span><br><span class="line"> RA     = 	 09 21 08.548 (2000.0)	 09 20 14.260 (apparent)</span><br><span class="line"> DEC    = 	<span class="string">+45</span> 38 57.920        	<span class="string">+45</span> 42 30.877</span><br><span class="line">Antenna pointing center:</span><br><span class="line"> OBSRA  = 	 09 21 08.548 (2000.0)</span><br><span class="line"> OBSDEC = 	<span class="string">+45</span> 38 57.920</span><br><span class="line"></span><br><span class="line">Data characteristics:</span><br><span class="line"> Recorded units are UNCALIB.</span><br><span class="line"> Recorded polarizations: RR LL RL LR</span><br><span class="line"> Phases are rotated 0 mas East and 0 mas North.</span><br><span class="line"> UVW coordinates are rotated by 0 degrees clockwise.</span><br><span class="line"> Scale factor applied to FITS data weights: 1</span><br><span class="line"> Coordinate projection: SIN</span><br><span class="line"></span><br><span class="line">Summary of overall dimensions:</span><br><span class="line"> 1 sub-arrays, 2 IFs, 2 channels, 2454 integrations</span><br><span class="line"> 4 polarizations, and up to 406 baselines per sub-array</span><br><span class="line"></span><br><span class="line">Time related parameters:</span><br><span class="line"> Reference date: 1986 day 249/00:00:00  (1986 Sep 06)</span><br><span class="line"> Julian Date: 2446679.50, Epoch J1986.678</span><br><span class="line"> GAST at reference date: 22 59 10.041</span><br><span class="line"> Coherent integration time   = 0.0 sec</span><br><span class="line"> Incoherent integration time = 0.0 sec</span><br><span class="line"> Sum of scan durations = 26460 sec</span><br><span class="line"> UT range: 249/09:51:21 to 249/23:30:22</span><br><span class="line"> Mean epoch:  JD 2446680.195 = J1986.680</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时在启动目录会生成一个log文件difmap.log，这个文件记录了你在DIFMAP交互环境中输入的所有命令。 It will also include selected output lines though they will be preceded by a ! in order to comment them out.<br>这个log文件可以通过一种脚本的形式来使用，可以通过在交互命令中输入 <code>@difmap.log</code>来执行这个脚本。<br>但需要注意的是这个脚本无法与PGPLOT进行交互，所以交互式的flagging都不会发生。所以要特别注意这一点。</p>
+<p>The next step is to choose the Stokes parameter you are interested in:</p>
+<figure class="highlight erlang-repl"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">0&gt; </span>select i</span><br><span class="line"></span><br><span class="line">	Where i refers to the Stokes I parameter. You can select any Stokes parameter (e.g. select q or u) to work with.</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>代码参考 <a href="https://www.github.com/shaoguangleo/radio_astronomy">https://www.github.com/shaoguangleo/radio_astronomy</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/astronomy/" rel="tag"># astronomy</a>
+              <a href="/tags/radio/" rel="tag"># radio</a>
+              <a href="/tags/radio-astronomy/" rel="tag"># radio astronomy</a>
+              <a href="/tags/difmap/" rel="tag"># difmap</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/04/03/radio_astronomy_difmap_startup/" rel="prev" title="Difmap 启动">
+      <i class="fa fa-chevron-left"></i> Difmap 启动
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/05/06/linux-tmux/" rel="next" title="Linux tmux终端复用神器">
+      Linux tmux终端复用神器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BD%BD%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="nav-number">1.</span> <span class="nav-text">载入数据</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2016/04/03/radio_astronomy_difmap_load_data/";
+    this.page.identifier = "2016/04/03/radio_astronomy_difmap_load_data/";
+    this.page.title = "Difmap 载入数据";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

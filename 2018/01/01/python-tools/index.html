@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Python 工具集IDE   开发环境 描述 网址    IDLE The standard Python environment http:&#x2F;&#x2F;www.python.org&#x2F;idle   Pythonwin Windows-oriented environment http:&#x2F;&#x2F;www.python.org&#x2F;download&#x2F;windows   ActivePython Feature-pac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 工具集大全">
+<meta property="og:url" content="http://shaoguangleo.github.io/2018/01/01/python-tools/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="Python 工具集IDE   开发环境 描述 网址    IDLE The standard Python environment http:&#x2F;&#x2F;www.python.org&#x2F;idle   Pythonwin Windows-oriented environment http:&#x2F;&#x2F;www.python.org&#x2F;download&#x2F;windows   ActivePython Feature-pac">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-01-01T06:42:20.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.937Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="Anjuta">
+<meta property="article:tag" content="pip">
+<meta property="article:tag" content="Komodo">
+<meta property="article:tag" content="matplotlib">
+<meta property="article:tag" content="ActivePython">
+<meta property="article:tag" content="IDLE">
+<meta property="article:tag" content="kdevelop">
+<meta property="article:tag" content="Pythonwin">
+<meta property="article:tag" content="visualwx">
+<meta property="article:tag" content="wingware">
+<meta property="article:tag" content="wxDesigner">
+<meta property="article:tag" content="wxglade">
+<meta property="article:tag" content="cairoplot">
+<meta property="article:tag" content="chaco">
+<meta property="article:tag" content="django-chartit">
+<meta property="article:tag" content="panda3d">
+<meta property="article:tag" content="pycairo">
+<meta property="article:tag" content="pycha">
+<meta property="article:tag" content="Pychart">
+<meta property="article:tag" content="pyofc2">
+<meta property="article:tag" content="reportlab">
+<meta property="article:tag" content="Vpython">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2018/01/01/python-tools/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Python 工具集大全 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2018/01/01/python-tools/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python 工具集大全
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-01 14:42:20" itemprop="dateCreated datePublished" datetime="2018-01-01T14:42:20+08:00">2018-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/GUI/" itemprop="url" rel="index"><span itemprop="name">GUI</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/GUI/IDE/" itemprop="url" rel="index"><span itemprop="name">IDE</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/GUI/IDE/Matplotlib/" itemprop="url" rel="index"><span itemprop="name">Matplotlib</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/01/01/python-tools/" class="post-meta-item leancloud_visitors" data-flag-title="Python 工具集大全" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/01/01/python-tools/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/01/01/python-tools/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/01/01/python-tools/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/01/01/python-tools/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Python-工具集"><a href="#Python-工具集" class="headerlink" title="Python 工具集"></a>Python 工具集</h1><h2 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h2><table>
+<thead>
+<tr>
+<th>开发环境</th>
+<th>描述</th>
+<th>网址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IDLE</td>
+<td>The standard Python environment</td>
+<td><a href="http://www.python.org/idle">http://www.python.org/idle</a></td>
+</tr>
+<tr>
+<td>Pythonwin</td>
+<td>Windows-oriented environment</td>
+<td><a href="http://www.python.org/download/windows">http://www.python.org/download/windows</a></td>
+</tr>
+<tr>
+<td>ActivePython</td>
+<td>Feature-packed; contains Pythonwin IDE</td>
+<td><a href="http://www.activestate.com/">http://www.activestate.com</a></td>
+</tr>
+<tr>
+<td>Komodo</td>
+<td>Commercial IDE</td>
+<td><a href="http://www.activestate.com3/">http://www.activestate.com3</a></td>
+</tr>
+<tr>
+<td>Wingware</td>
+<td>Commercial IDE</td>
+<td><a href="http://www.wingware.com/">http://www.wingware.com</a></td>
+</tr>
+<tr>
+<td>BlackAdder</td>
+<td>Commercial IDE and (Qt) GUI builder</td>
+<td><a href="http://www.thekompany.com/">http://www.thekompany.com</a></td>
+</tr>
+<tr>
+<td>Boa Constructor</td>
+<td>Free IDE and GUI builder</td>
+<td><a href="http://boa-constructor.sf.net/">http://boa-constructor.sf.net</a></td>
+</tr>
+<tr>
+<td>Anjuta</td>
+<td>Versatile IDE for Linux/UNIX</td>
+<td><a href="http://anjuta.sf.net/">http://anjuta.sf.net</a></td>
+</tr>
+<tr>
+<td>Arachno Python</td>
+<td>Commercial IDE</td>
+<td><a href="http://www.python-ide.com/">http://www.python-ide.com</a></td>
+</tr>
+<tr>
+<td>Code Crusader</td>
+<td>Commercial IDE</td>
+<td><a href="http://www.newplanetsoftware.com/">http://www.newplanetsoftware.com</a></td>
+</tr>
+<tr>
+<td>Code Forge</td>
+<td>Commercial IDE</td>
+<td><a href="http://www.codeforge.com/">http://www.codeforge.com</a></td>
+</tr>
+<tr>
+<td>Eclipse</td>
+<td>Popular, flexible, open source IDE</td>
+<td><a href="http://www.eclipse.org/">http://www.eclipse.org</a></td>
+</tr>
+<tr>
+<td>eric</td>
+<td>Free IDE using Qt</td>
+<td><a href="http://eric-ide.sf.net/">http://eric-ide.sf.net</a></td>
+</tr>
+<tr>
+<td>KDevelop</td>
+<td>Cross-language IDE for KDE</td>
+<td><a href="http://www.kdevelop.org/">http://www.kdevelop.org</a></td>
+</tr>
+<tr>
+<td>VisualWx</td>
+<td>Free GUI builder</td>
+<td><a href="http://visualwx.altervista.org/">http://visualwx.altervista.org</a></td>
+</tr>
+<tr>
+<td>wxDesigner</td>
+<td>Commercial GUI builder</td>
+<td><a href="http://www.roebling.de/">http://www.roebling.de</a></td>
+</tr>
+<tr>
+<td>wxGlade</td>
+<td>Free GUI builder</td>
+<td><a href="http://wxglade.sf.net/">http://wxglade.sf.net</a></td>
+</tr>
+</tbody></table>
+<h2 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h2><h3 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h3><p>Pip 是目前安装python包很好的工具，但有时可能网络比较慢或者无法访问，此时可以临时更改pypi镜像。</p>
+<p>国内pypi镜像</p>
+<ul>
+<li>阿里：<a href="https://mirrors.aliyun.com/pypi/simple">https://mirrors.aliyun.com/pypi/simple</a></li>
+<li>豆瓣：<a href="http://pypi.douban.com/simple">http://pypi.douban.com/simple</a></li>
+<li>中国科学技术大学：<a href="http://pypi.mirrors.ustc.edu.cn/simple/">http://pypi.mirrors.ustc.edu.cn/simple/</a></li>
+</ul>
+<p>指定单次安装源方法如下:</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install &lt;包名&gt; -i http://pypi.v2ex.com/simple</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="图形库"><a href="#图形库" class="headerlink" title="图形库"></a>图形库</h2><p>列举了一些Python的图形库，其中<em>matplotlib</em>功能最强大，<em>Cairoplot</em>最漂亮，<em>django-chartit</em>与<em>Django</em>集成了。</p>
+<h3 id="matplotlib"><a href="#matplotlib" class="headerlink" title="matplotlib"></a>matplotlib</h3><p><a href="http://matplotlib.sourceforge.net/">Matplotlib</a> 是一个由 John Hunter 等开发的，用以绘制 二维图形的 Python 模块。它利用了 Python 下的数值计算模块 Numeric 及 Numarray，克隆了许多 Matlab 中的函数， 用以帮助用户轻松地获得高质量的二维图形。Matplotlib 可以绘制多种形式的图形包括普通的线图，直方图，饼图，散点图以及误差线图等；可以比较方便的定制图形的各种属性比如图线的类型，颜色，粗细，字体的大小 等；它能够很好地支持一部分 TeX 排版命令，可以比较美观地显示图形中的数学公式。个人比较推荐这个类库。可以用于生成通常是由 matlab 或者 Mathematica 生成的高质量图表。</p>
+<h3 id="Cairoplot"><a href="#Cairoplot" class="headerlink" title="Cairoplot"></a>Cairoplot</h3><p><a href="http://cairoplot.sourceforge.net/index.html">Cairoplot</a>在网页上的表现力堪比flex中的图表图形效果。非常漂亮，非常赞！但是这个似乎只能跑在linux平台上。所以很多windows用户估计要失望了。</p>
+<h3 id="Chaco"><a href="#Chaco" class="headerlink" title="Chaco"></a>Chaco</h3><p><a href="http://code.enthought.com/chaco/">Chaco</a>是一个2D的绘图库。其中文简单教程参考：<a href="http://hyry.dip.jp/pydoc/chaco_intro.html">http://hyry.dip.jp/pydoc/chaco_intro.html</a></p>
+<p>更多资料：</p>
+<p><a href="http://cairoplot.sourceforge.net/index.html">http://cairoplot.sourceforge.net/index.html</a><br><a href="https://github.com/rodrigoaraujo01/cairoplot">https://github.com/rodrigoaraujo01/cairoplot</a><br><a href="https://groups.google.com/forum/?fromgroups#!forum/cairoplot">https://groups.google.com/forum/?fromgroups#!forum/cairoplot</a></p>
+<h3 id="Python-Google-Chart"><a href="#Python-Google-Chart" class="headerlink" title="Python Google Chart,"></a>Python Google Chart,</h3><p>官网：<a href="http://pygooglechart.slowchop.com/">http://pygooglechart.slowchop.com/</a> 。从命名方式来看，这个肯定与google chart扯上了关系。所以该类库是对Google chart API的一个完整封装。</p>
+<h3 id="PyCha"><a href="#PyCha" class="headerlink" title="PyCha"></a>PyCha</h3><p>官网：<a href="https://bitbucket.org/lgs/pycha/wiki/Home">https://bitbucket.org/lgs/pycha/wiki/Home</a> 。PyCha可是说是Cairo 类库的一个简单封装，为了是实现轻量级，以及容易使用，当然还做了一些优化等。</p>
+<h3 id="pyOFC2"><a href="#pyOFC2" class="headerlink" title="pyOFC2"></a>pyOFC2</h3><p>官网：<a href="http://btbytes.github.com/pyofc2/">http://btbytes.github.com/pyofc2/</a> 。它是Open Falsh Library的Python类库。所以图形具有Flash效果，可以随鼠标移动动态显示图标中信息，这是优越于其他静态图示的。</p>
+<h3 id="Pychart"><a href="#Pychart" class="headerlink" title="Pychart"></a>Pychart</h3><p>官网：<a href="http://home.gna.org/pychart/">http://home.gna.org/pychart/</a> 。pyChart是用于创建高品质封装的PostScript，PDF格式，PNG，或SVG图表Python库。</p>
+<h3 id="PLPlot"><a href="#PLPlot" class="headerlink" title="PLPlot"></a>PLPlot</h3><p>官网：<a href="http://plplot.sourceforge.net/">http://plplot.sourceforge.net/</a> 。PLPlot是用于创建科学图表的跨平台软件包。以C类库为核心，支持各种语言绑定(C, C++, Fortran, Java, Python, Perl etc.)。开源免费。</p>
+<h3 id="reportlab"><a href="#reportlab" class="headerlink" title="reportlab"></a>reportlab</h3><p>官网：<a href="http://www.reportlab.com/software/opensource/">http://www.reportlab.com/software/opensource/</a> 。这个我们之前介绍过，参考<a href="http://www.codecho.com/installation-and-example-of-reportlab-in-python/">http://www.codecho.com/installation-and-example-of-reportlab-in-python/</a> 。这个类库支持在pdf中画图表。</p>
+<h3 id="Vpython"><a href="#Vpython" class="headerlink" title="Vpython"></a>Vpython</h3><p>官网：<a href="http://www.vpython.org/index.html">http://www.vpython.org/index.html</a> ，VPython是Visual Python的简写，Visual是由Carnegie Mellon University（卡耐基–梅隆大学）在校学生David Scherer于2000年撰写的一个Python 3D绘图模块。</p>
+<h3 id="Pycairo"><a href="#Pycairo" class="headerlink" title="Pycairo"></a>Pycairo</h3><p><a href="http://cairographics.org/pycairo/">http://cairographics.org/pycairo/</a> Pycairo is a set of Python bindings for the cairo graphics library.</p>
+<h3 id="panda3d"><a href="#panda3d" class="headerlink" title="panda3d"></a>panda3d</h3><p><a href="http://www.panda3d.org/">http://www.panda3d.org/</a> Panda3D不像是一个画基本图表的东东，它是一个 3D 引擎，用于三维图形的演示及游戏开发。程序库采用C++以及Python语言来绑定。用panda3d进行游戏开发通常写一段Python或C + +程序控制panda3d程序库。</p>
+<h3 id="django-chartit"><a href="#django-chartit" class="headerlink" title="django-chartit"></a>django-chartit</h3><p>非常漂亮的，并且与Django集成哦，它与MYSQL数据库集成了~</p>
+<p><a href="http://chartit.shutupandship.com/">http://chartit.shutupandship.com</a><br><a href="https://github.com/pgollakota/django-chartit">https://github.com/pgollakota/django-chartit</a></p>
+<h2 id="时间库"><a href="#时间库" class="headerlink" title="时间库"></a>时间库</h2><ul>
+<li>time</li>
+<li>datetime : 扩展的time，表示绝对时间和相对时间</li>
+<li>calendar : 有几个比较有用的工具，比如isleap</li>
+</ul>
+<h2 id="文件读写"><a href="#文件读写" class="headerlink" title="文件读写"></a>文件读写</h2><ul>
+<li>pickle ：简单滴只用dump和load即可</li>
+<li>shelve：数据存在硬盘而不是内存中，适合在内存有限的情况下读取非常大的数据</li>
+</ul>
+<h2 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h2><ul>
+<li><a href="http://pandas.pydata.org/">pandas</a></li>
+<li><a href="http://pandas.pydata.org/">numpy</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/Anjuta/" rel="tag"># Anjuta</a>
+              <a href="/tags/pip/" rel="tag"># pip</a>
+              <a href="/tags/Komodo/" rel="tag"># Komodo</a>
+              <a href="/tags/matplotlib/" rel="tag"># matplotlib</a>
+              <a href="/tags/ActivePython/" rel="tag"># ActivePython</a>
+              <a href="/tags/IDLE/" rel="tag"># IDLE</a>
+              <a href="/tags/kdevelop/" rel="tag"># kdevelop</a>
+              <a href="/tags/Pythonwin/" rel="tag"># Pythonwin</a>
+              <a href="/tags/visualwx/" rel="tag"># visualwx</a>
+              <a href="/tags/wingware/" rel="tag"># wingware</a>
+              <a href="/tags/wxDesigner/" rel="tag"># wxDesigner</a>
+              <a href="/tags/wxglade/" rel="tag"># wxglade</a>
+              <a href="/tags/cairoplot/" rel="tag"># cairoplot</a>
+              <a href="/tags/chaco/" rel="tag"># chaco</a>
+              <a href="/tags/django-chartit/" rel="tag"># django-chartit</a>
+              <a href="/tags/panda3d/" rel="tag"># panda3d</a>
+              <a href="/tags/pycairo/" rel="tag"># pycairo</a>
+              <a href="/tags/pycha/" rel="tag"># pycha</a>
+              <a href="/tags/Pychart/" rel="tag"># Pychart</a>
+              <a href="/tags/pyofc2/" rel="tag"># pyofc2</a>
+              <a href="/tags/reportlab/" rel="tag"># reportlab</a>
+              <a href="/tags/Vpython/" rel="tag"># Vpython</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/11/24/docker-commit/" rel="prev" title="Docker commit">
+      <i class="fa fa-chevron-left"></i> Docker commit
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/01/01/python-tkinter/" rel="next" title="Python GUI编程(Tkinter)">
+      Python GUI编程(Tkinter) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Python-%E5%B7%A5%E5%85%B7%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">Python 工具集</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IDE"><span class="nav-number">1.1.</span> <span class="nav-text">IDE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.</span> <span class="nav-text">软件安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pip"><span class="nav-number">1.2.1.</span> <span class="nav-text">pip</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%BD%A2%E5%BA%93"><span class="nav-number">1.3.</span> <span class="nav-text">图形库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#matplotlib"><span class="nav-number">1.3.1.</span> <span class="nav-text">matplotlib</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cairoplot"><span class="nav-number">1.3.2.</span> <span class="nav-text">Cairoplot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chaco"><span class="nav-number">1.3.3.</span> <span class="nav-text">Chaco</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-Google-Chart"><span class="nav-number">1.3.4.</span> <span class="nav-text">Python Google Chart,</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PyCha"><span class="nav-number">1.3.5.</span> <span class="nav-text">PyCha</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pyOFC2"><span class="nav-number">1.3.6.</span> <span class="nav-text">pyOFC2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pychart"><span class="nav-number">1.3.7.</span> <span class="nav-text">Pychart</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PLPlot"><span class="nav-number">1.3.8.</span> <span class="nav-text">PLPlot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reportlab"><span class="nav-number">1.3.9.</span> <span class="nav-text">reportlab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vpython"><span class="nav-number">1.3.10.</span> <span class="nav-text">Vpython</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pycairo"><span class="nav-number">1.3.11.</span> <span class="nav-text">Pycairo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#panda3d"><span class="nav-number">1.3.12.</span> <span class="nav-text">panda3d</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#django-chartit"><span class="nav-number">1.3.13.</span> <span class="nav-text">django-chartit</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%BA%93"><span class="nav-number">1.4.</span> <span class="nav-text">时间库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99"><span class="nav-number">1.5.</span> <span class="nav-text">文件读写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90"><span class="nav-number">1.6.</span> <span class="nav-text">数据分析</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2018/01/01/python-tools/";
+    this.page.identifier = "2018/01/01/python-tools/";
+    this.page.title = "Python 工具集大全";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

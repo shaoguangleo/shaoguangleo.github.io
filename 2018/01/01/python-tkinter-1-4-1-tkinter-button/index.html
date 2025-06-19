@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Button 窗口部件Button(按钮)窗口部件是一个标准的 Tkinter 窗口部件，用来实现各种按钮。 按钮能够包含文本或图象，并与一个 Python 函数或方法相关联。当这个按钮被按下时，Tkinter 自动调用相关联的函数或方法。  按钮仅能显示一种字体，但是这个文本可以跨行。另外，这个文本中的一个字母可以有__下划线__，例如标明一个快捷键。默认情况，Tab 键用于将焦点移动到一个按钮">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python Tkinter Button窗口组件类">
+<meta property="og:url" content="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-4-1-tkinter-button/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="Button 窗口部件Button(按钮)窗口部件是一个标准的 Tkinter 窗口部件，用来实现各种按钮。 按钮能够包含文本或图象，并与一个 Python 函数或方法相关联。当这个按钮被按下时，Tkinter 自动调用相关联的函数或方法。  按钮仅能显示一种字体，但是这个文本可以跨行。另外，这个文本中的一个字母可以有__下划线__，例如标明一个快捷键。默认情况，Tab 键用于将焦点移动到一个按钮">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-4-1-tkinter-button/images/bitmap.png">
+<meta property="article:published_time" content="2018-01-01T06:52:20.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.936Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="tkinter">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-4-1-tkinter-button/images/bitmap.png">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-4-1-tkinter-button/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Python Tkinter Button窗口组件类 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-4-1-tkinter-button/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python Tkinter Button窗口组件类
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-01 14:52:20" itemprop="dateCreated datePublished" datetime="2018-01-01T14:52:20+08:00">2018-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/GUI/" itemprop="url" rel="index"><span itemprop="name">GUI</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/GUI/Tkinter/" itemprop="url" rel="index"><span itemprop="name">Tkinter</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/01/01/python-tkinter-1-4-1-tkinter-button/" class="post-meta-item leancloud_visitors" data-flag-title="Python Tkinter Button窗口组件类" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/01/01/python-tkinter-1-4-1-tkinter-button/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/01/01/python-tkinter-1-4-1-tkinter-button/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/01/01/python-tkinter-1-4-1-tkinter-button/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/01/01/python-tkinter-1-4-1-tkinter-button/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Button-窗口部件"><a href="#Button-窗口部件" class="headerlink" title="Button 窗口部件"></a>Button 窗口部件</h1><p>Button(按钮)窗口部件是一个标准的 Tkinter 窗口部件，用来实现各种按钮。</p>
+<p>按钮能够包含文本或图象，并与一个 Python 函数或方法相关联。当这个按钮被按下时，Tkinter 自动调用相关联的函数或方法。 </p>
+<p>按钮仅能显示一种字体，但是这个文本可以跨行。另外，这个文本中的一个字母可以有__下划线__，例如标明一个快捷键。默认情况，Tab 键用于将焦点移动到一个按钮部件。 </p>
+<h2 id="一、那么什么时候用按钮部件呢"><a href="#一、那么什么时候用按钮部件呢" class="headerlink" title="一、那么什么时候用按钮部件呢?"></a>一、那么什么时候用按钮部件呢?</h2><p>简而言之，按钮部件用来让用户说“马上给我执行这个任务”，通常我们用显示在按钮上的文本或图象来提示。 按钮通常用在工具条中或应用程序窗口中，并且用来接收或忽略输入在对话框中的数据。 </p>
+<p>关于按钮和输入的数据的配合，可以参看 Checkbutton 和 Radiobutton 部件。 </p>
+<h2 id="二、样式"><a href="#二、样式" class="headerlink" title="二、样式"></a>二、样式</h2><p>普通的按钮很容易被创建，仅仅指定按钮的内容(文本、位图、图象)和一个当按钮被按下时的回调函数即可: </p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b = Button(master, text=<span class="string">"OK"</span>, command=<span class="variable language_">self</span>.ok) </span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>没有回调函数的按钮是没有用的，当你按下这个按钮时它什么也不做。你可能在开发一个应用程序的时候想实现这种按钮，比如为了不干扰你的 beta 版的测试者:</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b = Button(master, text=<span class="string">"Help"</span>, state=DISABLED) </span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p> 如果你没有指定尺寸，按钮的大小将正好能够容纳它的内容。你可以用 padx 和 pady 选项来增加内容与按钮 边框的间距。你也可以用 height 和 width 选项来显式地设置按钮的尺寸。如果你在按钮中显示文本，那么这些选项将以文本的单位为定义按钮的尺寸。如果你替而代之显示图象，那么按钮的尺寸将是象素 (或其它的屏幕单位)。你实际上甚至能够用象素单位来定义文本按钮的尺寸，但这可能带来意外的结果。下面是指定尺寸 的一段例子代码: </p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f = Frame(master, height=<span class="number">32</span>, width=<span class="number">32</span>) f.pack_propagate(<span class="number">0</span>) <span class="comment"># don't shrink</span></span><br><span class="line"> b = Button(f, text=<span class="string">"Sure!"</span>) b.pack(fill=BOTH, expand=<span class="number">1</span>) </span><br></pre></td></tr></tbody></table></figure>
+
+<p>按钮能够显示多行文本(但只能用一种字体)。 你可以使用多行或 wraplength 选项来使按钮自己调整文本。 当调整文本时，使用 anchor,justify,也可加上 padx 选项来得到你所希望的格式。一个例子如下:</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b = Button(master, text=longtext, anchor=W, justify=LEFT, padx=<span class="number">2</span>) </span><br></pre></td></tr></tbody></table></figure>
+
+<p>为了使一个普通的按钮看起来像凹入的，例如你想去实现某种类型的工具框，你可简单地将 relief 的值从 “<strong>RAISED</strong>“改变为”<strong>SUNKEN</strong>: </p>
+<h2 id="三、方法"><a href="#三、方法" class="headerlink" title="三、方法"></a>三、方法</h2><p>Button 窗口部件支持标准的 Tkinter 窗口部件接口，加上下面的方法: </p>
+<ul>
+<li>flash():频繁重画按钮，使其在活动和普通样式下切换</li>
+<li>invoke() :调用与按钮相关联的命令</li>
+<li>下面的方法与你实现自己的按钮绑定有关:</li>
+</ul>
+<p>tkButtonDown(), tkButtonEnter(), tkButtonInvoke(), tkButtonLeave(), tkButtonUp() 这些方法可以用在定制事件绑定中，所有这些方法接收 0 个或多个形参。 </p>
+<h2 id="四、选项"><a href="#四、选项" class="headerlink" title="四、选项"></a>四、选项</h2><p>Button 窗口部件支持下面的选项: </p>
+<h3 id="activebackground-activeforeground"><a href="#activebackground-activeforeground" class="headerlink" title="activebackground, activeforeground"></a>activebackground, activeforeground</h3><p>类型:颜色;<br>说明:当按钮被激活时所使用的颜色。</p>
+<h3 id="anchor"><a href="#anchor" class="headerlink" title="anchor"></a>anchor</h3><p>类型:常量;<br> 说明:控制按钮上内容的位置。使用N, NE, E, SE, S, SW, W, NW, or CENTER这些值之一。默认值 是 CENTER。 </p>
+<h3 id="background-bg-foreground-fg"><a href="#background-bg-foreground-fg" class="headerlink" title="background (bg), foreground (fg)"></a>background (bg), foreground (fg)</h3><p>类型:颜色;<br>说明:按钮的颜色。默认值与特定平台相关。</p>
+<h3 id="bitmap"><a href="#bitmap" class="headerlink" title="bitmap"></a>bitmap</h3><p>类型:位图;<br> 说 明:显示在窗口部件中的位图。如果 image 选项被指定了，则这个选项被忽略。下面的位图在所有平台上 都有 效:error, gray75, gray50, gray25, gray12, hourglass, info, questhead, question, 和 warning. </p>
+<p>这后面附加的位图仅在 Macintosh 上有效:document, stationery, edition, application, accessory, folder, pfolder, trash, floppy, ramdisk, cdrom, preferences, querydoc, stop, note, 和 caution.</p>
+<p><img src="/2018/01/01/python-tkinter-1-4-1-tkinter-button/images/bitmap.png"> </p>
+<figure class="highlight erlang"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">borderwidth</span> <span class="params">(bd)</span></span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>类型:整数; 说明:按钮边框的宽度。默认值与特定平台相关。但通常是 1 或 2 象素。 </p>
+<h3 id="command"><a href="#command" class="headerlink" title="command"></a>command</h3><p>类型:回调; 说明:当按钮被按下时所调用的一个函数或方法。所回调的可以是一个函数、方法或别的可调用的 Python 对 象。 </p>
+<h3 id="cursor"><a href="#cursor" class="headerlink" title="cursor"></a>cursor</h3><p>类型:光标;<br>说明:当鼠标移动到按钮上时所显示的光标。</p>
+<h3 id="default"><a href="#default" class="headerlink" title="default"></a>default</h3><p>类型:常量;<br> 说明:如果设置了，则按钮为默认按钮。注意这个语法在Tk 8.0b2中已改变。 </p>
+<p>disabledforeground<br>类型:颜色;<br>说明:当按钮无效时的颜色。</p>
+<h3 id="font"><a href="#font" class="headerlink" title="font"></a>font</h3><p>类型:字体;<br>说明:按钮所使用的字体。按钮只能包含一种字体的文本。</p>
+<h3 id="highlightbackground-highlightcolor"><a href="#highlightbackground-highlightcolor" class="headerlink" title="highlightbackground, highlightcolor"></a>highlightbackground, highlightcolor</h3><p>类型:颜色;<br> 说明:控制焦点所在的高亮边框的颜色。当窗口部件获得焦点的时候，边框为 highlightcolor 所指定的颜 色。否则边框为 highlightbackground 所指定的颜色。默认值由系统所定。 </p>
+<h3 id="highlightthickness"><a href="#highlightthickness" class="headerlink" title="highlightthickness"></a>highlightthickness</h3><p>类型:距离; 说明:控制焦点所在的高亮边框的宽度。默认值通常是 1 或 2 象素。 </p>
+<h3 id="image"><a href="#image" class="headerlink" title="image"></a>image</h3><p>类型:图象;<br> 说明:在部件中显示的图象。如果指定，则 text 和 bitmap 选项将被忽略。 </p>
+<h3 id="justify"><a href="#justify" class="headerlink" title="justify"></a>justify</h3><p>类型:常量; </p>
+<p>说明:定义多行文本如何对齐。可取值有:LEFT, RIGHT, 或 CENTER。 </p>
+<h3 id="padx-pady"><a href="#padx-pady" class="headerlink" title="padx, pady"></a>padx, pady</h3><p>类型:距离;<br>说明:指定文本或图象与按钮边框的间距。</p>
+<h3 id="relief"><a href="#relief" class="headerlink" title="relief"></a>relief</h3><p>类型:常量;<br> 说明:边框的装饰。通常按钮按下时是凹陷的，否则凸起。另外的可能取值有 GROOVE, RIDGE, 和 FLAT。 </p>
+<h3 id="state"><a href="#state" class="headerlink" title="state"></a>state</h3><p>类型:常量;<br> 说明:按钮的状态:NORMAL, ACTIVE 或 DISABLED。默认值为 NORMAL。 </p>
+<h3 id="takefocus"><a href="#takefocus" class="headerlink" title="takefocus"></a>takefocus</h3><p>类型:标志;<br> 说明:表明用户可以 Tab 键来将焦点移到这个按钮上。默认值是一个空字符串，意思是如果按钮有按键绑定的 话，它可以通过所绑定的按键来获得焦点。 </p>
+<h3 id="text"><a href="#text" class="headerlink" title="text"></a>text</h3><p>类型:字符串;<br> 说明:显示在按钮中的文本。文本可以是多行。如果 bitmaps 或 image 选项被使用，则 text 选项被忽略。 </p>
+<h3 id="textvariable"><a href="#textvariable" class="headerlink" title="textvariable"></a>textvariable</h3><p>类型:变量;<br> 说明:与按钮相关的 Tk 变量(通常是一个字符串变量)。如果这个变量的值改变，那么按钮上的文本相应更新。 </p>
+<h3 id="underline"><a href="#underline" class="headerlink" title="underline"></a>underline</h3><p>类型:整数; 说明:在文本标签中哪个字符加下划线。默认值为-1，意思是没有字符加下划线。 </p>
+<h3 id="width-height"><a href="#width-height" class="headerlink" title="width, height"></a>width, height</h3><p>类型:距离; 说明:按钮的尺寸。如果按钮显示文本，尺寸使用文本的单位。如果按钮显示图象，尺寸以象素为单位(或屏 幕的单位)。如果尺寸没指定，它将根据按钮的内容来计算。 </p>
+<h3 id="wraplength"><a href="#wraplength" class="headerlink" title="wraplength"></a>wraplength</h3><p>类型:距离; 说明:确定一个按钮的文本何时调整为多行。它以屏幕的单位为单位。默认不调整。 </p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/tkinter/" rel="tag"># tkinter</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/01/01/python-tkinter-1-1-what-is-tkinter/" rel="prev" title="Python 什么是Tkinter">
+      <i class="fa fa-chevron-left"></i> Python 什么是Tkinter
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/01/10/linux-semantic-version/" rel="next" title="Linux 语义化版本">
+      Linux 语义化版本 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Button-%E7%AA%97%E5%8F%A3%E9%83%A8%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">Button 窗口部件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E9%82%A3%E4%B9%88%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E7%94%A8%E6%8C%89%E9%92%AE%E9%83%A8%E4%BB%B6%E5%91%A2"><span class="nav-number">1.1.</span> <span class="nav-text">一、那么什么时候用按钮部件呢?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">二、样式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">三、方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E9%80%89%E9%A1%B9"><span class="nav-number">1.4.</span> <span class="nav-text">四、选项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#activebackground-activeforeground"><span class="nav-number">1.4.1.</span> <span class="nav-text">activebackground, activeforeground</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#anchor"><span class="nav-number">1.4.2.</span> <span class="nav-text">anchor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#background-bg-foreground-fg"><span class="nav-number">1.4.3.</span> <span class="nav-text">background (bg), foreground (fg)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bitmap"><span class="nav-number">1.4.4.</span> <span class="nav-text">bitmap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#command"><span class="nav-number">1.4.5.</span> <span class="nav-text">command</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cursor"><span class="nav-number">1.4.6.</span> <span class="nav-text">cursor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#default"><span class="nav-number">1.4.7.</span> <span class="nav-text">default</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#font"><span class="nav-number">1.4.8.</span> <span class="nav-text">font</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#highlightbackground-highlightcolor"><span class="nav-number">1.4.9.</span> <span class="nav-text">highlightbackground, highlightcolor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#highlightthickness"><span class="nav-number">1.4.10.</span> <span class="nav-text">highlightthickness</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#image"><span class="nav-number">1.4.11.</span> <span class="nav-text">image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#justify"><span class="nav-number">1.4.12.</span> <span class="nav-text">justify</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#padx-pady"><span class="nav-number">1.4.13.</span> <span class="nav-text">padx, pady</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#relief"><span class="nav-number">1.4.14.</span> <span class="nav-text">relief</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#state"><span class="nav-number">1.4.15.</span> <span class="nav-text">state</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#takefocus"><span class="nav-number">1.4.16.</span> <span class="nav-text">takefocus</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#text"><span class="nav-number">1.4.17.</span> <span class="nav-text">text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#textvariable"><span class="nav-number">1.4.18.</span> <span class="nav-text">textvariable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#underline"><span class="nav-number">1.4.19.</span> <span class="nav-text">underline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#width-height"><span class="nav-number">1.4.20.</span> <span class="nav-text">width, height</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wraplength"><span class="nav-number">1.4.21.</span> <span class="nav-text">wraplength</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2018/01/01/python-tkinter-1-4-1-tkinter-button/";
+    this.page.identifier = "2018/01/01/python-tkinter-1-4-1-tkinter-button/";
+    this.page.title = "Python Tkinter Button窗口组件类";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

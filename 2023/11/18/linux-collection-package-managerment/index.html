@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Linux最常用的几个软件包管理命令 仅个人想法，会持续不间断更新和改进。  软件安装，应该算是Linux系统中最常见的操作之一，而软件包管理命令，也是我们在Linux系统中最常用的命令之一。 但凡系统安装好以后，第一件事情就是更新软件包，然后安装自己需要的软件包，这是一个很常见的操作。 Linux不同与Windows，直接下载一个exe文件双击就可以安装，Linux系统需要命令行来安装软件包，这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux最常用的几个软件包管理命令">
+<meta property="og:url" content="http://shaoguangleo.github.io/2023/11/18/linux-collection-package-managerment/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="Linux最常用的几个软件包管理命令 仅个人想法，会持续不间断更新和改进。  软件安装，应该算是Linux系统中最常见的操作之一，而软件包管理命令，也是我们在Linux系统中最常用的命令之一。 但凡系统安装好以后，第一件事情就是更新软件包，然后安装自己需要的软件包，这是一个很常见的操作。 Linux不同与Windows，直接下载一个exe文件双击就可以安装，Linux系统需要命令行来安装软件包，这">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-18T14:28:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.872Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="rpm">
+<meta property="article:tag" content="yum">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="apt">
+<meta property="article:tag" content="Linux汇总">
+<meta property="article:tag" content="软件包">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2023/11/18/linux-collection-package-managerment/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux最常用的几个软件包管理命令 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2023/11/18/linux-collection-package-managerment/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux最常用的几个软件包管理命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-11-18 22:28:00" itemprop="dateCreated datePublished" datetime="2023-11-18T22:28:00+08:00">2023-11-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux%E9%9B%86%E9%94%A6/" itemprop="url" rel="index"><span itemprop="name">Linux集锦</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2023/11/18/linux-collection-package-managerment/" class="post-meta-item leancloud_visitors" data-flag-title="Linux最常用的几个软件包管理命令" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2023/11/18/linux-collection-package-managerment/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/11/18/linux-collection-package-managerment/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/11/18/linux-collection-package-managerment/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/11/18/linux-collection-package-managerment/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Linux最常用的几个软件包管理命令"><a href="#Linux最常用的几个软件包管理命令" class="headerlink" title="Linux最常用的几个软件包管理命令"></a>Linux最常用的几个软件包管理命令</h1><blockquote>
+<p>仅个人想法，会持续不间断更新和改进。</p>
+</blockquote>
+<p>软件安装，应该算是Linux系统中最常见的操作之一，而软件包管理命令，也是我们在Linux系统中最常用的命令之一。</p>
+<p>但凡系统安装好以后，第一件事情就是更新软件包，然后安装自己需要的软件包，这是一个很常见的操作。</p>
+<p>Linux不同与Windows，直接下载一个exe文件双击就可以安装，Linux系统需要命令行来安装软件包，这是一个很大的区别。</p>
+<p>而用于安装、更新、删除软件包，以及管理系统的软件包又由于不同的Linux发行版，由不同的方式，比如<code>apt</code>、<code>yum</code>、<code>dpkg</code>、<code>rpm</code>等。</p>
+<hr>
+<h2 id="软件管理利器-Debian系的apt"><a href="#软件管理利器-Debian系的apt" class="headerlink" title="软件管理利器  - Debian系的apt"></a>软件管理利器  - Debian系的apt</h2><p>对于最常用的命令而言，<code>apt</code>可能排不上号，但是，在新安装的系统中，<code>apt</code> 命令绝对应该是排在前十位的存在，所以<code>apt</code>是管理 Debian 系列系统中软件包的必备工具。</p>
+<blockquote>
+<p>apt - command-line interface</p>
+</blockquote>
+<p>apt是Advanced Package Tool的缩写，恰如字面描述<strong>高级包工具</strong>，<code>apt</code> 命令是用于 Debian 系列 Linux 发行版的强大工具，比如广为人知的Ubuntu，还有超赞桌面的Linux Mint。</p>
+<p><code>apt</code>使得处理软件包，比如安装、更新和删除软件包的过程特别丝滑，也结合了较早的工具如 <code>apt-get</code> 和 <code>apt-cache</code> 的功能，提供了更友好的交互体验。</p>
+<h3 id="更新软件包列表"><a href="#更新软件包列表" class="headerlink" title="更新软件包列表"></a>更新软件包列表</h3><p>在安装或升级软件包之前，可以更新软件包列表，以确保拥有可用软件包的最新信息。</p>
+<p>使用以下命令：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt update</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此命令从配置的仓库中获取最新的软件包信息。</p>
+<h3 id="升级软件包"><a href="#升级软件包" class="headerlink" title="升级软件包"></a>升级软件包</h3><p>要将所有已安装的软件包升级到最新版本，可以使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt upgrade</span><br></pre></td></tr></tbody></table></figure>
+
+<p>要进行更全面的升级，包括删除旧软件包和安装新依赖项，请使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt full-upgrade <span class="comment"># 特别留意，这个会把老版本给删除</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="安装软件包"><a href="#安装软件包" class="headerlink" title="安装软件包"></a>安装软件包</h3><p><code>apt</code> 命令使得软件包安装变得非常简单。要安装一个软件包，只需要使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt install &lt;软件包名称&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>例如，要安装文本编辑器瑞士军刀 <code>vim</code>，您可以运行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt install vim</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="删除软件包"><a href="#删除软件包" class="headerlink" title="删除软件包"></a>删除软件包</h3><p>卸载软件包同样简单。要删除一个软件包，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt remove &lt;软件包名称&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果您想删除软件包及其配置文件，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt purge &lt;软件包名称&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="搜索软件包"><a href="#搜索软件包" class="headerlink" title="搜索软件包"></a>搜索软件包</h3><p>要查找某个软件包，可以使用关键词进行搜索：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt search &lt;关键词&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>例如，要搜索与 “python” 相关的软件包，您可以运行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt search python</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="显示软件包信息"><a href="#显示软件包信息" class="headerlink" title="显示软件包信息"></a>显示软件包信息</h3><p>要查看特定软件包的详细信息，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt show &lt;软件包名称&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此命令提供软件包描述、依赖关系和版本信息等详细信息。</p>
+<h3 id="清理"><a href="#清理" class="headerlink" title="清理"></a>清理</h3><p>随着时间的推移，积累过时的软件包和缓存文件。要清理不必要的软件包，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt autoremove</span><br></pre></td></tr></tbody></table></figure>
+
+<p>要清除本地存储库中获取的包文件，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt clean</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="管理仓库"><a href="#管理仓库" class="headerlink" title="管理仓库"></a>管理仓库</h3><p><code>apt</code> 获取软件包信息的仓库列表存储在 <code>/etc/apt/sources.list</code> 及 <code>/etc/apt/sources.list.d/</code> 目录下的文件中。</p>
+<p>要添加新的仓库，可以直接编辑这些文件或使用 <code>add-apt-repository</code> 命令：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> add-apt-repository ppa:&lt;仓库名称&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>添加仓库后，需要更新软件包列表才能使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt update</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="红帽系的软件管理利器-yum"><a href="#红帽系的软件管理利器-yum" class="headerlink" title="红帽系的软件管理利器 - yum"></a>红帽系的软件管理利器 - yum</h2><p>.. note::<br>  当年不肯嫁春风，无端却被秋风误。<br>  贺铸《芳心苦·杨柳回塘》</p>
+<p>我从ubuntu开始，后面短暂切换到Fedora，然后切换到CentOS，在CentOS断更之前，再无改变，所以最了解的还是yum命令了。</p>
+<p>官方定义为：</p>
+<blockquote>
+<p>yum -  Yellowdog Updater Modified</p>
+</blockquote>
+<p>说实话，yum跟yellowdog感觉半毛线关系都没有，那为什么有这个名字呢？</p>
+<p>其实曾经有一个基于PowerPC架构的Linux发行版，名为Yellow Dog Linux。</p>
+<p>而<code>yum</code>的名字即来源于此，且为其改进版本。</p>
+<p><code>yum</code>是一个强大的包管理工具，常用于 Red Hat 系的 Linux 发行版，如 CentOS、Fedora 和 RHEL。</p>
+<p>它简化了安装、更新、删除和管理软件包的过程。</p>
+<p>基本其他基于RPM的Linux发行版也使用这个命令。</p>
+<p>其他列出了一些常用和不太常用的命令，基本足矣。</p>
+<h3 id="安装软件包-1"><a href="#安装软件包-1" class="headerlink" title="安装软件包"></a>安装软件包</h3><p>使用 <code>yum</code> 安装软件包的基本语法是：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> yum install package_name</span><br></pre></td></tr></tbody></table></figure>
+
+<p>例如，要安装 <code>wget</code> 软件包，可以使用以下命令：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> yum install wget</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>yum</code> 会自动解决依赖关系，确保所有必需的软件包都被安装。</p>
+<h3 id="更新软件包"><a href="#更新软件包" class="headerlink" title="更新软件包"></a>更新软件包</h3><p>保持系统更新对于安全性和性能非常重要。要更新特定的软件包，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> yum update package_name</span><br></pre></td></tr></tbody></table></figure>
+
+<p>例如，更新 <code>wget</code>：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> yum update wget</span><br></pre></td></tr></tbody></table></figure>
+
+<p>要更新所有已安装的软件包，只需运行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> yum update</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="删除软件包-1"><a href="#删除软件包-1" class="headerlink" title="删除软件包"></a>删除软件包</h3><p>如果需要删除一个软件包，语法如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> yum remove package_name</span><br></pre></td></tr></tbody></table></figure>
+
+<p>例如，删除 <code>wget</code>：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> yum remove wget</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>yum</code> 将处理指定软件包的删除，并删除不再需要的依赖项。</p>
+<h3 id="检查可用更新"><a href="#检查可用更新" class="headerlink" title="检查可用更新"></a>检查可用更新</h3><p>要检查是否有可用更新而不实际应用它们，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum check-update</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此命令会列出所有有可用更新的软件包，帮助您决定哪些需要更新。</p>
+<h3 id="列出已安装的软件包"><a href="#列出已安装的软件包" class="headerlink" title="列出已安装的软件包"></a>列出已安装的软件包</h3><p>要列出系统上所有已安装的软件包，运行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum list installed</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此命令提供了当前已安装的所有软件包的详细列表。</p>
+<h3 id="搜索软件包-1"><a href="#搜索软件包-1" class="headerlink" title="搜索软件包"></a>搜索软件包</h3><p>如果不确定软件包的确切名称，可以使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum search keyword</span><br></pre></td></tr></tbody></table></figure>
+
+<p>例如，搜索与 <code>wget</code> 相关的软件包：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum search wget</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此命令会返回与关键字匹配的软件包列表。</p>
+<h3 id="显示软件包信息-1"><a href="#显示软件包信息-1" class="headerlink" title="显示软件包信息"></a>显示软件包信息</h3><p>要查看特定软件包的详细信息，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum info package_name</span><br></pre></td></tr></tbody></table></figure>
+
+<p>例如，获取 <code>wget</code> 的信息：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum info wget</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此命令提供软件包的详细信息，如版本、发布、大小和简短描述。</p>
+<h3 id="清理-yum-缓存"><a href="#清理-yum-缓存" class="headerlink" title="清理 yum 缓存"></a>清理 <code>yum</code> 缓存</h3><p>随着时间推移，<code>yum</code> 的缓存会增长并占用磁盘空间。要清理缓存，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> yum clean all</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此命令会删除缓存数据，释放空间，并确保 <code>yum</code> 获取最新的软件包信息。</p>
+<h3 id="管理仓库-1"><a href="#管理仓库-1" class="headerlink" title="管理仓库"></a>管理仓库</h3><p><code>yum</code> 使用仓库作为软件包的来源。要列出所有配置的仓库，运行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum repolist</span><br></pre></td></tr></tbody></table></figure>
+
+<p>启用特定仓库：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> yum-config-manager --<span class="built_in">enable</span> repository_name</span><br></pre></td></tr></tbody></table></figure>
+
+<p>禁用特定仓库：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> yum-config-manager --<span class="built_in">disable</span> repository_name</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a>高级用法</h3><h4 id="安装特定版本的软件包"><a href="#安装特定版本的软件包" class="headerlink" title="安装特定版本的软件包"></a>安装特定版本的软件包</h4><p>如果需要安装特定版本的软件包，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> yum install package_name-version</span><br></pre></td></tr></tbody></table></figure>
+
+<p>例如，安装 <code>wget</code> 的 <code>1.20</code> 版本：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> yum install wget-1.20</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="降级软件包"><a href="#降级软件包" class="headerlink" title="降级软件包"></a>降级软件包</h4><p>要将软件包降级到以前的版本，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> yum downgrade package_name</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="组安装"><a href="#组安装" class="headerlink" title="组安装"></a>组安装</h4><p><code>yum</code> 允许您安装为特定目的而设计的一组软件包。例如，安装开发工具组，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> yum groupinstall <span class="string">"Development Tools"</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="稍显底层的红帽系软件管理工具-rpm"><a href="#稍显底层的红帽系软件管理工具-rpm" class="headerlink" title="稍显底层的红帽系软件管理工具 - rpm"></a>稍显底层的红帽系软件管理工具 - rpm</h2><p>如果说yum是高大上的软件安装管理工具，那么rpm就是低调奢华的底层工具。</p>
+<p>简洁但略显繁琐。</p>
+<p>官方定义为：</p>
+<blockquote>
+<p>rpm - RPM Package Manager</p>
+</blockquote>
+<p>其实rpm也可以看作是Redhat Package Manager的缩写，因为rpm也是基本用于Red Hat 系的 Linux 发行版，如 CentOS、Fedora 和 RHEL。</p>
+<p>这个命令命令主要用于安装、卸载、升级、查询和验证软件包。所以重点来了，需要<strong>软件包</strong>。</p>
+<h3 id="安装软件包-2"><a href="#安装软件包-2" class="headerlink" title="安装软件包"></a>安装软件包</h3><p>要使用 RPM 安装软件包，基本语法是：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> rpm -ivh package_name.rpm</span><br></pre></td></tr></tbody></table></figure>
+
+<p>比如，安装 <code>example.rpm</code> 软件包：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> rpm -ivh example.rpm</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中：</p>
+<ul>
+<li><code>-i</code> 表示安装（install）</li>
+<li><code>-v</code> 表示详细模式（verbose），显示安装过程的详细信息</li>
+<li><code>-h</code> 表示显示进度条（hash），可视化安装进度</li>
+</ul>
+<h3 id="升级软件包-1"><a href="#升级软件包-1" class="headerlink" title="升级软件包"></a>升级软件包</h3><p>要升级已安装的软件包，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> rpm -Uvh package_name.rpm</span><br></pre></td></tr></tbody></table></figure>
+
+<p>比如，升级 <code>example.rpm</code>：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> rpm -Uvh example.rpm</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中 <code>-U</code> 表示升级（upgrade），如果软件包未安装则进行安装。</p>
+<h3 id="删除软件包-2"><a href="#删除软件包-2" class="headerlink" title="删除软件包"></a>删除软件包</h3><p>要删除已安装的软件包，语法如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> rpm -e package_name</span><br></pre></td></tr></tbody></table></figure>
+
+<p>比如，删除 <code>example</code> 软件包：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> rpm -e example</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中 <code>-e</code> 表示删除（erase）。</p>
+<h3 id="查询软件包"><a href="#查询软件包" class="headerlink" title="查询软件包"></a>查询软件包</h3><h4 id="查询已安装的软件包"><a href="#查询已安装的软件包" class="headerlink" title="查询已安装的软件包"></a>查询已安装的软件包</h4><p>要查询系统上已安装的软件包，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中 <code>-q</code> 表示查询（query），<code>-a</code> 表示所有（all）。</p>
+<h4 id="查询特定软件包信息"><a href="#查询特定软件包信息" class="headerlink" title="查询特定软件包信息"></a>查询特定软件包信息</h4><p>要查看特定软件包的信息，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -qi package_name</span><br></pre></td></tr></tbody></table></figure>
+
+<p>比如，查询 <code>example</code> 软件包的信息：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -qi example</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中 <code>-i</code> 表示信息（info）。</p>
+<h4 id="查询文件属于哪个软件包"><a href="#查询文件属于哪个软件包" class="headerlink" title="查询文件属于哪个软件包"></a>查询文件属于哪个软件包</h4><p>要查询系统中文件属于哪个软件包，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -qf /path/to/file</span><br></pre></td></tr></tbody></table></figure>
+
+<p>比如，查询 <code>/usr/bin/example</code> 文件属于哪个软件包：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -qf /usr/bin/example</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中 <code>-f</code> 表示文件（file）。</p>
+<h3 id="验证软件包"><a href="#验证软件包" class="headerlink" title="验证软件包"></a>验证软件包</h3><p>要验证已安装的软件包，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -V package_name</span><br></pre></td></tr></tbody></table></figure>
+
+<p>比如，验证 <code>example</code> 软件包：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -V example</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中 <code>-V</code> 表示验证（verify）。</p>
+<h3 id="显示软件包内容"><a href="#显示软件包内容" class="headerlink" title="显示软件包内容"></a>显示软件包内容</h3><p>要显示软件包中的文件列表，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -ql package_name</span><br></pre></td></tr></tbody></table></figure>
+
+<p>比如，显示 <code>example</code> 软件包的文件列表：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -ql example</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中 <code>-l</code> 表示列表（list）。</p>
+<h3 id="检查软件包依赖"><a href="#检查软件包依赖" class="headerlink" title="检查软件包依赖"></a>检查软件包依赖</h3><p>要检查软件包的依赖关系，使用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -qpR package_name.rpm</span><br></pre></td></tr></tbody></table></figure>
+
+<p>比如，检查 <code>example.rpm</code> 软件包的依赖关系：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rpm -qpR example.rpm</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="其中：-p-表示指定包文件（package）。-R-表示依赖（requires）。"><a href="#其中：-p-表示指定包文件（package）。-R-表示依赖（requires）。" class="headerlink" title="其中：- -p 表示指定包文件（package）。- -R 表示依赖（requires）。"></a>其中：<br>- <code>-p</code> 表示指定包文件（package）。<br>- <code>-R</code> 表示依赖（requires）。</h2>
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/rpm/" rel="tag"># rpm</a>
+              <a href="/tags/yum/" rel="tag"># yum</a>
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/apt/" rel="tag"># apt</a>
+              <a href="/tags/Linux%E6%B1%87%E6%80%BB/" rel="tag"># Linux汇总</a>
+              <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%8C%85/" rel="tag"># 软件包</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/11/16/linux-collection-dangerous-commands/" rel="prev" title="Linux最危险的几个命令">
+      <i class="fa fa-chevron-left"></i> Linux最危险的几个命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/11/18/linux-collection-hardware-commands/" rel="next" title="Linux最常用的硬件相关的命令">
+      Linux最常用的硬件相关的命令 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E6%9C%80%E5%B8%B8%E7%94%A8%E7%9A%84%E5%87%A0%E4%B8%AA%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">Linux最常用的几个软件包管理命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E7%AE%A1%E7%90%86%E5%88%A9%E5%99%A8-Debian%E7%B3%BB%E7%9A%84apt"><span class="nav-number">1.1.</span> <span class="nav-text">软件管理利器  - Debian系的apt</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E8%BD%AF%E4%BB%B6%E5%8C%85%E5%88%97%E8%A1%A8"><span class="nav-number">1.1.1.</span> <span class="nav-text">更新软件包列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">1.1.2.</span> <span class="nav-text">升级软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">1.1.3.</span> <span class="nav-text">安装软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">1.1.4.</span> <span class="nav-text">删除软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">1.1.5.</span> <span class="nav-text">搜索软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E8%BD%AF%E4%BB%B6%E5%8C%85%E4%BF%A1%E6%81%AF"><span class="nav-number">1.1.6.</span> <span class="nav-text">显示软件包信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E7%90%86"><span class="nav-number">1.1.7.</span> <span class="nav-text">清理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%A1%E7%90%86%E4%BB%93%E5%BA%93"><span class="nav-number">1.1.8.</span> <span class="nav-text">管理仓库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%A2%E5%B8%BD%E7%B3%BB%E7%9A%84%E8%BD%AF%E4%BB%B6%E7%AE%A1%E7%90%86%E5%88%A9%E5%99%A8-yum"><span class="nav-number">1.2.</span> <span class="nav-text">红帽系的软件管理利器 - yum</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E5%8C%85-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">安装软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">1.2.2.</span> <span class="nav-text">更新软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E8%BD%AF%E4%BB%B6%E5%8C%85-1"><span class="nav-number">1.2.3.</span> <span class="nav-text">删除软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E5%8F%AF%E7%94%A8%E6%9B%B4%E6%96%B0"><span class="nav-number">1.2.4.</span> <span class="nav-text">检查可用更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E5%87%BA%E5%B7%B2%E5%AE%89%E8%A3%85%E7%9A%84%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">1.2.5.</span> <span class="nav-text">列出已安装的软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E8%BD%AF%E4%BB%B6%E5%8C%85-1"><span class="nav-number">1.2.6.</span> <span class="nav-text">搜索软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E8%BD%AF%E4%BB%B6%E5%8C%85%E4%BF%A1%E6%81%AF-1"><span class="nav-number">1.2.7.</span> <span class="nav-text">显示软件包信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E7%90%86-yum-%E7%BC%93%E5%AD%98"><span class="nav-number">1.2.8.</span> <span class="nav-text">清理 yum 缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%A1%E7%90%86%E4%BB%93%E5%BA%93-1"><span class="nav-number">1.2.9.</span> <span class="nav-text">管理仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95"><span class="nav-number">1.2.10.</span> <span class="nav-text">高级用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%89%B9%E5%AE%9A%E7%89%88%E6%9C%AC%E7%9A%84%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">1.2.10.1.</span> <span class="nav-text">安装特定版本的软件包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%99%8D%E7%BA%A7%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">1.2.10.2.</span> <span class="nav-text">降级软件包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%84%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.10.3.</span> <span class="nav-text">组安装</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8D%E6%98%BE%E5%BA%95%E5%B1%82%E7%9A%84%E7%BA%A2%E5%B8%BD%E7%B3%BB%E8%BD%AF%E4%BB%B6%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-rpm"><span class="nav-number">1.3.</span> <span class="nav-text">稍显底层的红帽系软件管理工具 - rpm</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E5%8C%85-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">安装软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7%E8%BD%AF%E4%BB%B6%E5%8C%85-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">升级软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E8%BD%AF%E4%BB%B6%E5%8C%85-2"><span class="nav-number">1.3.3.</span> <span class="nav-text">删除软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">1.3.4.</span> <span class="nav-text">查询软件包</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E5%B7%B2%E5%AE%89%E8%A3%85%E7%9A%84%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">查询已安装的软件包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E7%89%B9%E5%AE%9A%E8%BD%AF%E4%BB%B6%E5%8C%85%E4%BF%A1%E6%81%AF"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">查询特定软件包信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E6%96%87%E4%BB%B6%E5%B1%9E%E4%BA%8E%E5%93%AA%E4%B8%AA%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">1.3.4.3.</span> <span class="nav-text">查询文件属于哪个软件包</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">1.3.5.</span> <span class="nav-text">验证软件包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E8%BD%AF%E4%BB%B6%E5%8C%85%E5%86%85%E5%AE%B9"><span class="nav-number">1.3.6.</span> <span class="nav-text">显示软件包内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E8%BD%AF%E4%BB%B6%E5%8C%85%E4%BE%9D%E8%B5%96"><span class="nav-number">1.3.7.</span> <span class="nav-text">检查软件包依赖</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%B8%AD%EF%BC%9A-p-%E8%A1%A8%E7%A4%BA%E6%8C%87%E5%AE%9A%E5%8C%85%E6%96%87%E4%BB%B6%EF%BC%88package%EF%BC%89%E3%80%82-R-%E8%A1%A8%E7%A4%BA%E4%BE%9D%E8%B5%96%EF%BC%88requires%EF%BC%89%E3%80%82"><span class="nav-number">1.4.</span> <span class="nav-text">其中：- -p 表示指定包文件（package）。- -R 表示依赖（requires）。</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2023/11/18/linux-collection-package-managerment/";
+    this.page.identifier = "2023/11/18/linux-collection-package-managerment/";
+    this.page.title = "Linux最常用的几个软件包管理命令";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Linux 十大发行版 对于Linux新手来说，在各发行版之间困惑得进行选择和不断增加的数量实在令人头晕。 不过随着大浪淘沙和各种变化，曾经的发行版也在悄然发生着变化。 而相对而言最为人所知且应用广泛的，无外乎：  Ubuntu， Linux Mint 和 PCLinuxOS 被认为是对想在熟悉系统的复杂内容之前尽可能早的开始使用的人来说最简单的发行版 Slackware Linux， Gento">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 十大发行版">
+<meta property="og:url" content="http://shaoguangleo.github.io/2011/01/01/linux-distributions/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="Linux 十大发行版 对于Linux新手来说，在各发行版之间困惑得进行选择和不断增加的数量实在令人头晕。 不过随着大浪淘沙和各种变化，曾经的发行版也在悄然发生着变化。 而相对而言最为人所知且应用广泛的，无外乎：  Ubuntu， Linux Mint 和 PCLinuxOS 被认为是对想在熟悉系统的复杂内容之前尽可能早的开始使用的人来说最简单的发行版 Slackware Linux， Gento">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2011-01-01T11:19:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.875Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="CentOS">
+<meta property="article:tag" content="Debian">
+<meta property="article:tag" content="Fedora">
+<meta property="article:tag" content="FreeBSD">
+<meta property="article:tag" content="Gentoo">
+<meta property="article:tag" content="Mint">
+<meta property="article:tag" content="Mandriva">
+<meta property="article:tag" content="openSUSE">
+<meta property="article:tag" content="PCLinuxOS">
+<meta property="article:tag" content="Slackware">
+<meta property="article:tag" content="Ubuntu">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2011/01/01/linux-distributions/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux 十大发行版 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2011/01/01/linux-distributions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux 十大发行版
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2011-01-01 19:19:00" itemprop="dateCreated datePublished" datetime="2011-01-01T19:19:00+08:00">2011-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2011/01/01/linux-distributions/" class="post-meta-item leancloud_visitors" data-flag-title="Linux 十大发行版" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2011/01/01/linux-distributions/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/01/01/linux-distributions/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2011/01/01/linux-distributions/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2011/01/01/linux-distributions/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Linux-十大发行版"><a href="#Linux-十大发行版" class="headerlink" title="Linux 十大发行版"></a>Linux 十大发行版</h1><p> 对于Linux新手来说，在各发行版之间困惑得进行选择和不断增加的数量实在令人头晕。</p>
+<p>不过随着大浪淘沙和各种变化，曾经的发行版也在悄然发生着变化。</p>
+<p>而相对而言最为人所知且应用广泛的，无外乎：</p>
+<ul>
+<li>Ubuntu， Linux Mint 和 PCLinuxOS 被认为是对想在熟悉系统的复杂内容之前尽可能早的开始使用的人来说最简单的发行版</li>
+<li>Slackware Linux， Gentoo Linux 和 FreeBSD 是高级的多的发行版，在有效使用前需要进行大量的学习</li>
+<li>openSUSE， Fedora， Debian GNU/Linux 和 Mandriva Linux 则可以被划分为优秀的“中间路线”版本</li>
+<li>CentOS 是企业版本，适合对稳定性、可靠性、在尖端功能和软件的长期支持方面比较看重的用户。【已经停止更新，不过大部分的企业服务器依旧在坚挺】</li>
+</ul>
+<h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><p> Ubuntu 于2004年9月首次宣布发行。尽管是 Linux 舞台上的后起之秀，但在接下来的几年里， Ubuntu 成长为最流行的 Linux 桌面发行版而且对既“简单易用”又自由还能够与其它任何在市场上的私有版本有力竞争的操作系统的发展有巨大贡献。</p>
+<p> Ubuntu 取得如此震惊成功的原因，可能还是离不开这个项目的发起人 Mark Shuttleworth。</p>
+<blockquote>
+<p> 一个极有魅力的南非富翁、一个前 Debian 开发员和世界第二个太空游客 – 他注册在马恩岛的 Canonical 公司目前正在资助这个项目；</p>
+<p>其次， Ubuntu 从其它类似发行版的错误中汲取教训并且从一开始就避免重蹈覆辙 – 它用 wiki 风格的文档、有创意的错误报告机制和面向终端用户的专业方法创建了一个完美的基于网络的基础结构；</p>
+<p>最后，感谢它富有的创始人使得 Ubuntu 有能力向全世界的爱好者免费发送 CD ，这对版本的快速传播很有帮助【我曾经获得过2块系统CD】。</p>
+</blockquote>
+<p>在技术方面， Ubuntu 基于 Debian 的“Sid” （不稳定分支），但是随着一些杰出的软件包比如 GNOME 、 Firefox 和 OpenOffice.org 升级到它们的最新版本， Ubuntu 有固定6个月的发布周期，偶尔还会出现提供3~5年安全升级的长期支持版（LTS)，这取决于版本号（非 LTS 版本提供18个月的支持）。 Ubuntu 的其它特点包括一张可安装的 live CD 、有创意的艺术作品和桌面主题、针对 windows 用户的移民手册、对最新技术的支持比如3D桌面特效、 ATI 和 NVIDIA 显卡以及无线网络的私有设备的驱动的简易安装还有非免费或专利担保的媒体解码器的有求必应的支持。</p>
+<ul>
+<li>支持论点：固定的发布周期和支持时间；新手友好；包括官方提供和用户贡献的丰富的文档</li>
+<li>反对论点： Ubuntu 自带的某些软件（比如：Rosetta）是私有的；与 Debian 兼容性不佳</li>
+<li>软件包管理工具：使用DEB包的高级包工具（APT）</li>
+<li>可用版本：Ubuntu, Kubuntu, Xubuntu, Ubuntu Studio, 32位(i386)和64位(x86_64)的Mythbuntu; 用于 SPARC 处理器的 Ubuntu服务器版本</li>
+<li>基于Ubuntu的推荐替代版：Linux Mint (桌面版), gOS (带 Google 应用的桌面版), OpenGEU (带 Enlightenemnt 的桌面版), Ultimate Edition (桌面版), CrunchBang Linux (带 Openbox 的桌面版), gNewSense (自由软件)</li>
+</ul>
+<h2 id="openSUSE"><a href="#openSUSE" class="headerlink" title="openSUSE"></a>openSUSE</h2><p> openSUSE 的起源可以追溯到1992年，当时4个德国 Linux 爱好者 – Roland Dyroff ， Thomas Fehr ， Hubert Mantel 和 Burchard Steinbild – 以 SuSE (软件和系统开发) Linux 的名字发起了这个项目。在最初的几年里，这个年轻的公司主要出售德文版 Slackware Linux 的套装软盘，但是不久后在 SuSE Linux 于1996年5月随着4.2版本的发布而成为一个独立的发行版之后就停止了。接下来的年份里，开发者采用了 RPM 软件包管理形式而且也推荐了一个简单易用的图形化的系统管理员工具 – Yast 。频繁的发行，卓越的打印文档，还有遍及欧洲和北美的随店可买导致此版本普及率的不断增长。</p>
+<p> SuSE Linux 在2003年末被 Novell 公司购买，随之很快就在开发、许可证和使用方面产生重大变化 – YaST 在 GPL 许可证下发行， ISO 镜像可以在公共下载服务器上自由下载，还有，最意义重大的，发行版的开发首次向公众开放。从 openSuSE 项目的设立和2005年10月10.0版本的发布以来，这个版本在两种感官世界变的完全自由。 openSuSE 的代码构成了 Novell 的商业产品的底层系统，一开始叫作 Novell Linux ，后来改名为 SUSE Linux 企业桌面版和 SUSE Linux 企业服务器版。</p>
+<p> 今天， openSUSE 有着庞大的满意用户群。它在用户中取得如此高分的最主要原因包括友好而绚丽的桌面环境( KDE 和 GNOME )，出色的系统管理工具 (YaST)，以及，对那些购买盒装版本的用户来说，对任何版本都可用的最棒的打印文档。然而， Novell 与微软最近签订的协议明显的承认了微软的有关对 Linux 拥有知识产权的条款，这导致了广大 Linux 人士一系列的谴责并且促使部分用户转向其它发行版。尽管 Novell 低调处理这份协议而且微软也尚未行使任何权利，这件事成为其它非常“社区友好”型 Linux 公司的眼中钉。</p>
+<ul>
+<li>支持论点：直观全面的配置工具；库存庞大的软件包；出色的网站基础结构和打印文档</li>
+<li>反对论点：Novell 与微软在2006年11月涉及的专利协议似乎将微软对 Linux 的知识产权索赔合法化；极耗资源的桌面系统和图形化的工具有时被认为“瘫肿又迟钝”</li>
+<li>软件包管理工具：图形化的 YaST 和用 RPM 包的命令行模式工具</li>
+<li>可用版本：可用于32位(i386),64位(x86_64) 和 PowerPC(同样有可安装的 live CD) 处理器的openSUSE; 可用于 i586, IA64, PowerPC, s390, s390x 和 x86_64 结构的SUSE Linux 企业 桌面/服务器 版</li>
+</ul>
+<h2 id="Fedora"><a href="#Fedora" class="headerlink" title="Fedora"></a>Fedora</h2><p> 尽管 Fedora 在2004年9月才正式发布，但它的起源可以追溯到1995年被两个 Linux 空想者 – Bob Young 和 Marc Ewing – 以 Red Hat 之名发起的 Linux 。公司的第一个产品， Red Hat Linux 1.0 “母亲节”，在同年发布并且很快跟着推出一些错误修复的升级。1997年， Red Hat 推出了它的革命性的带有依赖协议的 RPM 软件包管理系统和其它高级功能极大的促进了该发行版在大众中的迅速崛起，并且超过了 Slackware Linux 成为世界上最被广泛使用的 Linux 发行版。接下来的几年里， Red Hat 制定了一个有规律的、6月周期的发行标准。</p>
+<p> 2003年，在 Red Hat Linux 9 的发布之后，公司对其产品线进行了激进的改革。公司对其商业产品– 著名的 Red Hat 企业版– 保留了 Red Hat 商标，并且推出了 Fedora Core – 一个 Red Hat 发起但是面向社区的为“ Linux 爱好者”而设计的版本。在对这一改变刚开始的批评之后， Linux 社区便开始接受了这一“新”的版本作为 Red Hat 逻辑上的续版，一些有质量的发行版是为了 Fedora 夺回之前作为市场上最受喜爱的发行版的地位。在同一时间， Red Hat 很快成为了世界上最大最赚钱的 Linux 公司，以它新颖的产品线和其它有趣的提议，比如它的 Red Hat 认证工程师（ RHCE ）认证。</p>
+<p> 尽管 Fedora 的方向在很大程度上被 Red Hat 公司所把持，而且其产品有时似乎– 无论对错– 是作为 Red Hat 企业版的试验田，但是无可否认的是 Fedora 是当前可用的最有新意的发行版之一。它对 Linux 内核、 glibc 和 GCC 的贡献广为人知，而且它对 SELinux 功能、 Xen 虚拟技术和其它企业级的功能的综合在企业用户中非常受欢迎。在令一方面， Fedora 仍然缺乏一个清晰的面向桌面的策略来使产品成为对除了“ Linux 爱好者”的用户目标来说更易用的产品。</p>
+<ul>
+<li>支持论点：高度的前卫；杰出的安全功能；库存丰富的支持软件；对自由软件理念的严格遵守</li>
+<li>反对论点：Fedora 优先倾向于企业功能而不是桌面用户</li>
+<li>软件包管理工具：图形化的 YUM 和用 RPM 的命令行模式工具</li>
+<li>可用版本：可用于32位(i386),64位(x86_64) 和 PowerPC 处理器的 Fedora;可用于 i386, IA64, PowerPC, s390x 和 x86_64 结构的 Red Hat Linux 企业版; 包括 GNOME 和 KDE 的 live CD 版</li>
+<li>基于 Fedora 的推荐替代版：BLAG Linux And GNU (桌面版,自由软件), Berry Linux (live CD), Yellow Dog Linux (基于苹果的 PowerPC 的系统)</li>
+<li>基于 Red Hat 的推荐替代版：CentOS, Scientific Linux, StartCom Enterprise Linux</li>
+</ul>
+<h2 id="Debian-GNU-x2F-Linux"><a href="#Debian-GNU-x2F-Linux" class="headerlink" title="Debian GNU/Linux"></a>Debian GNU/Linux</h2><p> Debian GNU/Linux 于1993年首次发布。它的发起人， Ian Murdock ，设想通过数百个志愿者开发人员在空余时间创造一个完全的非商业项目。那时的反对者过于乐观的认为，这个项目注定会分裂然后失败；但是事实恰恰相反， Debian 不仅活了下来发展的欣欣向荣而且在不到10年的时间里，它变成了最大的 Linux 发行版甚至可能会成为有史以来最大的软件合作项目。</p>
+<p> Debian GNU/Linux 的成功可以归结为如下几条。它的开发者超过1000名志愿者，它的软件包有超过20000种软件（对11种处理器构架做了编译），并且令人振奋的是它为超过120种基于 Debian 的发行版和 live CD 提供支持，这些数字是其它任何基于 Linux 的发行版所无法比拟的。 Debian 实际的发展根据递增的稳定性有3个分支（或者4个如果再包括一个尖端“体验”分支的话）：“不稳定版”（或者叫“sid”），“测试版”和“稳定版”，这种先进的集成和软件包的稳定性及其功能，再加上这个项目完善的质量控制机制，为 Debian 赢得了当前最佳体验和最少错误的发行版之一的名誉。</p>
+<p> 然而，这种冗长而复杂的发展风格也有其不利的一面：稳定版的发布不是特别及时并且会迅速落伍，特别是自从新稳定版每1~3年才发布一次之后。那些喜欢最新软件和技术的用户不得不使用潜在很多错误的测试版或者不稳定版。 Debian 高度民主的组织结构也导致了备受争议的决策并且引起内部人员的对抗，这种状况使其停滞不前并且很难通过激进但可以推动项目发展的决议。</p>
+<ul>
+<li>支持论点：非常稳定；引入注目的质量控制体系；包含超过20000种软件的管理包；比其它 Linux 发行版支持更多的处理器构架</li>
+<li>反对论点：保守– 因为其对许多处理器构架提供支持使得最新的技术不总是被采用；缓慢的发布周期（每1~3年一个稳定版）；开发者在邮件列表上的争吵以及博客有时会很粗糙</li>
+<li>软件包管理工具：使用 DEB 包的先进包管理工具(APT)</li>
+<li>可用版本：可用于11种包括 Intel, AMD 和其它的所有32位和64位处理器在内的处理器结构的 CD/DVD 和 live CD 安装镜像文件，</li>
+<li>基于 Debian 的推荐发行版：MEPIS Linux, Ubuntu, sidux. Damn Small Linux (用于老式电脑), KNOPPIX (live CD), Dreamlinux (桌面版), Elive (带 Enlightenment 的桌面版), Xandros (商业版), 64 Studio (多媒体版)</li>
+</ul>
+<h2 id="Mandriva-Linux"><a href="#Mandriva-Linux" class="headerlink" title="Mandriva Linux"></a>Mandriva Linux</h2><p> Mandriva Linux 由 Gaël Duval 在1998年7月以 Mandrake Linux 之名首次发布。开始，它只是一个 Red Hat Linux 加上更为用户友好型的 KDE 桌面的改进版，但随后的发行版又增加了各种用户友好型的应用，比如新的安装软件，高级硬件检测和直观的硬盘分区工具。由于这些改进措施， Mandrake Linux 发展壮大了起来。在吸引到风险投资并且转型为商业项目之后，新成立的 MandrakeSoft 的命运在从2003年初的几近破产到2005年的几项收购中起伏很大。后来，与巴西的 Conectiva 合并之后，公司将名字改为 Mandriva 。</p>
+<p> Mandriva Linux 首先是个桌面发行版，它最受喜爱的特点是尖端的软件，高质量的系统管理套件（Drakconf），64位版本中杰出的执行能力，还有广阔的国际化支持。 Mandriva 在其它许多流行的发行版之前很久就通过广泛的 beta 测试版和频繁的稳定版有了开放的开发模式。最近的几年里， Mandriva 也开发了一系列可安装的 live CD 并且推出了 Mandriva Flash – 存在于可引导的 USB 设备中的一个完整的 Mandriva Linux 系统。同时它也是第一个为上网本比如 ASUS Eee PC 提供开箱即用支持的主流发行版.</p>
+<p> 除去出色的技术， Mandriva Linux 在近几年像做过山车一样。这在一定程度上导致了其它超过 Mandriva 的用户友好型的发行版的出现，但是同样也与把公司的一个有关发行版的用户群的部门分离出去的一些有争议的决议相关。 Mandriva 的网络展示只不过是一些不同的网址杂乱的集合，而它的“ Mandriva 俱乐部”，最初为付费用户提供增值服务，变得越来越褒贬不一。尽管公司一直在对一些批评进行改进，它仍然面对着说服新的 Linux 用户或者其他 Linux 用户尝试（或购买）它们的产品的越来越艰难的问题。</p>
+<ul>
+<li>支持论点：新手友好，尤其是商业版本；杰出的中央配置套件；对几十种语言都非常棒的开箱即用支持；可安装的 live CD</li>
+<li>反对论点：缺乏对其它主流发行版的综合性市场策略，不存在的 Mandriva 手册显示出在出版社中缺乏“精神占有率”</li>
+<li>软件包管理工具：使用 RPM 包的带 Rpmdrake (一个图形化的 URPMI 前端) 的 URPMI；“SMART”也是一个可用的方法</li>
+<li>可用发行版：可用于32位(i586)和64位(x86_64)处理器可自由下载的 Mandriva “自由”安装介质; 可用于32位(i586)处理器的可自由下载的 Mandriva 一次性现场安装介质; 可用于32位(i586)和64位(x86_64)处理器的商业 Mandriva PowerPack 版; 带有长期支持选项可用于桌面和服务器的高端“团体”方案</li>
+<li>基于 Mandriva 的推荐发行版：PCLinuxOS (桌面版)</li>
+</ul>
+<h2 id="Linux-Mint"><a href="#Linux-Mint" class="headerlink" title="Linux Mint"></a>Linux Mint</h2><p> Linux Mint，一个基于 Ubuntu 的发行版，于2006年被 Clement Lefebvre – 一个法国出生爱尔兰工作和生活的 IT 专家首次发布。开始时维护着一个网站致力于提供帮助、建议和给 Linux 用户使用的文档，作者看到了开发一个解决掉通用的主流产品的诸多使用缺陷的 Linux 发行版的潜在价值。在向他网站上的用户求得反馈意见之后，他着手建立当今人们更愿意称作的“ Ubuntu 改进版”。</p>
+<p> 但 Linux Mint 不仅仅是一个增加了一系列应用程序和改进的桌面主题的 Ubuntu 。自从它诞生以来，开发者一直在添加各种图形化的“ Mint ”工具来增强使用性。这包括 mint桌面 – 一个设置桌面环境的套件；mint菜单 – 为了更方便的导航而做的新的优美的菜单； mint安装 – 一个易用的软件安装工具，还有 mint更新 – 一个软件更新工具，仅从一些其它工具和数百个附加改进中挑出若干杰出者。这个项目同样设计了它自己的艺术作品，而它易用性的名声通过添加其它大的发行版因为担心潜在的法律制裁而空缺的私有的和专利保护的多媒体解码器而大振。然而， Linux Mint 最大的优点之一的开发者听从于用户并且总是很快采纳好的建议。</p>
+<p> 在 Linux Mint 可以免费下载的同时，项目组从捐助、广告和专业服务支持中获得收益。Linux Mint 没有固定的发布周期或者一张计划好的功能单，但是在每个 Ubuntu 的稳定发行版发布出来之后的几个星期之后就可以期待着新的 Linux Mint 。除了提供 GNOME 桌面的“主”版本之外，项目组也出品了使用其它桌面环境比如 KDE , Xfce 和 Fluxbox 的半正规的“社区”版。然而，这些通常要在使用 GNOME 的“主”版本发布几个月之后才推出而且很多时候缺少“ minty ”工具和其它旗舰版产品拥有的功能。 Linux Mint 不依附自由软件的条款而且不发布安全劝告。</p>
+<ul>
+<li>支持论点：内部开发的优秀的“ minty ”工具，数以百计的用户友好性改进，包含多媒体解码器，开放的用户建议</li>
+<li>反对论点：替代的“社区”版常常不含最新功能，项目组不发布安全公告</li>
+<li>软件包管理工具：带使用 DEB 包的 mintInstall 的APT（与 Ubuntu 的软件库兼容）</li>
+<li>可用版本：可用于32位和64位计算机的“主”版本(GNOME)，可用于32位计算机的丰富的“社区”版本</li>
+<li>可能的替代版：Ubuntu, SimplyMEPIS</li>
+</ul>
+<h2 id="PCLinux-OS"><a href="#PCLinux-OS" class="headerlink" title="PCLinux OS"></a>PCLinux OS</h2><p> PCLinuxOS 于2003年由被称为“ Texstar ” 的 Bill Reynolds 首次发布，。在创造自己的发行版之前， Texstar 就因给流行版本建立及时更新的 RPM 软件包并且提供免费下载而在 Mandrake 的用户社区中成为广为人知的开发员。在2003年他决定创建一个新的发行版，最初基于 Mnadrake Linux ，但随着一些意义重大的可用性改进，目标？应该是新手友好型，为私有的内核模块、浏览器补丁和媒体解码器提供开箱即用支持，并且应该有个简单直观的图形化安装界面就像 live CD 一样。</p>
+<p> 多年的发展之后， PCLinuxOS 迅速的接近它预期状态。在可用性方面，项目组提供了 windows 到 Linux 的移民用户希望从他们新操作系统得到的开箱即用的支持。在软件方面， PCLinuxOS 是一个面向 KDE 的发行版，有一个可定制的而且总是及时更新的流行桌面环境。它不断增长的软件库也包含其它桌面，甚至，也为其它许多通用任务提供大量的桌面软件。关于系统配置， PCLinuxOS 保留了 Mandrake 的优秀控制中心的许多东西，但用 APT 和 Synaptic （一个图形化的软件包管理工具前端）替换了它的软件包管理系统。</p>
+<p> 另一方面， PCLinuxOS 没有任何形式的路线图或发展目标。除去项目中不断增长的社区参与，大部分的开发和决定仍归 Texstar 所有，在权衡发行版的稳定性时他总趋于保守。结果， PCLinuxOS 的开发进程很漫长甚至直到所有已知的错误都解决了之后才发布一个新版本。 PCLinuxOS 至今没有发布64位版本的计划。</p>
+<ul>
+<li>支持论点：图形化驱动安装、浏览器补丁和媒体解码器的开箱即用支持；快速启动；软件的及时更新</li>
+<li>反对论点：无64位版本；对非英语语言无开箱即用支持；缺乏发展目标</li>
+<li>软件包管理工具：使用 RPM 包的高级包管理工具(APT)</li>
+<li>可用版本：MiniMe, Junior 和可用于32位(i586)处理器结构的 BigDaddy 发行版</li>
+<li>基于 PCLinuxOS 的推荐替代版：Mandriva Linux, SAM Linux 桌面版, Granular Linux</li>
+</ul>
+<h2 id="Slackware-Linux"><a href="#Slackware-Linux" class="headerlink" title="Slackware Linux"></a>Slackware Linux</h2><p> Slackware Linux，由 Patrick Volkerding 于1992年首次发布，是现今存在的最古老的 Linux 发行版。在最顶级的 Linux 内核版本 0.99pl11-alpha 之上建立并被载以24张软盘的 Slackware 由现以破产的 SLS 项目分离出来。它迅速发展为最流行的 Linux 版本，一些评估认为它的的市场占有率高达1995年安装的 Linux 的80%。它的普及率随着 Red Hat 和其它更用户友好型的发行版的出现而戏剧性的下降，但 Slackware 仍然是个在更面向技术的系统管理员和桌面用户中备受赞赏的操作系统。</p>
+<p> Slackware 是个高端干净的发行版，只有极少数量的自定义工具。它使用一个简单的文本模式的系统安装软件和一个相对原始的无法解决软件依赖问题的软件包管理系统。结果， Slackware 被认为是当今最干净且错误最少的发行版之一 – 没有为 Slackware 进行特定的改进减少了将新的错误带入系统的可能性。所有的配置通过编写文件来实现。在 Linux 社区中有一个说法是如果你学 Red Hat ，你将只会 Red Hat ；但如果你学 Slackware ，你将会 Linux 。在当今许多 Linux 发行版坚持为缺乏技术的用户开发高定制性的产品时这句话尤为正确。</p>
+<p> 尽管这个简单的哲学有其拥护者，但事实是今天的世界， Slackware 越来越变得像一个为其它新的有定制方案的系统做基础的“核系统”，而不是一个完整的有广泛的支持软件的发行版。唯一的例外是在服务器市场，那里 Slackware 仍然很流行，但尽管是这样，这个版本复杂的升级步骤以及缺乏官方支持的自动安全升级工具让它越来越没有竞争力。 Slackware 对系统基础组件的保守态度意味着在它成为一个现代的桌面系统前还需大量手工的安装后工作。</p>
+<ul>
+<li>支持论点：高稳定性、清洁和无错误；对 UNIX 条例的坚定信奉</li>
+<li>反对论点：极为有限的官方支持应用软件；在基础软件包选择上的保守；复杂的升级步骤</li>
+<li>软件包管理工具：用 TXZ 包的 “pkgtools”</li>
+<li>可用版本：可用于32位(i486)和64位(x86_64)处理器安装 CD 和 DVD</li>
+<li>基于 Slackware 的推荐替代版：Zenwalk Linux (桌面版), VectorLinux (桌面版), SLAX (live CD), Slamd64 Linux (64位), Bluewhite64 Linux (64位), Wolvix (桌面版, live CD), GoblinX (桌面版, live CD)</li>
+<li>持相同理念的其它发行版：Arch Linux, Frugalware Linux</li>
+</ul>
+<h2 id="Gentoo-Linux"><a href="#Gentoo-Linux" class="headerlink" title="Gentoo Linux"></a>Gentoo Linux</h2><p> Gentoo Linux 的理念是被一个前 Stampede Linux 和 FreeBSD 开发员 Daniel Robbins 于2000年前后提出的。这是作者对 FreeBSD 和它的被叫做“ ports ”的“自建”功能的展露，这东西激励着他把一些 FreeBSD 的软件管理原则以“ portage ”之名带入 Gentoo 。这个主意是开发一个 Linux 发行版允许用户直接在他们自己的电脑上从源代码编译 Linux 内核和应用软件，这将保证一个高度优化和及时更新的系统。在这个项目于2002年三月发布了它的1.0版本的时候， Gentoo 的包管理工具被认为会是一些二进制包管理系统的高级替代品，尤其是后来被广泛使用的 RPM 。</p>
+<p> Gentoo Linux 是为超级用户设计。一开始，其安装是笨重和单调的，需要在命令行模式进行数小时甚至数天的编译来建造一个完整的 Linux 发行版；然而，2006年项目组通过一个可安装的 live CD 和鼠标安装工具简化了安装步骤。除了为单命令模式安装提供一个总是及时更新的软件包，发行版的其它重要功能有杰出的安全性、广泛的配置选项、对许多构架的支持和不用重新安装就可保持系统及时更新。 Gentoo 的文档也被作为所有发行版中最棒的在线文档而多次标记。</p>
+<p> Gentoo Linux 在最近几年里失去了许多原有的赞誉。一些用户已经证实了这种费时的软件包编译只能带来微小的速度和优化效益。自从 Gentoo 的创立者和仁慈的独裁者的辞职以来，新成立的 Gentoo 基金一直困顿于缺乏清晰的指引和频繁的开发者之间的冲突，这导致了数位著名的 Gentoo 人员的高调离职。目前仍有待观察是否 Gentoo 可以重夺其原来创新性的品质抑或慢慢得分裂为缺乏清晰目标的若干私人性的子项目的集合。</p>
+<ul>
+<li>支持论点：杰出的软件管理体系，无以伦比的定制性和调整方案，优秀的在线文档</li>
+<li>反对论点：偶尔的不稳定或崩溃的危险，项目挣扎于缺乏指导和开发人员之间的内部斗争之中</li>
+<li>软件包管理工具：使用源代码包(SRC)的“ portage ”</li>
+<li>可用版本：可用于Alpha, AMD64, HPPA, IA64, MIPS, PPC, SPARC 和 x86 处理器的最小化安装 CD 和 live CD (GNOME); 提供用于命令行模式手工安装的 “stages”</li>
+<li>基于 Gentoo 的推荐替代版：SabayonLinux (桌面版, live CD/DVD), Ututo (桌面版, 仅自由软件)</li>
+<li>其它基于源码的发行版：Lunar Linux, Source Mage GNU/Linux, Sorcerer, Linux From Scratch</li>
+</ul>
+<h2 id="FreeBSD"><a href="#FreeBSD" class="headerlink" title="FreeBSD"></a>FreeBSD</h2><p> FreeBSD ，一个 AT&amp;T UNIX 通过伯克利软件分发（ BSD ）的间接继承版，有一个漫长而动荡的可以追溯到1993年的历史。与包含 Linux 内核与数千种应用软件被定义为完整软件方案的 Linux 发行版不同， FreeBSD 是一个建立在 BSD 内核和所谓的“ userland ”（因此在没有额外软件时也可用）的基础上的紧凑整合起来的操作系统。可一旦安装在普通的计算机系统上这种差别基本上就消失了 – 像许多 Linux 发行版，一大批易于安装的、（绝大多数）开源的应用软件可用来拓展 FreeBSD 内核，但这些通常由第三方开发者提供而且不是严格意义上的 FreeBSD 的一部分。</p>
+<p> FreeBSD 赢得了一个迅速、高性能和极为稳定的操作系统的赞誉，特别适合于网络服务器和类似任务。许多大型搜索引擎和配有关键任务的计算基础设备的组织已经在他们的计算机系统上部署和使用 FreeBSD 好几年了。与 Linux 相比， FreeBSD 是在一个限制性更少的许可证下建立的，这个许可证允许几乎毫无限制的对源代码进行任何目的的使用和修改。甚至苹果的 Mac OS X 都被得知是由 BSD 衍生出来的。除了操作系统内核，项目组也提供了超过15000种软件应用的二进制格式和源代码来在 FreeBSD 核上进行简易安装。</p>
+<p> 尽管 FreeBSD 毫无疑问的可用用作桌面操作系统，但它在这部分与流行的 Linux 发行版相比并不出色。不算安装后对用户来说大量繁重的工作，命令行模式的系统安装软件就提供了太少的硬件识别和系统配置项目。在支持现代硬件方面， FreeBSD 通常落后于 Linux ，特别是对流行台式机或笔记本的小配件的支持，比如无线网卡或者数码相机。那些在桌面环境或工作站寻求开拓 FreeBSD 的速度和稳定性的使用者应该考虑一个可用的桌面 FreeBSD 项目，而不是 FreeBSD 本身。</p>
+<ul>
+<li><p>支持论点：迅速、稳定；超过15000种软件应用（或者叫作“ ports ”）可用来安装；出色的文档</p>
+</li>
+<li><p>反对论点：在对外来硬件的支持方面落后于 Linux ，可用的商业软件很少；缺乏图形化的配置工具</p>
+</li>
+<li><p>软件包管理工具：完全命令行模式的包管理工具 – 使用二进制包或者基于源代码的“ ports ”（ TBZ ）的底层结构</p>
+</li>
+<li><p>可用版本：可用于 Alpha, AMD64, i386, IA64, PC98 and SPARC64 处理器的安装 CD</p>
+</li>
+<li><p>基于 FreeBSD 的推荐替代版：PC-BSD (桌面版), DesktopBSD (桌面版), FreeSBIE (live CD)</p>
+</li>
+<li><p>其它可选 BSD ：OpenBSD, NetBSD, DragonFly BSD, MidnightBSD</p>
+</li>
+</ul>
+<h2 id="CentOS"><a href="#CentOS" class="headerlink" title="CentOS"></a>CentOS</h2><blockquote>
+<p>最后一个也是我最常用的一个。</p>
+</blockquote>
+<p> 发布于2003年的 CentOS 是一个社区项目，目标是将 Red Hat Enterprise Linux （RHEL）的源代码重建为可安装的 Linux 发行版并且为所有包含在软件包中的软件提供及时的安全更新。直言不讳的说， CentOS 只不过是 RHEL 的一个克隆版。两者间唯一技术上的差别是商标 – CentOS 把所有 Red Hat 的标志标记都换成了自己的。但是 CentOS 的网站上并没有明显标示 CentOS 和 Red Hat 之间的链接，因为商标法的缘故。 Red Hat 被叫做“北美杰出的企业 Linux 商”来代替它本来的名字。不过， Red Hat 和 CentOS 的关系很和睦而且许多 CentOS 的开发员与 Red Hat 的工程师联系密切。</p>
+<p> CentOS 常被看做是可靠的服务器版本。它有着和 Red Hat 企业版 Linux 同样的一套经过完善测试而且稳定的 Linux 内核以及来自其出处的基本组件的软件包。尽管是由志愿者维护的社区项目， CentOS 还是获得了良好的赞誉作为市场上许多付费服务器产品一个可靠而又免费的替代品，特别是在有经验的 Linux 系统管理员之中。 CentOS 也是合适的企业桌面方案，尤其在更需要稳定、可靠和长期支持而不是最新软件和功能的地方。和 RHEL 一样， CentOS 也提供最少5年的安全更新支持。</p>
+<p> 尽管有诸多优势， CentOS 并不是所有部署方案的最佳选择。那些更喜欢带最新 Linux 技术和软件包的发行版的用户就应该到别处去寻找。 CentOS 跟随 RHEL 版本发行的主版本，每2 – 3年才发布一次，而“子”版本（比如5.1）则尽量保证6 – 9个月的发行间隔。子发行版不总是包含所有的主流功能（尽管有时会为更多的新硬件提供支持）而且只有少数的软件包会更新到新的版本； Linux 内核、底层系统和大多数的应用软件版本保持不变，但偶尔在试验基础上会有一些重要软件（比如 OpenOffice 或者 Firefox）的新版本提供。作为一个辅助项目，CentOS 也为其用户建立更新包，但是软件库默认不包含这些因为它们会破坏向上的兼容性。</p>
+<ul>
+<li>支持论点：极度的完善测试、稳定和可靠；免费下载和使用；5年的免费安全更新；快速的发布和安全更新</li>
+<li>反对论点：缺乏最新的 Linux 技术；在发布的时候，大部分的软件已经落伍了</li>
+<li>软件包管理工具：图形化的 YUM 和使用 RPM 包的命令行工具</li>
+<li>可用版本：可用于i386和x86_64处理器的安装 DVD 和 CD (GNOME); 可用于 Alpha, IA64 and IBM z-series (s390, s390x)处理器的老式版本 (3.x and 4.x)</li>
+<li>其它 RHEL 克隆版和基于 CentOS 的发行版：Scientific Linux, SME Server, StartCom 企业 Linux, Fermi Linux, Rocks Cluster 发行版, Oracle 企业 Linux</li>
+</ul>
+<h2 id="目前主流和常用的Linux版本主要有："><a href="#目前主流和常用的Linux版本主要有：" class="headerlink" title="目前主流和常用的Linux版本主要有："></a>目前主流和常用的Linux版本主要有：</h2><h3 id="Redhat"><a href="#Redhat" class="headerlink" title="Redhat"></a>Redhat</h3><p>Redhat应该说是在国内使用人群最多的Linux版本，甚至有人将Redhat等同于Linux，而有些老鸟更是只用这一个版本的Linux。所以这个版本的特点就是使用人群数量大，资料非常多，言下之意就是如果你有什么不明白的地方，很容易找到人来问，而且网上的一般Linux教程都是以Redhat为例来讲解的。Redhat系列的包管理方式采用的是基于RPM包的YUM包管理方式，包分发方式是编译好的二进制文件。稳定性方面RHEL和CentOS的稳定性非常好，适合于服务器使用，但是Fedora Core的稳定性较差，最好只用于桌面应用。。</p>
+<h3 id="Debian"><a href="#Debian" class="headerlink" title="Debian"></a>Debian</h3><p>Debian系列，包括Debian和Ubuntu等。Debian是社区类Linux的典范，是迄今为止最遵循GNU规范的Linux系统。Debian最早由Ian Murdock于1993年创建，分为三个版本分支（branch）： stable, testing 和 unstable。其中，unstable为最新的测试版本，其中包括最新的软件包，但是也有相对较多的bug，适合桌面用户。testing的版本都经过unstable中的测试，相对较为稳定，也支持了不少新技术（比如SMP等）。而stable一般只用于服务器，上面的软件包大部分都比较过时，但是稳定和安全性都非常的高。Debian最具特色的是apt-get / dpkg包管理方式，其实Redhat的YUM也是在模仿Debian的APT方式，但在二进制文件发行方式中，APT应该是最好的了。Debian的资料也很丰富，有很多支持的社区，有问题求教也有地方可去🙂。</p>
+<h3 id="SuSe"><a href="#SuSe" class="headerlink" title="SuSe"></a>SuSe</h3><p>最华丽的Linux发行版，很多人都这样说，X windows和程序应用方面做的确实不错。尤其与Microsoft的合作关系，应该是在所有的Linux发行版本中最亲密的。<br>Ubuntu</p>
+<p>Ubuntu严格来说不能算一个独立的发行版本，Ubuntu是基于Debian的unstable版本加强而来，可以这么说，Ubuntu就是一个拥有Debian所有的优点，以及自己所加强的优点的近乎完美的 Linux桌面系统。根据选择的桌面系统不同，有三个版本可供选择，基于Gnome的Ubuntu，基于KDE的Kubuntu以及基于Xfc的Xubuntu。特点是界面非常友好，容易上手，对硬件的支持非常全面，是最适合做桌面系统的Linux发行版本。。</p>
+<h3 id="Centos"><a href="#Centos" class="headerlink" title="Centos"></a>Centos</h3><p>版本5.4和6.0最新；这个发行版主要是Redhat企业版的社区版，基本上跟redhat是兼容的，相对来说局限性教少。很多人都喜欢使用。</p>
+<p>至少gentoo、mandriva、Slackware、redflag等可以暂时不考虑。虽然各自均有特点，但市场占有率和应用相对较少。</p>
+<h3 id="Gentoo"><a href="#Gentoo" class="headerlink" title="Gentoo"></a>Gentoo</h3><p>伟大的Gentoo是Linux世界最年轻的发行版本，正因为年轻，所以能吸取在她之前的所有发行版本的优点，这也是Gentoo被称为最完美的Linux发行版本的原因之一。Gentoo最初由Daniel Robbins（FreeBSD的开发者之一）创建，首个稳定版本发布于2002年。由于开发者对FreeBSD的熟识，所以Gentoo拥有媲美FreeBSD的广受美誉的ports系统 ——Portage包管理系统。不同于APT和YUM等二进制文件分发的包管理系统，Portage是基于源代码分发的，必须编译后才能运行，对于大型软件而言比较慢，不过正因为所有软件都是在本地机器编译的，在经过各种定制的编译参数优化后，能将机器的硬件性能发挥到极致。Gentoo是所有Linux发行版本里安装最复杂的，但是又是安装完成后最便于管理的版本，也是在相同硬件环境下运行最快的版本。</p>
+<h3 id="FreeBSD-1"><a href="#FreeBSD-1" class="headerlink" title="FreeBSD"></a>FreeBSD</h3><p>并不是一个Linux系统！但FreeBSD与Linux的用户群有相当一部分是重合的，二者支持的硬件环境也比较一致，所采用的软件也比较类似，所以可以将FreeBSD视为一个Linux版本来比较。FreeBSD拥有两个分支：stable和current。顾名思义，stable是稳定版，而 current则是添加了新技术的测试版。FreeBSD采用Ports包管理系统，与Gentoo类似，基于源代码分发，必须在本地机器编后后才能运行，但是Ports系统没有Portage系统使用简便，使用起来稍微复杂一些。FreeBSD的最大特点就是稳定和高效，是作为服务器操作系统的最佳选择，但对硬件的支持没有Linux完备，所以并不适合作为桌面系统。</p>
+<h2 id="做开发如何选择"><a href="#做开发如何选择" class="headerlink" title="做开发如何选择"></a>做开发如何选择</h2><p>如果作为php、jsp等开发平台使用，最好选择Redhat或Centos，原因主要是硬件和软件兼容性方面应该是所有Linux发行版本中较好的。最主要的原因是国内的多数游戏运营商和大型网站，使用这两个版本的较多。<br>如果是作为asp.net等开发平台使用，最好使用suse，原因是与Microsoft的合作关系。同时也说明下，移动运营商好像很多使用suse的操作系统平台。<br>如果是作为c或c++等开发平台使用，而且对应用程序开发要求较高，建议使用debian版本的Linux，毕竟这个版本的Linux限制性是最小的。自由度较大<br>如果你需要一个桌面系统，而且还想非常灵活的定制自己的Linux系统，想让自己的机器跑得更欢，不介意在Linux系统安装方面浪费一点时间，那么你的唯一选择就是Gentoo，尽情享受Gentoo带来的自由快感吧！<br>如果你需要的是一个服务器系统，而且你已经非常厌烦各种Linux的配置，只是想要一个比较稳定的服务器系统而已，那么你最好的选择就是CentOS了，安装完成后，经过简单的配置就能提供非常稳定的服务了。</p>
+<p>如果你需要的是一个坚如磐石的非常稳定的服务器系统，那么你的唯一选择就是FreeBSD。</p>
+<p>如果你需要一个稳定的服务器系统，而且想深入摸索一下Linux的各个方面的知识，想自己定制许多内容，那么我推荐你使用Gentoo。</p>
+<p>服务器选择：Redhat、CentOS、Debian<br>桌面环境：Ubuntu、Fedora、</p>
+<h2 id="Linux发行版"><a href="#Linux发行版" class="headerlink" title="Linux发行版"></a>Linux发行版</h2><p>各种Linux发行版一般可以分为3种类型：</p>
+<h3 id="核心Linux发行版"><a href="#核心Linux发行版" class="headerlink" title="核心Linux发行版"></a>核心Linux发行版</h3><p>核心Linux发行版包括内核、一个或多个图形桌面环境，以及几乎所有的Linux应用程序，它针对内核进行了预编译。只需要该发行版即可安装完整的Linux。</p>
+<h3 id="特定发行版"><a href="#特定发行版" class="headerlink" title="特定发行版"></a>特定发行版</h3><p>该版本通常以一个主要的发行版为基础，但是只包含对特定领域有用的应用程序子集。<br>除了提供专门的软件，定制的Linux发行版还试图为Linux初级用户提供帮助–自动检测和自动配置常用的硬件设备，这使得安装Linux的过程变得更加轻松。</p>
+<p>许多特定Linux发行版以Debian Linux发行版为基础，它们使用的安装文件与Debian相同，但是软件包只是完整Debian系统的一小部分。</p>
+<h3 id="LiveCD测试发行版"><a href="#LiveCD测试发行版" class="headerlink" title="LiveCD测试发行版"></a>LiveCD测试发行版</h3><p>LiveCD是最近才出现的东东，无需安装即可了解Linux系统的全貌。除了标准的硬盘启动之外，现在的大部分PC都可以从CD启动，利用这一点，很多Linux发行版创建了可引导的CD，其中包含一个示例Linux系统即为LiveCD。</p>
+<p>这是测试各种Linux发行版的很好方法，它丝毫不会弄乱你的PC。只需要放入CD然后启动就可以体验该系统，当然有个缺点，因为是在CD上，所以你做的任何更改在重启后都会丢失。另外由于在CD运行，速度可能会运行的较慢，但是现在也加入了一些新的技术来改进，比如：</p>
+<ul>
+<li>将Linux系统文件从CD复制到内存；</li>
+<li>将系统文件复制到硬盘中；</li>
+<li>在USB记忆棒中存储系统设置；</li>
+<li>在USB记忆棒中存储用户设置；</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CentOS/" rel="tag"># CentOS</a>
+              <a href="/tags/Debian/" rel="tag"># Debian</a>
+              <a href="/tags/Fedora/" rel="tag"># Fedora</a>
+              <a href="/tags/FreeBSD/" rel="tag"># FreeBSD</a>
+              <a href="/tags/Gentoo/" rel="tag"># Gentoo</a>
+              <a href="/tags/Mint/" rel="tag"># Mint</a>
+              <a href="/tags/Mandriva/" rel="tag"># Mandriva</a>
+              <a href="/tags/openSUSE/" rel="tag"># openSUSE</a>
+              <a href="/tags/PCLinuxOS/" rel="tag"># PCLinuxOS</a>
+              <a href="/tags/Slackware/" rel="tag"># Slackware</a>
+              <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2010/09/24/astronomy-vlbi-defination/" rel="prev" title="VLBI的定义">
+      <i class="fa fa-chevron-left"></i> VLBI的定义
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2011/01/01/c-beginner-history/" rel="next" title="C语言 历史">
+      C语言 历史 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E5%8D%81%E5%A4%A7%E5%8F%91%E8%A1%8C%E7%89%88"><span class="nav-number">1.</span> <span class="nav-text">Linux 十大发行版</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Ubuntu"><span class="nav-number">1.1.</span> <span class="nav-text">Ubuntu</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#openSUSE"><span class="nav-number">1.2.</span> <span class="nav-text">openSUSE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fedora"><span class="nav-number">1.3.</span> <span class="nav-text">Fedora</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debian-GNU-x2F-Linux"><span class="nav-number">1.4.</span> <span class="nav-text">Debian GNU&#x2F;Linux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mandriva-Linux"><span class="nav-number">1.5.</span> <span class="nav-text">Mandriva Linux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux-Mint"><span class="nav-number">1.6.</span> <span class="nav-text">Linux Mint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PCLinux-OS"><span class="nav-number">1.7.</span> <span class="nav-text">PCLinux OS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Slackware-Linux"><span class="nav-number">1.8.</span> <span class="nav-text">Slackware Linux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gentoo-Linux"><span class="nav-number">1.9.</span> <span class="nav-text">Gentoo Linux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FreeBSD"><span class="nav-number">1.10.</span> <span class="nav-text">FreeBSD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CentOS"><span class="nav-number">1.11.</span> <span class="nav-text">CentOS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E4%B8%BB%E6%B5%81%E5%92%8C%E5%B8%B8%E7%94%A8%E7%9A%84Linux%E7%89%88%E6%9C%AC%E4%B8%BB%E8%A6%81%E6%9C%89%EF%BC%9A"><span class="nav-number">1.12.</span> <span class="nav-text">目前主流和常用的Linux版本主要有：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redhat"><span class="nav-number">1.12.1.</span> <span class="nav-text">Redhat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Debian"><span class="nav-number">1.12.2.</span> <span class="nav-text">Debian</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SuSe"><span class="nav-number">1.12.3.</span> <span class="nav-text">SuSe</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Centos"><span class="nav-number">1.12.4.</span> <span class="nav-text">Centos</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gentoo"><span class="nav-number">1.12.5.</span> <span class="nav-text">Gentoo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FreeBSD-1"><span class="nav-number">1.12.6.</span> <span class="nav-text">FreeBSD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%9A%E5%BC%80%E5%8F%91%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9"><span class="nav-number">1.13.</span> <span class="nav-text">做开发如何选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E5%8F%91%E8%A1%8C%E7%89%88"><span class="nav-number">1.14.</span> <span class="nav-text">Linux发行版</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83Linux%E5%8F%91%E8%A1%8C%E7%89%88"><span class="nav-number">1.14.1.</span> <span class="nav-text">核心Linux发行版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%AE%9A%E5%8F%91%E8%A1%8C%E7%89%88"><span class="nav-number">1.14.2.</span> <span class="nav-text">特定发行版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LiveCD%E6%B5%8B%E8%AF%95%E5%8F%91%E8%A1%8C%E7%89%88"><span class="nav-number">1.14.3.</span> <span class="nav-text">LiveCD测试发行版</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2011/01/01/linux-distributions/";
+    this.page.identifier = "2011/01/01/linux-distributions/";
+    this.page.title = "Linux 十大发行版";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

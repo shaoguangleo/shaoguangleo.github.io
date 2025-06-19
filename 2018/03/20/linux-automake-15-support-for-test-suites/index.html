@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GNU Automake 版本(version 1.16.1, 26 February 2018) Permission is granted to copy, distribute and&#x2F;or modify thisdocument under the terms of the GNU Free Documentation License,Version 1.3 or any later v">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Automake 15 Support for test suites">
+<meta property="og:url" content="http://shaoguangleo.github.io/2018/03/20/linux-automake-15-support-for-test-suites/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="GNU Automake 版本(version 1.16.1, 26 February 2018) Permission is granted to copy, distribute and&#x2F;or modify thisdocument under the terms of the GNU Free Documentation License,Version 1.3 or any later v">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-03-20T14:28:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.866Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="autotools">
+<meta property="article:tag" content="automake">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2018/03/20/linux-automake-15-support-for-test-suites/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux Automake 15 Support for test suites | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2018/03/20/linux-automake-15-support-for-test-suites/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux Automake 15 Support for test suites
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-03-20 22:28:00" itemprop="dateCreated datePublished" datetime="2018-03-20T22:28:00+08:00">2018-03-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Automake/" itemprop="url" rel="index"><span itemprop="name">Automake</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/03/20/linux-automake-15-support-for-test-suites/" class="post-meta-item leancloud_visitors" data-flag-title="Linux Automake 15 Support for test suites" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/03/20/linux-automake-15-support-for-test-suites/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/03/20/linux-automake-15-support-for-test-suites/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/03/20/linux-automake-15-support-for-test-suites/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/03/20/linux-automake-15-support-for-test-suites/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>GNU Automake 版本(version 1.16.1, 26 February 2018)</p>
+<p>Permission is granted to copy, distribute and/or modify this<br>document under the terms of the GNU Free Documentation License,<br>Version 1.3 or any later version published by the Free Software<br>Foundation; with no Invariant Sections, with no Front-Cover texts,<br>and with no Back-Cover Texts.  A copy of the license is included in<br>the section entitled “GNU Free Documentation License.”</p>
+</blockquote>
+<p>15 Support for test suites</p>
+<hr>
+<p>Automake can generate code to handle two kinds of test suites.  One is<br>based on integration with the ‘dejagnu’ framework.  The other (and most<br>used) form is based on the use of generic test scripts, and its<br>activation is triggered by the definition of the special ‘TESTS’<br>variable.  This second form allows for various degrees of sophistication<br>and customization; in particular, it allows for concurrent execution of<br>test scripts, use of established test protocols such as TAP, and<br>definition of custom test drivers and test runners.</p>
+<p>In either case, the testsuite is invoked via ‘make check’.</p>
+<h1 id="15-1-Generalities-about-Testing"><a href="#15-1-Generalities-about-Testing" class="headerlink" title="15.1 Generalities about Testing"></a>15.1 Generalities about Testing</h1><p>The purpose of testing is to determine whether a program or system<br>behaves as expected (e.g., known inputs produce the expected outputs,<br>error conditions are correctly handled or reported, and older bugs do<br>not resurface).</p>
+<p>   The minimal unit of testing is usually called <em>test case</em>, or simply<br><em>test</em>.  How a test case is defined or delimited, and even what exactly<br><em>constitutes</em> a test case, depends heavily on the testing paradigm<br>and/or framework in use, so we won’t attempt any more precise<br>definition.  The set of the test cases for a given program or system<br>constitutes its <em>testsuite</em>.</p>
+<p>   A <em>test harness</em> (also <em>testsuite harness</em>) is a program or software<br>component that executes all (or part of) the defined test cases,<br>analyzes their outcomes, and report or register these outcomes<br>appropriately.  Again, the details of how this is accomplished (and how<br>the developer and user can influence it or interface with it) varies<br>wildly, and we’ll attempt no precise definition.</p>
+<p>   A test is said to <em>pass</em> when it can determine that the condition or<br>behaviour it means to verify holds, and is said to <em>fail</em> when it can<br>determine that such condition of behaviour does <em>not</em> hold.</p>
+<p>   Sometimes, tests can rely on non-portable tools or prerequisites, or<br>simply make no sense on a given system (for example, a test checking a<br>Windows-specific feature makes no sense on a GNU/Linux system).  In this<br>case, accordingly to the definition above, the tests can neither be<br>considered passed nor failed; instead, they are <em>skipped</em> – i.e., they<br>are not run, or their result is anyway ignored for what concerns the<br>count of failures an successes.  Skips are usually explicitly reported<br>though, so that the user will be aware that not all of the testsuite has<br>really run.</p>
+<p>   It’s not uncommon, especially during early development stages, that<br>some tests fail for known reasons, and that the developer doesn’t want<br>to tackle these failures immediately (this is especially true when the<br>failing tests deal with corner cases).  In this situation, the better<br>policy is to declare that each of those failures is an <em>expected<br>failure</em> (or <em>xfail</em>).  In case a test that is expected to fail ends up<br>passing instead, many testing environments will flag the result as a<br>special kind of failure called <em>unexpected pass</em> (or <em>xpass</em>).</p>
+<p>   Many testing environments and frameworks distinguish between test<br>failures and hard errors.  As we’ve seen, a test failure happens when<br>some invariant or expected behaviour of the software under test is not<br>met.  An <em>hard error</em> happens when e.g., the set-up of a test case<br>scenario fails, or when some other unexpected or highly undesirable<br>condition is encountered (for example, the program under test<br>experiences a segmentation fault).</p>
+<h1 id="15-2-Simple-Tests"><a href="#15-2-Simple-Tests" class="headerlink" title="15.2 Simple Tests"></a>15.2 Simple Tests</h1><h2 id="15-2-1-Scripts-based-Testsuites"><a href="#15-2-1-Scripts-based-Testsuites" class="headerlink" title="15.2.1 Scripts-based Testsuites"></a>15.2.1 Scripts-based Testsuites</h2><p>If the special variable ‘TESTS’ is defined, its value is taken to be a<br>list of programs or scripts to run in order to do the testing.  Under<br>the appropriate circumstances, it’s possible for ‘TESTS’ to list also<br>data files to be passed to one or more test scripts defined by different<br>means (the so-called “log compilers”, *note Parallel Test Harness::).</p>
+<p>   Test scripts can be executed serially or concurrently.  Automake<br>supports both these kinds of test execution, with the parallel test<br>harness being the default.  The concurrent test harness relies on the<br>concurrence capabilities (if any) offered by the underlying ‘make’<br>implementation, and can thus only be as good as those are.</p>
+<p>   By default, only the exit statuses of the test scripts are considered<br>when determining the testsuite outcome.  But Automake allows also the<br>use of more complex test protocols, either standard (*note Using the TAP<br>test protocol::) or custom (*note Custom Test Drivers::).  Note that you<br>can’t enable such protocols when the serial harness is used, though.  In<br>the rest of this section we are going to concentrate mostly on<br>protocol-less tests, since we cover test protocols in a later section<br>(again, *note Custom Test Drivers::).</p>
+<p>   When no test protocol is in use, an exit status of 0 from a test<br>script will denote a success, an exit status of 77 a skipped test, an<br>exit status of 99 an hard error, and any other exit status will denote a<br>failure.</p>
+<p>   You may define the variable ‘XFAIL_TESTS’ to a list of tests (usually<br>a subset of ‘TESTS’) that are expected to fail; this will effectively<br>reverse the result of those tests (with the provision that skips and<br>hard errors remain untouched).  You may also instruct the testsuite<br>harness to treat hard errors like simple failures, by defining the<br>‘DISABLE_HARD_ERRORS’ make variable to a nonempty value.</p>
+<p>   Note however that, for tests based on more complex test protocols,<br>the exact effects of ‘XFAIL_TESTS’ and ‘DISABLE_HARD_ERRORS’ might<br>change, or they might even have no effect at all (for example, in tests<br>using TAP, there is no way to disable hard errors, and the<br>‘DISABLE_HARD_ERRORS’ variable has no effect on them).</p>
+<p>   The result of each test case run by the scripts in ‘TESTS’ will be<br>printed on standard output, along with the test name.  For test<br>protocols that allow more test cases per test script (such as TAP), a<br>number, identifier and/or brief description specific for the single test<br>case is expected to be printed in addition to the name of the test<br>script.  The possible results (whose meanings should be clear from the<br>previous *note Generalities about Testing::) are ‘PASS’, ‘FAIL’, ‘SKIP’,<br>‘XFAIL’, ‘XPASS’ and ‘ERROR’.  Here is an example of output from an<br>hypothetical testsuite that uses both plain and TAP tests:<br>     PASS: foo.sh<br>     PASS: zardoz.tap 1 - Daemon started<br>     PASS: zardoz.tap 2 - Daemon responding<br>     SKIP: zardoz.tap 3 - Daemon uses /proc # SKIP /proc is not mounted<br>     PASS: zardoz.tap 4 - Daemon stopped<br>     SKIP: bar.sh<br>     PASS: mu.tap 1<br>     XFAIL: mu.tap 2 # TODO frobnication not yet implemented</p>
+<p>A testsuite summary (expected to report at least the number of run,<br>skipped and failed tests) will be printed at the end of the testsuite<br>run.</p>
+<p>   If the standard output is connected to a capable terminal, then the<br>test results and the summary are colored appropriately.  The developer<br>and the user can disable colored output by setting the ‘make’ variable<br>‘AM_COLOR_TESTS=no’; the user can in addition force colored output even<br>without a connecting terminal with ‘AM_COLOR_TESTS=always’.  It’s also<br>worth noting that some ‘make’ implementations, when used in parallel<br>mode, have slightly different semantics (*note (autoconf)Parallel<br>make::), which can break the automatic detection of a connection to a<br>capable terminal.  If this is the case, the user will have to resort to<br>the use of ‘AM_COLOR_TESTS=always’ in order to have the testsuite output<br>colorized.</p>
+<p>   Test programs that need data files should look for them in ‘srcdir’<br>(which is both a make variable and an environment variable made<br>available to the tests), so that they work when building in a separate<br>directory (*note Build Directories: (autoconf)Build Directories.), and<br>in particular for the ‘distcheck’ rule (*note Checking the<br>Distribution::).</p>
+<p>   The ‘AM_TESTS_ENVIRONMENT’ and ‘TESTS_ENVIRONMENT’ variables can be<br>used to run initialization code and set environment variables for the<br>test scripts.  The former variable is developer-reserved, and can be<br>defined in the ‘Makefile.am’, while the latter is reserved for the user,<br>which can employ it to extend or override the settings in the former;<br>for this to work portably, however, the contents of a non-empty<br>‘AM_TESTS_ENVIRONMENT’ <em>must</em> be terminated by a semicolon.</p>
+<p>   The ‘AM_TESTS_FD_REDIRECT’ variable can be used to define file<br>descriptor redirections for the test scripts.  One might think that<br>‘AM_TESTS_ENVIRONMENT’ could be used for this purpose, but experience<br>has shown that doing so portably is practically impossible.  The main<br>hurdle is constituted by Korn shells, which usually set the<br>close-on-exec flag on file descriptors opened with the ‘exec’ builtin,<br>thus rendering an idiom like ‘AM_TESTS_ENVIRONMENT = exec 9&gt;&amp;2;’<br>ineffectual.  This issue also affects some Bourne shells, such as the<br>HP-UX’s ‘/bin/sh’,</p>
+<pre><code> AM_TESTS_ENVIRONMENT = \
+ ## Some environment initializations are kept in a separate shell
+ ## file 'tests-env.sh', which can make it easier to also run tests
+ ## from the command line.
+   . $(srcdir)/tests-env.sh; \
+ ## On Solaris, prefer more POSIX-compliant versions of the standard
+ ## tools by default.
+   if test -d /usr/xpg4/bin; then \
+     PATH=/usr/xpg4/bin:$$PATH; export PATH; \
+   fi;
+ ## With this, the test scripts will be able to print diagnostic
+ ## messages to the original standard error stream, even if the test
+ ## driver redirects the stderr of the test scripts to a log file
+ ## before executing them.
+ AM_TESTS_FD_REDIRECT = 9&gt;&amp;2
+</code></pre>
+<p>Note however that ‘AM_TESTS_ENVIRONMENT’ is, for historical and<br>implementation reasons, <em>not</em> supported by the serial harness (*note<br>Serial Test Harness::).</p>
+<p>   Automake ensures that each file listed in ‘TESTS’ is built before it<br>is run; you can list both source and derived programs (or scripts) in<br>‘TESTS’; the generated rule will look both in ‘srcdir’ and ‘.’.  For<br>instance, you might want to run a C program as a test.  To do this you<br>would list its name in ‘TESTS’ and also in ‘check_PROGRAMS’, and then<br>specify it as you would any other program.</p>
+<p>   Programs listed in ‘check_PROGRAMS’ (and ‘check_LIBRARIES’,<br>‘check_LTLIBRARIES’…)  are only built during ‘make check’, not during<br>‘make all’.  You should list there any program needed by your tests that<br>does not need to be built by ‘make all’.  Note that ‘check_PROGRAMS’ are<br><em>not</em> automatically added to ‘TESTS’ because ‘check_PROGRAMS’ usually<br>lists programs used by the tests, not the tests themselves.  Of course<br>you can set ‘TESTS = $(check_PROGRAMS)’ if all your programs are test<br>cases.</p>
+<h2 id="15-2-2-Older-and-discouraged-serial-test-harness"><a href="#15-2-2-Older-and-discouraged-serial-test-harness" class="headerlink" title="15.2.2 Older (and discouraged) serial test harness"></a>15.2.2 Older (and discouraged) serial test harness</h2><p>First, note that today the use of this harness is strongly discouraged<br>in favour of the parallel test harness (*note Parallel Test Harness::).<br>Still, there are <em>few</em> situations when the advantages offered by the<br>parallel harness are irrelevant, and when test concurrency can even<br>cause tricky problems.  In those cases, it might make sense to still use<br>the serial harness, for simplicity and reliability (we still suggest<br>trying to give the parallel harness a shot though).</p>
+<p>   The serial test harness is enabled by the Automake option<br>‘serial-tests’.  It operates by simply running the tests serially, one<br>at the time, without any I/O redirection.  It’s up to the user to<br>implement logging of tests’ output, if that’s required or desired.</p>
+<p>   For historical and implementation reasons, the ‘AM_TESTS_ENVIRONMENT’<br>variable is <em>not</em> supported by this harness (it will be silently ignored<br>if defined); only ‘TESTS_ENVIRONMENT’ is, and it is to be considered a<br>developer-reserved variable.  This is done so that, when using the<br>serial harness, ‘TESTS_ENVIRONMENT’ can be defined to an invocation of<br>an interpreter through which the tests are to be run.  For instance, the<br>following setup may be used to run tests with Perl:</p>
+<pre><code> TESTS_ENVIRONMENT = $(PERL) -Mstrict -w
+ TESTS = foo.pl bar.pl baz.pl
+</code></pre>
+<p>It’s important to note that the use of ‘TESTS_ENVIRONMENT’ endorsed here<br>would be <em>invalid</em> with the parallel harness.  That harness provides a<br>more elegant way to achieve the same effect, with the further benefit of<br>freeing the ‘TESTS_ENVIRONMENT’ variable for the user (*note Parallel<br>Test Harness::).</p>
+<p>   Another, less serious limit of the serial harness is that it doesn’t<br>really distinguish between simple failures and hard errors; this is due<br>to historical reasons only, and might be fixed in future Automake<br>versions.</p>
+<h2 id="15-2-3-Parallel-Test-Harness"><a href="#15-2-3-Parallel-Test-Harness" class="headerlink" title="15.2.3 Parallel Test Harness"></a>15.2.3 Parallel Test Harness</h2><p>By default, Automake generated a parallel (concurrent) test harness.  It<br>features automatic collection of the test scripts output in ‘.log’<br>files, concurrent execution of tests with ‘make -j’, specification of<br>inter-test dependencies, lazy reruns of tests that have not completed in<br>a prior run, and hard errors for exceptional failures.</p>
+<p>   The parallel test harness operates by defining a set of ‘make’ rules<br>that run the test scripts listed in ‘TESTS’, and, for each such script,<br>save its output in a corresponding ‘.log’ file and its results (and<br>other “metadata”, *note API for Custom Test Drivers::) in a<br>corresponding ‘.trs’ (as in Test ReSults) file.  The ‘.log’ file will<br>contain all the output emitted by the test on its standard output and<br>its standard error.  The ‘.trs’ file will contain, among the other<br>things, the results of the test cases run by the script.</p>
+<p>   The parallel test harness will also create a summary log file,<br>‘TEST_SUITE_LOG’, which defaults to ‘test-suite.log’ and requires a<br>‘.log’ suffix.  This file depends upon all the ‘.log’ and ‘.trs’ files<br>created for the test scripts listed in ‘TESTS’.</p>
+<p>   As with the serial harness above, by default one status line is<br>printed per completed test, and a short summary after the suite has<br>completed.  However, standard output and standard error of the test are<br>redirected to a per-test log file, so that parallel execution does not<br>produce intermingled output.  The output from failed tests is collected<br>in the ‘test-suite.log’ file.  If the variable ‘VERBOSE’ is set, this<br>file is output after the summary.</p>
+<p>   Each couple of ‘.log’ and ‘.trs’ files is created when the<br>corresponding test has completed.  The set of log files is listed in the<br>read-only variable ‘TEST_LOGS’, and defaults to ‘TESTS’, with the<br>executable extension if any (*note EXEEXT::), as well as any suffix<br>listed in ‘TEST_EXTENSIONS’ removed, and ‘.log’ appended.  Results are<br>undefined if a test file name ends in several concatenated suffixes.<br>‘TEST_EXTENSIONS’ defaults to ‘.test’; it can be overridden by the user,<br>in which case any extension listed in it must be constituted by a dot,<br>followed by a non-digit alphabetic character, followed by any number of<br>alphabetic characters.  For example, ‘.sh’, ‘.T’ and ‘.t1’ are valid<br>extensions, while ‘.x-y’, ‘.6c’ and ‘.t.1’ are not.</p>
+<p>   It is important to note that, due to current limitations (unlikely to<br>be lifted), configure substitutions in the definition of ‘TESTS’ can<br>only work if they will expand to a list of tests that have a suffix<br>listed in ‘TEST_EXTENSIONS’.</p>
+<p>   For tests that match an extension ‘.EXT’ listed in ‘TEST_EXTENSIONS’,<br>you can provide a custom “test runner” using the variable<br>‘EXT_LOG_COMPILER’ (note the upper-case extension) and pass options in<br>‘AM_EXT_LOG_FLAGS’ and allow the user to pass options in<br>‘EXT_LOG_FLAGS’.  It will cause all tests with this extension to be<br>called with this runner.  For all tests without a registered extension,<br>the variables ‘LOG_COMPILER’, ‘AM_LOG_FLAGS’, and ‘LOG_FLAGS’ may be<br>used.  For example,</p>
+<pre><code> TESTS = foo.pl bar.py baz
+ TEST_EXTENSIONS = .pl .py
+ PL_LOG_COMPILER = $(PERL)
+ AM_PL_LOG_FLAGS = -w
+ PY_LOG_COMPILER = $(PYTHON)
+ AM_PY_LOG_FLAGS = -v
+ LOG_COMPILER = ./wrapper-script
+ AM_LOG_FLAGS = -d
+</code></pre>
+<p>will invoke ‘$(PERL) -w foo.pl’, ‘$(PYTHON) -v bar.py’, and<br>‘./wrapper-script -d baz’ to produce ‘foo.log’, ‘bar.log’, and<br>‘baz.log’, respectively.  The ‘foo.trs’, ‘bar.trs’ and ‘baz.trs’ files<br>will be automatically produced as a side-effect.</p>
+<p>   It’s important to note that, differently from what we’ve seen for the<br>serial test harness (*note Serial Test Harness::), the<br>‘AM_TESTS_ENVIRONMENT’ and ‘TESTS_ENVIRONMENT’ variables <em>cannot</em> be<br>used to define a custom test runner; the ‘LOG_COMPILER’ and ‘LOG_FLAGS’<br>(or their extension-specific counterparts) should be used instead:</p>
+<pre><code> ## This is WRONG!
+ AM_TESTS_ENVIRONMENT = PERL5LIB='$(srcdir)/lib' $(PERL) -Mstrict -w
+
+ ## Do this instead.
+ AM_TESTS_ENVIRONMENT = PERL5LIB='$(srcdir)/lib'; export PERL5LIB;
+ LOG_COMPILER = $(PERL)
+ AM_LOG_FLAGS = -Mstrict -w
+</code></pre>
+<p>   By default, the test suite harness will run all tests, but there are<br>several ways to limit the set of tests that are run:</p>
+<p>   • You can set the ‘TESTS’ variable.  For example, you can use a<br>     command like this to run only a subset of the tests:</p>
+<pre><code>      env TESTS="foo.test bar.test" make -e check
+
+ Note however that the command above will unconditionally overwrite
+ the ‘test-suite.log’ file, thus clobbering the recorded results of
+ any previous testsuite run.  This might be undesirable for packages
+ whose testsuite takes long time to execute.  Luckily, this problem
+ can easily be avoided by overriding also ‘TEST_SUITE_LOG’ at
+ runtime; for example,
+
+      env TEST_SUITE_LOG=partial.log TESTS="..." make -e check
+
+ will write the result of the partial testsuite runs to the
+ ‘partial.log’, without touching ‘test-suite.log’.
+</code></pre>
+<p>   • You can set the ‘TEST_LOGS’ variable.  By default, this variable is<br>     computed at ‘make’ run time from the value of ‘TESTS’ as described<br>     above.  For example, you can use the following:</p>
+<pre><code>      set x subset*.log; shift
+      env TEST_LOGS="foo.log $*" make -e check
+
+ The comments made above about ‘TEST_SUITE_LOG’ overriding applies
+ here too.
+</code></pre>
+<p>   • By default, the test harness removes all old per-test ‘.log’ and<br>     ‘.trs’ files before it starts running tests to regenerate them.<br>     The variable ‘RECHECK_LOGS’ contains the set of ‘.log’ (and, by<br>     implication, ‘.trs’) files which are removed.  ‘RECHECK_LOGS’<br>     defaults to ‘TEST_LOGS’, which means all tests need to be<br>     rechecked.  By overriding this variable, you can choose which tests<br>     need to be reconsidered.  For example, you can lazily rerun only<br>     those tests which are outdated, i.e., older than their prerequisite<br>     test files, by setting this variable to the empty value:</p>
+<pre><code>      env RECHECK_LOGS= make -e check
+</code></pre>
+<p>   • You can ensure that all tests are rerun which have failed or passed<br>     unexpectedly, by running ‘make recheck’ in the test directory.<br>     This convenience target will set ‘RECHECK_LOGS’ appropriately<br>     before invoking the main test harness.</p>
+<p>In order to guarantee an ordering between tests even with ‘make -jN’,<br>dependencies between the corresponding ‘.log’ files may be specified<br>through usual ‘make’ dependencies.  For example, the following snippet<br>lets the test named ‘foo-execute.test’ depend upon completion of the<br>test ‘foo-compile.test’:</p>
+<pre><code> TESTS = foo-compile.test foo-execute.test
+ foo-execute.log: foo-compile.log
+</code></pre>
+<p>Please note that this ordering ignores the <em>results</em> of required tests,<br>thus the test ‘foo-execute.test’ is run even if the test<br>‘foo-compile.test’ failed or was skipped beforehand.  Further, please<br>note that specifying such dependencies currently works only for tests<br>that end in one of the suffixes listed in ‘TEST_EXTENSIONS’.</p>
+<p>   Tests without such specified dependencies may be run concurrently<br>with parallel ‘make -jN’, so be sure they are prepared for concurrent<br>execution.</p>
+<p>   The combination of lazy test execution and correct dependencies<br>between tests and their sources may be exploited for efficient unit<br>testing during development.  To further speed up the edit-compile-test<br>cycle, it may even be useful to specify compiled programs in<br>‘EXTRA_PROGRAMS’ instead of with ‘check_PROGRAMS’, as the former allows<br>intertwined compilation and test execution (but note that<br>‘EXTRA_PROGRAMS’ are not cleaned automatically, *note Uniform::).</p>
+<p>   The variables ‘TESTS’ and ‘XFAIL_TESTS’ may contain conditional parts<br>as well as configure substitutions.  In the latter case, however,<br>certain restrictions apply: substituted test names must end with a<br>nonempty test suffix like ‘.test’, so that one of the inference rules<br>generated by ‘automake’ can apply.  For literal test names, ‘automake’<br>can generate per-target rules to avoid this limitation.</p>
+<p>   Please note that it is currently not possible to use ‘$(srcdir)/’ or<br>‘$(top_srcdir)/’ in the ‘TESTS’ variable.  This technical limitation is<br>necessary to avoid generating test logs in the source tree and has the<br>unfortunate consequence that it is not possible to specify distributed<br>tests that are themselves generated by means of explicit rules, in a way<br>that is portable to all ‘make’ implementations (*note (autoconf)Make<br>Target Lookup::, the semantics of FreeBSD and OpenBSD ‘make’ conflict<br>with this).  In case of doubt you may want to require to use GNU ‘make’,<br>or work around the issue with inference rules to generate the tests.</p>
+<h1 id="15-3-Custom-Test-Drivers"><a href="#15-3-Custom-Test-Drivers" class="headerlink" title="15.3 Custom Test Drivers"></a>15.3 Custom Test Drivers</h1><h2 id="15-3-1-Overview-of-Custom-Test-Drivers-Support"><a href="#15-3-1-Overview-of-Custom-Test-Drivers-Support" class="headerlink" title="15.3.1 Overview of Custom Test Drivers Support"></a>15.3.1 Overview of Custom Test Drivers Support</h2><p>Starting from Automake version 1.12, the parallel test harness allows<br>the package authors to use third-party custom test drivers, in case the<br>default ones are inadequate for their purposes, or do not support their<br>testing protocol of choice.</p>
+<p>   A custom test driver is expected to properly run the test programs<br>passed to it (including the command-line arguments passed to those<br>programs, if any), to analyze their execution and outcome, to create the<br>‘.log’ and ‘.trs’ files associated to these test runs, and to display<br>the test results on the console.  It is responsibility of the author of<br>the test driver to ensure that it implements all the above steps<br>meaningfully and correctly; Automake isn’t and can’t be of any help<br>here.  On the other hand, the Automake-provided code for testsuite<br>summary generation offers support for test drivers allowing several test<br>results per test script, if they take care to register such results<br>properly (*note Log files generation and test results recording::).</p>
+<p>   The exact details of how test scripts’ results are to be determined<br>and analyzed is left to the individual drivers.  Some drivers might only<br>consider the test script exit status (this is done for example by the<br>default test driver used by the parallel test harness, described in the<br>previous section).  Other drivers might implement more complex and<br>advanced test protocols, which might require them to parse and<br>interpreter the output emitted by the test script they’re running<br>(examples of such protocols are TAP and SubUnit).</p>
+<p>   It’s very important to note that, even when using custom test<br>drivers, most of the infrastructure described in the previous section<br>about the parallel harness remains in place; this includes:</p>
+<p>   • list of test scripts defined in ‘TESTS’, and overridable at runtime<br>     through the redefinition of ‘TESTS’ or ‘TEST_LOGS’;<br>   • concurrency through the use of ‘make’’s option ‘-j’;<br>   • per-test ‘.log’ and ‘.trs’ files, and generation of a summary<br>     ‘.log’ file from them;<br>   • ‘recheck’ target, ‘RECHECK_LOGS’ variable, and lazy reruns of<br>     tests;<br>   • inter-test dependencies;<br>   • support for ‘check_*’ variables (‘check_PROGRAMS’,<br>     ‘check_LIBRARIES’, …);<br>   • use of ‘VERBOSE’ environment variable to get verbose output on<br>     testsuite failures;<br>   • definition and honoring of ‘TESTS_ENVIRONMENT’,<br>     ‘AM_TESTS_ENVIRONMENT’ and ‘AM_TESTS_FD_REDIRECT’ variables;<br>   • definition of generic and extension-specific ‘LOG_COMPILER’ and<br>     ‘LOG_FLAGS’ variables.</p>
+<p>On the other hand, the exact semantics of how (and if) testsuite output<br>colorization, ‘XFAIL_TESTS’, and hard errors are supported and handled<br>is left to the individual test drivers.</p>
+<h2 id="15-3-2-Declaring-Custom-Test-Drivers"><a href="#15-3-2-Declaring-Custom-Test-Drivers" class="headerlink" title="15.3.2 Declaring Custom Test Drivers"></a>15.3.2 Declaring Custom Test Drivers</h2><p>Custom testsuite drivers are declared by defining the make variables<br>‘LOG_DRIVER’ or ‘EXT_LOG_DRIVER’ (where EXT must be declared in<br>‘TEST_EXTENSIONS’).  They must be defined to programs or scripts that<br>will be used to drive the execution, logging, and outcome report of the<br>tests with corresponding extensions (or of those with no registered<br>extension in the case of ‘LOG_DRIVER’).  Clearly, multiple distinct test<br>drivers can be declared in the same ‘Makefile.am’.  Note moreover that<br>the ‘LOG_DRIVER’ variables are <em>not</em> a substitute for the ‘LOG_COMPILER’<br>variables: the two sets of variables can, and often do, usefully and<br>legitimately coexist.</p>
+<p>   The developer-reserved variable ‘AM_LOG_DRIVER_FLAGS’ and the<br>user-reserved variable ‘LOG_DRIVER_FLAGS’ can be used to define flags<br>that will be passed to each invocation of ‘LOG_DRIVER’, with the<br>user-defined flags obviously taking precedence over the<br>developer-reserved ones.  Similarly, for each extension EXT declared in<br>‘TEST_EXTENSIONS’, flags listed in ‘AM_EXT_LOG_DRIVER_FLAGS’ and<br>‘EXT_LOG_DRIVER_FLAGS’ will be passed to invocations of<br>‘EXT_LOG_DRIVER’.</p>
+<h2 id="15-3-3-API-for-Custom-Test-Drivers"><a href="#15-3-3-API-for-Custom-Test-Drivers" class="headerlink" title="15.3.3 API for Custom Test Drivers"></a>15.3.3 API for Custom Test Drivers</h2><p>Note that <em>the APIs described here are still highly experimental</em>, and<br>will very likely undergo tightenings and likely also extensive changes<br>in the future, to accommodate for 新特性 or to satisfy additional<br>portability requirements.</p>
+<p>   The main characteristic of these APIs is that they are designed to<br>share as much infrastructure, semantics, and implementation details as<br>possible with the parallel test harness and its default driver.</p>
+<p>15.3.3.1 Command-line arguments for test drivers<br>…………………………………………</p>
+<p>A custom driver can rely on various command-line options and arguments<br>being passed to it automatically by the Automake-generated test harness.<br>It is <em>mandatory</em> that it understands all of them (even if the exact<br>interpretation of the associated semantics can legitimately change<br>between a test driver and another, and even be a no-op in some drivers).</p>
+<p>Here is the list of options:</p>
+<p>‘–test-name=NAME’<br>     The name of the test, with VPATH prefix (if any) removed.  This can<br>     have a suffix and a directory component (as in e.g.,<br>     ‘sub/foo.test’), and is mostly meant to be used in console reports<br>     about testsuite advancements and results (*note Testsuite progress<br>     output::).<br>‘–log-file=PATH.log’<br>     The ‘.log’ file the test driver must create (*note Basics of test<br>     metadata::).  If it has a directory component (as in e.g.,<br>     ‘sub/foo.log’), the test harness will ensure that such directory<br>     exists <em>before</em> the test driver is called.<br>‘–trs-file=PATH.trs’<br>     The ‘.trs’ file the test driver must create (*note Basics of test<br>     metadata::).  If it has a directory component (as in e.g.,<br>     ‘sub/foo.trs’), the test harness will ensure that such directory<br>     exists <em>before</em> the test driver is called.<br>‘–color-tests={yes|no}’<br>     Whether the console output should be colorized or not (*note Simple<br>     tests and color-tests::, to learn when this option gets activated<br>     and when it doesn’t).<br>‘–expect-failure={yes|no}’<br>     Whether the tested program is expected to fail.<br>‘–enable-hard-errors={yes|no}’<br>     Whether “hard errors” in the tested program should be treated<br>     differently from normal failures or not (the default should be<br>     ‘yes’).  The exact meaning of “hard error” is highly dependent from<br>     the test protocols or conventions in use.<br>‘–’<br>     Explicitly terminate the list of options.</p>
+<p>The first non-option argument passed to the test driver is the program<br>to be run, and all the following ones are command-line options and<br>arguments for this program.</p>
+<p>   Note that the exact semantics attached to the ‘–color-tests’,<br>‘–expect-failure’ and ‘–enable-hard-errors’ options are left up to the<br>individual test drivers.  Still, having a behaviour compatible or at<br>least similar to that provided by the default driver is advised, as that<br>would offer a better consistency and a more pleasant user experience.</p>
+<p>15.3.3.2 Log files generation and test results recording<br>………………………………………………..</p>
+<p>The test driver must correctly generate the files specified by the<br>‘–log-file’ and ‘–trs-file’ option (even when the tested program fails<br>or crashes).</p>
+<p>   The ‘.log’ file should ideally contain all the output produced by the<br>tested program, plus optionally other information that might facilitate<br>debugging or analysis of bug reports.  Apart from that, its format is<br>basically free.</p>
+<p>   The ‘.trs’ file is used to register some metadata through the use of<br>custom reStructuredText fields.  This metadata is expected to be<br>employed in various ways by the parallel test harness; for example, to<br>count the test results when printing the testsuite summary, or to decide<br>which tests to re-run upon ‘make recheck’.  Unrecognized metadata in a<br>‘.trs’ file is currently ignored by the harness, but this might change<br>in the future.  The list of currently recognized metadata follows.</p>
+<p>‘:test-result:’<br>     The test driver must use this field to register the results of<br>     <em>each</em> test case run by a test script file.  Several<br>     ‘:test-result:’ fields can be present in the same ‘.trs’ file; this<br>     is done in order to support test protocols that allow a single test<br>     script to run more test cases.</p>
+<pre><code> The only recognized test results are currently ‘PASS’, ‘XFAIL’,
+ ‘SKIP’, ‘FAIL’, ‘XPASS’ and ‘ERROR’.  These results, when declared
+ with ‘:test-result:’, can be optionally followed by text holding
+ the name and/or a brief description of the corresponding test; the
+ harness will ignore such extra text when generating
+ ‘test-suite.log’ and preparing the testsuite summary.
+</code></pre>
+<p>‘:recheck:’<br>     If this field is present and defined to ‘no’, then the<br>     corresponding test script will <em>not</em> be run upon a ‘make recheck’.<br>     What happens when two or more ‘:recheck:’ fields are present in the<br>     same ‘.trs’ file is undefined behaviour.</p>
+<p>‘:copy-in-global-log:’<br>     If this field is present and defined to ‘no’, then the content of<br>     the ‘.log’ file will <em>not</em> be copied into the global<br>     ‘test-suite.log’.  We allow to forsake such copying because, while<br>     it can be useful in debugging and analysis of bug report, it can<br>     also be just a waste of space in normal situations, e.g., when a<br>     test script is successful.  What happens when two or more<br>     ‘:copy-in-global-log:’ fields are present in the same ‘.trs’ file<br>     is undefined behaviour.</p>
+<p>‘:test-global-result:’<br>     This is used to declare the “global result” of the script.<br>     Currently, the value of this field is needed only to be reported<br>     (more or less verbatim) in the generated global log file<br>     ‘$(TEST_SUITE_LOG)’, so it’s quite free-form.  For example, a test<br>     script which run 10 test cases, 6 of which pass and 4 of which are<br>     skipped, could reasonably have a ‘PASS/SKIP’ value for this field,<br>     while a test script which run 19 successful tests and one failed<br>     test could have an ‘ALMOST PASSED’ value.  What happens when two or<br>     more ‘:test-global-result:’ fields are present in the same ‘.trs’<br>     file is undefined behaviour.</p>
+<p>Let’s see a small example.  Assume a ‘.trs’ file contains the following<br>lines:</p>
+<pre><code> :test-result: PASS server starts
+ :global-log-copy: no
+ :test-result: PASS HTTP/1.1 request
+ :test-result: FAIL HTTP/1.0 request
+ :recheck: yes
+ :test-result: SKIP HTTPS request (TLS library wasn't available)
+ :test-result: PASS server stops
+</code></pre>
+<p>Then the corresponding test script will be re-run by ‘make check’, will<br>contribute with <em>five</em> test results to the testsuite summary (three of<br>these tests being successful, one failed, and one skipped), and the<br>content of the corresponding ‘.log’ file will <em>not</em> be copied in the<br>global log file ‘test-suite.log’.</p>
+<p>15.3.3.3 Testsuite progress output<br>…………………………….</p>
+<p>A custom test driver also has the task of displaying, on the standard<br>output, the test results as soon as they become available.  Depending on<br>the protocol in use, it can also display the reasons for failures and<br>skips, and, more generally, any useful diagnostic output (but remember<br>that each line on the screen is precious, so that cluttering the screen<br>with overly verbose information is bad idea).  The exact format of this<br>progress output is left up to the test driver; in fact, a custom test<br>driver might <em>theoretically</em> even decide not to do any such report,<br>leaving it all to the testsuite summary (that would be a very lousy<br>idea, of course, and serves only to illustrate the flexibility that is<br>granted here).</p>
+<p>   Remember that consistency is good; so, if possible, try to be<br>consistent with the output of the built-in Automake test drivers,<br>providing a similar “look &amp; feel”.  In particular, the testsuite<br>progress output should be colorized when the ‘–color-tests’ is passed<br>to the driver.  On the other end, if you are using a known and<br>widespread test protocol with well-established implementations, being<br>consistent with those implementations’ output might be a good idea too.</p>
+<h1 id="15-4-Using-the-TAP-test-protocol"><a href="#15-4-Using-the-TAP-test-protocol" class="headerlink" title="15.4 Using the TAP test protocol"></a>15.4 Using the TAP test protocol</h1><h2 id="15-4-1-Introduction-to-TAP"><a href="#15-4-1-Introduction-to-TAP" class="headerlink" title="15.4.1 Introduction to TAP"></a>15.4.1 Introduction to TAP</h2><p>TAP, the Test Anything Protocol, is a simple text-based interface<br>between testing modules or programs and a test harness.  The tests (also<br>called “TAP producers” in this context) write test results in a simple<br>format on standard output; a test harness (also called “TAP consumer”)<br>will parse and interpret these results, and properly present them to the<br>user, and/or register them for later analysis.  The exact details of how<br>this is accomplished can vary among different test harnesses.  The<br>Automake harness will present the results on the console in the usual<br>fashion (*note Testsuite progress on console::), and will use the ‘.trs’<br>files (*note Basics of test metadata::) to store the test results and<br>related metadata.  Apart from that, it will try to remain as much<br>compatible as possible with pre-existing and widespread utilities, such<br>as the ‘prove’ utility<br>(<a href="http://search.cpan.org/~andya/Test-Harness/bin/prove">http://search.cpan.org/~andya/Test-Harness/bin/prove</a>), at least for the<br>simpler usages.</p>
+<p>   TAP started its life as part of the test harness for Perl, but today<br>it has been (mostly) standardized, and has various independent<br>implementations in different languages; among them, C, C++, Perl,<br>Python, PHP, and Java.  For a semi-official specification of the TAP<br>protocol, please refer to the documentation of ‘Test::Harness::TAP’<br>(<a href="http://search.cpan.org/~petdance/Test-Harness/lib/Test/Harness/TAP.pod">http://search.cpan.org/~petdance/Test-Harness/lib/Test/Harness/TAP.pod</a>).</p>
+<p>   The most relevant real-world usages of TAP are obviously in the<br>testsuites of ‘perl’ and of many perl modules.  Still, also other<br>important third-party packages, such as ‘git’ (<a href="http://git-scm.com/">http://git-scm.com/</a>), use<br>TAP in their testsuite.</p>
+<h2 id="15-4-2-Use-TAP-with-the-Automake-test-harness"><a href="#15-4-2-Use-TAP-with-the-Automake-test-harness" class="headerlink" title="15.4.2 Use TAP with the Automake test harness"></a>15.4.2 Use TAP with the Automake test harness</h2><p>Currently, the TAP driver that comes with Automake requires some by-hand<br>steps on the developer’s part (this situation should hopefully be<br>improved in future Automake versions).  You’ll have to grab the<br>‘tap-driver.sh’ script from the Automake distribution by hand, copy it<br>in your source tree, and use the Automake support for third-party test<br>drivers to instruct the harness to use the ‘tap-driver.sh’ script and<br>the awk program found by ‘AM_INIT_AUTOMAKE’ to run your TAP-producing<br>tests.  See the example below for clarification.</p>
+<p>   Apart from the options common to all the Automake test drivers (*note<br>Command-line arguments for test drivers::), the ‘tap-driver.sh’ supports<br>the following options, whose names are chosen for enhanced compatibility<br>with the ‘prove’ utility.</p>
+<p>‘–ignore-exit’<br>     Causes the test driver to ignore the exit status of the test<br>     scripts; by default, the driver will report an error if the script<br>     exits with a non-zero status.  This option has effect also on<br>     non-zero exit statuses due to termination by a signal.<br>‘–comments’<br>     Instruct the test driver to display TAP diagnostic (i.e., lines<br>     beginning with the ‘#’ character) in the testsuite progress output<br>     too; by default, TAP diagnostic is only copied to the ‘.log’ file.<br>‘–no-comments’<br>     Revert the effects of ‘–comments’.<br>‘–merge’<br>     Instruct the test driver to merge the test scripts’ standard error<br>     into their standard output.  This is necessary if you want to<br>     ensure that diagnostics from the test scripts are displayed in the<br>     correct order relative to test results; this can be of great help<br>     in debugging (especially if your test scripts are shell scripts run<br>     with shell tracing active).  As a downside, this option might cause<br>     the test harness to get confused if anything that appears on<br>     standard error looks like a test result.<br>‘–no-merge’<br>     Revert the effects of ‘–merge’.<br>‘–diagnostic-string=STRING’<br>     Change the string that introduces TAP diagnostic from the default<br>     value of “‘#’” to ‘STRING’.  This can be useful if your TAP-based<br>     test scripts produce verbose output on which they have limited<br>     control (because, say, the output comes from other tools invoked in<br>     the scripts), and it might contain text that gets spuriously<br>     interpreted as TAP diagnostic: such an issue can be solved by<br>     redefining the string that activates TAP diagnostic to a value you<br>     know won’t appear by chance in the tests’ output.  Note however<br>     that this feature is non-standard, as the “official” TAP protocol<br>     does not allow for such a customization; so don’t use it if you can<br>     avoid it.</p>
+<p>Here is an example of how the TAP driver can be set up and used.</p>
+<pre><code> % cat configure.ac
+ AC_INIT([GNU Try Tap], [1.0], [bug-automake@gnu.org])
+ AC_CONFIG_AUX_DIR([build-aux])
+ AM_INIT_AUTOMAKE([foreign -Wall -Werror])
+ AC_CONFIG_FILES([Makefile])
+ AC_REQUIRE_AUX_FILE([tap-driver.sh])
+ AC_OUTPUT
+
+ % cat Makefile.am
+ TEST_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
+                   $(top_srcdir)/build-aux/tap-driver.sh
+ TESTS = foo.test bar.test baz.test
+ EXTRA_DIST = $(TESTS)
+
+ % cat foo.test
+ #!/bin/sh
+ echo 1..4 # Number of tests to be executed.
+ echo 'ok 1 - Swallows fly'
+ echo 'not ok 2 - Caterpillars fly # TODO metamorphosis in progress'
+ echo 'ok 3 - Pigs fly # SKIP not enough acid'
+ echo '# I just love word plays ...'
+ echo 'ok 4 - Flies fly too :-)'
+
+ % cat bar.test
+ #!/bin/sh
+ echo 1..3
+ echo 'not ok 1 - Bummer, this test has failed.'
+ echo 'ok 2 - This passed though.'
+ echo 'Bail out! Ennui kicking in, sorry...'
+ echo 'ok 3 - This will not be seen.'
+
+ % cat baz.test
+ #!/bin/sh
+ echo 1..1
+ echo ok 1
+ # Exit with error, even if all the tests have been successful.
+ exit 7
+
+ % cp PREFIX/share/automake-APIVERSION/tap-driver.sh .
+ % autoreconf -vi &amp;&amp; ./configure &amp;&amp; make check
+ ...
+ PASS: foo.test 1 - Swallows fly
+ XFAIL: foo.test 2 - Caterpillars fly # TODO metamorphosis in progress
+ SKIP: foo.test 3 - Pigs fly # SKIP not enough acid
+ PASS: foo.test 4 - Flies fly too :-)
+ FAIL: bar.test 1 - Bummer, this test has failed.
+ PASS: bar.test 2 - This passed though.
+ ERROR: bar.test - Bail out! Ennui kicking in, sorry...
+ PASS: baz.test 1
+ ERROR: baz.test - exited with status 7
+ ...
+ Please report to bug-automake@gnu.org
+ ...
+ % echo exit status: $?
+ exit status: 1
+
+ % env TEST_LOG_DRIVER_FLAGS='--comments --ignore-exit' \
+       TESTS='foo.test baz.test' make -e check
+ ...
+ PASS: foo.test 1 - Swallows fly
+ XFAIL: foo.test 2 - Caterpillars fly # TODO metamorphosis in progress
+ SKIP: foo.test 3 - Pigs fly # SKIP not enough acid
+ # foo.test: I just love word plays...
+ PASS: foo.test 4 - Flies fly too :-)
+ PASS: baz.test 1
+ ...
+ % echo exit status: $?
+ exit status: 0
+</code></pre>
+<h2 id="15-4-3-Incompatibilities-with-other-TAP-parsers-and-drivers"><a href="#15-4-3-Incompatibilities-with-other-TAP-parsers-and-drivers" class="headerlink" title="15.4.3 Incompatibilities with other TAP parsers and drivers"></a>15.4.3 Incompatibilities with other TAP parsers and drivers</h2><p>For implementation or historical reasons, the TAP driver and harness as<br>implemented by Automake have some minors incompatibilities with the<br>mainstream versions, which you should be aware of.</p>
+<p>   • A ‘Bail out!’ directive doesn’t stop the whole testsuite, but only<br>     the test script it occurs in.  This doesn’t follow TAP<br>     specifications, but on the other hand it maximizes compatibility<br>     (and code sharing) with the “hard error” concept of the default<br>     testsuite driver.<br>   • The ‘version’ and ‘pragma’ directives are not supported.<br>   • The ‘–diagnostic-string’ option of our driver allows to modify the<br>     string that introduces TAP diagnostic from the default value of<br>     “‘#’”.  The standard TAP protocol has currently no way to allow<br>     this, so if you use it your diagnostic will be lost to more<br>     compliant tools like ‘prove’ and ‘Test::Harness’<br>   • And there are probably some other small and yet undiscovered<br>     incompatibilities, especially in corner cases or with rare usages.</p>
+<h2 id="15-4-4-Links-and-external-resources-on-TAP"><a href="#15-4-4-Links-and-external-resources-on-TAP" class="headerlink" title="15.4.4 Links and external resources on TAP"></a>15.4.4 Links and external resources on TAP</h2><p>Here are some links to more extensive official or third-party<br>documentation and resources about the TAP protocol and related tools and<br>libraries.<br>   •  ‘Test::Harness::TAP’<br>     (<a href="http://search.cpan.org/~petdance/Test-Harness/lib/Test/Harness/TAP.pod">http://search.cpan.org/~petdance/Test-Harness/lib/Test/Harness/TAP.pod</a>),<br>     the (mostly) official documentation about the TAP format and<br>     protocol.<br>   •  ‘prove’ (<a href="http://search.cpan.org/~andya/Test-Harness/bin/prove">http://search.cpan.org/~andya/Test-Harness/bin/prove</a>),<br>     the most famous command-line TAP test driver, included in the<br>     distribution of ‘perl’ and ‘Test::Harness’<br>     (<a href="http://search.cpan.org/~andya/Test-Harness/lib/Test/Harness.pm">http://search.cpan.org/~andya/Test-Harness/lib/Test/Harness.pm</a>).<br>   • The TAP wiki (<a href="http://testanything.org/wiki/index.php/Main_Page">http://testanything.org/wiki/index.php/Main_Page</a>).<br>   • A “gentle introduction” to testing for perl coders:<br>     ‘Test::Tutorial’<br>     (<a href="http://search.cpan.org/dist/Test-Simple/lib/Test/Tutorial.pod">http://search.cpan.org/dist/Test-Simple/lib/Test/Tutorial.pod</a>).<br>   •  ‘Test::Simple’<br>     (<a href="http://search.cpan.org/~mschwern/Test-Simple/lib/Test/Simple.pm">http://search.cpan.org/~mschwern/Test-Simple/lib/Test/Simple.pm</a>)<br>     and ‘Test::More’<br>     (<a href="http://search.cpan.org/~mschwern/Test-Simple/lib/Test/More.pm">http://search.cpan.org/~mschwern/Test-Simple/lib/Test/More.pm</a>),<br>     the standard perl testing libraries, which are based on TAP.<br>   • C TAP Harness<br>     (<a href="http://www.eyrie.org/~eagle/software/c-tap-harness/">http://www.eyrie.org/~eagle/software/c-tap-harness/</a>), a C-based<br>     project implementing both a TAP producer and a TAP consumer.<br>   • tap4j (<a href="http://www.tap4j.org/">http://www.tap4j.org/</a>), a Java-based project implementing<br>     both a TAP producer and a TAP consumer.</p>
+<h1 id="15-5-DejaGnu-Tests"><a href="#15-5-DejaGnu-Tests" class="headerlink" title="15.5 DejaGnu Tests"></a>15.5 DejaGnu Tests</h1><p>If ‘dejagnu’ (<a href="https://ftp.gnu.org/gnu/dejagnu/">https://ftp.gnu.org/gnu/dejagnu/</a>) appears in<br>‘AUTOMAKE_OPTIONS’, then a ‘dejagnu’-based test suite is assumed.  The<br>variable ‘DEJATOOL’ is a list of names that are passed, one at a time,<br>as the ‘–tool’ argument to ‘runtest’ invocations; it defaults to the<br>name of the package.</p>
+<p>   The variable ‘RUNTESTDEFAULTFLAGS’ holds the ‘–tool’ and ‘–srcdir’<br>flags that are passed to dejagnu by default; this can be overridden if<br>necessary.</p>
+<p>   The variables ‘EXPECT’ and ‘RUNTEST’ can also be overridden to<br>provide project-specific values.  For instance, you will need to do this<br>if you are testing a compiler toolchain, because the default values do<br>not take into account host and target names.</p>
+<p>   The contents of the variable ‘RUNTESTFLAGS’ are passed to the<br>‘runtest’ invocation.  This is considered a “user variable” (*note User<br>Variables::).  If you need to set ‘runtest’ flags in ‘Makefile.am’, you<br>can use ‘AM_RUNTESTFLAGS’ instead.</p>
+<p>   Automake will generate rules to create a local ‘site.exp’ file,<br>defining various variables detected by ‘configure’.  This file is<br>automatically read by DejaGnu.  It is OK for the user of a package to<br>edit this file in order to tune the test suite.  However this is not the<br>place where the test suite author should define new variables: this<br>should be done elsewhere in the real test suite code.  Especially,<br>‘site.exp’ should not be distributed.</p>
+<p>   Still, if the package author has legitimate reasons to extend<br>‘site.exp’ at ‘make’ time, he can do so by defining the variable<br>‘EXTRA_DEJAGNU_SITE_CONFIG’; the files listed there will be considered<br>‘site.exp’ prerequisites, and their content will be appended to it (in<br>the same order in which they appear in ‘EXTRA_DEJAGNU_SITE_CONFIG’).<br>Note that files are <em>not</em> distributed by default.</p>
+<p>   For more information regarding DejaGnu test suites, see *note<br>(dejagnu)Top::.</p>
+<h1 id="15-6-Install-Tests"><a href="#15-6-Install-Tests" class="headerlink" title="15.6 Install Tests"></a>15.6 Install Tests</h1><p>The ‘installcheck’ target is available to the user as a way to run any<br>tests after the package has been installed.  You can add tests to this<br>by writing an ‘installcheck-local’ rule.</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/autotools/" rel="tag"># autotools</a>
+              <a href="/tags/automake/" rel="tag"># automake</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/03/20/linux-automake-8-building-programs-and-libraries/" rel="prev" title="Linux Automake 8 编译程序和库">
+      <i class="fa fa-chevron-left"></i> Linux Automake 8 编译程序和库
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/05/06/linux-centos7-update-gitlab-ce/" rel="next" title="CentOS7升级gitlab-ce">
+      CentOS7升级gitlab-ce <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#15-1-Generalities-about-Testing"><span class="nav-number">1.</span> <span class="nav-text">15.1 Generalities about Testing</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#15-2-Simple-Tests"><span class="nav-number">2.</span> <span class="nav-text">15.2 Simple Tests</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#15-2-1-Scripts-based-Testsuites"><span class="nav-number">2.1.</span> <span class="nav-text">15.2.1 Scripts-based Testsuites</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-2-2-Older-and-discouraged-serial-test-harness"><span class="nav-number">2.2.</span> <span class="nav-text">15.2.2 Older (and discouraged) serial test harness</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-2-3-Parallel-Test-Harness"><span class="nav-number">2.3.</span> <span class="nav-text">15.2.3 Parallel Test Harness</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#15-3-Custom-Test-Drivers"><span class="nav-number">3.</span> <span class="nav-text">15.3 Custom Test Drivers</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#15-3-1-Overview-of-Custom-Test-Drivers-Support"><span class="nav-number">3.1.</span> <span class="nav-text">15.3.1 Overview of Custom Test Drivers Support</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-3-2-Declaring-Custom-Test-Drivers"><span class="nav-number">3.2.</span> <span class="nav-text">15.3.2 Declaring Custom Test Drivers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-3-3-API-for-Custom-Test-Drivers"><span class="nav-number">3.3.</span> <span class="nav-text">15.3.3 API for Custom Test Drivers</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#15-4-Using-the-TAP-test-protocol"><span class="nav-number">4.</span> <span class="nav-text">15.4 Using the TAP test protocol</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#15-4-1-Introduction-to-TAP"><span class="nav-number">4.1.</span> <span class="nav-text">15.4.1 Introduction to TAP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-4-2-Use-TAP-with-the-Automake-test-harness"><span class="nav-number">4.2.</span> <span class="nav-text">15.4.2 Use TAP with the Automake test harness</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-4-3-Incompatibilities-with-other-TAP-parsers-and-drivers"><span class="nav-number">4.3.</span> <span class="nav-text">15.4.3 Incompatibilities with other TAP parsers and drivers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-4-4-Links-and-external-resources-on-TAP"><span class="nav-number">4.4.</span> <span class="nav-text">15.4.4 Links and external resources on TAP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#15-5-DejaGnu-Tests"><span class="nav-number">5.</span> <span class="nav-text">15.5 DejaGnu Tests</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#15-6-Install-Tests"><span class="nav-number">6.</span> <span class="nav-text">15.6 Install Tests</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2018/03/20/linux-automake-15-support-for-test-suites/";
+    this.page.identifier = "2018/03/20/linux-automake-15-support-for-test-suites/";
+    this.page.title = "Linux Automake 15 Support for test suites";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

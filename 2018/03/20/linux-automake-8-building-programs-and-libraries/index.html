@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GNU Automake 版本(version 1.16.1, 26 February 2018) Permission is granted to copy, distribute and&#x2F;or modify thisdocument under the terms of the GNU Free Documentation License,Version 1.3 or any later v">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Automake 8 编译程序和库">
+<meta property="og:url" content="http://shaoguangleo.github.io/2018/03/20/linux-automake-8-building-programs-and-libraries/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="GNU Automake 版本(version 1.16.1, 26 February 2018) Permission is granted to copy, distribute and&#x2F;or modify thisdocument under the terms of the GNU Free Documentation License,Version 1.3 or any later v">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-03-20T14:28:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.868Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="autotools">
+<meta property="article:tag" content="automake">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2018/03/20/linux-automake-8-building-programs-and-libraries/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux Automake 8 编译程序和库 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2018/03/20/linux-automake-8-building-programs-and-libraries/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux Automake 8 编译程序和库
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-03-20 22:28:00" itemprop="dateCreated datePublished" datetime="2018-03-20T22:28:00+08:00">2018-03-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Automake/" itemprop="url" rel="index"><span itemprop="name">Automake</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/03/20/linux-automake-8-building-programs-and-libraries/" class="post-meta-item leancloud_visitors" data-flag-title="Linux Automake 8 编译程序和库" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/03/20/linux-automake-8-building-programs-and-libraries/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/03/20/linux-automake-8-building-programs-and-libraries/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/03/20/linux-automake-8-building-programs-and-libraries/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/03/20/linux-automake-8-building-programs-and-libraries/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>GNU Automake 版本(version 1.16.1, 26 February 2018)</p>
+<p>Permission is granted to copy, distribute and/or modify this<br>document under the terms of the GNU Free Documentation License,<br>Version 1.3 or any later version published by the Free Software<br>Foundation; with no Invariant Sections, with no Front-Cover texts,<br>and with no Back-Cover Texts.  A copy of the license is included in<br>the section entitled “GNU Free Documentation License.”</p>
+</blockquote>
+<h1 id="8-Building-Programs-and-Libraries"><a href="#8-Building-Programs-and-Libraries" class="headerlink" title="8 Building Programs and Libraries"></a>8 Building Programs and Libraries</h1><hr>
+<p>A large part of Automake functionality is dedicated to making it easy<br>to build programs and libraries.</p>
+<h2 id="8-1-Building-a-program"><a href="#8-1-Building-a-program" class="headerlink" title="8.1 Building a program"></a>8.1 Building a program</h2><p>======================</p>
+<p>为了编译一个程序，你需要告诉Automake需要哪些源码，需要链接哪些库。</p>
+<h3 id="8-1-1-Defining-program-sources"><a href="#8-1-1-Defining-program-sources" class="headerlink" title="8.1.1 Defining program sources"></a>8.1.1 Defining program sources</h3><hr>
+<p>In a directory containing source that gets built into a program (as<br>opposed to a library or a script), the <code>PROGRAMS</code> primary is used.<br>Programs can be installed in <code>bindir</code>, <code>sbindir</code>, <code>libexecdir</code>,<br><code>pkglibexecdir</code>, or not at all (<code>noinst_</code>).  They can also be built only<br>for <code>make check</code>, in which case the prefix is <code>check_</code>.</p>
+<p>   For instance:</p>
+<pre><code> bin_PROGRAMS = hello
+</code></pre>
+<p>   In this simple case, the resulting <code>Makefile.in</code> will contain code to<br>generate a program named <code>hello</code>.</p>
+<p>   Associated with each program are several assisting variables that are<br>named after the program.  These variables are all optional, and have<br>reasonable defaults.  Each variable, its use, and default is spelled out<br>below; we use the “hello” example throughout.</p>
+<p>   The variable <code>hello_SOURCES</code> is used to specify which source files<br>get built into an executable:</p>
+<pre><code> hello_SOURCES = hello.c version.c getopt.c getopt1.c getopt.h system.h
+</code></pre>
+<p>   This causes each mentioned <code>.c</code> file to be compiled into the<br>corresponding <code>.o</code>.  Then all are linked to produce <code>hello</code>.</p>
+<p>   If <code>hello_SOURCES</code> is not specified, then it defaults to the single<br>file <code>hello.c</code></p>
+<p>   Multiple programs can be built in a single directory.  Multiple<br>programs can share a single source file, which must be listed in each<br><code>_SOURCES</code> definition.</p>
+<p>   Header files listed in a <code>_SOURCES</code> definition will be included in<br>the distribution but otherwise ignored.  In case it isn<code>t obvious, you should not include the header file generated by </code>configure<code>in a</code>_SOURCES<code> variable; this file should not be distributed.  Lex (</code>.l<code>) and Yacc (</code>.y`) files can also be listed; see *note Yacc and Lex::.</p>
+<h3 id="8-1-2-Linking-the-program"><a href="#8-1-2-Linking-the-program" class="headerlink" title="8.1.2 Linking the program"></a>8.1.2 Linking the program</h3><hr>
+<p>如果希望链接 <code>configure</code>文件中没有的库，可以使用 <code>LDADD</code> 搞定。这个变量用于指定链接的目标文件或者库，如果希望再指定一些参数，可以使用 <code>AM_LDFLAGS</code> 。</p>
+<p>   Sometimes, multiple programs are built in one directory but do not<br>share the same link-time requirements.  In this case, you can use the<br><code>PROG_LDADD</code> variable (where PROG is the name of the program as it<br>appears in some <code>_PROGRAMS</code> variable, and usually written in lowercase)<br>to override <code>LDADD</code>.  If this variable exists for a given program, then<br>that program is not linked using <code>LDADD</code>.</p>
+<p>   For instance, in GNU cpio, <code>pax</code>, <code>cpio</code> and <code>mt</code> are linked against<br>the library <code>libcpio.a</code>.  However, <code>rmt</code> is built in the same directory,<br>and has no such link requirement.  Also, <code>mt</code> and <code>rmt</code> are only built<br>on certain architectures.  Here is what cpio<code>s </code>src/Makefile.am` looks<br>like (abridged):</p>
+<pre><code> bin_PROGRAMS = cpio pax $(MT)
+ libexec_PROGRAMS = $(RMT)
+ EXTRA_PROGRAMS = mt rmt
+
+ LDADD = ../lib/libcpio.a $(INTLLIBS)
+ rmt_LDADD =
+
+ cpio_SOURCES = ...
+ pax_SOURCES = ...
+ mt_SOURCES = ...
+ rmt_SOURCES = ...
+</code></pre>
+<p>   <code>PROG_LDADD</code> is inappropriate for passing program-specific linker<br>flags (except for <code>-l</code>, <code>-L</code>, <code>-dlopen</code> and <code>-dlpreopen</code>).  So, use the<br><code>PROG_LDFLAGS</code> variable for this purpose.</p>
+<p>   It is also occasionally useful to have a program depend on some other<br>target that is not actually part of that program.  This can be done<br>using either the <code>PROG_DEPENDENCIES</code> or the <code>EXTRA_PROG_DEPENDENCIES</code><br>variable.  Each program depends on the contents both variables, but no<br>further interpretation is done.</p>
+<p>   Since these dependencies are associated to the link rule used to<br>create the programs they should normally list files used by the link<br>command.  That is <code>*.$(OBJEXT)</code>, <code>*.a</code>, or <code>*.la</code> files.  In rare cases<br>you may need to add other kinds of files such as linker scripts, but<br><em>listing a source file in <code>_DEPENDENCIES</code> is wrong</em>.  If some source<br>file needs to be built before all the components of a program are built,<br>consider using the <code>BUILT_SOURCES</code> variable instead (*note Sources::).</p>
+<p>   If <code>PROG_DEPENDENCIES</code> is not supplied, it is computed by Automake.<br>The automatically-assigned value is the contents of <code>PROG_LDADD</code>, with<br>most configure substitutions, <code>-l</code>, <code>-L</code>, <code>-dlopen</code> and <code>-dlpreopen</code><br>options removed.  The configure substitutions that are left in are only<br><code>$(LIBOBJS)</code> and <code>$(ALLOCA)</code>; these are left because it is known that<br>they will not cause an invalid value for <code>PROG_DEPENDENCIES</code> to be<br>generated.</p>
+<p>  The <code>EXTRA_PROG_DEPENDENCIES</code> may be useful for cases where you<br>merely want to augment the <code>automake</code>-generated <code>PROG_DEPENDENCIES</code><br>rather than replacing it.</p>
+<p>   We recommend that you avoid using <code>-l</code> options in <code>LDADD</code> or<br><code>PROG_LDADD</code> when referring to libraries built by your package.<br>Instead, write the file name of the library explicitly as in the above<br><code>cpio</code> example.  Use <code>-l</code> only to list third-party libraries.  If you<br>follow this rule, the default value of <code>PROG_DEPENDENCIES</code> will list all<br>your local libraries and omit the other ones.</p>
+<h3 id="8-1-3-Conditional-compilation-of-sources"><a href="#8-1-3-Conditional-compilation-of-sources" class="headerlink" title="8.1.3 Conditional compilation of sources"></a>8.1.3 Conditional compilation of sources</h3><hr>
+<p>You can<code>t put a configure substitution (e.g., </code>@FOO@<code>or</code>$(FOO)<code>where</code>FOO<code>is defined via</code>AC_SUBST<code>) into a </code>_SOURCES<code> variable.  The reason for this is a bit hard to explain, but suffice to say that it simply won</code>t work.  Automake will give an error if you try to do this.</p>
+<p>   Fortunately there are two other ways to achieve the same result.  One<br>is to use configure substitutions in <code>_LDADD</code> variables, the other is to<br>use an Automake conditional.</p>
+<p>Conditional Compilation using <code>_LDADD</code> Substitutions<br>…………………………………………….</p>
+<p>Automake must know all the source files that could possibly go into a<br>program, even if not all the files are built in every circumstance.  Any<br>files that are only conditionally built should be listed in the<br>appropriate <code>EXTRA_</code> variable.  For instance, if <code>hello-linux.c</code> or<br><code>hello-generic.c</code> were conditionally included in <code>hello</code>, the<br><code>Makefile.am</code> would contain:</p>
+<pre><code> bin_PROGRAMS = hello
+ hello_SOURCES = hello-common.c
+ EXTRA_hello_SOURCES = hello-linux.c hello-generic.c
+ hello_LDADD = $(HELLO_SYSTEM)
+ hello_DEPENDENCIES = $(HELLO_SYSTEM)
+</code></pre>
+<p>You can then setup the <code>$(HELLO_SYSTEM)</code> substitution from<br><code>configure.ac</code>:</p>
+<pre><code> ...
+ case $host in
+   *linux*) HELLO_SYSTEM='hello-linux.$(OBJEXT)' ;;
+   *)       HELLO_SYSTEM='hello-generic.$(OBJEXT)' ;;
+ esac
+ AC_SUBST([HELLO_SYSTEM])
+ ...
+</code></pre>
+<p>   In this case, the variable <code>HELLO_SYSTEM</code> should be replaced by<br>either <code>hello-linux.o</code> or <code>hello-generic.o</code>, and added to both<br><code>hello_DEPENDENCIES</code> and <code>hello_LDADD</code> in order to be built and linked<br>in.</p>
+<p>Conditional Compilation using Automake Conditionals<br>……………………………………………</p>
+<p>An often simpler way to compile source files conditionally is to use<br>Automake conditionals.  For instance, you could use this <code>Makefile.am</code><br>construct to build the same <code>hello</code> example:</p>
+<pre><code> bin_PROGRAMS = hello
+ if LINUX
+ hello_SOURCES = hello-linux.c hello-common.c
+ else
+ hello_SOURCES = hello-generic.c hello-common.c
+ endif
+</code></pre>
+<p>   In this case, <code>configure.ac</code> should setup the <code>LINUX</code> conditional<br>using <code>AM_CONDITIONAL</code> (*note Conditionals::).</p>
+<p>   When using conditionals like this you don<code>t need to use the </code>EXTRA_`<br>variable, because Automake will examine the contents of each variable to<br>construct the complete list of source files.</p>
+<p>   If your program uses a lot of files, you will probably prefer a<br>conditional <code>+=</code>.</p>
+<pre><code> bin_PROGRAMS = hello
+ hello_SOURCES = hello-common.c
+ if LINUX
+ hello_SOURCES += hello-linux.c
+ else
+ hello_SOURCES += hello-generic.c
+ endif
+</code></pre>
+<h3 id="8-1-4-Conditional-compilation-of-programs"><a href="#8-1-4-Conditional-compilation-of-programs" class="headerlink" title="8.1.4 Conditional compilation of programs"></a>8.1.4 Conditional compilation of programs</h3><hr>
+<p>Sometimes it is useful to determine the programs that are to be built at<br>configure time.  For instance, GNU <code>cpio</code> only builds <code>mt</code> and <code>rmt</code><br>under special circumstances.  The means to achieve conditional<br>compilation of programs are the same you can use to compile source files<br>conditionally: substitutions or conditionals.</p>
+<p>Conditional Programs using <code>configure</code> Substitutions<br>…………………………………………….</p>
+<p>In this case, you must notify Automake of all the programs that can<br>possibly be built, but at the same time cause the generated<br><code>Makefile.in</code> to use the programs specified by <code>configure</code>.  This is<br>done by having <code>configure</code> substitute values into each <code>_PROGRAMS</code><br>definition, while listing all optionally built programs in<br><code>EXTRA_PROGRAMS</code>.</p>
+<pre><code> bin_PROGRAMS = cpio pax $(MT)
+ libexec_PROGRAMS = $(RMT)
+ EXTRA_PROGRAMS = mt rmt
+</code></pre>
+<p>   As explained in *note EXEEXT::, Automake will rewrite <code>bin_PROGRAMS</code>,<br><code>libexec_PROGRAMS</code>, and <code>EXTRA_PROGRAMS</code>, appending <code>$(EXEEXT)</code> to each<br>binary.  Obviously it cannot rewrite values obtained at run-time through<br><code>configure</code> substitutions, therefore you should take care of appending<br><code>$(EXEEXT)</code> yourself, as in <code>AC_SUBST([MT], ['mt${EXEEXT}'])</code>.</p>
+<p>Conditional Programs using Automake Conditionals<br>…………………………………………</p>
+<p>You can also use Automake conditionals (*note Conditionals::) to select<br>programs to be built.  In this case you don<code>t have to worry about </code>$(EXEEXT)<code>or</code>EXTRA_PROGRAMS`.</p>
+<pre><code> bin_PROGRAMS = cpio pax
+ if WANT_MT
+   bin_PROGRAMS += mt
+ endif
+ if WANT_RMT
+   libexec_PROGRAMS = rmt
+ endif
+</code></pre>
+<h2 id="8-2-Building-a-library"><a href="#8-2-Building-a-library" class="headerlink" title="8.2 Building a library"></a>8.2 Building a library</h2><p>======================</p>
+<p>Building a library is much like building a program.  In this case, the<br>name of the primary is <code>LIBRARIES</code>.  Libraries can be installed in<br><code>libdir</code> or <code>pkglibdir</code>.</p>
+<p>   *Note A Shared Library::, for information on how to build shared<br>libraries using libtool and the <code>LTLIBRARIES</code> primary.</p>
+<p>   Each <code>_LIBRARIES</code> variable is a list of the libraries to be built.<br>For instance, to create a library named <code>libcpio.a</code>, but not install it,<br>you would write:</p>
+<pre><code> noinst_LIBRARIES = libcpio.a
+ libcpio_a_SOURCES = ...
+</code></pre>
+<p>   The sources that go into a library are determined exactly as they are<br>for programs, via the <code>_SOURCES</code> variables.  Note that the library name<br>is canonicalized (*note Canonicalization::), so the <code>_SOURCES</code> variable<br>corresponding to <code>libcpio.a</code> is <code>libcpio_a_SOURCES</code>, not<br><code>libcpio.a_SOURCES</code>.</p>
+<p>   Extra objects can be added to a library using the <code>LIBRARY_LIBADD</code><br>variable.  This should be used for objects determined by <code>configure</code>.<br>Again from <code>cpio</code>:</p>
+<pre><code> libcpio_a_LIBADD = $(LIBOBJS) $(ALLOCA)
+</code></pre>
+<p>   In addition, sources for extra objects that will not exist until<br>configure-time must be added to the <code>BUILT_SOURCES</code> variable (*note<br>Sources::).</p>
+<p>   Building a static library is done by compiling all object files, then<br>by invoking <code>$(AR) $(ARFLAGS)</code> followed by the name of the library and<br>the list of objects, and finally by calling <code>$(RANLIB)</code> on that library.<br>You should call <code>AC_PROG_RANLIB</code> from your <code>configure.ac</code> to define<br><code>RANLIB</code> (Automake will complain otherwise).  You should also call<br><code>AM_PROG_AR</code> to define <code>AR</code>, in order to support unusual archivers such<br>as Microsoft lib.  <code>ARFLAGS</code> will default to <code>cru</code>; you can override<br>this variable by setting it in your <code>Makefile.am</code> or by <code>AC_SUBST</code>ing it<br>from your <code>configure.ac</code>.  You can override the <code>AR</code> variable by<br>defining a per-library <code>maude_AR</code> variable (*note Program and Library<br>Variables::).</p>
+<p>   Be careful when selecting library components conditionally.  Because<br>building an empty library is not portable, you should ensure that any<br>library always contains at least one object.</p>
+<p>   To use a static library when building a program, add it to <code>LDADD</code><br>for this program.  In the following example, the program <code>cpio</code> is<br>statically linked with the library <code>libcpio.a</code>.</p>
+<pre><code> noinst_LIBRARIES = libcpio.a
+ libcpio_a_SOURCES = ...
+
+ bin_PROGRAMS = cpio
+ cpio_SOURCES = cpio.c ...
+ cpio_LDADD = libcpio.a
+</code></pre>
+<h2 id="8-3-Building-a-Shared-Library"><a href="#8-3-Building-a-Shared-Library" class="headerlink" title="8.3 Building a Shared Library"></a>8.3 Building a Shared Library</h2><p>=============================</p>
+<p>Building shared libraries portably is a relatively complex matter.  For<br>this reason, GNU Libtool (*note Introduction: (libtool)Top.) was created<br>to help build shared libraries in a platform-independent way.</p>
+<h3 id="8-3-1-The-Libtool-Concept"><a href="#8-3-1-The-Libtool-Concept" class="headerlink" title="8.3.1 The Libtool Concept"></a>8.3.1 The Libtool Concept</h3><hr>
+<p>Libtool abstracts shared and static libraries into a unified concept<br>henceforth called “libtool libraries”.  Libtool libraries are files<br>using the <code>.la</code> suffix, and can designate a static library, a shared<br>library, or maybe both.  Their exact nature cannot be determined until<br><code>./configure</code> is run: not all platforms support all kinds of libraries,<br>and users can explicitly select which libraries should be built.<br>(However the package<code>s maintainers can tune the default, *note The </code>AC_PROG_LIBTOOL` macro: (libtool)AC_PROG_LIBTOOL.)</p>
+<p>   Because object files for shared and static libraries must be compiled<br>differently, libtool is also used during compilation.  Object files<br>built by libtool are called “libtool objects”: these are files using the<br><code>.lo</code> suffix.  Libtool libraries are built from these libtool objects.</p>
+<p>   You should not assume anything about the structure of <code>.la</code> or <code>.lo</code><br>files and how libtool constructs them: this is libtool<code>s concern, and the last thing one wants is to learn about libtool</code>s guts.  However the<br>existence of these files matters, because they are used as targets and<br>dependencies in <code>Makefile</code>s rules when building libtool libraries.<br>There are situations where you may have to refer to these, for instance<br>when expressing dependencies for building source files conditionally<br>(*note Conditional Libtool Sources::).</p>
+<p>   People considering writing a plug-in system, with dynamically loaded<br>modules, should look into <code>libltdl</code>: libtool`s dlopening library (*note<br>Using libltdl: (libtool)Using libltdl.).  This offers a portable<br>dlopening facility to load libtool libraries dynamically, and can also<br>achieve static linking where unavoidable.</p>
+<p>   Before we discuss how to use libtool with Automake in details, it<br>should be noted that the libtool manual also has a section about how to<br>use Automake with libtool (*note Using Automake with Libtool:<br>(libtool)Using Automake.).</p>
+<h3 id="8-3-2-Building-Libtool-Libraries"><a href="#8-3-2-Building-Libtool-Libraries" class="headerlink" title="8.3.2 Building Libtool Libraries"></a>8.3.2 Building Libtool Libraries</h3><hr>
+<p>Automake uses libtool to build libraries declared with the <code>LTLIBRARIES</code><br>primary.  Each <code>_LTLIBRARIES</code> variable is a list of libtool libraries to<br>build.  For instance, to create a libtool library named <code>libgettext.la</code>,<br>and install it in <code>libdir</code>, write:</p>
+<pre><code> lib_LTLIBRARIES = libgettext.la
+ libgettext_la_SOURCES = gettext.c gettext.h ...
+</code></pre>
+<p>   Automake predefines the variable <code>pkglibdir</code>, so you can use<br><code>pkglib_LTLIBRARIES</code> to install libraries in <code>$(libdir)/@PACKAGE@/</code>.</p>
+<p>   If <code>gettext.h</code> is a public header file that needs to be installed in<br>order for people to use the library, it should be declared using a<br><code>_HEADERS</code> variable, not in <code>libgettext_la_SOURCES</code>.  Headers listed in<br>the latter should be internal headers that are not part of the public<br>interface.</p>
+<pre><code> lib_LTLIBRARIES = libgettext.la
+ libgettext_la_SOURCES = gettext.c ...
+ include_HEADERS = gettext.h ...
+</code></pre>
+<p>   A package can build and install such a library along with other<br>programs that use it.  This dependency should be specified using<br><code>LDADD</code>.  The following example builds a program named <code>hello</code> that is<br>linked with <code>libgettext.la</code>.</p>
+<pre><code> lib_LTLIBRARIES = libgettext.la
+ libgettext_la_SOURCES = gettext.c ...
+
+ bin_PROGRAMS = hello
+ hello_SOURCES = hello.c ...
+ hello_LDADD = libgettext.la
+</code></pre>
+<p>Whether <code>hello</code> is statically or dynamically linked with <code>libgettext.la</code><br>is not yet known: this will depend on the configuration of libtool and<br>the capabilities of the host.</p>
+<h3 id="8-3-3-Building-Libtool-Libraries-Conditionally"><a href="#8-3-3-Building-Libtool-Libraries-Conditionally" class="headerlink" title="8.3.3 Building Libtool Libraries Conditionally"></a>8.3.3 Building Libtool Libraries Conditionally</h3><hr>
+<p>Like conditional programs (*note Conditional Programs::), there are two<br>main ways to build conditional libraries: using Automake conditionals or<br>using Autoconf <code>AC_SUBST</code>itutions.</p>
+<p>   The important implementation detail you have to be aware of is that<br>the place where a library will be installed matters to libtool: it needs<br>to be indicated <em>at link-time</em> using the <code>-rpath</code> option.</p>
+<p>   For libraries whose destination directory is known when Automake<br>runs, Automake will automatically supply the appropriate <code>-rpath</code> option<br>to libtool.  This is the case for libraries listed explicitly in some<br>installable <code>_LTLIBRARIES</code> variables such as <code>lib_LTLIBRARIES</code>.</p>
+<p>   However, for libraries determined at configure time (and thus<br>mentioned in <code>EXTRA_LTLIBRARIES</code>), Automake does not know the final<br>installation directory.  For such libraries you must add the <code>-rpath</code><br>option to the appropriate <code>_LDFLAGS</code> variable by hand.</p>
+<p>   The examples below illustrate the differences between these two<br>methods.</p>
+<p>   Here is an example where <code>WANTEDLIBS</code> is an <code>AC_SUBST</code>ed variable set<br>at <code>./configure</code>-time to either <code>libfoo.la</code>, <code>libbar.la</code>, both, or none.<br>Although <code>$(WANTEDLIBS)</code> appears in the <code>lib_LTLIBRARIES</code>, Automake<br>cannot guess it relates to <code>libfoo.la</code> or <code>libbar.la</code> at the time it<br>creates the link rule for these two libraries.  Therefore the <code>-rpath</code><br>argument must be explicitly supplied.</p>
+<pre><code> EXTRA_LTLIBRARIES = libfoo.la libbar.la
+ lib_LTLIBRARIES = $(WANTEDLIBS)
+ libfoo_la_SOURCES = foo.c ...
+ libfoo_la_LDFLAGS = -rpath '$(libdir)'
+ libbar_la_SOURCES = bar.c ...
+ libbar_la_LDFLAGS = -rpath '$(libdir)'
+</code></pre>
+<p>   Here is how the same <code>Makefile.am</code> would look using Automake<br>conditionals named <code>WANT_LIBFOO</code> and <code>WANT_LIBBAR</code>.  Now Automake is<br>able to compute the <code>-rpath</code> setting itself, because it<code>s clear that both libraries will end up in </code>$(libdir)` if they are installed.</p>
+<pre><code> lib_LTLIBRARIES =
+ if WANT_LIBFOO
+ lib_LTLIBRARIES += libfoo.la
+ endif
+ if WANT_LIBBAR
+ lib_LTLIBRARIES += libbar.la
+ endif
+ libfoo_la_SOURCES = foo.c ...
+ libbar_la_SOURCES = bar.c ...
+</code></pre>
+<h3 id="8-3-4-Libtool-Libraries-with-Conditional-Sources"><a href="#8-3-4-Libtool-Libraries-with-Conditional-Sources" class="headerlink" title="8.3.4 Libtool Libraries with Conditional Sources"></a>8.3.4 Libtool Libraries with Conditional Sources</h3><hr>
+<p>Conditional compilation of sources in a library can be achieved in the<br>same way as conditional compilation of sources in a program (*note<br>Conditional Sources::).  The only difference is that <code>_LIBADD</code> should be<br>used instead of <code>_LDADD</code> and that it should mention libtool objects<br>(<code>.lo</code> files).</p>
+<p>   So, to mimic the <code>hello</code> example from *note Conditional Sources::, we<br>could build a <code>libhello.la</code> library using either <code>hello-linux.c</code> or<br><code>hello-generic.c</code> with the following <code>Makefile.am</code>.</p>
+<pre><code> lib_LTLIBRARIES = libhello.la
+ libhello_la_SOURCES = hello-common.c
+ EXTRA_libhello_la_SOURCES = hello-linux.c hello-generic.c
+ libhello_la_LIBADD = $(HELLO_SYSTEM)
+ libhello_la_DEPENDENCIES = $(HELLO_SYSTEM)
+</code></pre>
+<p>And make sure <code>configure</code> defines <code>HELLO_SYSTEM</code> as either<br><code>hello-linux.lo</code> or <code>hello-generic.lo</code>.</p>
+<p>   Or we could simply use an Automake conditional as follows.</p>
+<pre><code> lib_LTLIBRARIES = libhello.la
+ libhello_la_SOURCES = hello-common.c
+ if LINUX
+ libhello_la_SOURCES += hello-linux.c
+ else
+ libhello_la_SOURCES += hello-generic.c
+ endif
+</code></pre>
+<h2 id="8-3-5-Libtool-Convenience-Libraries"><a href="#8-3-5-Libtool-Convenience-Libraries" class="headerlink" title="8.3.5 Libtool Convenience Libraries"></a>8.3.5 Libtool Convenience Libraries</h2><p>Sometimes you want to build libtool libraries that should not be<br>installed.  These are called “libtool convenience libraries” and are<br>typically used to encapsulate many sublibraries, later gathered into one<br>big installed library.</p>
+<p>   Libtool convenience libraries are declared by directory-less<br>variables such as <code>noinst_LTLIBRARIES</code>, <code>check_LTLIBRARIES</code>, or even<br><code>EXTRA_LTLIBRARIES</code>.  Unlike installed libtool libraries they do not<br>need an <code>-rpath</code> flag at link time (actually this is the only<br>difference).</p>
+<p>   Convenience libraries listed in <code>noinst_LTLIBRARIES</code> are always<br>built.  Those listed in <code>check_LTLIBRARIES</code> are built only upon <code>make check</code>.  Finally, libraries listed in <code>EXTRA_LTLIBRARIES</code> are never<br>built explicitly: Automake outputs rules to build them, but if the<br>library does not appear as a Makefile dependency anywhere it won<code>t be built (this is why </code>EXTRA_LTLIBRARIES` is used for conditional<br>compilation).</p>
+<p>   Here is a sample setup merging libtool convenience libraries from<br>subdirectories into one main <code>libtop.la</code> library.</p>
+<pre><code> # -- Top-level Makefile.am --
+ SUBDIRS = sub1 sub2 ...
+ lib_LTLIBRARIES = libtop.la
+ libtop_la_SOURCES =
+ libtop_la_LIBADD = \
+   sub1/libsub1.la \
+   sub2/libsub2.la \
+   ...
+
+ # -- sub1/Makefile.am --
+ noinst_LTLIBRARIES = libsub1.la
+ libsub1_la_SOURCES = ...
+
+ # -- sub2/Makefile.am --
+ # showing nested convenience libraries
+ SUBDIRS = sub2.1 sub2.2 ...
+ noinst_LTLIBRARIES = libsub2.la
+ libsub2_la_SOURCES =
+ libsub2_la_LIBADD = \
+   sub21/libsub21.la \
+   sub22/libsub22.la \
+   ...
+</code></pre>
+<p>   When using such setup, beware that <code>automake</code> will assume <code>libtop.la</code><br>is to be linked with the C linker.  This is because <code>libtop_la_SOURCES</code><br>is empty, so <code>automake</code> picks C as default language.  If<br><code>libtop_la_SOURCES</code> was not empty, <code>automake</code> would select the linker as<br>explained in *note How the Linker is Chosen::.</p>
+<p>   If one of the sublibraries contains non-C source, it is important<br>that the appropriate linker be chosen.  One way to achieve this is to<br>pretend that there is such a non-C file among the sources of the<br>library, thus forcing <code>automake</code> to select the appropriate linker.  Here<br>is the top-level <code>Makefile</code> of our example updated to force C++ linking.</p>
+<pre><code> SUBDIRS = sub1 sub2 ...
+ lib_LTLIBRARIES = libtop.la
+ libtop_la_SOURCES =
+ # Dummy C++ source to cause C++ linking.
+ nodist_EXTRA_libtop_la_SOURCES = dummy.cxx
+ libtop_la_LIBADD = \
+   sub1/libsub1.la \
+   sub2/libsub2.la \
+   ...
+</code></pre>
+<p>   <code>EXTRA_*_SOURCES</code> variables are used to keep track of source files<br>that might be compiled (this is mostly useful when doing conditional<br>compilation using <code>AC_SUBST</code>, *note Conditional Libtool Sources::), and<br>the <code>nodist_</code> prefix means the listed sources are not to be distributed<br>(*note Program and Library Variables::).  In effect the file <code>dummy.cxx</code><br>does not need to exist in the source tree.  Of course if you have some<br>real source file to list in <code>libtop_la_SOURCES</code> there is no point in<br>cheating with <code>nodist_EXTRA_libtop_la_SOURCES</code>.</p>
+<h2 id="8-3-6-Libtool-Modules"><a href="#8-3-6-Libtool-Modules" class="headerlink" title="8.3.6 Libtool Modules"></a>8.3.6 Libtool Modules</h2><hr>
+<p>These are libtool libraries meant to be dlopened.  They are indicated to<br>libtool by passing <code>-module</code> at link-time.</p>
+<pre><code> pkglib_LTLIBRARIES = mymodule.la
+ mymodule_la_SOURCES = doit.c
+ mymodule_la_LDFLAGS = -module
+</code></pre>
+<p>   Ordinarily, Automake requires that a library<code>s name start with </code>lib<code>. However, when building a dynamically loadable module you might wish to use a "nonstandard" name.  Automake will not complain about such nonstandard names if it knows the library being built is a libtool module, i.e., if </code>-module<code> explicitly appears in the library</code>s<br><code>_LDFLAGS</code> variable (or in the common <code>AM_LDFLAGS</code> variable when no<br>per-library <code>_LDFLAGS</code> variable is defined).</p>
+<p>   As always, <code>AC_SUBST</code> variables are black boxes to Automake since<br>their values are not yet known when <code>automake</code> is run.  Therefore if<br><code>-module</code> is set via such a variable, Automake cannot notice it and will<br>proceed as if the library was an ordinary libtool library, with strict<br>naming.</p>
+<p>   If <code>mymodule_la_SOURCES</code> is not specified, then it defaults to the<br>single file <code>mymodule.c</code> (*note Default _SOURCES::).</p>
+<h2 id="8-3-7-LIBADD-LDFLAGS-and-LIBTOOLFLAGS"><a href="#8-3-7-LIBADD-LDFLAGS-and-LIBTOOLFLAGS" class="headerlink" title="8.3.7 _LIBADD, _LDFLAGS, and _LIBTOOLFLAGS"></a>8.3.7 <code>_LIBADD</code>, <code>_LDFLAGS</code>, and <code>_LIBTOOLFLAGS</code></h2><hr>
+<p>As shown in previous sections, the <code>LIBRARY_LIBADD</code> variable should be<br>used to list extra libtool objects (<code>.lo</code> files) or libtool libraries<br>(<code>.la</code>) to add to LIBRARY.</p>
+<p>   The <code>LIBRARY_LDFLAGS</code> variable is the place to list additional<br>libtool linking flags, such as <code>-version-info</code>, <code>-static</code>, and a lot<br>more.  *Note Link mode: (libtool)Link mode.</p>
+<p>   The <code>libtool</code> command has two kinds of options: mode-specific options<br>and generic options.  Mode-specific options such as the aforementioned<br>linking flags should be lumped with the other flags passed to the tool<br>invoked by <code>libtool</code> (hence the use of <code>LIBRARY_LDFLAGS</code> for libtool<br>linking flags).  Generic options include <code>--tag=TAG</code> and <code>--silent</code><br>(*note Invoking <code>libtool</code>: (libtool)Invoking libtool. for more options)<br>should appear before the mode selection on the command line; in<br><code>Makefile.am</code>s they should be listed in the <code>LIBRARY_LIBTOOLFLAGS</code><br>variable.</p>
+<p>   If <code>LIBRARY_LIBTOOLFLAGS</code> is not defined, then the variable<br><code>AM_LIBTOOLFLAGS</code> is used instead.</p>
+<p>   These flags are passed to libtool after the <code>--tag=TAG</code> option<br>computed by Automake (if any), so <code>LIBRARY_LIBTOOLFLAGS</code> (or<br><code>AM_LIBTOOLFLAGS</code>) is a good place to override or supplement the<br><code>--tag=TAG</code> setting.</p>
+<p>   The libtool rules also use a <code>LIBTOOLFLAGS</code> variable that should not<br>be set in <code>Makefile.am</code>: this is a user variable (*note Flag Variables<br>Ordering::.  It allows users to run <code>make LIBTOOLFLAGS=--silent</code>, for<br>instance.  Note that the verbosity of <code>libtool</code> can also be influenced<br>by the Automake support for silent rules (*note Automake Silent<br>Rules::).</p>
+<h2 id="8-3-8-LTLIBOBJS-and-LTALLOCA"><a href="#8-3-8-LTLIBOBJS-and-LTALLOCA" class="headerlink" title="8.3.8 LTLIBOBJS and LTALLOCA"></a>8.3.8 <code>LTLIBOBJS</code> and <code>LTALLOCA</code></h2><p>Where an ordinary library might include <code>$(LIBOBJS)</code> or <code>$(ALLOCA)</code><br>(*note LIBOBJS::), a libtool library must use <code>$(LTLIBOBJS)</code> or<br><code>$(LTALLOCA)</code>.  This is required because the object files that libtool<br>operates on do not necessarily end in <code>.o</code>.</p>
+<p>   Nowadays, the computation of <code>LTLIBOBJS</code> from <code>LIBOBJS</code> is performed<br>automatically by Autoconf (*note <code>AC_LIBOBJ</code> vs. <code>LIBOBJS</code>:<br>(autoconf)AC_LIBOBJ vs LIBOBJS.).</p>
+<h2 id="8-3-9-Common-Issues-Related-to-Libtool-96-s-Use"><a href="#8-3-9-Common-Issues-Related-to-Libtool-96-s-Use" class="headerlink" title="8.3.9 Common Issues Related to Libtool`s Use"></a>8.3.9 Common Issues Related to Libtool`s Use</h2><p>8.3.9.1 Error: <code>required file </code>./ltmain.sh’ not found`<br>………………………………………………</p>
+<p>Libtool comes with a tool called <code>libtoolize</code> that will install<br>libtool<code>s supporting files into a package.  Running this command will install </code>ltmain.sh<code>.  You should execute it before </code>aclocal<code>and</code>automake`.</p>
+<p>   People upgrading old packages to newer autotools are likely to face<br>this issue because older Automake versions used to call <code>libtoolize</code>.<br>Therefore old build scripts do not call <code>libtoolize</code>.</p>
+<p>   Since Automake 1.6, it has been decided that running <code>libtoolize</code> was<br>none of Automake<code>s business.  Instead, that functionality has been moved into the </code>autoreconf<code>command (*note Using</code>autoreconf<code>: (autoconf)autoreconf Invocation.).  If you do not want to remember what to run and when, just learn the </code>autoreconf<code>command.  Hopefully, replacing existing</code>bootstrap<code>or</code>autogen.sh<code>scripts by a call to</code>autoreconf` should also free you from any similar incompatible change<br>in the future.</p>
+<h2 id="8-3-9-2-Objects-created-with-both-libtool-and-without"><a href="#8-3-9-2-Objects-created-with-both-libtool-and-without" class="headerlink" title="8.3.9.2 Objects created with both libtool and without"></a>8.3.9.2 Objects <code>created with both libtool and without</code></h2><p>……………………………………………….</p>
+<p>Sometimes, the same source file is used both to build a libtool library<br>and to build another non-libtool target (be it a program or another<br>library).</p>
+<p>   Let<code>s consider the following </code>Makefile.am`.</p>
+<pre><code> bin_PROGRAMS = prog
+ prog_SOURCES = prog.c foo.c ...
+
+ lib_LTLIBRARIES = libfoo.la
+ libfoo_la_SOURCES = foo.c ...
+</code></pre>
+<p>(In this trivial case the issue could be avoided by linking <code>libfoo.la</code><br>with <code>prog</code> instead of listing <code>foo.c</code> in <code>prog_SOURCES</code>.  But let<code>s assume we really want to keep </code>prog<code>and</code>libfoo.la` separate.)</p>
+<p>   Technically, it means that we should build <code>foo.$(OBJEXT)</code> for<br><code>prog</code>, and <code>foo.lo</code> for <code>libfoo.la</code>.  The problem is that in the course<br>of creating <code>foo.lo</code>, libtool may erase (or replace) <code>foo.$(OBJEXT)</code>,<br>and this cannot be avoided.</p>
+<p>   Therefore, when Automake detects this situation it will complain with<br>a message such as<br>​     object ‘foo.$(OBJEXT)’ created both with libtool and without</p>
+<p>   A workaround for this issue is to ensure that these two objects get<br>different basenames.  As explained in *note Renamed Objects::, this<br>happens automatically when per-targets flags are used.</p>
+<pre><code> bin_PROGRAMS = prog
+ prog_SOURCES = prog.c foo.c ...
+ prog_CFLAGS = $(AM_CFLAGS)
+
+ lib_LTLIBRARIES = libfoo.la
+ libfoo_la_SOURCES = foo.c ...
+</code></pre>
+<p>Adding <code>prog_CFLAGS = $(AM_CFLAGS)</code> is almost a no-op, because when the<br><code>prog_CFLAGS</code> is defined, it is used instead of <code>AM_CFLAGS</code>.  However as<br>a side effect it will cause <code>prog.c</code> and <code>foo.c</code> to be compiled as<br><code>prog-prog.$(OBJEXT)</code> and <code>prog-foo.$(OBJEXT)</code>, which solves the issue.</p>
+<h1 id="8-4-Program-and-Library-Variables"><a href="#8-4-Program-and-Library-Variables" class="headerlink" title="8.4 Program and Library Variables"></a>8.4 Program and Library Variables</h1><p>Associated with each program is a collection of variables that can be<br>used to modify how that program is built.  There is a similar list of<br>such variables for each library.  The canonical name of the program (or<br>library) is used as a base for naming these variables.</p>
+<p>   In the list below, we use the name “maude” to refer to the program or<br>library.  In your <code>Makefile.am</code> you would replace this with the<br>canonical name of your program.  This list also refers to “maude” as a<br>program, but in general the same rules apply for both static and dynamic<br>libraries; the documentation below notes situations where programs and<br>libraries differ.</p>
+<p><code>maude_SOURCES</code><br>​     This variable, if it exists, lists all the source files that are<br>​     compiled to build the program.  These files are added to the<br>​     distribution by default.  When building the program, Automake will<br>​     cause each source file to be compiled to a single <code>.o</code> file (or<br>​     <code>.lo</code> when using libtool).  Normally these object files are named<br>​     after the source file, but other factors can change this.  If a<br>​     file in the <code>_SOURCES</code> variable has an unrecognized extension,<br>​     Automake will do one of two things with it.  If a suffix rule<br>​     exists for turning files with the unrecognized extension into <code>.o</code><br>​     files, then <code>automake</code> will treat this file as it will any other<br>​     source file (*note Support for Other Languages::).  Otherwise, the<br>​     file will be ignored as though it were a header file.</p>
+<pre><code> The prefixes `dist_` and `nodist_` can be used to control whether
+ files listed in a `_SOURCES` variable are distributed.  `dist_` is
+ redundant, as sources are distributed by default, but it can be
+ specified for clarity if desired.
+
+ It is possible to have both `dist_` and `nodist_` variants of a
+ given `_SOURCES` variable at once; this lets you easily distribute
+ some files and not others, for instance:
+
+      nodist_maude_SOURCES = nodist.c
+      dist_maude_SOURCES = dist-me.c
+
+ By default the output file (on Unix systems, the `.o` file) will be
+ put into the current build directory.  However, if the option
+ `subdir-objects` is in effect in the current directory then the
+ `.o` file will be put into the subdirectory named after the source
+ file.  For instance, with `subdir-objects` enabled,
+ `sub/dir/file.c` will be compiled to `sub/dir/file.o`.  Some people
+ prefer this mode of operation.  You can specify `subdir-objects` in
+ `AUTOMAKE_OPTIONS` (*note Options::).
+</code></pre>
+<p><code>EXTRA_maude_SOURCES</code><br>​     Automake needs to know the list of files you intend to compile<br>​     <em>statically</em>.  For one thing, this is the only way Automake has of<br>​     knowing what sort of language support a given <code>Makefile.in</code><br>​     requires.  (1) This means that, for example, you can<code>t put a ​     configure substitution like </code>@my_sources@<code>into a</code>_SOURCES<code>​     variable.  If you intend to conditionally compile source files and ​     use</code>configure<code>to substitute the appropriate object names into, ​     e.g.,</code><em>LDADD<code>(see below), then you should list the corresponding ​     source files in the</code>EXTRA</em>` variable.</p>
+<pre><code> This variable also supports `dist_` and `nodist_` prefixes.  For
+ instance, `nodist_EXTRA_maude_SOURCES` would list extra sources
+ that may need to be built, but should not be distributed.
+</code></pre>
+<p><code>maude_AR</code><br>​     A static library is created by default by invoking <code>$(AR) ​     $(ARFLAGS)</code> followed by the name of the library and then the<br>​     objects being put into the library.  You can override this by<br>​     setting the <code>_AR</code> variable.  This is usually used with C++; some<br>​     C++ compilers require a special invocation in order to instantiate<br>​     all the templates that should go into a library.  For instance, the<br>​     SGI C++ compiler likes this variable set like so:<br>​          libmaude_a_AR = $(CXX) -ar -o</p>
+<p><code>maude_LIBADD</code><br>​     Extra objects can be added to a <em>library</em> using the <code>_LIBADD</code><br>​     variable.  For instance, this should be used for objects determined<br>​     by <code>configure</code> (*note A Library::).</p>
+<pre><code> In the case of libtool libraries, `maude_LIBADD` can also refer to
+ other libtool libraries.
+</code></pre>
+<p><code>maude_LDADD</code><br>​     Extra objects (<code>*.$(OBJEXT)</code>) and libraries (<code>*.a</code>, <code>*.la</code>) can be<br>​     added to a <em>program</em> by listing them in the <code>_LDADD</code> variable.  For<br>​     instance, this should be used for objects determined by <code>configure</code><br>​     (*note Linking::).</p>
+<pre><code> `_LDADD` and `_LIBADD` are inappropriate for passing
+ program-specific linker flags (except for `-l`, `-L`, `-dlopen` and
+ `-dlpreopen`).  Use the `_LDFLAGS` variable for this purpose.
+
+ For instance, if your `configure.ac` uses `AC_PATH_XTRA`, you could
+ link your program against the X libraries like so:
+
+      maude_LDADD = $(X_PRE_LIBS) $(X_LIBS) $(X_EXTRA_LIBS)
+
+ We recommend that you use `-l` and `-L` only when referring to
+ third-party libraries, and give the explicit file names of any
+ library built by your package.  Doing so will ensure that
+ `maude_DEPENDENCIES` (see below) is correctly defined by default.
+</code></pre>
+<p><code>maude_LDFLAGS</code><br>​     This variable is used to pass extra flags to the link step of a<br>​     program or a shared library.  It overrides the <code>AM_LDFLAGS</code><br>​     variable.</p>
+<p><code>maude_LIBTOOLFLAGS</code><br>​     This variable is used to pass extra options to <code>libtool</code>.  It<br>​     overrides the <code>AM_LIBTOOLFLAGS</code> variable.  These options are output<br>​     before <code>libtool``s </code>–mode=MODE` option, so they should not be<br>​     mode-specific options (those belong to the compiler or linker<br>​     flags).  *Note Libtool Flags::.</p>
+<p><code>maude_DEPENDENCIES</code><br><code>EXTRA_maude_DEPENDENCIES</code><br>​     It is also occasionally useful to have a target (program or<br>​     library) depend on some other file that is not actually part of<br>​     that target.  This can be done using the <code>_DEPENDENCIES</code> variable.<br>​     Each target depends on the contents of such a variable, but no<br>​     further interpretation is done.</p>
+<pre><code> Since these dependencies are associated to the link rule used to
+ create the programs they should normally list files used by the
+ link command.  That is `*.$(OBJEXT)`, `*.a`, or `*.la` files for
+ programs; `*.lo` and `*.la` files for Libtool libraries; and
+ `*.$(OBJEXT)` files for static libraries.  In rare cases you may
+ need to add other kinds of files such as linker scripts, but
+ _listing a source file in `_DEPENDENCIES` is wrong_.  If some
+ source file needs to be built before all the components of a
+ program are built, consider using the `BUILT_SOURCES` variable
+ (*note Sources::).
+
+ If `_DEPENDENCIES` is not supplied, it is computed by Automake.
+ The automatically-assigned value is the contents of `_LDADD` or
+ `_LIBADD`, with most configure substitutions, `-l`, `-L`, `-dlopen`
+ and `-dlpreopen` options removed.  The configure substitutions that
+ are left in are only `$(LIBOBJS)` and `$(ALLOCA)`; these are left
+ because it is known that they will not cause an invalid value for
+ `_DEPENDENCIES` to be generated.
+
+ `_DEPENDENCIES` is more likely used to perform conditional
+ compilation using an `AC_SUBST` variable that contains a list of
+ objects.  *Note Conditional Sources::, and *note Conditional
+ Libtool Sources::.
+
+ The `EXTRA_*_DEPENDENCIES` variable may be useful for cases where
+ you merely want to augment the `automake`-generated `_DEPENDENCIES`
+ variable rather than replacing it.
+</code></pre>
+<p><code>maude_LINK</code><br>​     You can override the linker on a per-program basis.  By default the<br>​     linker is chosen according to the languages used by the program.<br>​     For instance, a program that includes C++ source code would use the<br>​     C++ compiler to link.  The <code>_LINK</code> variable must hold the name of a<br>​     command that can be passed all the <code>.o</code> file names and libraries to<br>​     link against as arguments.  Note that the name of the underlying<br>​     program is <em>not</em> passed to <code>_LINK</code>; typically one uses <code>$@</code>:</p>
+<pre><code>      maude_LINK = $(CCLD) -magic -o $@
+
+ If a `_LINK` variable is not supplied, it may still be generated
+ and used by Automake due to the use of per-target link flags such
+ as `_CFLAGS`, `_LDFLAGS` or `_LIBTOOLFLAGS`, in cases where they
+ apply.
+</code></pre>
+<p><code>maude_CCASFLAGS</code><br><code>maude_CFLAGS</code><br><code>maude_CPPFLAGS</code><br><code>maude_CXXFLAGS</code><br><code>maude_FFLAGS</code><br><code>maude_GCJFLAGS</code><br><code>maude_LFLAGS</code><br><code>maude_OBJCFLAGS</code><br><code>maude_OBJCXXFLAGS</code><br><code>maude_RFLAGS</code><br><code>maude_UPCFLAGS</code><br><code>maude_YFLAGS</code><br>​     Automake allows you to set compilation flags on a per-program (or<br>​     per-library) basis.  A single source file can be included in<br>​     several programs, and it will potentially be compiled with<br>​     different flags for each program.  This works for any language<br>​     directly supported by Automake.  These “per-target compilation<br>​     flags” are <code>_CCASFLAGS</code>, <code>_CFLAGS</code>, <code>_CPPFLAGS</code>, <code>_CXXFLAGS</code>,<br>​     <code>_FFLAGS</code>, <code>_GCJFLAGS</code>, <code>_LFLAGS</code>, <code>_OBJCFLAGS</code>, <code>_OBJCXXFLAGS</code>,<br>​     <code>_RFLAGS</code>, <code>_UPCFLAGS</code>, and <code>_YFLAGS</code>.</p>
+<pre><code> When using a per-target compilation flag, Automake will choose a
+ different name for the intermediate object files.  Ordinarily a
+ file like `sample.c` will be compiled to produce `sample.o`.
+ However, if the program`s `_CFLAGS` variable is set, then the
+ object file will be named, for instance, `maude-sample.o`.  (See
+ also *note Renamed Objects::).
+
+ In compilations with per-target flags, the ordinary `AM_` form of
+ the flags variable is _not_ automatically included in the
+ compilation (however, the user form of the variable _is_ included).
+ So for instance, if you want the hypothetical `maude` compilations
+ to also use the value of `AM_CFLAGS`, you would need to write:
+
+      maude_CFLAGS = ... your flags ... $(AM_CFLAGS)
+
+ *Note Flag Variables Ordering::, for more discussion about the
+ interaction between user variables, `AM_` shadow variables, and
+ per-target variables.
+</code></pre>
+<p><code>maude_SHORTNAME</code><br>​     On some platforms the allowable file names are very short.  In<br>​     order to support these systems and per-target compilation flags at<br>​     the same time, Automake allows you to set a “short name” that will<br>​     influence how intermediate object files are named.  For instance,<br>​     in the following example,</p>
+<pre><code>      bin_PROGRAMS = maude
+      maude_CPPFLAGS = -DSOMEFLAG
+      maude_SHORTNAME = m
+      maude_SOURCES = sample.c ...
+
+ the object file would be named `m-sample.o` rather than
+ `maude-sample.o`.
+
+ This facility is rarely needed in practice, and we recommend
+ avoiding it until you find it is required.
+</code></pre>
+<p>   (1) There are other, more obscure reasons for this limitation as<br>well.</p>
+<h1 id="8-5-Default-SOURCES"><a href="#8-5-Default-SOURCES" class="headerlink" title="8.5 Default _SOURCES"></a>8.5 Default <code>_SOURCES</code></h1><p><code>_SOURCES</code> variables are used to specify source files of programs (*note<br>A Program::), libraries (*note A Library::), and Libtool libraries<br>(*note A Shared Library::).</p>
+<p>   When no such variable is specified for a target, Automake will define<br>one itself.  The default is to compile a single C file whose base name<br>is the name of the target itself, with any extension replaced by<br><code>AM_DEFAULT_SOURCE_EXT</code>, which defaults to <code>.c</code>.</p>
+<p>   For example if you have the following somewhere in your <code>Makefile.am</code><br>with no corresponding <code>libfoo_a_SOURCES</code>:</p>
+<pre><code> lib_LIBRARIES = libfoo.a sub/libc++.a
+</code></pre>
+<p><code>libfoo.a</code> will be built using a default source file named <code>libfoo.c</code>,<br>and <code>sub/libc++.a</code> will be built from <code>sub/libc++.c</code>.  (In older<br>versions <code>sub/libc++.a</code> would be built from <code>sub_libc___a.c</code>, i.e., the<br>default source was the canonized name of the target, with <code>.c</code> appended.<br>We believe the new behavior is more sensible, but for backward<br>compatibility <code>automake</code> will use the old name if a file or a rule with<br>that name exists and <code>AM_DEFAULT_SOURCE_EXT</code> is not used.)</p>
+<p>   Default sources are mainly useful in test suites, when building many<br>test programs each from a single source.  For instance, in</p>
+<pre><code> check_PROGRAMS = test1 test2 test3
+ AM_DEFAULT_SOURCE_EXT = .cpp
+</code></pre>
+<p><code>test1</code>, <code>test2</code>, and <code>test3</code> will be built from <code>test1.cpp</code>,<br><code>test2.cpp</code>, and <code>test3.cpp</code>.  Without the last line, they will be built<br>from <code>test1.c</code>, <code>test2.c</code>, and <code>test3.c</code>.</p>
+<p>   Another case where this is convenient is building many Libtool<br>modules (<code>moduleN.la</code>), each defined in its own file (<code>moduleN.c</code>).</p>
+<pre><code> AM_LDFLAGS = -module
+ lib_LTLIBRARIES = module1.la module2.la module3.la
+</code></pre>
+<p>   Finally, there is one situation where this default source computation<br>needs to be avoided: when a target should not be built from sources.  We<br>already saw such an example in *note true::; this happens when all the<br>constituents of a target have already been compiled and just need to be<br>combined using a <code>_LDADD</code> variable.  Then it is necessary to define an<br>empty <code>_SOURCES</code> variable, so that <code>automake</code> does not compute a<br>default.</p>
+<pre><code> bin_PROGRAMS = target
+ target_SOURCES =
+ target_LDADD = libmain.a libmisc.a
+</code></pre>
+<h1 id="8-6-Special-handling-for-LIBOBJS-and-ALLOCA"><a href="#8-6-Special-handling-for-LIBOBJS-and-ALLOCA" class="headerlink" title="8.6 Special handling for LIBOBJS and ALLOCA"></a>8.6 Special handling for <code>LIBOBJS</code> and <code>ALLOCA</code></h1><p>The <code>$(LIBOBJS)</code> and <code>$(ALLOCA)</code> variables list object files that should<br>be compiled into the project to provide an implementation for functions<br>that are missing or broken on the host system.  They are substituted by<br><code>configure</code>.</p>
+<p>   These variables are defined by Autoconf macros such as <code>AC_LIBOBJ</code>,<br><code>AC_REPLACE_FUNCS</code> (*note Generic Function Checks: (autoconf)Generic<br>Functions.), or <code>AC_FUNC_ALLOCA</code> (*note Particular Function Checks:<br>(autoconf)Particular Functions.).  Many other Autoconf macros call<br><code>AC_LIBOBJ</code> or <code>AC_REPLACE_FUNCS</code> to populate <code>$(LIBOBJS)</code>.</p>
+<p>   Using these variables is very similar to doing conditional<br>compilation using <code>AC_SUBST</code> variables, as described in *note<br>Conditional Sources::.  That is, when building a program, <code>$(LIBOBJS)</code><br>and <code>$(ALLOCA)</code> should be added to the associated <code>*_LDADD</code> variable, or<br>to the <code>*_LIBADD</code> variable when building a library.  However there is no<br>need to list the corresponding sources in <code>EXTRA_*_SOURCES</code> nor to<br>define <code>*_DEPENDENCIES</code>.  Automake automatically adds <code>$(LIBOBJS)</code> and<br><code>$(ALLOCA)</code> to the dependencies, and it will discover the list of<br>corresponding source files automatically (by tracing the invocations of<br>the <code>AC_LIBSOURCE</code> Autoconf macros).  If you have already defined<br><code>*_DEPENDENCIES</code> explicitly for an unrelated reason, then you either<br>need to add these variables manually, or use <code>EXTRA_*_DEPENDENCIES</code><br>instead of <code>*_DEPENDENCIES</code>.</p>
+<p>   These variables are usually used to build a portability library that<br>is linked with all the programs of the project.  We now review a sample<br>setup.  First, <code>configure.ac</code> contains some checks that affect either<br><code>LIBOBJS</code> or <code>ALLOCA</code>.</p>
+<pre><code> # configure.ac
+ ...
+ AC_CONFIG_LIBOBJ_DIR([lib])
+ ...
+ AC_FUNC_MALLOC             dnl May add malloc.$(OBJEXT) to LIBOBJS
+ AC_FUNC_MEMCMP             dnl May add memcmp.$(OBJEXT) to LIBOBJS
+ AC_REPLACE_FUNCS([strdup]) dnl May add strdup.$(OBJEXT) to LIBOBJS
+ AC_FUNC_ALLOCA             dnl May add alloca.$(OBJEXT) to ALLOCA
+ ...
+ AC_CONFIG_FILES([
+   lib/Makefile
+   src/Makefile
+ ])
+ AC_OUTPUT
+</code></pre>
+<p>   The <code>AC_CONFIG_LIBOBJ_DIR</code> tells Autoconf that the source files of<br>these object files are to be found in the <code>lib/</code> directory.  Automake<br>can also use this information, otherwise it expects the source files are<br>to be in the directory where the <code>$(LIBOBJS)</code> and <code>$(ALLOCA)</code> variables<br>are used.</p>
+<p>   The <code>lib/</code> directory should therefore contain <code>malloc.c</code>, <code>memcmp.c</code>,<br><code>strdup.c</code>, <code>alloca.c</code>.  Here is its <code>Makefile.am</code>:</p>
+<pre><code> # lib/Makefile.am
+
+ noinst_LIBRARIES = libcompat.a
+ libcompat_a_SOURCES =
+ libcompat_a_LIBADD = $(LIBOBJS) $(ALLOCA)
+</code></pre>
+<p>   The library can have any name, of course, and anyway it is not going<br>to be installed: it just holds the replacement versions of the missing<br>or broken functions so we can later link them in.  Many projects also<br>include extra functions, specific to the project, in that library: they<br>are simply added on the <code>_SOURCES</code> line.</p>
+<p>   There is a small trap here, though: <code>$(LIBOBJS)</code> and <code>$(ALLOCA)</code><br>might be empty, and building an empty library is not portable.  You<br>should ensure that there is always something to put in <code>libcompat.a</code>.<br>Most projects will also add some utility functions in that directory,<br>and list them in <code>libcompat_a_SOURCES</code>, so in practice <code>libcompat.a</code><br>cannot be empty.</p>
+<p>   Finally here is how this library could be used from the <code>src/</code><br>directory.</p>
+<pre><code> # src/Makefile.am
+
+ # Link all programs in this directory with libcompat.a
+ LDADD = ../lib/libcompat.a
+
+ bin_PROGRAMS = tool1 tool2 ...
+ tool1_SOURCES = ...
+ tool2_SOURCES = ...
+</code></pre>
+<p>   When option <code>subdir-objects</code> is not used, as in the above example,<br>the variables <code>$(LIBOBJS)</code> or <code>$(ALLOCA)</code> can only be used in the<br>directory where their sources lie.  E.g., here it would be wrong to use<br><code>$(LIBOBJS)</code> or <code>$(ALLOCA)</code> in <code>src/Makefile.am</code>.  However if both<br><code>subdir-objects</code> and <code>AC_CONFIG_LIBOBJ_DIR</code> are used, it is OK to use<br>these variables in other directories.  For instance <code>src/Makefile.am</code><br>could be changed as follows.</p>
+<pre><code> # src/Makefile.am
+
+ AUTOMAKE_OPTIONS = subdir-objects
+ LDADD = $(LIBOBJS) $(ALLOCA)
+
+ bin_PROGRAMS = tool1 tool2 ...
+ tool1_SOURCES = ...
+ tool2_SOURCES = ...
+</code></pre>
+<p>   Because <code>$(LIBOBJS)</code> and <code>$(ALLOCA)</code> contain object file names that<br>end with <code>.$(OBJEXT)</code>, they are not suitable for Libtool libraries<br>(where the expected object extension is <code>.lo</code>): <code>LTLIBOBJS</code> and<br><code>LTALLOCA</code> should be used instead.</p>
+<p>   <code>LTLIBOBJS</code> is defined automatically by Autoconf and should not be<br>defined by hand (as in the past), however at the time of writing<br><code>LTALLOCA</code> still needs to be defined from <code>ALLOCA</code> manually.  *Note<br><code>AC_LIBOBJ</code> vs. <code>LIBOBJS</code>: (autoconf)AC_LIBOBJ vs LIBOBJS.</p>
+<h1 id="8-7-Variables-used-when-building-a-program"><a href="#8-7-Variables-used-when-building-a-program" class="headerlink" title="8.7 Variables used when building a program"></a>8.7 Variables used when building a program</h1><p>Occasionally it is useful to know which <code>Makefile</code> variables Automake<br>uses for compilations, and in which order (*note Flag Variables<br>Ordering::); for instance, you might need to do your own compilation in<br>some special cases.</p>
+<p>   Some variables are inherited from Autoconf; these are <code>CC</code>, <code>CFLAGS</code>,<br><code>CPPFLAGS</code>, <code>DEFS</code>, <code>LDFLAGS</code>, and <code>LIBS</code>.</p>
+<p>   There are some additional variables that Automake defines on its own:</p>
+<p><code>AM_CPPFLAGS</code><br>​     The contents of this variable are passed to every compilation that<br>​     invokes the C preprocessor; it is a list of arguments to the<br>​     preprocessor.  For instance, <code>-I</code> and <code>-D</code> options should be listed<br>​     here.</p>
+<pre><code> Automake already provides some `-I` options automatically, in a
+ separate variable that is also passed to every compilation that
+ invokes the C preprocessor.  In particular it generates `-I.`,
+ `-I$(srcdir)`, and a `-I` pointing to the directory holding
+ `config.h` (if you`ve used `AC_CONFIG_HEADERS`).  You can disable
+ the default `-I` options using the `nostdinc` option.
+
+ When a file to be included is generated during the build and not
+ part of a distribution tarball, its location is under
+ `$(builddir)`, not under `$(srcdir)`.  This matters especially for
+ packages that use header files placed in sub-directories and want
+ to allow builds outside the source tree (*note VPATH Builds::).  In
+ that case we recommend to use a pair of `-I` options, such as,
+ e.g., `-Isome/subdir -I$(srcdir)/some/subdir` or
+ `-I$(top_builddir)/some/subdir -I$(top_srcdir)/some/subdir`.  Note
+ that the reference to the build tree should come before the
+ reference to the source tree, so that accidentally leftover
+ generated files in the source directory are ignored.
+
+ `AM_CPPFLAGS` is ignored in preference to a per-executable (or
+ per-library) `_CPPFLAGS` variable if it is defined.
+</code></pre>
+<p><code>INCLUDES</code><br>​     This does the same job as <code>AM_CPPFLAGS</code> (or any per-target<br>​     <code>_CPPFLAGS</code> variable if it is used).  It is an older name for the<br>​     same functionality.  This variable is deprecated; we suggest using<br>​     <code>AM_CPPFLAGS</code> and per-target <code>_CPPFLAGS</code> instead.</p>
+<p><code>AM_CFLAGS</code><br>​     This is the variable the <code>Makefile.am</code> author can use to pass in<br>​     additional C compiler flags.  In some situations, this is not used,<br>​     in preference to the per-executable (or per-library) <code>_CFLAGS</code>.</p>
+<p><code>COMPILE</code><br>​     This is the command used to actually compile a C source file.  The<br>​     file name is appended to form the complete command line.</p>
+<p><code>AM_LDFLAGS</code><br>​     This is the variable the <code>Makefile.am</code> author can use to pass in<br>​     additional linker flags.  In some situations, this is not used, in<br>​     preference to the per-executable (or per-library) <code>_LDFLAGS</code>.</p>
+<p><code>LINK</code><br>​     This is the command used to actually link a C program.  It already<br>​     includes <code>-o $@</code> and the usual variable references (for instance,<br>​     <code>CFLAGS</code>); it takes as “arguments” the names of the object files<br>​     and libraries to link in.  This variable is not used when the<br>​     linker is overridden with a per-target <code>_LINK</code> variable or<br>​     per-target flags cause Automake to define such a <code>_LINK</code> variable.</p>
+<h1 id="8-8-Yacc-and-Lex-support"><a href="#8-8-Yacc-and-Lex-support" class="headerlink" title="8.8 Yacc and Lex support"></a>8.8 Yacc and Lex support</h1><p>Automake has somewhat idiosyncratic support for Yacc and Lex.</p>
+<p>   Automake assumes that the <code>.c</code> file generated by <code>yacc</code> (or <code>lex</code>)<br>should be named using the basename of the input file.  That is, for a<br>yacc source file <code>foo.y</code>, Automake will cause the intermediate file to<br>be named <code>foo.c</code> (as opposed to <code>y.tab.c</code>, which is more traditional).</p>
+<p>   The extension of a yacc source file is used to determine the<br>extension of the resulting C or C++ source and header files.  Note that<br>header files are generated only when the <code>-d</code> Yacc option is used; see<br>below for more information about this flag, and how to specify it.<br>Files with the extension <code>.y</code> will thus be turned into <code>.c</code> sources and<br><code>.h</code> headers; likewise, <code>.yy</code> will become <code>.cc</code> and <code>.hh</code>, <code>.y++</code> will<br>become <code>c++</code> and <code>h++</code>, <code>.yxx</code> will become <code>.cxx</code> and <code>.hxx</code>, and <code>.ypp</code><br>will become <code>.cpp</code> and <code>.hpp</code>.</p>
+<p>   Similarly, lex source files can be used to generate C or C++; the<br>extensions <code>.l</code>, <code>.ll</code>, <code>.l++</code>, <code>.lxx</code>, and <code>.lpp</code> are recognized.</p>
+<p>   You should never explicitly mention the intermediate (C or C++) file<br>in any <code>SOURCES</code> variable; only list the source file.</p>
+<p>   The intermediate files generated by <code>yacc</code> (or <code>lex</code>) will be<br>included in any distribution that is made.  That way the user doesn<code>t need to have </code>yacc<code>or</code>lex`.</p>
+<p>   If a <code>yacc</code> source file is seen, then your <code>configure.ac</code> must define<br>the variable <code>YACC</code>.  This is most easily done by invoking the macro<br><code>AC_PROG_YACC</code> (*note Particular Program Checks: (autoconf)Particular<br>Programs.).</p>
+<p>   When <code>yacc</code> is invoked, it is passed <code>AM_YFLAGS</code> and <code>YFLAGS</code>.  The<br>latter is a user variable and the former is intended for the<br><code>Makefile.am</code> author.</p>
+<p>   <code>AM_YFLAGS</code> is usually used to pass the <code>-d</code> option to <code>yacc</code>.<br>Automake knows what this means and will automatically adjust its rules<br>to update and distribute the header file built by <code>yacc -d</code>(1).  What<br>Automake cannot guess, though, is where this header will be used: it is<br>up to you to ensure the header gets built before it is first used.<br>Typically this is necessary in order for dependency tracking to work<br>when the header is included by another file.  The common solution is<br>listing the header file in <code>BUILT_SOURCES</code> (*note Sources::) as follows.</p>
+<pre><code> BUILT_SOURCES = parser.h
+ AM_YFLAGS = -d
+ bin_PROGRAMS = foo
+ foo_SOURCES = ... parser.y ...
+</code></pre>
+<p>   If a <code>lex</code> source file is seen, then your <code>configure.ac</code> must define<br>the variable <code>LEX</code>.  You can use <code>AC_PROG_LEX</code> to do this (*note<br>Particular Program Checks: (autoconf)Particular Programs.), but using<br><code>AM_PROG_LEX</code> macro (*note Macros::) is recommended.</p>
+<p>   When <code>lex</code> is invoked, it is passed <code>AM_LFLAGS</code> and <code>LFLAGS</code>.  The<br>latter is a user variable and the former is intended for the<br><code>Makefile.am</code> author.</p>
+<p>   When <code>AM_MAINTAINER_MODE</code> (*note maintainer-mode::) is used, the<br>rebuild rule for distributed Yacc and Lex sources are only used when<br><code>maintainer-mode</code> is enabled, or when the files have been erased.</p>
+<p>   When <code>lex</code> or <code>yacc</code> sources are used, <code>automake -a</code> automatically<br>installs an auxiliary program called <code>ylwrap</code> in your package (*note<br>Auxiliary Programs::).  This program is used by the build rules to<br>rename the output of these tools, and makes it possible to include<br>multiple <code>yacc</code> (or <code>lex</code>) source files in a single directory.  (This is<br>necessary because yacc<code>s output file name is fixed, and a parallel make could conceivably invoke more than one instance of </code>yacc`<br>simultaneously.)</p>
+<p>   For <code>yacc</code>, simply managing locking is insufficient.  The output of<br><code>yacc</code> always uses the same symbol names internally, so it isn<code>t possible to link two </code>yacc` parsers into the same executable.</p>
+<p>   We recommend using the following renaming hack used in <code>gdb</code>:<br>​     #define yymaxdepth c_maxdepth<br>​     #define yyparse c_parse<br>​     #define yylex   c_lex<br>​     #define yyerror c_error<br>​     #define yylval  c_lval<br>​     #define yychar  c_char<br>​     #define yydebug c_debug<br>​     #define yypact  c_pact<br>​     #define yyr1    c_r1<br>​     #define yyr2    c_r2<br>​     #define yydef   c_def<br>​     #define yychk   c_chk<br>​     #define yypgo   c_pgo<br>​     #define yyact   c_act<br>​     #define yyexca  c_exca<br>​     #define yyerrflag c_errflag<br>​     #define yynerrs c_nerrs<br>​     #define yyps    c_ps<br>​     #define yypv    c_pv<br>​     #define yys     c_s<br>​     #define yy_yys  c_yys<br>​     #define yystate c_state<br>​     #define yytmp   c_tmp<br>​     #define yyv     c_v<br>​     #define yy_yyv  c_yyv<br>​     #define yyval   c_val<br>​     #define yylloc  c_lloc<br>​     #define yyreds  c_reds<br>​     #define yytoks  c_toks<br>​     #define yylhs   c_yylhs<br>​     #define yylen   c_yylen<br>​     #define yydefred c_yydefred<br>​     #define yydgoto  c_yydgoto<br>​     #define yysindex c_yysindex<br>​     #define yyrindex c_yyrindex<br>​     #define yygindex c_yygindex<br>​     #define yytable  c_yytable<br>​     #define yycheck  c_yycheck<br>​     #define yyname   c_yyname<br>​     #define yyrule   c_yyrule</p>
+<p>   For each define, replace the <code>c_</code> prefix with whatever you like.<br>These defines work for <code>bison</code>, <code>byacc</code>, and traditional <code>yacc</code>s.  If<br>you find a parser generator that uses a symbol not covered here, please<br>report the new name so it can be added to the list.</p>
+<p>   (1) Please note that <code>automake</code> recognizes <code>-d</code> in <code>AM_YFLAGS</code> only<br>if it is not clustered with other options; for example, it won<code>t be recognized if </code>AM_YFLAGS<code>is</code>-dt<code>, but it will be if </code>AM_YFLAGS<code>is</code>-d<br>-t<code>or</code>-t -d`.</p>
+<h1 id="8-9-C-Support"><a href="#8-9-C-Support" class="headerlink" title="8.9 C++ Support"></a>8.9 C++ Support</h1><p>Automake includes full support for C++.</p>
+<p>   Any package including C++ code must define the output variable <code>CXX</code><br>in <code>configure.ac</code>; the simplest way to do this is to use the<br><code>AC_PROG_CXX</code> macro (*note Particular Program Checks:<br>(autoconf)Particular Programs.).</p>
+<p>   A few additional variables are defined when a C++ source file is<br>seen:</p>
+<p><code>CXX</code><br>​     The name of the C++ compiler.</p>
+<p><code>CXXFLAGS</code><br>​     Any flags to pass to the C++ compiler.</p>
+<p><code>AM_CXXFLAGS</code><br>​     The maintainer<code>s variant of </code>CXXFLAGS`.</p>
+<p><code>CXXCOMPILE</code><br>​     The command used to actually compile a C++ source file.  The file<br>​     name is appended to form the complete command line.</p>
+<p><code>CXXLINK</code><br>​     The command used to actually link a C++ program.</p>
+<h1 id="8-10-Objective-C-Support"><a href="#8-10-Objective-C-Support" class="headerlink" title="8.10 Objective C Support"></a>8.10 Objective C Support</h1><p>Automake includes some support for Objective C.</p>
+<p>   Any package including Objective C code must define the output<br>variable <code>OBJC</code> in <code>configure.ac</code>; the simplest way to do this is to use<br>the <code>AC_PROG_OBJC</code> macro (*note Particular Program Checks:<br>(autoconf)Particular Programs.).</p>
+<p>   A few additional variables are defined when an Objective C source<br>file is seen:</p>
+<p><code>OBJC</code><br>​     The name of the Objective C compiler.</p>
+<p><code>OBJCFLAGS</code><br>​     Any flags to pass to the Objective C compiler.</p>
+<p><code>AM_OBJCFLAGS</code><br>​     The maintainer<code>s variant of </code>OBJCFLAGS`.</p>
+<p><code>OBJCCOMPILE</code><br>​     The command used to actually compile an Objective C source file.<br>​     The file name is appended to form the complete command line.</p>
+<p><code>OBJCLINK</code><br>​     The command used to actually link an Objective C program.</p>
+<h1 id="8-11-Objective-C-Support"><a href="#8-11-Objective-C-Support" class="headerlink" title="8.11 Objective C++ Support"></a>8.11 Objective C++ Support</h1><p>Automake includes some support for Objective C++.</p>
+<p>   Any package including Objective C++ code must define the output<br>variable <code>OBJCXX</code> in <code>configure.ac</code>; the simplest way to do this is to<br>use the <code>AC_PROG_OBJCXX</code> macro (*note Particular Program Checks:<br>(autoconf)Particular Programs.).</p>
+<p>   A few additional variables are defined when an Objective C++ source<br>file is seen:</p>
+<p><code>OBJCXX</code><br>​     The name of the Objective C++ compiler.</p>
+<p><code>OBJCXXFLAGS</code><br>​     Any flags to pass to the Objective C++ compiler.</p>
+<p><code>AM_OBJCXXFLAGS</code><br>​     The maintainer<code>s variant of </code>OBJCXXFLAGS`.</p>
+<p><code>OBJCXXCOMPILE</code><br>​     The command used to actually compile an Objective C++ source file.<br>​     The file name is appended to form the complete command line.</p>
+<p><code>OBJCXXLINK</code><br>​     The command used to actually link an Objective C++ program.</p>
+<h1 id="8-12-Unified-Parallel-C-Support"><a href="#8-12-Unified-Parallel-C-Support" class="headerlink" title="8.12 Unified Parallel C Support"></a>8.12 Unified Parallel C Support</h1><p>Automake includes some support for Unified Parallel C.</p>
+<p>   Any package including Unified Parallel C code must define the output<br>variable <code>UPC</code> in <code>configure.ac</code>; the simplest way to do this is to use<br>the <code>AM_PROG_UPC</code> macro (*note Public Macros::).</p>
+<p>   A few additional variables are defined when a Unified Parallel C<br>source file is seen:</p>
+<p><code>UPC</code><br>​     The name of the Unified Parallel C compiler.</p>
+<p><code>UPCFLAGS</code><br>​     Any flags to pass to the Unified Parallel C compiler.</p>
+<p><code>AM_UPCFLAGS</code><br>​     The maintainer<code>s variant of </code>UPCFLAGS`.</p>
+<p><code>UPCCOMPILE</code><br>​     The command used to actually compile a Unified Parallel C source<br>​     file.  The file name is appended to form the complete command line.</p>
+<p><code>UPCLINK</code><br>​     The command used to actually link a Unified Parallel C program.</p>
+<h1 id="8-13-Assembly-Support"><a href="#8-13-Assembly-Support" class="headerlink" title="8.13 Assembly Support"></a>8.13 Assembly Support</h1><p>Automake includes some support for assembly code.  There are two forms<br>of assembler files: normal (<code>*.s</code>) and preprocessed by <code>CPP</code> (<code>*.S</code> or<br><code>*.sx</code>).</p>
+<p>   The variable <code>CCAS</code> holds the name of the compiler used to build<br>assembly code.  This compiler must work a bit like a C compiler; in<br>particular it must accept <code>-c</code> and <code>-o</code>.  The values of <code>CCASFLAGS</code> and<br><code>AM_CCASFLAGS</code> (or its per-target definition) is passed to the<br>compilation.  For preprocessed files, <code>DEFS</code>, <code>DEFAULT_INCLUDES</code>,<br><code>INCLUDES</code>, <code>CPPFLAGS</code> and <code>AM_CPPFLAGS</code> are also used.</p>
+<p>   The autoconf macro <code>AM_PROG_AS</code> will define <code>CCAS</code> and <code>CCASFLAGS</code><br>for you (unless they are already set, it simply sets <code>CCAS</code> to the C<br>compiler and <code>CCASFLAGS</code> to the C compiler flags), but you are free to<br>define these variables by other means.</p>
+<p>   Only the suffixes <code>.s</code>, <code>.S</code>, and <code>.sx</code> are recognized by <code>automake</code><br>as being files containing assembly code.</p>
+<h1 id="8-14-Fortran-77-Support"><a href="#8-14-Fortran-77-Support" class="headerlink" title="8.14 Fortran 77 Support"></a>8.14 Fortran 77 Support</h1><p>Automake includes full support for Fortran 77.</p>
+<p>   Any package including Fortran 77 code must define the output variable<br><code>F77</code> in <code>configure.ac</code>; the simplest way to do this is to use the<br><code>AC_PROG_F77</code> macro (*note Particular Program Checks:<br>(autoconf)Particular Programs.).</p>
+<p>   A few additional variables are defined when a Fortran 77 source file<br>is seen:</p>
+<p><code>F77</code><br>​     The name of the Fortran 77 compiler.</p>
+<p><code>FFLAGS</code><br>​     Any flags to pass to the Fortran 77 compiler.</p>
+<p><code>AM_FFLAGS</code><br>​     The maintainer<code>s variant of </code>FFLAGS`.</p>
+<p><code>RFLAGS</code><br>​     Any flags to pass to the Ratfor compiler.</p>
+<p><code>AM_RFLAGS</code><br>​     The maintainer<code>s variant of </code>RFLAGS`.</p>
+<p><code>F77COMPILE</code><br>​     The command used to actually compile a Fortran 77 source file.  The<br>​     file name is appended to form the complete command line.</p>
+<p><code>FLINK</code><br>​     The command used to actually link a pure Fortran 77 program or<br>​     shared library.</p>
+<p>   Automake can handle preprocessing Fortran 77 and Ratfor source files<br>in addition to compiling them(1).  Automake also contains some support<br>for creating programs and shared libraries that are a mixture of Fortran<br>77 and other languages (*note Mixing Fortran 77 With C and C++::).</p>
+<p>   These issues are covered in the following sections.</p>
+<p>   (1) Much, if not most, of the information in the following sections<br>pertaining to preprocessing Fortran 77 programs was taken almost<br>verbatim from *note Catalogue of Rules: (make)Catalogue of Rules.</p>
+<h2 id="8-14-1-Preprocessing-Fortran-77"><a href="#8-14-1-Preprocessing-Fortran-77" class="headerlink" title="8.14.1 Preprocessing Fortran 77"></a>8.14.1 Preprocessing Fortran 77</h2><p><code>N.f</code> is made automatically from <code>N.F</code> or <code>N.r</code>.  This rule runs just<br>the preprocessor to convert a preprocessable Fortran 77 or Ratfor source<br>file into a strict Fortran 77 source file.  The precise command used is<br>as follows:</p>
+<p><code>.F</code><br>​     <code>$(F77) -F $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) ​     $(AM_FFLAGS) $(FFLAGS)</code></p>
+<p><code>.r</code><br>​     <code>$(F77) -F $(AM_FFLAGS) $(FFLAGS) $(AM_RFLAGS) $(RFLAGS)</code></p>
+<h2 id="8-14-2-Compiling-Fortran-77-Files"><a href="#8-14-2-Compiling-Fortran-77-Files" class="headerlink" title="8.14.2 Compiling Fortran 77 Files"></a>8.14.2 Compiling Fortran 77 Files</h2><p><code>N.o</code> is made automatically from <code>N.f</code>, <code>N.F</code> or <code>N.r</code> by running the<br>Fortran 77 compiler.  The precise command used is as follows:</p>
+<p><code>.f</code><br>​     <code>$(F77) -c $(AM_FFLAGS) $(FFLAGS)</code></p>
+<p><code>.F</code><br>​     <code>$(F77) -c $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) ​     $(AM_FFLAGS) $(FFLAGS)</code></p>
+<p><code>.r</code><br>​     <code>$(F77) -c $(AM_FFLAGS) $(FFLAGS) $(AM_RFLAGS) $(RFLAGS)</code></p>
+<h2 id="8-14-3-Mixing-Fortran-77-With-C-and-C"><a href="#8-14-3-Mixing-Fortran-77-With-C-and-C" class="headerlink" title="8.14.3 Mixing Fortran 77 With C and C++"></a>8.14.3 Mixing Fortran 77 With C and C++</h2><p>Automake currently provides <em>limited</em> support for creating programs and<br>shared libraries that are a mixture of Fortran 77 and C and/or C++.<br>However, there are many other issues related to mixing Fortran 77 with<br>other languages that are <em>not</em> (currently) handled by Automake, but that<br>are handled by other packages(1).</p>
+<p>   Automake can help in two ways:</p>
+<ol>
+<li><p>Automatic selection of the linker depending on which combinations<br>of source code.</p>
+</li>
+<li><p>Automatic selection of the appropriate linker flags (e.g., <code>-L</code> and<br><code>-l</code>) to pass to the automatically selected linker in order to link<br>in the appropriate Fortran 77 intrinsic and run-time libraries.</p>
+<p>These extra Fortran 77 linker flags are supplied in the output<br>variable <code>FLIBS</code> by the <code>AC_F77_LIBRARY_LDFLAGS</code> Autoconf macro.<br>*Note Fortran Compiler Characteristics: (autoconf)Fortran Compiler.</p>
+</li>
+</ol>
+<p>   If Automake detects that a program or shared library (as mentioned in<br>some <code>_PROGRAMS</code> or <code>_LTLIBRARIES</code> primary) contains source code that is<br>a mixture of Fortran 77 and C and/or C++, then it requires that the<br>macro <code>AC_F77_LIBRARY_LDFLAGS</code> be called in <code>configure.ac</code>, and that<br>either <code>$(FLIBS)</code> appear in the appropriate <code>_LDADD</code> (for programs) or<br><code>_LIBADD</code> (for shared libraries) variables.  It is the responsibility of<br>the person writing the <code>Makefile.am</code> to make sure that <code>$(FLIBS)</code><br>appears in the appropriate <code>_LDADD</code> or <code>_LIBADD</code> variable.</p>
+<p>   For example, consider the following <code>Makefile.am</code>:</p>
+<pre><code> bin_PROGRAMS = foo
+ foo_SOURCES  = main.cc foo.f
+ foo_LDADD    = libfoo.la $(FLIBS)
+
+ pkglib_LTLIBRARIES = libfoo.la
+ libfoo_la_SOURCES  = bar.f baz.c zardoz.cc
+ libfoo_la_LIBADD   = $(FLIBS)
+</code></pre>
+<p>   In this case, Automake will insist that <code>AC_F77_LIBRARY_LDFLAGS</code> is<br>mentioned in <code>configure.ac</code>.  Also, if <code>$(FLIBS)</code> hadn<code>t been mentioned in </code>foo_LDADD<code>and</code>libfoo_la_LIBADD`, then Automake would have issued a<br>warning.</p>
+<p>   (1) For example, the cfortran package<br>(<a href="http://www-zeus.desy.de/~burow/cfortran/">http://www-zeus.desy.de/~burow/cfortran/</a>) addresses all of these<br>inter-language issues, and runs under nearly all Fortran 77, C and C++<br>compilers on nearly all platforms.  However, <code>cfortran</code> is not yet Free<br>Software, but it will be in the next major release.</p>
+<p>8.14.3.1 How the Linker is Chosen<br>……………………………</p>
+<p>When a program or library mixes several languages, Automake choose the<br>linker according to the following priorities.  (The names in parentheses<br>are the variables containing the link command.)</p>
+<ol>
+<li>Native Java (<code>GCJLINK</code>)</li>
+<li>Objective C++ (<code>OBJCXXLINK</code>)</li>
+<li>C++ (<code>CXXLINK</code>)</li>
+<li>Fortran 77 (<code>F77LINK</code>)</li>
+<li>Fortran (<code>FCLINK</code>)</li>
+<li>Objective C (<code>OBJCLINK</code>)</li>
+<li>Unified Parallel C (<code>UPCLINK</code>)</li>
+<li>C (<code>LINK</code>)</li>
+</ol>
+<p>   For example, if Fortran 77, C and C++ source code is compiled into a<br>program, then the C++ linker will be used.  In this case, if the C or<br>Fortran 77 linkers required any special libraries that weren<code>t included by the C++ linker, then they must be manually added to an </code>_LDADD<code>or</code>_LIBADD<code>variable by the user writing the</code>Makefile.am`.</p>
+<p>   Automake only looks at the file names listed in <code>_SOURCES</code> variables<br>to choose the linker, and defaults to the C linker.  Sometimes this is<br>inconvenient because you are linking against a library written in<br>another language and would like to set the linker more appropriately.<br>*Note Libtool Convenience Libraries::, for a trick with<br><code>nodist_EXTRA_..._SOURCES</code>.</p>
+<p>   A per-target <code>_LINK</code> variable will override the above selection.<br>Per-target link flags will cause Automake to write a per-target <code>_LINK</code><br>variable according to the language chosen as above.</p>
+<h2 id="8-15-Fortran-9x-Support"><a href="#8-15-Fortran-9x-Support" class="headerlink" title="8.15 Fortran 9x Support"></a>8.15 Fortran 9x Support</h2><p>=======================</p>
+<p>Automake includes support for Fortran 9x.</p>
+<p>   Any package including Fortran 9x code must define the output variable<br><code>FC</code> in <code>configure.ac</code>; the simplest way to do this is to use the<br><code>AC_PROG_FC</code> macro (*note Particular Program Checks:<br>(autoconf)Particular Programs.).</p>
+<p>   A few additional variables are defined when a Fortran 9x source file<br>is seen:</p>
+<p><code>FC</code><br>​     The name of the Fortran 9x compiler.</p>
+<p><code>FCFLAGS</code><br>​     Any flags to pass to the Fortran 9x compiler.</p>
+<p><code>AM_FCFLAGS</code><br>​     The maintainer<code>s variant of </code>FCFLAGS`.</p>
+<p><code>FCCOMPILE</code><br>​     The command used to actually compile a Fortran 9x source file.  The<br>​     file name is appended to form the complete command line.</p>
+<p><code>FCLINK</code><br>​     The command used to actually link a pure Fortran 9x program or<br>​     shared library.</p>
+<h3 id="8-15-1-Compiling-Fortran-9x-Files"><a href="#8-15-1-Compiling-Fortran-9x-Files" class="headerlink" title="8.15.1 Compiling Fortran 9x Files"></a>8.15.1 Compiling Fortran 9x Files</h3><hr>
+<p><code>FILE.o</code> is made automatically from <code>FILE.f90</code>, <code>FILE.f95</code>, <code>FILE.f03</code>,<br>or <code>FILE.f08</code> by running the Fortran 9x compiler.  The precise command<br>used is as follows:</p>
+<p><code>.f90</code><br>​     <code>$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c $(FCFLAGS_f90) $&lt;</code></p>
+<p><code>.f95</code><br>​     <code>$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c $(FCFLAGS_f95) $&lt;</code></p>
+<p><code>.f03</code><br>​     <code>$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c $(FCFLAGS_f03) $&lt;</code></p>
+<p><code>.f08</code><br>​     <code>$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c $(FCFLAGS_f08) $&lt;</code></p>
+<h1 id="8-16-Compiling-Java-sources-using-gcj"><a href="#8-16-Compiling-Java-sources-using-gcj" class="headerlink" title="8.16 Compiling Java sources using gcj"></a>8.16 Compiling Java sources using gcj</h1><p>Automake includes support for natively compiled Java, using <code>gcj</code>, the<br>Java front end to the GNU Compiler Collection (rudimentary support for<br>compiling Java to bytecode using the <code>javac</code> compiler is also present,<br><em>albeit deprecated</em>; *note Java::).</p>
+<p>   Any package including Java code to be compiled must define the output<br>variable <code>GCJ</code> in <code>configure.ac</code>; the variable <code>GCJFLAGS</code> must also be<br>defined somehow (either in <code>configure.ac</code> or <code>Makefile.am</code>).  The<br>simplest way to do this is to use the <code>AM_PROG_GCJ</code> macro.</p>
+<p>   By default, programs including Java source files are linked with<br><code>gcj</code>.</p>
+<p>   As always, the contents of <code>AM_GCJFLAGS</code> are passed to every<br>compilation invoking <code>gcj</code> (in its role as an ahead-of-time compiler,<br>when invoking it to create <code>.class</code> files, <code>AM_JAVACFLAGS</code> is used<br>instead).  If it is necessary to pass options to <code>gcj</code> from<br><code>Makefile.am</code>, this variable, and not the user variable <code>GCJFLAGS</code>,<br>should be used.</p>
+<p>   <code>gcj</code> can be used to compile <code>.java</code>, <code>.class</code>, <code>.zip</code>, or <code>.jar</code><br>files.</p>
+<p>   When linking, <code>gcj</code> requires that the main class be specified using<br>the <code>--main=</code> option.  The easiest way to do this is to use the<br><code>_LDFLAGS</code> variable for the program.</p>
+<h2 id="8-17-Vala-Support"><a href="#8-17-Vala-Support" class="headerlink" title="8.17 Vala Support"></a>8.17 Vala Support</h2><p>=================</p>
+<p>Automake provides initial support for Vala<br>(<a href="http://www.vala-project.org/">http://www.vala-project.org/</a>).  This requires valac version 0.7.0 or<br>later, and currently requires the user to use GNU <code>make</code>.</p>
+<pre><code> foo_SOURCES = foo.vala bar.vala zardoc.c
+</code></pre>
+<p>   Any <code>.vala</code> file listed in a <code>_SOURCES</code> variable will be compiled<br>into C code by the Vala compiler.  The generated <code>.c</code> files are<br>distributed.  The end user does not need to have a Vala compiler<br>installed.</p>
+<p>   Automake ships with an Autoconf macro called <code>AM_PROG_VALAC</code> that<br>will locate the Vala compiler and optionally check its version number.</p>
+<p> – Macro: AM_PROG_VALAC ([MINIMUM-VERSION], [ACTION-IF-FOUND],<br>​     [ACTION-IF-NOT-FOUND]) Search for a Vala compiler in <code>PATH</code>.  If it<br>​     is found, the variable <code>VALAC</code> is set to point to it (see below for<br>​     more details).  This macro takes three optional arguments.  The<br>​     first argument, if present, is the minimum version of the Vala<br>​     compiler required to compile this package.  If a compiler is found<br>​     and satisfies MINIMUM-VERSION, then ACTION-IF-FOUND is run (this<br>​     defaults to do nothing).  Otherwise, ACTION-IF-NOT-FOUND is run.<br>​     If ACTION-IF-NOT-FOUND is not specified, the default value is to<br>​     print a warning in case no compiler is found, or if a too-old<br>​     version of the compiler is found.</p>
+<p>   There are a few variables that are used when compiling Vala sources:</p>
+<p><code>VALAC</code><br>​     Absolute path to the Vala compiler, or simply <code>valac</code> if no<br>​     suitable compiler Vala could be found at configure runtime.</p>
+<p><code>VALAFLAGS</code><br>​     Additional arguments for the Vala compiler.</p>
+<p><code>AM_VALAFLAGS</code><br>​     The maintainer<code>s variant of </code>VALAFLAGS`.</p>
+<pre><code>      lib_LTLIBRARIES = libfoo.la
+      libfoo_la_SOURCES = foo.vala
+</code></pre>
+<p>   Note that currently, you cannot use per-target <code>*_VALAFLAGS</code> (*note<br>Renamed Objects::) to produce different C files from one Vala source<br>file.</p>
+<h1 id="8-18-Support-for-Other-Languages"><a href="#8-18-Support-for-Other-Languages" class="headerlink" title="8.18 Support for Other Languages"></a>8.18 Support for Other Languages</h1><p>Automake currently only includes full support for C, C++ (*note C++<br>Support::), Objective C (*note Objective C Support::), Objective C++<br>(*note Objective C++ Support::), Fortran 77 (*note Fortran 77<br>Support::), Fortran 9x (*note Fortran 9x Support::), and Java (*note<br>Java Support with gcj::).  There is only rudimentary support for other<br>languages, support for which will be improved based on user demand.</p>
+<p>   Some limited support for adding your own languages is available via<br>the suffix rule handling (*note Suffixes::).</p>
+<h1 id="8-19-Automatic-dependency-tracking"><a href="#8-19-Automatic-dependency-tracking" class="headerlink" title="8.19 Automatic dependency tracking"></a>8.19 Automatic dependency tracking</h1><p>As a developer it is often painful to continually update the<br><code>Makefile.am</code> whenever the include-file dependencies change in a<br>project.  Automake supplies a way to automatically track dependency<br>changes (*note Dependency Tracking::).</p>
+<p>   Automake always uses complete dependencies for a compilation,<br>including system headers.  Automake<code>s model is that dependency computation should be a side effect of the build.  To this end, dependencies are computed by running all compilations through a special wrapper program called </code>depcomp<code>.  </code>depcomp<code>understands how to coax many different C and C++ compilers into generating dependency information in the format it requires. </code>automake -a<code>will install</code>depcomp<code>into your source tree for you.  If</code>depcomp<code> can</code>t figure out<br>how to properly invoke your compiler, dependency tracking will simply be<br>disabled for your build.</p>
+<p>   Experience with earlier versions of Automake (*note Dependency<br>Tracking Evolution: (automake-history)Dependency Tracking Evolution.)<br>taught us that it is not reliable to generate dependencies only on the<br>maintainer`s system, as configurations vary too much.  So instead<br>Automake implements dependency tracking at build time.</p>
+<p>   Automatic dependency tracking can be suppressed by putting<br><code>no-dependencies</code> in the variable <code>AUTOMAKE_OPTIONS</code>, or passing<br><code>no-dependencies</code> as an argument to <code>AM_INIT_AUTOMAKE</code> (this should be<br>the preferred way).  Or, you can invoke <code>automake</code> with the <code>-i</code> option.<br>Dependency tracking is enabled by default.</p>
+<p>   The person building your package also can choose to disable<br>dependency tracking by configuring with <code>--disable-dependency-tracking</code>.</p>
+<h1 id="8-20-Support-for-executable-extensions"><a href="#8-20-Support-for-executable-extensions" class="headerlink" title="8.20 Support for executable extensions"></a>8.20 Support for executable extensions</h1><p>On some platforms, such as Windows, executables are expected to have an<br>extension such as <code>.exe</code>.  On these platforms, some compilers (GCC among<br>them) will automatically generate <code>foo.exe</code> when asked to generate<br><code>foo</code>.</p>
+<p>   Automake provides mostly-transparent support for this.  Unfortunately<br><em>mostly</em> doesn`t yet mean <em>fully</em>.  Until the English dictionary is<br>revised, you will have to assist Automake if your package must support<br>those platforms.</p>
+<p>   One thing you must be aware of is that, internally, Automake rewrites<br>something like this:</p>
+<pre><code> bin_PROGRAMS = liver
+</code></pre>
+<p>   to this:</p>
+<pre><code> bin_PROGRAMS = liver$(EXEEXT)
+</code></pre>
+<p>   The targets Automake generates are likewise given the <code>$(EXEEXT)</code><br>extension.</p>
+<p>   The variables <code>TESTS</code> and <code>XFAIL_TESTS</code> (*note Simple Tests::) are<br>also rewritten if they contain filenames that have been declared as<br>programs in the same <code>Makefile</code>.  (This is mostly useful when some<br>programs from <code>check_PROGRAMS</code> are listed in <code>TESTS</code>.)</p>
+<p>   However, Automake cannot apply this rewriting to <code>configure</code><br>substitutions.  This means that if you are conditionally building a<br>program using such a substitution, then your <code>configure.ac</code> must take<br>care to add <code>$(EXEEXT)</code> when constructing the output variable.</p>
+<p>   Sometimes maintainers like to write an explicit link rule for their<br>program.  Without executable extension support, this is easy—you simply<br>write a rule whose target is the name of the program.  However, when<br>executable extension support is enabled, you must instead add the<br><code>$(EXEEXT)</code> suffix.</p>
+<p>   This might be a nuisance for maintainers who know their package will<br>never run on a platform that has executable extensions.  For those<br>maintainers, the <code>no-exeext</code> option (*note Options::) will disable this<br>feature.  This works in a fairly ugly way; if <code>no-exeext</code> is seen, then<br>the presence of a rule for a target named <code>foo</code> in <code>Makefile.am</code> will<br>override an <code>automake</code>-generated rule for <code>foo$(EXEEXT)</code>.  Without the<br><code>no-exeext</code> option, this use will give a diagnostic.</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/autotools/" rel="tag"># autotools</a>
+              <a href="/tags/automake/" rel="tag"># automake</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/03/17/linux-automake-7-directories/" rel="prev" title="Linux Automake 7 目录">
+      <i class="fa fa-chevron-left"></i> Linux Automake 7 目录
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/20/linux-automake-15-support-for-test-suites/" rel="next" title="Linux Automake 15 Support for test suites">
+      Linux Automake 15 Support for test suites <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#8-Building-Programs-and-Libraries"><span class="nav-number">1.</span> <span class="nav-text">8 Building Programs and Libraries</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-Building-a-program"><span class="nav-number">1.1.</span> <span class="nav-text">8.1 Building a program</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-1-Defining-program-sources"><span class="nav-number">1.1.1.</span> <span class="nav-text">8.1.1 Defining program sources</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-2-Linking-the-program"><span class="nav-number">1.1.2.</span> <span class="nav-text">8.1.2 Linking the program</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-3-Conditional-compilation-of-sources"><span class="nav-number">1.1.3.</span> <span class="nav-text">8.1.3 Conditional compilation of sources</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-4-Conditional-compilation-of-programs"><span class="nav-number">1.1.4.</span> <span class="nav-text">8.1.4 Conditional compilation of programs</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-Building-a-library"><span class="nav-number">1.2.</span> <span class="nav-text">8.2 Building a library</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-Building-a-Shared-Library"><span class="nav-number">1.3.</span> <span class="nav-text">8.3 Building a Shared Library</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-1-The-Libtool-Concept"><span class="nav-number">1.3.1.</span> <span class="nav-text">8.3.1 The Libtool Concept</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-2-Building-Libtool-Libraries"><span class="nav-number">1.3.2.</span> <span class="nav-text">8.3.2 Building Libtool Libraries</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-3-Building-Libtool-Libraries-Conditionally"><span class="nav-number">1.3.3.</span> <span class="nav-text">8.3.3 Building Libtool Libraries Conditionally</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-4-Libtool-Libraries-with-Conditional-Sources"><span class="nav-number">1.3.4.</span> <span class="nav-text">8.3.4 Libtool Libraries with Conditional Sources</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-5-Libtool-Convenience-Libraries"><span class="nav-number">1.4.</span> <span class="nav-text">8.3.5 Libtool Convenience Libraries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-6-Libtool-Modules"><span class="nav-number">1.5.</span> <span class="nav-text">8.3.6 Libtool Modules</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-7-LIBADD-LDFLAGS-and-LIBTOOLFLAGS"><span class="nav-number">1.6.</span> <span class="nav-text">8.3.7 _LIBADD, _LDFLAGS, and _LIBTOOLFLAGS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-8-LTLIBOBJS-and-LTALLOCA"><span class="nav-number">1.7.</span> <span class="nav-text">8.3.8 LTLIBOBJS and LTALLOCA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-9-Common-Issues-Related-to-Libtool-96-s-Use"><span class="nav-number">1.8.</span> <span class="nav-text">8.3.9 Common Issues Related to Libtool&#96;s Use</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-9-2-Objects-created-with-both-libtool-and-without"><span class="nav-number">1.9.</span> <span class="nav-text">8.3.9.2 Objects created with both libtool and without</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-4-Program-and-Library-Variables"><span class="nav-number">2.</span> <span class="nav-text">8.4 Program and Library Variables</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-5-Default-SOURCES"><span class="nav-number">3.</span> <span class="nav-text">8.5 Default _SOURCES</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-6-Special-handling-for-LIBOBJS-and-ALLOCA"><span class="nav-number">4.</span> <span class="nav-text">8.6 Special handling for LIBOBJS and ALLOCA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-7-Variables-used-when-building-a-program"><span class="nav-number">5.</span> <span class="nav-text">8.7 Variables used when building a program</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-8-Yacc-and-Lex-support"><span class="nav-number">6.</span> <span class="nav-text">8.8 Yacc and Lex support</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-9-C-Support"><span class="nav-number">7.</span> <span class="nav-text">8.9 C++ Support</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-10-Objective-C-Support"><span class="nav-number">8.</span> <span class="nav-text">8.10 Objective C Support</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-11-Objective-C-Support"><span class="nav-number">9.</span> <span class="nav-text">8.11 Objective C++ Support</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-12-Unified-Parallel-C-Support"><span class="nav-number">10.</span> <span class="nav-text">8.12 Unified Parallel C Support</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-13-Assembly-Support"><span class="nav-number">11.</span> <span class="nav-text">8.13 Assembly Support</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-14-Fortran-77-Support"><span class="nav-number">12.</span> <span class="nav-text">8.14 Fortran 77 Support</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-14-1-Preprocessing-Fortran-77"><span class="nav-number">12.1.</span> <span class="nav-text">8.14.1 Preprocessing Fortran 77</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-14-2-Compiling-Fortran-77-Files"><span class="nav-number">12.2.</span> <span class="nav-text">8.14.2 Compiling Fortran 77 Files</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-14-3-Mixing-Fortran-77-With-C-and-C"><span class="nav-number">12.3.</span> <span class="nav-text">8.14.3 Mixing Fortran 77 With C and C++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-15-Fortran-9x-Support"><span class="nav-number">12.4.</span> <span class="nav-text">8.15 Fortran 9x Support</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-15-1-Compiling-Fortran-9x-Files"><span class="nav-number">12.4.1.</span> <span class="nav-text">8.15.1 Compiling Fortran 9x Files</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-16-Compiling-Java-sources-using-gcj"><span class="nav-number">13.</span> <span class="nav-text">8.16 Compiling Java sources using gcj</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-17-Vala-Support"><span class="nav-number">13.1.</span> <span class="nav-text">8.17 Vala Support</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-18-Support-for-Other-Languages"><span class="nav-number">14.</span> <span class="nav-text">8.18 Support for Other Languages</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-19-Automatic-dependency-tracking"><span class="nav-number">15.</span> <span class="nav-text">8.19 Automatic dependency tracking</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-20-Support-for-executable-extensions"><span class="nav-number">16.</span> <span class="nav-text">8.20 Support for executable extensions</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2018/03/20/linux-automake-8-building-programs-and-libraries/";
+    this.page.identifier = "2018/03/20/linux-automake-8-building-programs-and-libraries/";
+    this.page.title = "Linux Automake 8 编译程序和库";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

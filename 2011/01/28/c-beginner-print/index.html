@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="赏心悦目的C语言输出C语言的输出功能，超出你的想象，你能想到的，她基本也能做到。 刚开始还只是照抄printf语句，老是出现下面的情况： 1Hello World% $    后面才晓得printf函数是有特殊规定字符的，比如换行的\n，换页的\f，回车的\r，以及制表符\t等。 这次就说说是个什么意思以及如何使用。 本节尽量只使用printf函数，除非 有必要，尽量简洁，然后举几个用的最广的例子">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言 赏心悦目的输出">
+<meta property="og:url" content="http://shaoguangleo.github.io/2011/01/28/c-beginner-print/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="赏心悦目的C语言输出C语言的输出功能，超出你的想象，你能想到的，她基本也能做到。 刚开始还只是照抄printf语句，老是出现下面的情况： 1Hello World% $    后面才晓得printf函数是有特殊规定字符的，比如换行的\n，换页的\f，回车的\r，以及制表符\t等。 这次就说说是个什么意思以及如何使用。 本节尽量只使用printf函数，除非 有必要，尽量简洁，然后举几个用的最广的例子">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2011-01-28T14:28:20.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.705Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="c">
+<meta property="article:tag" content="printf">
+<meta property="article:tag" content="c-beginner">
+<meta property="article:tag" content="C语言从小白到入门">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2011/01/28/c-beginner-print/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C语言 赏心悦目的输出 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2011/01/28/c-beginner-print/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C语言 赏心悦目的输出
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2011-01-28 22:28:20" itemprop="dateCreated datePublished" datetime="2011-01-28T22:28:20+08:00">2011-01-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2011/01/28/c-beginner-print/" class="post-meta-item leancloud_visitors" data-flag-title="C语言 赏心悦目的输出" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2011/01/28/c-beginner-print/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/01/28/c-beginner-print/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2011/01/28/c-beginner-print/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2011/01/28/c-beginner-print/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="赏心悦目的C语言输出"><a href="#赏心悦目的C语言输出" class="headerlink" title="赏心悦目的C语言输出"></a>赏心悦目的C语言输出</h1><p><code>C</code>语言的输出功能，超出你的想象，你能想到的，她基本也能做到。</p>
+<p>刚开始还只是照抄<code>printf</code>语句，老是出现下面的情况：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello World% $</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>后面才晓得<code>printf</code>函数是有特殊规定字符的，比如换行的<code>\n</code>，换页的<code>\f</code>，回车的<code>\r</code>，以及制表符<code>\t</code>等。</p>
+<p>这次就说说是个什么意思以及如何使用。</p>
+<p>本节尽量只使用<code>printf</code>函数，除非 有必要，尽量简洁，然后举几个用的最广的例子。</p>
+<h2 id="换行显示文本"><a href="#换行显示文本" class="headerlink" title="换行显示文本"></a>换行显示文本</h2><p>printf要完成的功能就是显示文本，比如最简单的：</p>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*beginner/print/print1.c*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">{</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello World\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>比如我们想打印一首诗，原文是</p>
+<figure class="highlight mipsasm"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Hickory, <span class="keyword">dickory, </span>dock,</span><br><span class="line"></span><br><span class="line">The mouse ran up the <span class="keyword">clock.</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line">The <span class="keyword">clock </span>struck one,</span><br><span class="line"></span><br><span class="line">The mouse ran down,</span><br><span class="line"></span><br><span class="line">Hickory, <span class="keyword">dickory, </span>dock.</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这个简单呀，直接输入下面的代码</p>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*beginner/print/print2.c*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">{</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hickory, dickory, dock,"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"The mouse ran up the clock."</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"The clock struck one,"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"The mouse ran down,"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hickory, dickory, dock."</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>输出是什么的</p>
+<figure class="highlight mipsasm"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hickory, <span class="keyword">dickory, </span>dock,The mouse ran up the <span class="keyword">clock.The </span><span class="keyword">clock </span>struck one,The mouse ran down,Hickory, <span class="keyword">dickory, </span>dock.%  </span><br></pre></td></tr></tbody></table></figure>
+
+<p>😳，这就是没有添加换行符的原因，加上以后如下所示：</p>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*beginner/print/print3.c*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">{</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hickory, dickory, dock,\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"The mouse ran up the clock.\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"The clock struck one,\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"The mouse ran down,\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hickory, dickory, dock.\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>优雅的输出如下所示：</p>
+<figure class="highlight mipsasm"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Hickory, <span class="keyword">dickory, </span>dock,</span><br><span class="line">The mouse ran up the <span class="keyword">clock.</span></span><br><span class="line"><span class="keyword"></span>The <span class="keyword">clock </span>struck one,</span><br><span class="line">The mouse ran down,</span><br><span class="line">Hickory, <span class="keyword">dickory, </span>dock.</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="回车显示进度条效果"><a href="#回车显示进度条效果" class="headerlink" title="回车显示进度条效果"></a>回车显示进度条效果</h2><p>其实回车的意思并不是通俗意义上的回车，你敲下键盘，叫做Enter，是另外一种回车。</p>
+<p>这里的回车是不换行从头开始的意思，是ASCII码为13的特殊字符，换行是ASCII码为10的特殊字符。</p>
+<p>这个示例只能通过自己编译来使用了，代码简单，如下，就能看到进度条的效果了</p>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*beginner/print/print4.c*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">{</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*          \r"</span>);</span><br><span class="line">    fflush(<span class="built_in">stdout</span>);</span><br><span class="line">    sleep(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*****        \r"</span>);</span><br><span class="line">    fflush(<span class="built_in">stdout</span>);</span><br><span class="line">    sleep(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*******       \r"</span>);</span><br><span class="line">    fflush(<span class="built_in">stdout</span>);</span><br><span class="line">    sleep(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*********      \r"</span>);</span><br><span class="line">    fflush(<span class="built_in">stdout</span>);</span><br><span class="line">    sleep(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*************    \r"</span>);</span><br><span class="line">    fflush(<span class="built_in">stdout</span>);</span><br><span class="line">    sleep(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*****************  \r"</span>);</span><br><span class="line">    fflush(<span class="built_in">stdout</span>);</span><br><span class="line">    sleep(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"*********************\r"</span>);</span><br><span class="line">    fflush(<span class="built_in">stdout</span>);</span><br><span class="line">    sleep(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>运行的时候，可以看到光标在移动，这个用法我是学了2个多月才知道，悲哉！</p>
+<blockquote>
+<p>说明：fflush是用来强行刷新的，因为如果不刷新，有的时候无法显示，另外sleep是为了演示移动效果，不然毫秒级显示完成，就看不到效果了。</p>
+</blockquote>
+<h2 id="优雅的对齐特性"><a href="#优雅的对齐特性" class="headerlink" title="优雅的对齐特性"></a>优雅的对齐特性</h2><p>其实想对齐，是比较简单的一件事情，直接空格多敲一些就行了，如下所示：</p>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*beginner/print/print5.c*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">{</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Name      Age ID\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Zhang San 16  1\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Li Si     17  2\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Wang Wu   18  3\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>输入为：</p>
+<figure class="highlight apache"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Name</span>      Age ID</span><br><span class="line"><span class="attribute">Zhang</span> San <span class="number">16</span>  <span class="number">1</span></span><br><span class="line"><span class="attribute">Li</span> Si     <span class="number">17</span>  <span class="number">2</span></span><br><span class="line"><span class="attribute">Wang</span> Wu   <span class="number">18</span>  <span class="number">3</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p>但是，如果在我们不知道数字是多少，字符串是多少的时候怎么来做呢，就是制表符的效果了。</p>
+<p>很简单，只要在需要分割的地方加上就可以了：</p>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*beginner/print/print6.c*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">{</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Name     \tAge\tID\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Zhang San\t16\t1\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Li Si    \t17\t2\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Wang Wu  \t18\t3\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>输入为：</p>
+<figure class="highlight apache"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Name</span>     	Age	ID</span><br><span class="line"><span class="attribute">Zhang</span> San	<span class="number">16</span>	<span class="number">1</span></span><br><span class="line"><span class="attribute">Li</span> Si    	<span class="number">17</span>	<span class="number">2</span></span><br><span class="line"><span class="attribute">Wang</span> Wu  	<span class="number">18</span>	<span class="number">3</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+<h2 id="集大成"><a href="#集大成" class="headerlink" title="集大成"></a>集大成</h2><p>这里三个都演示下，可以通过./print_all来查看效果。</p>
+<figure class="highlight clean"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">###################</span><br><span class="line">The demo <span class="keyword">of</span> \n</span><br><span class="line">###################</span><br><span class="line"></span><br><span class="line">          *          </span><br><span class="line">        *****        </span><br><span class="line">       *******       </span><br><span class="line">          *          </span><br><span class="line">        *****        </span><br><span class="line">       *******       </span><br><span class="line">      *********      </span><br><span class="line">          *          </span><br><span class="line">        *****        </span><br><span class="line">       *******       </span><br><span class="line">      *********      </span><br><span class="line">    *************    </span><br><span class="line">  *****************  </span><br><span class="line">*********************</span><br><span class="line">        *****        </span><br><span class="line">        *****        </span><br><span class="line">        *****        </span><br><span class="line">        *****        </span><br><span class="line">        *****        </span><br><span class="line">        *****        </span><br><span class="line">*********************</span><br><span class="line">*********************</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">###################</span><br><span class="line">The demo <span class="keyword">of</span> \r</span><br><span class="line">###################</span><br><span class="line"></span><br><span class="line">*********************</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">###################</span><br><span class="line">The demo <span class="keyword">of</span> \t</span><br><span class="line">###################</span><br><span class="line"></span><br><span class="line">Name     	Age	ID</span><br><span class="line">Zhang San	<span class="number">16</span>	<span class="number">1</span></span><br><span class="line">Li Si    	<span class="number">17</span>	<span class="number">2</span></span><br><span class="line">Wang Wu  	<span class="number">18</span>	<span class="number">3</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h2><p>还是跟前面的<code>hello world </code>一致，这次还是包含两类文件，一个是源码文件<code>print.c</code>，另外一个就是<code>Makefile</code>了。</p>
+<p>Makefile如下所示，比上一个稍微复杂了些，其实不难理解，可以搜索Makefile帮助查看信息。</p>
+<figure class="highlight makefile"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#beginner/print/Makefile</span></span><br><span class="line">ALL : print1 print2 print3 print4 print5 print6 print_all</span><br><span class="line"></span><br><span class="line"><span class="section">print1: print1.c</span></span><br><span class="line">	gcc -o print1 print1.c</span><br><span class="line"></span><br><span class="line"><span class="section">print2: print2.c</span></span><br><span class="line">	gcc -o print2 print2.c</span><br><span class="line"></span><br><span class="line"><span class="section">print3: print3.c</span></span><br><span class="line">	gcc -o print3 print3.c</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">print4: print4.c</span></span><br><span class="line">	gcc -o print4 print4.c</span><br><span class="line"></span><br><span class="line"><span class="section">print5: print5.c</span></span><br><span class="line">	gcc -o print5 print5.c</span><br><span class="line"></span><br><span class="line"><span class="section">print6: print6.c</span></span><br><span class="line">	gcc -o print6 print6.c</span><br><span class="line"></span><br><span class="line"><span class="section">print_all: print_all.c</span></span><br><span class="line">	gcc -o print_all print_all.c</span><br></pre></td></tr></tbody></table></figure>
+<p>运行只需要输入<code>make</code>，然后<code>./print</code>就可以看到相关的输出了。</p>
+<h2 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h2><p>1．转换说明符</p>
+<table>
+<thead>
+<tr>
+<th>转换</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%a(%A)</td>
+<td>浮点数、十六进制数字和p-(P-)记数法(C99)</td>
+</tr>
+<tr>
+<td>%c</td>
+<td>字符</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>有符号十进制整数</td>
+</tr>
+<tr>
+<td>%f</td>
+<td>浮点数(包括float和doulbe)</td>
+</tr>
+<tr>
+<td>%e(%E)</td>
+<td>浮点数指数输出[e-(E-)记数法]</td>
+</tr>
+<tr>
+<td>%g(%G)</td>
+<td>浮点数不显无意义的零”0”</td>
+</tr>
+<tr>
+<td>%i</td>
+<td>有符号十进制整数(与%d相同)</td>
+</tr>
+<tr>
+<td>%u</td>
+<td>无符号十进制整数</td>
+</tr>
+<tr>
+<td>%o</td>
+<td>八进制整数  e.g.   0123</td>
+</tr>
+<tr>
+<td>%x(%X)</td>
+<td>十六进制整数   e.g.  0x1234</td>
+</tr>
+<tr>
+<td>%p</td>
+<td>指针</td>
+</tr>
+<tr>
+<td>%s</td>
+<td>字符串</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>“%”</td>
+</tr>
+</tbody></table>
+<p>​        </p>
+<p>2．标志<br>   左对齐：”-“  e.g.  “%-20s”<br>   右对齐：”+” e.g.  “%+20s”<br>   空格：若符号为正，则显示空格，负则显示”-“  e.g.  “% “<br>   #：对c,s,d,u类无影响；对o类，在输出时加前缀o；对x类，在输出时加前缀0x；<br>      对e,g,f 类当结果有小数时才给出小数点。</p>
+<p>3．格式字符串（格式）<br>   ［标志］［输出最少宽度］［．精度］［长度］类型<br>   “％-md” ：左对齐，若m比实际少时，按实际输出。<br>   “%m.ns”：输出m位，取字符串(左起)n位，左补空格，当n&gt;m or m省略时m=n<br>           e.g.  “%7.2s”  输入CHINA<br>                 　      输出”   CH”<br>   “%m.nf”：输出浮点数，m为宽度，n为小数点右边数位<br>           e.g.  “%”  输入3852.99<br>                        输出3853.0<br>   长度：为ｈ短整形量,ｌ为长整形量</p>
+<p>printf的格式控制的完整格式：<br>% - .n l或h 格式字符<br>下面对组成格式说明的各项加以说明：<br>①%：表示格式说明的起始符号，不可缺少。<br>②-：有-表示左对齐输出，如省略表示右对齐输出。<br>③0：有0表示指定空位填0,如省略表示指定空位不填。<br>④m.n：m指域宽，即对应的输出项在输出设备上所占的字符数。N指精度。用于说明输出的实型数的小数位数。为指定n时，隐含的精度为n=6位。<br>⑤l或h:l对整型指long型，对实型指double型。h用于将整型的格式字符修正为short型。</p>
+<figure class="highlight arduino"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">一个h表示<span class="type">short</span>，即<span class="type">short</span> <span class="type">int</span></span><br><span class="line"></span><br><span class="line">两个h表示<span class="type">short</span> <span class="type">short</span>，即 <span class="type">char</span>。</span><br><span class="line">%hhx用于输出<span class="type">char</span></span><br><span class="line">%hx用于输出<span class="type">short</span> <span class="type">int</span>.</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+<p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>格式字符<br>格式字符用以指定输出项的数据类型和输出格式。<br>①d格式：用来输出十进制整数。有以下几种用法：<br>%d：按整型数据的实际长度输出。<br>%md：m为指定的输出字段的宽度。如果数据的位数小于m，则左端补以空格，若大于m，则按实际位数输出。<br>%ld：输出长整型数据。<br>②o格式：以无符号八进制形式输出整数。对长整型可以用”%lo”格式输出。同样也可以指定字段宽度用“%mo”格式输出。<br>例：<br>  main()<br>  { int a = -1;<br>   printf(“%d, %o”, a, a);<br>  }<br>运行结果：-1,177777<br>程序解析：-1在内存单元中（以补码形式存放）为(1111111111111111)2，转换为八进制数为(177777)8。<br>③x格式：以无符号十六进制形式输出整数。对长整型可以用”%lx”格式输出。同样也可以指定字段宽度用”%mx”格式输出。<br>④u格式：以无符号十进制形式输出整数。对长整型可以用”%lu”格式输出。同样也可以指定字段宽度用“%mu”格式输出。<br>⑤c格式：输出一个字符。<br>⑥s格式：用来输出一个串。有几中用法<br>%s：例如:printf(“%s”, “CHINA”)输出”CHINA”字符串（不包括双引号）。<br>%ms：输出的字符串占m列，如字符串本身长度大于m，则突破获m的限制,将字符串全部输出。若串长小于m，则左补空格。<br>%-ms：如果串长小于m，则在m列范围内，字符串向左靠，右补空格。<br>%m.ns：输出占m列，但只取字符串中左端n个字符。这n个字符输出在m列的右侧，左补空格。<br>%-m.ns：其中m、n含义同上，n个字符输出在m列范围的左侧，右补空格。如果n&gt;m，则自动取n值，即保证n个字符正常输出。<br>⑦f格式：用来输出实数（包括单、双精度），以小数形式输出。有以下几种用法：<br>%f：不指定宽度，整数部分全部输出并输出6位小数。<br>%m.nf：输出共占m列，其中有n位小数，如数值宽度小于m左端补空格。<br>%-m.nf：输出共占n列，其中有n位小数，如数值宽度小于m右端补空格。<br>⑧e格式：以指数形式输出实数。可用以下形式：<br>%e：数字部分（又称尾数）输出6位小数，指数部分占5位或4位。<br>%m.ne和%-m.ne：m、n和”-”字符含义与前相同。此处n指数据的数字部分的小数位数，m表示整个输出数据所占的宽度。<br>⑨g格式：自动选f格式或e格式中较短的一种输出，且不输出无意义的零。</p>
+<p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>关于printf函数的进一步说明：<br>如果想输出字符”%”,则应该在“格式控制”字符串中用连续两个%表示，如:<br>printf(“%f%%”, 1.0/3);<br>输出0.333333%。</p>
+<p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>对于单精度数，使用%f格式符输出时，仅前7位是有效数字，小数6位．<br>对于双精度数，使用%lf格式符输出时，前16位是有效数字，小数6位．</p>
+<p>######################################拾遗 ########################################<br>由高手指点<br>对于m.n的格式还可以用如下方法表示（例）<br>char ch[20];<br>printf(“%*.<em>s\n”,m,n,ch);<br>前边的</em>定义的是总的宽度，后边的定义的是输出的个数。分别对应外面的参数m和n 。我想这种方法的好处是可以在语句之外对参数m和n赋值，从而控制输出格式。<br>-——————————————————————————-<br>今天()又看到一种输出格式 %n 可以将所输出字符串的长度值赋绐一个变量, 见下例:</p>
+<p>int slen;</p>
+<p>printf(“hello world%n”, &amp;slen);</p>
+<p>执行后变量被赋值为11</p>
+<p>另外：</p>
+<p>1、格式输出函数的一般形式</p>
+<p>   函数原型： int printf(char * format[,argument,…]);</p>
+<p>   函数功能：按规定格式向输出设备（一般为显示器）输出数据，并返回实际输出的字符数，若出错，则返回负数。</p>
+<p>   它使用的一般形式为：</p>
+<p>​        printf(“格式控制字符串”,输出项列表);</p>
+<p>   语句中“输出项列表”列出要输出的表达式（如常量、变量、运算符表达式、函数返回值等），它可以是0个、一个或多个，每个输出项之间用逗号（,）分隔。输出的数据可以是整数、实数、字符和字符串。</p>
+<p>   “格式控制字符串”必须用英文的双引号括起来，它的作用是 控制输出项的格式和输出一些提示信息，例如</p>
+<p>​          int i=97; printf(“i=%d,%c\n”,i,i);</p>
+<p>​        输出结果为：i=97,a</p>
+<p>​    语句“printf(“i=%d,%c\n”,i,i);”中的两个输出项都是变量i，但却以不同的格式输出，一个输出整型数97，另一个输出的却是字符a，其格式分别由“%d”与“%c”来控制。</p>
+<p>​    语句“printf(“i=%d,%c\n”,i,i);”的格式控制字符串中“i=”是普通字符，他将照原样输出；“%d”与“%c”是格式控制符；”\n”是转义字符，它的作用是换行。</p>
+<p>2、格式控制</p>
+<p>   格式控制由格式控制字符串实现。格式控制字符串由3部分组成：普通字符、转义字符、输出项格式说明。</p>
+<p>   （1）普通字符。普通字符在输出时，按原样输出，主要用于输出提示信息。</p>
+<p>   （2）转义字符。转义字符指明特定的操作，如”\n”表示换行，”\t”表示水平制表等。</p>
+<p>   （3）格式说明部分由“%”和“格式字符串”组成，他表示按规定的格式输出数据。</p>
+<p>​     格式说明的形式为：**<br>**</p>
+<p>​        %[flags][width][.prec][F|N|h|I][type]</p>
+<p>​     各部分说明如下：</p>
+<ol>
+<li>“[]”表示该项为可选项，即可有可无，如 printf(“%d”,100);</li>
+<li>flags为可选择的标志字符，常用的标志字符有：<ul>
+<li>-  ——左对齐输出，默认为右对齐输出；</li>
+<li>+  ——正数输出加号(+)，负数输出减号(-);</li>
+<li>空格 ——正数输出空格代替加号(+)，负数输出减号(-)。</li>
+</ul>
+</li>
+<li>width为可选择的宽度指示符。<ul>
+<li>用十进制正整数表示设置输出值得最少字符个数。不足则补空格，多出则按实际输出，默认按实际输出，例如：</li>
+<li>printf(“%8d\n”,100);    printf(“%6d\n”,100);    printf(“%-8d\n”,100);    printf(“%+8\n”,100);</li>
+<li>输出结果为：└┘└┘└┘└┘└┘100<br>└┘└┘└┘100     100└┘└┘└┘└┘└┘   └┘└┘└┘└┘+100</li>
+</ul>
+</li>
+<li>[.prec]为可选的精度指示符<ul>
+<li>用“小数点”加“十进制正整数”表示，对“整数”、“实数”和“字符串”的输出有如下功能：对“整数”，表示至少要输出的数字个数，不足补数字0，多则原样输出；对“实数”，表示小数点后至多输出的数字个数，不足则补数字0，多则做舍入处理；对“字符串”，表示最多输出的字符个数，不足补空格，多则丢弃。</li>
+<li>例如：printf(“%8.2f\n”,3.14159);<br>printf(“%8.5f\n”,3.14159);</li>
+<li>输出结果为：└┘└┘└┘└┘3.14<br>└┘3.14159</li>
+</ul>
+</li>
+<li>[F|N|h|I]为可选的输出长度修饰符，其功能如下：<ul>
+<li>F ——输出远指针存放的地址；</li>
+<li>N——输出近指针存放的地址；</li>
+<li>h——输出短整型数据的值；</li>
+<li>l——输出长整型或双精度型数据的值。</li>
+<li>例如：long n=40000;</li>
+<li>​      printf(“%8ld\n”,n);/<em>因为200</em>200是长整型数据*/</li>
+</ul>
+</li>
+<li>type为可选的格式字符，用来进行格式转换。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/c/" rel="tag"># c</a>
+              <a href="/tags/printf/" rel="tag"># printf</a>
+              <a href="/tags/c-beginner/" rel="tag"># c-beginner</a>
+              <a href="/tags/C%E8%AF%AD%E8%A8%80%E4%BB%8E%E5%B0%8F%E7%99%BD%E5%88%B0%E5%85%A5%E9%97%A8/" rel="tag"># C语言从小白到入门</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2011/01/28/c-beginner-variable-type/" rel="prev" title="C语言 赏心悦目的输出">
+      <i class="fa fa-chevron-left"></i> C语言 赏心悦目的输出
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2011/01/29/c-beginner-operator-step1/" rel="next" title="C语言 加减乘除运算符">
+      C语言 加减乘除运算符 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B5%8F%E5%BF%83%E6%82%A6%E7%9B%AE%E7%9A%84C%E8%AF%AD%E8%A8%80%E8%BE%93%E5%87%BA"><span class="nav-number">1.</span> <span class="nav-text">赏心悦目的C语言输出</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8D%A2%E8%A1%8C%E6%98%BE%E7%A4%BA%E6%96%87%E6%9C%AC"><span class="nav-number">1.1.</span> <span class="nav-text">换行显示文本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E8%BD%A6%E6%98%BE%E7%A4%BA%E8%BF%9B%E5%BA%A6%E6%9D%A1%E6%95%88%E6%9E%9C"><span class="nav-number">1.2.</span> <span class="nav-text">回车显示进度条效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E9%9B%85%E7%9A%84%E5%AF%B9%E9%BD%90%E7%89%B9%E6%80%A7"><span class="nav-number">1.3.</span> <span class="nav-text">优雅的对齐特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E5%A4%A7%E6%88%90"><span class="nav-number">1.4.</span> <span class="nav-text">集大成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8C"><span class="nav-number">1.5.</span> <span class="nav-text">编译运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%87%E6%B3%A8"><span class="nav-number">1.6.</span> <span class="nav-text">备注</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2011/01/28/c-beginner-print/";
+    this.page.identifier = "2011/01/28/c-beginner-print/";
+    this.page.title = "C语言 赏心悦目的输出";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

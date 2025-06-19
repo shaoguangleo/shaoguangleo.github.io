@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="linux中创建新用户useradduseradd用于创建或者更新用户账号信息，是管理员必备的命令之一。 官方的定义为：  useradd - create a new user or update default new user information  使用的方法为： 12345$ useradd [options] LOGIN$ useradd -D    $ useradd -D [op">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux useradd">
+<meta property="og:url" content="http://shaoguangleo.github.io/2013/03/07/linux-useradd/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="linux中创建新用户useradduseradd用于创建或者更新用户账号信息，是管理员必备的命令之一。 官方的定义为：  useradd - create a new user or update default new user information  使用的方法为： 12345$ useradd [options] LOGIN$ useradd -D    $ useradd -D [op">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2013-03-07T15:11:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.905Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="管理员">
+<meta property="article:tag" content="System Management Commands">
+<meta property="article:tag" content="useradd">
+<meta property="article:tag" content="adduser">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2013/03/07/linux-useradd/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux useradd | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2013/03/07/linux-useradd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux useradd
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2013-03-07 23:11:00" itemprop="dateCreated datePublished" datetime="2013-03-07T23:11:00+08:00">2013-03-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Linux%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">Linux入门</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2013/03/07/linux-useradd/" class="post-meta-item leancloud_visitors" data-flag-title="Linux useradd" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2013/03/07/linux-useradd/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/03/07/linux-useradd/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2013/03/07/linux-useradd/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2013/03/07/linux-useradd/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="linux中创建新用户useradd"><a href="#linux中创建新用户useradd" class="headerlink" title="linux中创建新用户useradd"></a>linux中创建新用户useradd</h1><p><code>useradd</code>用于创建或者更新用户账号信息，是管理员必备的命令之一。</p>
+<p>官方的定义为：</p>
+<blockquote>
+<p>useradd - create a new user or update default new user information</p>
+</blockquote>
+<p>使用的方法为：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ useradd [options] LOGIN</span><br><span class="line"></span><br><span class="line">$ useradd -D</span><br><span class="line">    </span><br><span class="line">$ useradd -D [options]</span><br></pre></td></tr></tbody></table></figure>
+
+
+<p>在使用 -D 选项的时候，useradd 命令将使用系统默认、用户命令行指定的参数创建一个新的用户账户。依赖于命令行选项，useradd命令会更新系统文件或者创建用户的home目录并拷贝初始文件，<u>这个除非相当专业，慎用</u>。</p>
+<p>默认情况下，useradd会创建一个同名的group。</p>
+<p>常用的一些选项为：</p>
+<ul>
+<li><code>-c, --comment COMMENT</code> ：备注，通常会报错在passwd的备注栏中，一般为用户的全名。</li>
+<li><code>-d, --home-dir HOME_DIR</code>：指定用户登陆时候的HOME目录</li>
+<li><code>-e, --expiredate EXPIRE_DATE</code>：用户账户被禁用的日期，格式为： <u>YYYY-MM-DD</u>。如果不指定，将使用 /etc/default/useradd的值，或者默认取空不过期</li>
+<li><code>-s, --shell SHELL</code>：指定登陆后使用的shell，对于不同于默认设定的shell比较有用</li>
+</ul>
+<h2 id="默认添加用户"><a href="#默认添加用户" class="headerlink" title="默认添加用户"></a>默认添加用户</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> useradd username</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">id</span> username </span><br><span class="line">uid=1001(username) gid=1001(username) <span class="built_in">groups</span>=1001(username)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>正常情况下，创建用户<strong>user</strong>，会自动在<u>/home</u>目录创建，通过<code>id</code>命令可以看到有同名的group也创建了。</p>
+<h2 id="加上备注"><a href="#加上备注" class="headerlink" title="加上备注"></a>加上备注</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> useradd username -c <span class="string">"USER NAME"</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>通过这个参数可以设置用户的备注名或者昵称，可以在<u>/etc/passwd</u>中看到，这个对于用户管理而言很方便，而GUI登陆来说比较方便，会显示备注名。</p>
+<h2 id="设定登陆的目录"><a href="#设定登陆的目录" class="headerlink" title="设定登陆的目录"></a>设定登陆的目录</h2><p>默认情况下创建的目录位于/home ，但是如果希望更改到，比如/home1，那么此时使用-d参数即可，如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> useradd  -d /home1/ username</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="更改默认的SHELL"><a href="#更改默认的SHELL" class="headerlink" title="更改默认的SHELL"></a>更改默认的SHELL</h2><p>有些用户可能对csh情有独钟，那么此时可以使用-s来更改，如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> useradd -s /usr/bin/csh username</span><br></pre></td></tr></tbody></table></figure>
+
+<p>目前默认均为bash。</p>
+<h2 id="设定失效日期"><a href="#设定失效日期" class="headerlink" title="设定失效日期"></a>设定失效日期</h2><p>这个选项通常对于临时账户很有效，比如来了一个实习生，实习一个月就离开，此时2013-03-07，那么一个月以后失效的命令为：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> useradd username -e 2013-04-07</span><br></pre></td></tr></tbody></table></figure>
+
+<p>那么一个月以后，该账户将被禁用登陆。</p>
+<h2 id="useradd-用户名"><a href="#useradd-用户名" class="headerlink" title="useradd 用户名"></a>useradd 用户名</h2><ul>
+<li>-u　 指定用户uid</li>
+<li>-g 　指定用户所属主组</li>
+<li>-G 　指定用户所属附属组</li>
+</ul>
+<ol>
+<li>使用useradd时，如果后面不添加任何参数选项，例如： #sudo useradd test创建出来的用户将是默认“三无”用户：一无Home Directory，二无密码，三无系统Shell。</li>
+<li>使用adduser时，创建用户的过程更像是一种人机对话，系统会提示你输入各种信息，然后会根据这些信息帮你创建新用户。</li>
+<li>所以，<strong>adduser更适合初级使用者</strong>，因为不用去记那些繁琐的参数选项，只要跟着系统的提示一步一步进行下去就行，缺点就是整个创建过程比较复杂而漫长；<strong>而useradd比较适合有些高阶经验的使用者</strong>，往往一行命令加参数就能解决很多问题，所以创建起来十分方便。</li>
+</ol>
+<p>例1：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">useradd -d /usr/leo -m leo</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>此命令创建了一个用户leo -d和-m选项用来为登录名leo产生一个主目录/usr/leo（/usr为默认的用户主目录所在的父目录）。</p>
+<p>例2：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">useradd -d /home/leo -s /usr/bin/bash -g leo -G admin,root leo</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>此命令新建了一个用户leo/bin/sh，他属于group用户组，同时又属于admin和root用户组，其中group用户组是其主组。<br>这里可能新建组：groupadd group 及 groupadd admin<br>增加用户账号就是在/etc/passwd文件中为新用户增加一条记录，同时更新其他系统文件，如/etc/shadow，/etc/group等。<br>Linux提供了集成的系统管理工具userconf，他能用来对用户账号进行统一管理。</p>
+<blockquote>
+<p>注： 用户帐户本身在 /etc/passwd 中定义。Linux 系统包含一个 /etc/passwd 的同伴文件，叫做 /etc/shadow。该文件不像 /etc/passwd，只有对于 root 用户来说是可读的，并且包含加密的密码信息</p>
+</blockquote>
+<p>​       </p>
+<p>OPTIONS<br>       The options which apply to the useradd command are:</p>
+<pre><code>   -b, --base-dir BASE_DIR
+       The default base directory for the system if -d HOME_DIR is not specified.  BASE_DIR is concatenated with the account name to define
+       the home directory. If the -m option is not used, BASE_DIR must exist.
+
+       If this option is not specified, useradd will use the base directory specified by the HOME variable in /etc/default/useradd, or
+       /home by default.
+       
+# useradd defaults file
+GROUP=100
+HOME=/home
+INACTIVE=-1
+EXPIRE=
+SHELL=/bin/bash
+SKEL=/etc/skel
+CREATE_MAIL_SPOOL=yes
+</code></pre>
+<p>​<br>​<br>​<br>​<br>​<br>       -D, –defaults<br>           See below, the subsection “Changing the default values”.</p>
+<p>​<br>​<br>       -f, –inactive INACTIVE<br>           The number of days after a password expires until the account is permanently disabled. A value of 0 disables the account as soon as<br>           the password has expired, and a value of -1 disables the feature.</p>
+<pre><code>       If not specified, useradd will use the default inactivity period specified by the INACTIVE variable in /etc/default/useradd, or -1
+       by default.
+
+   -g, --gid GROUP
+       The group name or number of the user's initial login group. The group name must exist. A group number must refer to an already       existing group.
+
+       If not specified, the behavior of useradd will depend on the USERGROUPS_ENAB variable in /etc/login.defs. If this variable is set to
+       yes (or -U/--user-group is specified on the command line), a group will be created for the user, with the same name as her
+       loginname. If the variable is set to no (or -N/--no-user-group is specified on the command line), useradd will set the primary group
+       of the new user to the value specified by the GROUP variable in /etc/default/useradd, or 100 by default.
+
+   -G, --groups GROUP1[,GROUP2,...[,GROUPN]]]
+       A list of supplementary groups which the user is also a member of. Each group is separated from the next by a comma, with no
+       intervening whitespace. The groups are subject to the same restrictions as the group given with the -g option. The default is for
+       the user to belong only to the initial group.
+
+   -k, --skel SKEL_DIR
+       The skeleton directory, which contains files and directories to be copied in the user's home directory, when the home directory is        created by useradd.
+
+       This option is only valid if the -m (or --create-home) option is specified.
+
+       If this option is not set, the skeleton directory is defined by the SKEL variable in /etc/default/useradd or, by default, /etc/skel.
+
+       If possible, the ACLs and extended attributes are copied.
+
+   -K, --key KEY=VALUE
+       Overrides /etc/login.defs defaults (UID_MIN, UID_MAX, UMASK, PASS_MAX_DAYS and others).
+
+       Example: -K PASS_MAX_DAYS=-1 can be used when creating system account to turn off password aging, even though system account has no
+       password at all. Multiple -K options can be specified, e.g.: -K UID_MIN=100  -K UID_MAX=499
+
+   -l, --no-log-init
+       Do not add the user to the lastlog and faillog databases.
+
+       By default, the user's entries in the lastlog and faillog databases are reset to avoid reusing the entry from a previously deleted       user.
+
+   -m, --create-home
+       Create the user's home directory if it does not exist. The files and directories contained in the skeleton directory (which can be        defined with the -k option) will be copied to the home directory.
+
+       By default, if this option is not specified and CREATE_HOME is not enabled, no home directories are created.
+
+       The directory where the user's home directory is created must exist and have proper SELinux context and permissions. Otherwise the
+       user's home directory cannot be created or accessed.
+
+   -M, --no-create-home
+       Do no create the user's home directory, even if the system wide setting from /etc/login.defs (CREATE_HOME) is set to yes.
+
+   -N, --no-user-group
+       Do not create a group with the same name as the user, but add the user to the group specified by the -g option or by the GROUP       variable in /etc/default/useradd.
+
+       The default behavior (if the -g, -N, and -U options are not specified) is defined by the USERGROUPS_ENAB variable in       /etc/login.defs.
+
+   -o, --non-unique
+       Allow the creation of a user account with a duplicate (non-unique) UID.
+
+       This option is only valid in combination with the -u option.
+
+   -p, --password PASSWORD
+       The encrypted password, as returned by crypt(3). The default is to disable the password.
+
+       Note: This option is not recommended because the password (or encrypted password) will be visible by users listing the processes.
+
+       You should make sure the password respects the system's password policy.
+
+   -r, --system
+       Create a system account.
+
+       System users will be created with no aging information in /etc/shadow, and their numeric identifiers are chosen in the       SYS_UID_MIN-SYS_UID_MAX range, defined in /etc/login.defs, instead of UID_MIN-UID_MAX (and their GID counterparts for the creation       of groups).
+
+       Note that useradd will not create a home directory for such a user, regardless of the default setting in /etc/login.defs       (CREATE_HOME). You have to specify the -m options if you want a home directory for a system account to be created.
+
+   -R, --root CHROOT_DIR
+       Apply changes in the CHROOT_DIR directory and use the configuration files from the CHROOT_DIR directory.
+
+   -P, --prefix PREFIX_DIR
+       Apply changes in the PREFIX_DIR directory and use the configuration files from the PREFIX_DIR directory. This option does not chroot       and is intended for preparing a cross-compilation target. Some limitations: NIS and LDAP users/groups are not verified. PAM       authentication is using the host files. No SELINUX support.
+</code></pre>
+<p>​<br>​<br>       -u, –uid UID<br>           The numerical value of the user’s ID. This value must be unique, unless the -o option is used. The value must be non-negative. The<br>           default is to use the smallest ID value greater than or equal to UID_MIN and greater than every other user.</p>
+<pre><code>       See also the -r option and the UID_MAX description.
+
+   -U, --user-group
+       Create a group with the same name as the user, and add the user to this group.
+
+       The default behavior (if the -g, -N, and -U options are not specified) is defined by the USERGROUPS_ENAB variable in
+       /etc/login.defs.
+
+   -Z, --selinux-user SEUSER
+       The SELinux user for the user's login. The default is to leave this field blank, which causes the system to select the default
+       SELinux user.
+</code></pre>
+<p>   Changing the default values<br>       When invoked with only the -D option, useradd will display the current default values. When invoked with -D plus other options, useradd       will update the default values for the specified options. Valid default-changing options are:</p>
+<pre><code>   -b, --base-dir BASE_DIR
+       The path prefix for a new user's home directory. The user's name will be affixed to the end of BASE_DIR to form the new user's home
+       directory name, if the -d option is not used when creating a new account.
+
+       This option sets the HOME variable in /etc/default/useradd.
+
+   -e, --expiredate EXPIRE_DATE
+       The date on which the user account is disabled.
+
+       This option sets the EXPIRE variable in /etc/default/useradd.
+
+   -f, --inactive INACTIVE
+       The number of days after a password has expired before the account will be disabled.
+
+       This option sets the INACTIVE variable in /etc/default/useradd.
+
+   -g, --gid GROUP
+       The group name or ID for a new user's initial group (when the -N/--no-user-group is used or when the USERGROUPS_ENAB variable is set
+       to no in /etc/login.defs). The named group must exist, and a numerical group ID must have an existing entry.
+
+       This option sets the GROUP variable in /etc/default/useradd.
+
+   -s, --shell SHELL
+       The name of a new user's login shell.
+
+       This option sets the SHELL variable in /etc/default/useradd.
+</code></pre>
+<p>NOTES<br>       The system administrator is responsible for placing the default user files in the /etc/skel/ directory (or any other skeleton directory        specified in /etc/default/useradd or on the command line).</p>
+<p>CAVEATS<br>       You may not add a user to a NIS or LDAP group. This must be performed on the corresponding server.</p>
+<pre><code>   Similarly, if the username already exists in an external user database such as NIS or LDAP, useradd will deny the user account creation   request.
+
+   Usernames may contain only lower and upper case letters, digits, underscores, or dashes. They can end with a dollar sign. Dashes are not   allowed at the beginning of the username. Fully numeric usernames and usernames . or .. are also disallowed. It is not recommended to   use usernames beginning with . character as their home directories will be hidden in the ls output. In regular expression terms:
+   [a-zA-Z0-9_.][a-zA-Z0-9_.-]*[$]?
+
+   Usernames may only be up to 32 characters long.
+</code></pre>
+<p>CONFIGURATION<br>       The following configuration variables in /etc/login.defs change the behavior of this tool:</p>
+<pre><code>   CREATE_HOME (boolean)
+       Indicate if a home directory should be created by default for new users.
+
+       This setting does not apply to system users, and can be overridden on the command line.
+
+   GID_MAX (number), GID_MIN (number)
+       Range of group IDs used for the creation of regular groups by useradd, groupadd, or newusers.
+
+       The default value for GID_MIN (resp.  GID_MAX) is 1000 (resp. 60000).
+
+   MAIL_DIR (string)
+       The mail spool directory. This is needed to manipulate the mailbox when its corresponding user account is modified or deleted. If
+       not specified, a compile-time default is used.
+
+   MAIL_FILE (string)
+       Defines the location of the users mail spool files relatively to their home directory.
+
+   The MAIL_DIR and MAIL_FILE variables are used by useradd, usermod, and userdel to create, move, or delete the user's mail spool.
+
+   If MAIL_CHECK_ENAB is set to yes, they are also used to define the MAIL environment variable.
+
+   MAX_MEMBERS_PER_GROUP (number)
+       Maximum members per group entry. When the maximum is reached, a new group entry (line) is started in /etc/group (with the same name,
+       same password, and same GID).
+
+       The default value is 0, meaning that there are no limits in the number of members in a group.
+
+       This feature (split group) permits to limit the length of lines in the group file. This is useful to make sure that lines for NIS
+       groups are not larger than 1024 characters.
+
+       If you need to enforce such limit, you can use 25.
+
+       Note: split groups may not be supported by all tools (even in the Shadow toolsuite). You should not use this variable unless you
+       really need it.
+
+   PASS_MAX_DAYS (number)
+       The maximum number of days a password may be used. If the password is older than this, a password change will be forced. If not
+       specified, -1 will be assumed (which disables the restriction).
+
+   PASS_MIN_DAYS (number)
+       The minimum number of days allowed between password changes. Any password changes attempted sooner than this will be rejected. If
+       not specified, -1 will be assumed (which disables the restriction).
+
+   PASS_WARN_AGE (number)
+       The number of days warning given before a password expires. A zero means warning is given only upon the day of expiration, a
+       negative value means no warning is given. If not specified, no warning will be provided.
+
+   SUB_GID_MIN (number), SUB_GID_MAX (number), SUB_GID_COUNT (number)
+       If /etc/subuid exists, the commands useradd and newusers (unless the user already have subordinate group IDs) allocate SUB_GID_COUNT
+       unused group IDs from the range SUB_GID_MIN to SUB_GID_MAX for each new user.
+
+       The default values for SUB_GID_MIN, SUB_GID_MAX, SUB_GID_COUNT are respectively 100000, 600100000 and 65536.
+
+   SUB_UID_MIN (number), SUB_UID_MAX (number), SUB_UID_COUNT (number)
+       If /etc/subuid exists, the commands useradd and newusers (unless the user already have subordinate user IDs) allocate SUB_UID_COUNT
+       unused user IDs from the range SUB_UID_MIN to SUB_UID_MAX for each new user.
+
+       The default values for SUB_UID_MIN, SUB_UID_MAX, SUB_UID_COUNT are respectively 100000, 600100000 and 65536.
+
+   SYS_GID_MAX (number), SYS_GID_MIN (number)
+       Range of group IDs used for the creation of system groups by useradd, groupadd, or newusers.
+
+       The default value for SYS_GID_MIN (resp.  SYS_GID_MAX) is 101 (resp.  GID_MIN-1).
+
+   SYS_UID_MAX (number), SYS_UID_MIN (number)
+       Range of user IDs used for the creation of system users by useradd or newusers.
+
+       The default value for SYS_UID_MIN (resp.  SYS_UID_MAX) is 101 (resp.  UID_MIN-1).
+
+   UID_MAX (number), UID_MIN (number)
+       Range of user IDs used for the creation of regular users by useradd or newusers.
+
+       The default value for UID_MIN (resp.  UID_MAX) is 1000 (resp. 60000).
+
+   UMASK (number)
+       The file mode creation mask is initialized to this value. If not specified, the mask will be initialized to 022.
+
+       useradd and newusers use this mask to set the mode of the home directory they create
+
+       It is also used by login to define users' initial umask. Note that this mask can be overridden by the user's GECOS line (if
+       QUOTAS_ENAB is set) or by the specification of a limit with the K identifier in limits(5).
+
+   USERGROUPS_ENAB (boolean)
+       Enable setting of the umask group bits to be the same as owner bits (examples: 022 -&gt; 002, 077 -&gt; 007) for non-root users, if the
+       uid is the same as gid, and username is the same as the primary group name.
+
+       If set to yes, userdel will remove the user's group if it contains no more members, and useradd will create by default a group with
+       the name of the user.
+</code></pre>
+<p>FILES<br>       /etc/passwd<br>           User account information.</p>
+<pre><code>   /etc/shadow
+       Secure user account information.
+
+   /etc/group
+       Group account information.
+
+   /etc/gshadow
+       Secure group account information.
+
+   /etc/default/useradd
+       Default values for account creation.
+
+   /etc/skel/
+       Directory containing default files.
+
+   /etc/subgid
+       Per user subordinate group IDs.
+
+   /etc/subuid
+       Per user subordinate user IDs.
+
+   /etc/login.defs
+       Shadow password suite configuration.
+</code></pre>
+<p>EXIT VALUES<br>       The useradd command exits with the following values:</p>
+<pre><code>   0
+       success
+
+   1
+       can't update password file
+
+   2
+       invalid command syntax
+
+   3
+       invalid argument to option
+
+   4
+       UID already in use (and no -o)
+
+   6
+       specified group doesn't exist
+
+   9
+       username already in use
+
+   10
+       can't update group file
+
+   12
+       can't create home directory
+
+   14
+       can't update SELinux user mapping
+</code></pre>
+<p>SEE ALSO<br>       chfn(1), chsh(1), passwd(1), crypt(3), groupadd(8), groupdel(8), groupmod(8), login.defs(5), newusers(8), subgid(5),<br>       subuid(5),userdel(8), usermod(8).</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%A1%E7%90%86%E5%91%98/" rel="tag"># 管理员</a>
+              <a href="/tags/System-Management-Commands/" rel="tag"># System Management Commands</a>
+              <a href="/tags/useradd/" rel="tag"># useradd</a>
+              <a href="/tags/adduser/" rel="tag"># adduser</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2013/03/07/linux-userdel-beginner/" rel="prev" title="Linux userdel">
+      <i class="fa fa-chevron-left"></i> Linux userdel
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2013/03/07/linux-useradd-beginner/" rel="next" title="Linux useradd">
+      Linux useradd <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linux%E4%B8%AD%E5%88%9B%E5%BB%BA%E6%96%B0%E7%94%A8%E6%88%B7useradd"><span class="nav-number">1.</span> <span class="nav-text">linux中创建新用户useradd</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7"><span class="nav-number">1.1.</span> <span class="nav-text">默认添加用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E4%B8%8A%E5%A4%87%E6%B3%A8"><span class="nav-number">1.2.</span> <span class="nav-text">加上备注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E5%AE%9A%E7%99%BB%E9%99%86%E7%9A%84%E7%9B%AE%E5%BD%95"><span class="nav-number">1.3.</span> <span class="nav-text">设定登陆的目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%94%B9%E9%BB%98%E8%AE%A4%E7%9A%84SHELL"><span class="nav-number">1.4.</span> <span class="nav-text">更改默认的SHELL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E5%AE%9A%E5%A4%B1%E6%95%88%E6%97%A5%E6%9C%9F"><span class="nav-number">1.5.</span> <span class="nav-text">设定失效日期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#useradd-%E7%94%A8%E6%88%B7%E5%90%8D"><span class="nav-number">1.6.</span> <span class="nav-text">useradd 用户名</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2013/03/07/linux-useradd/";
+    this.page.identifier = "2013/03/07/linux-useradd/";
+    this.page.title = "Linux useradd";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

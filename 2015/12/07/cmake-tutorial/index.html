@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="简介这个主要参考CMake官网的手册整理而成。 一步一步阐述了如何使用CMake构建一个工程。详细参考Mastering CMake。 所有的源码在下载的CMake软件包里面的Tests&#x2F;Tutorial文件夹。 第一步 开始吧大部分的项目都是从源码进行编译生成可执行程序的。对于最简单的工程，包含两行代码的CMakeLists.txt文件就可以搞定。下面就开始我们的第一个小目标，内容如下所示： 1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CMake 简便手册">
+<meta property="og:url" content="http://shaoguangleo.github.io/2015/12/07/cmake-tutorial/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="简介这个主要参考CMake官网的手册整理而成。 一步一步阐述了如何使用CMake构建一个工程。详细参考Mastering CMake。 所有的源码在下载的CMake软件包里面的Tests&#x2F;Tutorial文件夹。 第一步 开始吧大部分的项目都是从源码进行编译生成可执行程序的。对于最简单的工程，包含两行代码的CMakeLists.txt文件就可以搞定。下面就开始我们的第一个小目标，内容如下所示： 1">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-12-07T12:44:08.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.709Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="cmake">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2015/12/07/cmake-tutorial/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CMake 简便手册 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2015/12/07/cmake-tutorial/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CMake 简便手册
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-12-07 20:44:08" itemprop="dateCreated datePublished" datetime="2015-12-07T20:44:08+08:00">2015-12-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CMake/" itemprop="url" rel="index"><span itemprop="name">CMake</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2015/12/07/cmake-tutorial/" class="post-meta-item leancloud_visitors" data-flag-title="CMake 简便手册" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2015/12/07/cmake-tutorial/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/07/cmake-tutorial/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2015/12/07/cmake-tutorial/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2015/12/07/cmake-tutorial/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>这个主要参考CMake官网的手册整理而成。 一步一步阐述了如何使用CMake构建一个工程。详细参考<a href="http://www.kitware.com/products/cmakebook.html">Mastering CMake</a>。</p>
+<p>所有的源码在下载的CMake软件包里面的<code>Tests/Tutorial</code>文件夹。</p>
+<h1 id="第一步-开始吧"><a href="#第一步-开始吧" class="headerlink" title="第一步 开始吧"></a>第一步 开始吧</h1><p>大部分的项目都是从源码进行编译生成可执行程序的。<br>对于最简单的工程，包含两行代码的<code>CMakeLists.txt</code>文件就可以搞定。<br>下面就开始我们的第一个小目标，内容如下所示：</p>
+<figure class="highlight scss"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required (VERSION <span class="number">3.2</span>)</span><br><span class="line">project (Tutorial)</span><br><span class="line"><span class="built_in">add_executable</span>(Tutorial tutorial.cxx)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>从上面的例子看到，cmake的关键词都是小写的，其实大写、小写或者大小写混合，CMake都是支持的。</p>
+<p>下面的代码是一个比较简单的计算平方根的小程序。</p>
+<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A simple program that computes the square root of a number</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">	<span class="keyword">if</span> (argc &lt; <span class="number">2</span>)</span><br><span class="line">	{</span><br><span class="line">	<span class="built_in">fprintf</span>(stdout,<span class="string">"Usage: %s number\n"</span>,argv[<span class="number">0</span>]);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	}</span><br><span class="line">	<span class="type">double</span> inputValue = <span class="built_in">atof</span>(argv[<span class="number">1</span>]);</span><br><span class="line">	<span class="type">double</span> outputValue = <span class="built_in">sqrt</span>(inputValue);</span><br><span class="line">	<span class="built_in">fprintf</span>(stdout,<span class="string">"The square root of %g is %g\n"</span>,</span><br><span class="line">	inputValue, outputValue);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="添加版本号并配置头文件"><a href="#添加版本号并配置头文件" class="headerlink" title="添加版本号并配置头文件"></a>添加版本号并配置头文件</h2><p>我们将要添加的第一个特性为提供一个版本号，当然也可以在源码里面修改，不过在<code>CMakeLists.txt</code>里面修改更灵活一些。修改后的文件如下所示：</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span> (VERSION <span class="number">2.6</span>)</span><br><span class="line"><span class="keyword">project</span> (Tutorial)</span><br><span class="line"><span class="comment"># The version number.</span></span><br><span class="line"><span class="keyword">set</span> (Tutorial_VERSION_MAJOR <span class="number">1</span>)</span><br><span class="line"><span class="keyword">set</span> (Tutorial_VERSION_MINOR <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># configure a header file to pass some of the CMake settings</span></span><br><span class="line"><span class="comment"># to the source code</span></span><br><span class="line"><span class="keyword">configure_file</span> (</span><br><span class="line"><span class="string">"${PROJECT_SOURCE_DIR}/TutorialConfig.h.in"</span></span><br><span class="line"><span class="string">"${PROJECT_BINARY_DIR}/TutorialConfig.h"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the binary tree to the search path for include files</span></span><br><span class="line"><span class="comment"># so that we will find TutorialConfig.h</span></span><br><span class="line"><span class="keyword">include_directories</span>(<span class="string">"${PROJECT_BINARY_DIR}"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the executable</span></span><br><span class="line"><span class="keyword">add_executable</span>(Tutorial tutorial.cxx)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>从上面的内容可以看到我们需要的头文件在binary目录，所以我们需要把该目录包含进来。</p>
+<p>接下来我们创建一个文件<code>TutorialConfig.h.in</code>，内容如下所示：</p>
+<figure class="highlight gauss"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// the configured options and settings for Tutorial</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Tutorial_VERSION_MAJOR <span class="comment">@Tutorial_VERSION_MAJOR@</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Tutorial_VERSION_MINOR <span class="comment">@Tutorial_VERSION_MINOR@</span></span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>在CMake配置该头文件的时候，就会将<code>@Tutorial_VERSION_MAJOR@</code>和<code>@Tutorial_VERSION_MINOR@</code> 自动替换为<code>CMakeLists.txt</code>文件中的值。</p>
+<p>接下来，我们修改源码来使用这个版本号。源码如下所示。</p>
+<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A simple program that computes the square root of a number</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">"TutorialConfig.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line"><span class="keyword">if</span> (argc &lt; <span class="number">2</span>)</span><br><span class="line">{</span><br><span class="line">	<span class="built_in">fprintf</span>(stdout,<span class="string">"%s Version %d.%d\n"</span>,</span><br><span class="line">	argv[<span class="number">0</span>],</span><br><span class="line">	Tutorial_VERSION_MAJOR,</span><br><span class="line">	Tutorial_VERSION_MINOR);</span><br><span class="line">	<span class="built_in">fprintf</span>(stdout,<span class="string">"Usage: %s number\n"</span>,argv[<span class="number">0</span>]);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	}</span><br><span class="line">	<span class="type">double</span> inputValue = <span class="built_in">atof</span>(argv[<span class="number">1</span>]);</span><br><span class="line">	<span class="type">double</span> outputValue = <span class="built_in">sqrt</span>(inputValue);</span><br><span class="line">	<span class="built_in">fprintf</span>(stdout,<span class="string">"The square root of %g is %g\n"</span>,</span><br><span class="line">	inputValue, outputValue);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h1 id="第二步-添加一个库"><a href="#第二步-添加一个库" class="headerlink" title="第二步 添加一个库"></a>第二步 添加一个库</h1><p>接下里我们给项目添加一个库。这个库包含我们自己实现的一个求平方根的算法。随后我们就使用这个库而不用系统自带的库。在这个示例中，我们把这个库放在子文件夹<code>MathFunctions</code>中，并在<code>CMakeLists.txt</code>文件中将添加下面一行</p>
+<figure class="highlight stylus"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">add_library</span><span class="params">(MathFunctions mysqrt.cxx)</span></span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>源码文件<code>mysqrt.cxx</code>中包含了一个类似求平方根的功能。<br>为了使用这个新的库，我们在顶级目录的<code>CMakeLists.txt</code>文件中添加<code>add_subdirectory</code>调用，这样就可以在编译的时候使用该库。<br>同时我们也添加了一个头文件包含目录，用来使用头文件中的原型定义。<br>最后新添加的几行内容如下所示：</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include_directories</span> (<span class="string">"${PROJECT_SOURCE_DIR}/MathFunctions"</span>)</span><br><span class="line"><span class="keyword">add_subdirectory</span> (MathFunctions)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the executable</span></span><br><span class="line"><span class="keyword">add_executable</span> (Tutorial tutorial.cxx)</span><br><span class="line"><span class="keyword">target_link_libraries</span> (Tutorial MathFunctions)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>接下来我们把这个库设置成可选的。虽然在这个示例中没有必要，不过对于其他依赖于第三方库的软件，这个就很有必要的。</p>
+<p>第一步就是在顶级目录的 <code>CMakeLists.txt</code> 文件中添加option参数</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># should we use our own math functions?</span></span><br><span class="line"><span class="keyword">option</span> (USE_MYMATH</span><br><span class="line"><span class="string">"Use tutorial provided math implementation"</span> <span class="keyword">ON</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>上面的option选项ON就使能了参数USE_MYMATH。</p>
+<p>为了在编译连接时使用到<code>MathFunctions</code>库，<br><code>CMakeLists.txt</code>文件如下所示：</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># add the MathFunctions library?</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="keyword">if</span> (USE_MYMATH)</span><br><span class="line"><span class="keyword">include_directories</span> (<span class="string">"${PROJECT_SOURCE_DIR}/MathFunctions"</span>)</span><br><span class="line"><span class="keyword">add_subdirectory</span> (MathFunctions)</span><br><span class="line"><span class="keyword">set</span> (EXTRA_LIBS <span class="variable">${EXTRA_LIBS}</span> MathFunctions)</span><br><span class="line"><span class="keyword">endif</span> (USE_MYMATH)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the executable</span></span><br><span class="line"><span class="keyword">add_executable</span> (Tutorial tutorial.cxx)</span><br><span class="line"><span class="keyword">target_link_libraries</span> (Tutorial  <span class="variable">${EXTRA_LIBS}</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>USE_MYMATH</code>会决定是否编译并使用<code>MathFunctions</code>，变量<code>EXTRA_LIBS</code>将收集后续使用到的库。这是大型工程的一个通用方法。</p>
+<p>目前的代码如下：</p>
+<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A simple program that computes the square root of a number</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">"TutorialConfig.h"</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> USE_MYMATH</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">"MathFunctions.h"</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">	<span class="keyword">if</span> (argc &lt; <span class="number">2</span>)</span><br><span class="line">	{</span><br><span class="line">	<span class="built_in">fprintf</span>(stdout,<span class="string">"%s Version %d.%d\n"</span>, argv[<span class="number">0</span>],</span><br><span class="line">	Tutorial_VERSION_MAJOR,</span><br><span class="line">	Tutorial_VERSION_MINOR);</span><br><span class="line">	<span class="built_in">fprintf</span>(stdout,<span class="string">"Usage: %s number\n"</span>,argv[<span class="number">0</span>]);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	<span class="type">double</span> inputValue = <span class="built_in">atof</span>(argv[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">	<span class="meta">#<span class="keyword">ifdef</span> USE_MYMATH</span></span><br><span class="line">	<span class="type">double</span> outputValue = <span class="built_in">mysqrt</span>(inputValue);</span><br><span class="line">	<span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">	<span class="type">double</span> outputValue = <span class="built_in">sqrt</span>(inputValue);</span><br><span class="line">	<span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">fprintf</span>(stdout,<span class="string">"The square root of %g is %g\n"</span>,</span><br><span class="line">	inputValue, outputValue);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在源码中我们也使用了<code>USE_MYMATH</code>。我们可以通过在文件<code>TutorialConfig.h.in</code>中添加下面一行来搞定。</p>
+<figure class="highlight 1c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#cmakedefine USE_MYMATH</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="第三步-安装和测试"><a href="#第三步-安装和测试" class="headerlink" title="第三步 安装和测试"></a>第三步 安装和测试</h1><p>下一步我们将增加项目的安装和测试。</p>
+<p>只要增加下面两行命令就可以将库文件和头文件安装到指定位置。</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">install</span> (TARGETS MathFunctions DESTINATION bin)</span><br><span class="line"><span class="keyword">install</span> (FILES MathFunctions.h DESTINATION <span class="keyword">include</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后在顶级目录加上下面两句话就可以安装可执行文件和配置头文件了。</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># add the install targets</span></span><br><span class="line"><span class="keyword">install</span> (TARGETS Tutorial DESTINATION bin)</span><br><span class="line"><span class="keyword">install</span> (FILES <span class="string">"${PROJECT_BINARY_DIR}/TutorialConfig.h"</span>        </span><br><span class="line">DESTINATION <span class="keyword">include</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这些就是我们需要做的全部工作了，此时我们就可以编译这个项目了，然后输入<code>make install</code>就可以安装相应的头文件、库和可执行文件了。</p>
+<p>CMAKE中的变量<code>CMAKE_INSTALL_PREFIX</code>用于指定文件安装的根路径。</p>
+<p>增加测试也是很多程序都要做的，下面的几步用于测试程序能够正常运行。</p>
+<figure class="highlight apache"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">include</span>(CTest)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># does the application run</span></span><br><span class="line"><span class="attribute">add_test</span> (TutorialRuns Tutorial <span class="number">25</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># does it sqrt of 25</span></span><br><span class="line"><span class="attribute">add_test</span> (TutorialComp25 Tutorial <span class="number">25</span>)</span><br><span class="line"><span class="attribute">set_tests_properties</span> (TutorialComp25 PROPERTIES PASS_REGULAR_EXPRESSION “<span class="number">25</span> is <span class="number">5</span>”)</span><br><span class="line"></span><br><span class="line"><span class="comment"># does it handle negative numbers</span></span><br><span class="line"><span class="attribute">add_test</span> (TutorialNegative Tutorial -<span class="number">25</span>)</span><br><span class="line"><span class="attribute">set_tests_properties</span> (TutorialNegative PROPERTIES PASS_REGULAR_EXPRESSION “-<span class="number">25</span> is <span class="number">0</span>”)</span><br><span class="line"></span><br><span class="line"><span class="comment"># does it handle small numbers</span></span><br><span class="line"><span class="attribute">add_test</span> (TutorialSmall Tutorial <span class="number">0</span>.<span class="number">0001</span>)</span><br><span class="line"><span class="attribute">set_tests_properties</span> (TutorialSmall PROPERTIES PASS_REGULAR_EXPRESSION “<span class="number">0</span>.<span class="number">0001</span> is <span class="number">0</span>.<span class="number">01</span>”)</span><br><span class="line"></span><br><span class="line"><span class="comment"># does the usage message work?</span></span><br><span class="line"><span class="attribute">add_test</span> (TutorialUsage Tutorial)</span><br><span class="line"><span class="attribute">set_tests_properties</span> (TutorialUsage PROPERTIES PASS_REGULAR_EXPRESSION “Usage:.*number”)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在编译完之后就可以使用<code>ctest</code>命令来运行这些测试了。</p>
+<p>第一个简单的例子主要用于检测程序是否出现段错误或者其他bug，有一个0值返回。这是CTest测试的基本框架。<br>接下来的几个测试使用了参数<code>PASS_REGULAR_EXPRESSION</code>用来检测输出是否包含特定字符串。在这个示例中，如果测试的结果没有包含相应的字符，将会输出错误信息。</p>
+<p>如果希望做很多不同输入的测试，可以考虑定义一个宏来完成。</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#define a macro to simplify adding tests, then use it</span></span><br><span class="line"><span class="keyword">macro</span> (do_test arg result)</span><br><span class="line"><span class="keyword">add_test</span> (TutorialComp<span class="variable">${arg}</span> Tutorial <span class="variable">${arg}</span>)</span><br><span class="line"><span class="keyword">set_tests_properties</span> (TutorialComp<span class="variable">${arg}</span></span><br><span class="line">PROPERTIES PASS_REGULAR_EXPRESSION <span class="variable">${result}</span>)</span><br><span class="line"><span class="keyword">endmacro</span> (do_test)</span><br><span class="line"><span class="comment"># do a bunch of result based tests</span></span><br><span class="line">do_test (<span class="number">25</span> <span class="string">"25 is 5"</span>)</span><br><span class="line">do_test (-<span class="number">25</span> <span class="string">"-25 is 0"</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="第四部-增加系统Introspection"><a href="#第四部-增加系统Introspection" class="headerlink" title="第四部 增加系统Introspection"></a>第四部 增加系统Introspection</h1><p>接下来我们增加一些代码用来解决依赖于特定系统的特性。在这个示例中我们测试系统是否包含log和exp函数。当然大部分操作系统都具有。如果操作平台有log我们就使用它在mysqrt函数中来计算平方根。我们首先通过在文件<code>CMakeLists.txt</code>中添加<code>CheckFunctionExists.cmake</code>宏来测试这个功能的可用性。</p>
+<figure class="highlight irpf90"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># does this system <span class="keyword">provide</span> the <span class="built_in">log</span> and <span class="built_in">exp</span> functions?</span><br><span class="line"><span class="keyword">include</span> (CheckFunctionExists)</span><br><span class="line">check_function_exists (<span class="built_in">log</span> HAVE_LOG)</span><br><span class="line">check_function_exists (<span class="built_in">exp</span> HAVE_EXP)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>接下来我们通过修改<code>TutorialConfig.h.in</code>文件来定义CMake是否发现了这些值。</p>
+<figure class="highlight livecodeserver"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// does <span class="keyword">the</span> <span class="built_in">platform</span> provide <span class="built_in">exp</span> <span class="keyword">and</span> <span class="built_in">log</span> functions?</span><br><span class="line"><span class="comment">#cmakedefine HAVE_LOG</span></span><br><span class="line"><span class="comment">#cmakedefine HAVE_EXP</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>这里需要特别注意的是这些测试一定要在<code>configure_file</code>命令之前进行，因为<code>configure_file</code>命令会立即使用当前的一些设置。最后我们得到了一个没有log和exp函数的解决方案。</p>
+<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// if we have both log and exp then use them</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> defined (HAVE_LOG) &amp;&amp; defined (HAVE_EXP)</span></span><br><span class="line">result = <span class="built_in">exp</span>(<span class="built_in">log</span>(x)*<span class="number">0.5</span>);</span><br><span class="line"><span class="meta">#<span class="keyword">else</span> <span class="comment">// otherwise use an iterative approach</span></span></span><br><span class="line">. . .</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="第五步-增加一个Generated-File-and-Generator"><a href="#第五步-增加一个Generated-File-and-Generator" class="headerlink" title="第五步 增加一个Generated File and Generator"></a>第五步 增加一个Generated File and Generator</h1><p>这个步骤里面我们将展示如何在编译应用程序的过程中添加一个源文件。在这个例子里面我们将在编译过程中创建一个表，然后把该表编译进我们的程序。<br>首先我们需要生成该表的程序，在MathFunctions子目录我们创建一个新的文件<code>MakeTable.cpp</code></p>
+<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A simple program that builds a sqrt table</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;math.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>{</span><br><span class="line">	<span class="type">int</span> i;</span><br><span class="line">	<span class="type">double</span> result;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// make sure we have enough arguments</span></span><br><span class="line">	<span class="keyword">if</span> (argc &lt; <span class="number">2</span>)</span><br><span class="line">	{</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	<span class="comment">// open the output file</span></span><br><span class="line">	FILE *fout = <span class="built_in">fopen</span>(argv[<span class="number">1</span>],<span class="string">"w"</span>);</span><br><span class="line">	<span class="keyword">if</span> (!fout)</span><br><span class="line">	{</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	<span class="comment">// create a source file with a table of square roots</span></span><br><span class="line">	<span class="built_in">fprintf</span>(fout,<span class="string">"double sqrtTable[] = {\n"</span>);</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">	{</span><br><span class="line">	result = <span class="built_in">sqrt</span>(<span class="built_in">static_cast</span>&lt;<span class="type">double</span>&gt;(i));</span><br><span class="line">	<span class="built_in">fprintf</span>(fout,<span class="string">"%g,\n"</span>,result);</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	<span class="comment">// close the table with a zero</span></span><br><span class="line">	<span class="built_in">fprintf</span>(fout,<span class="string">"0};\n"</span>);</span><br><span class="line">	<span class="built_in">fclose</span>(fout);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>添加下面的几行命令来完成</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># first we add the executable that generates the table</span></span><br><span class="line"><span class="keyword">add_executable</span>(MakeTable MakeTable.cpp)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the command to generate the source code</span></span><br><span class="line"><span class="keyword">add_custom_command</span> (</span><br><span class="line">OUTPUT <span class="variable">${CMAKE_CURRENT_BINARY_DIR}</span>/Table.h</span><br><span class="line"><span class="keyword">COMMAND</span> MakeTable <span class="variable">${CMAKE_CURRENT_BINARY_DIR}</span>/Table.h</span><br><span class="line">DEPENDS MakeTable</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the binary tree directory to the search path for</span></span><br><span class="line"><span class="comment"># include files</span></span><br><span class="line"><span class="keyword">include_directories</span>( <span class="variable">${CMAKE_CURRENT_BINARY_DIR}</span> )</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the main library</span></span><br><span class="line"><span class="keyword">add_library</span>(MathFunctions `mysqrt.cxx` <span class="variable">${CMAKE_CURRENT_BINARY_DIR}</span>/Table.h  )</span><br></pre></td></tr></tbody></table></figure>
+
+<p>根目录的文件<code>CMakeLists.txt</code>内容如下所示：</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span> (VERSION <span class="number">2.6</span>)</span><br><span class="line"><span class="keyword">project</span> (Tutorial)</span><br><span class="line"><span class="keyword">include</span>(CTest)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The version number.</span></span><br><span class="line"><span class="keyword">set</span> (Tutorial_VERSION_MAJOR <span class="number">1</span>)</span><br><span class="line"><span class="keyword">set</span> (Tutorial_VERSION_MINOR <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># does this system provide the log and exp functions?</span></span><br><span class="line"><span class="keyword">include</span> (<span class="variable">${CMAKE_ROOT}</span>/Modules/CheckFunctionExists.cmake)</span><br><span class="line"></span><br><span class="line">check_function_exists (log HAVE_LOG)</span><br><span class="line">check_function_exists (exp HAVE_EXP)</span><br><span class="line"></span><br><span class="line"><span class="comment"># should we use our own math functions</span></span><br><span class="line"><span class="keyword">option</span>(USE_MYMATH</span><br><span class="line"><span class="string">"Use tutorial provided math implementation"</span> <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># configure a header file to pass some of the CMake settings</span></span><br><span class="line"><span class="comment"># to the source code</span></span><br><span class="line"><span class="keyword">configure_file</span> (</span><br><span class="line"><span class="string">"${PROJECT_SOURCE_DIR}/TutorialConfig.h.in"</span></span><br><span class="line"><span class="string">"${PROJECT_BINARY_DIR}/TutorialConfig.h"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the binary tree to the search path for include files</span></span><br><span class="line"><span class="comment"># so that we will find TutorialConfig.h</span></span><br><span class="line"><span class="keyword">include_directories</span> (<span class="string">"${PROJECT_BINARY_DIR}"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the MathFunctions library?</span></span><br><span class="line"><span class="keyword">if</span> (USE_MYMATH)</span><br><span class="line"><span class="keyword">include_directories</span> (<span class="string">"${PROJECT_SOURCE_DIR}/MathFunctions"</span>)</span><br><span class="line"><span class="keyword">add_subdirectory</span> (MathFunctions)</span><br><span class="line"><span class="keyword">set</span> (EXTRA_LIBS <span class="variable">${EXTRA_LIBS}</span> MathFunctions)</span><br><span class="line"><span class="keyword">endif</span> (USE_MYMATH)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the executable</span></span><br><span class="line"><span class="keyword">add_executable</span> (Tutorial tutorial.cxx)</span><br><span class="line"><span class="keyword">target_link_libraries</span> (Tutorial  <span class="variable">${EXTRA_LIBS}</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the install targets</span></span><br><span class="line"><span class="keyword">install</span> (TARGETS Tutorial DESTINATION bin)</span><br><span class="line"><span class="keyword">install</span> (FILES <span class="string">"${PROJECT_BINARY_DIR}/TutorialConfig.h"</span>        </span><br><span class="line">DESTINATION <span class="keyword">include</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># does the application run</span></span><br><span class="line"><span class="keyword">add_test</span> (TutorialRuns Tutorial <span class="number">25</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># does the usage message work?</span></span><br><span class="line"><span class="keyword">add_test</span> (TutorialUsage Tutorial)</span><br><span class="line"><span class="keyword">set_tests_properties</span> (TutorialUsage</span><br><span class="line">PROPERTIES</span><br><span class="line">PASS_REGULAR_EXPRESSION <span class="string">"Usage:.*number"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">#define a macro to simplify adding tests</span></span><br><span class="line"><span class="keyword">macro</span> (do_test arg result)</span><br><span class="line"><span class="keyword">add_test</span> (TutorialComp<span class="variable">${arg}</span> Tutorial <span class="variable">${arg}</span>)</span><br><span class="line"><span class="keyword">set_tests_properties</span> (TutorialComp<span class="variable">${arg}</span></span><br><span class="line">PROPERTIES PASS_REGULAR_EXPRESSION <span class="variable">${result}</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">endmacro</span> (do_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># do a bunch of result based tests</span></span><br><span class="line">do_test (<span class="number">4</span> <span class="string">"4 is 2"</span>)</span><br><span class="line">do_test (<span class="number">9</span> <span class="string">"9 is 3"</span>)</span><br><span class="line">do_test (<span class="number">5</span> <span class="string">"5 is 2.236"</span>)</span><br><span class="line">do_test (<span class="number">7</span> <span class="string">"7 is 2.645"</span>)</span><br><span class="line">do_test (<span class="number">25</span> <span class="string">"25 is 5"</span>)</span><br><span class="line">do_test (-<span class="number">25</span> <span class="string">"-25 is 0"</span>)</span><br><span class="line">do_test (<span class="number">0.0001</span> <span class="string">"0.0001 is 0.01"</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>文件<code>TutorialConfig.h.in </code>如下所示：</p>
+<figure class="highlight gauss"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// the configured options and settings for Tutorial</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Tutorial_VERSION_MAJOR <span class="comment">@Tutorial_VERSION_MAJOR@</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Tutorial_VERSION_MINOR <span class="comment">@Tutorial_VERSION_MINOR@</span></span></span><br><span class="line"><span class="meta">#cmakedefine USE_MYMATH</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// does the platform provide exp and log functions?</span></span><br><span class="line"><span class="meta">#cmakedefine HAVE_LOG</span></span><br><span class="line"><span class="meta">#cmakedefine HAVE_EXP</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>MathFunctions目录的文件<code>CMakeLists.txt</code>内容为：</p>
+<figure class="highlight cmake"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># first we add the executable that generates the table</span></span><br><span class="line"><span class="keyword">add_executable</span>(MakeTable MakeTable.cxx)</span><br><span class="line"><span class="comment"># add the command to generate the source code</span></span><br><span class="line"><span class="keyword">add_custom_command</span> (</span><br><span class="line">OUTPUT <span class="variable">${CMAKE_CURRENT_BINARY_DIR}</span>/Table.h</span><br><span class="line">DEPENDS MakeTable</span><br><span class="line"><span class="keyword">COMMAND</span> MakeTable <span class="variable">${CMAKE_CURRENT_BINARY_DIR}</span>/Table.h</span><br><span class="line">)</span><br><span class="line"><span class="comment"># add the binary tree directory to the search path</span></span><br><span class="line"><span class="comment"># for include files</span></span><br><span class="line"><span class="keyword">include_directories</span>( <span class="variable">${CMAKE_CURRENT_BINARY_DIR}</span> )</span><br><span class="line"></span><br><span class="line"><span class="comment"># add the main library</span></span><br><span class="line"><span class="keyword">add_library</span>(MathFunctions `mysqrt.cxx` <span class="variable">${CMAKE_CURRENT_BINARY_DIR}</span>/Table.h)</span><br><span class="line"></span><br><span class="line"><span class="keyword">install</span> (TARGETS MathFunctions DESTINATION bin)</span><br><span class="line"><span class="keyword">install</span> (FILES MathFunctions.h DESTINATION <span class="keyword">include</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="第六步-构建一个安装包"><a href="#第六步-构建一个安装包" class="headerlink" title="第六步 构建一个安装包"></a>第六步 构建一个安装包</h1><p>这一步假定我们需要把我们的项目打包给其他人来使用。我们希望能够提供多个系统版本的二进制和源码包。<br>与直接编译源码不同，这里我们使用<code>CPack</code>来完成各个平台所需要的各种条件。</p>
+<p>我们只需要在顶层目录的<code>CMakeLists.txt</code>文件中添加几行代码即可。</p>
+<figure class="highlight routeros"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># build a CPack driven installer package</span></span><br><span class="line">include (InstallRequiredSystemLibraries)</span><br><span class="line"><span class="built_in">set</span> (CPACK_RESOURCE_FILE_LICENSE  </span><br><span class="line"><span class="string">"<span class="variable">${CMAKE_CURRENT_SOURCE_DIR}</span>/License.txt"</span>)</span><br><span class="line"><span class="built_in">set</span> (CPACK_PACKAGE_VERSION_MAJOR <span class="string">"<span class="variable">${Tutorial_VERSION_MAJOR}</span>"</span>)</span><br><span class="line"><span class="built_in">set</span> (CPACK_PACKAGE_VERSION_MINOR <span class="string">"<span class="variable">${Tutorial_VERSION_MINOR}</span>"</span>)</span><br><span class="line">include (CPack)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>需要添加的就是上面几行代码，我们需要首先包含<code>InstallRequiredSystemLibraries</code>，这个模块将完成当前平台运行中需要的各种依赖库。接下来我们指定存储的许可信息以及版本信息。版本信息使用我们以前设定的值。最后我们包含<code>CPack</code>即可。</p>
+<p>如果希望构建二进制版本，执行命令：</p>
+<figure class="highlight ada"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cpack <span class="comment">--config CPackConfig.cmake</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果希望创建源码版本，执行命令：</p>
+<figure class="highlight ada"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cpack <span class="comment">--config CPackSourceConfig.cmake</span></span><br></pre></td></tr></tbody></table></figure>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/cmake/" rel="tag"># cmake</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/10/23/linux-aio/" rel="prev" title="Linux aio异步读写">
+      <i class="fa fa-chevron-left"></i> Linux aio异步读写
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2015/12/07/cmake-tutorial-0-introduction/" rel="next" title="CMake 简便手册">
+      CMake 简便手册 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E5%BC%80%E5%A7%8B%E5%90%A7"><span class="nav-number">2.</span> <span class="nav-text">第一步 开始吧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9C%AC%E5%8F%B7%E5%B9%B6%E9%85%8D%E7%BD%AE%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">添加版本号并配置头文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E5%BA%93"><span class="nav-number">3.</span> <span class="nav-text">第二步 添加一个库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5-%E5%AE%89%E8%A3%85%E5%92%8C%E6%B5%8B%E8%AF%95"><span class="nav-number">4.</span> <span class="nav-text">第三步 安装和测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E9%83%A8-%E5%A2%9E%E5%8A%A0%E7%B3%BB%E7%BB%9FIntrospection"><span class="nav-number">5.</span> <span class="nav-text">第四部 增加系统Introspection</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E6%AD%A5-%E5%A2%9E%E5%8A%A0%E4%B8%80%E4%B8%AAGenerated-File-and-Generator"><span class="nav-number">6.</span> <span class="nav-text">第五步 增加一个Generated File and Generator</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E6%AD%A5-%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%AE%89%E8%A3%85%E5%8C%85"><span class="nav-number">7.</span> <span class="nav-text">第六步 构建一个安装包</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2015/12/07/cmake-tutorial/";
+    this.page.identifier = "2015/12/07/cmake-tutorial/";
+    this.page.title = "CMake 简便手册";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

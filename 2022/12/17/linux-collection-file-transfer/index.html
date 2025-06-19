@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="linux中最常用的文件传输命令  仅个人想法，会持续不间断更新和改进。  现在的Linux大抵都是具备图形界面的，特别是个人使用的话，不装个GUI界面那就说不过去了。 不过但是要远程使用服务器，后者超算，或者只能命令行的方式登陆到其他服务器，其他终端的话，那么命令行的文件传输命令就显得尤为重要。 如果仅仅会右键另存为，岂不抓瞎？ 此时，我们就需要一些命令行的文件传输命令，比如wget和curl，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux中最常用的文件传输命令">
+<meta property="og:url" content="http://shaoguangleo.github.io/2022/12/17/linux-collection-file-transfer/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="linux中最常用的文件传输命令  仅个人想法，会持续不间断更新和改进。  现在的Linux大抵都是具备图形界面的，特别是个人使用的话，不装个GUI界面那就说不过去了。 不过但是要远程使用服务器，后者超算，或者只能命令行的方式登陆到其他服务器，其他终端的话，那么命令行的文件传输命令就显得尤为重要。 如果仅仅会右键另存为，岂不抓瞎？ 此时，我们就需要一些命令行的文件传输命令，比如wget和curl，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.githubassets.com/images/icons/emoji/unicode/1f4c0.png?v8">
+<meta property="article:published_time" content="2022-12-17T14:28:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.872Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="search">
+<meta property="article:tag" content="wget">
+<meta property="article:tag" content="curl">
+<meta property="article:tag" content="文件传输">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.githubassets.com/images/icons/emoji/unicode/1f4c0.png?v8">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2022/12/17/linux-collection-file-transfer/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>linux中最常用的文件传输命令 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2022/12/17/linux-collection-file-transfer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linux中最常用的文件传输命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-12-17 22:28:00" itemprop="dateCreated datePublished" datetime="2022-12-17T22:28:00+08:00">2022-12-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux%E9%9B%86%E9%94%A6/" itemprop="url" rel="index"><span itemprop="name">Linux集锦</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/12/17/linux-collection-file-transfer/" class="post-meta-item leancloud_visitors" data-flag-title="linux中最常用的文件传输命令" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/12/17/linux-collection-file-transfer/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/12/17/linux-collection-file-transfer/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/12/17/linux-collection-file-transfer/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/12/17/linux-collection-file-transfer/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="linux中最常用的文件传输命令"><a href="#linux中最常用的文件传输命令" class="headerlink" title="linux中最常用的文件传输命令"></a>linux中最常用的文件传输命令</h1><blockquote>
+<p> 仅个人想法，会持续不间断更新和改进。</p>
+</blockquote>
+<p>现在的Linux大抵都是具备图形界面的，特别是个人使用的话，不装个GUI界面那就说不过去了。</p>
+<p>不过但是要远程使用服务器，后者超算，或者只能命令行的方式登陆到其他服务器，其他终端的话，那么命令行的文件传输命令就显得尤为重要。</p>
+<p>如果仅仅会右键另存为，岂不抓瞎？</p>
+<p>此时，我们就需要一些命令行的文件传输命令，比如<code>wget</code>和<code>curl</code>，这两个命令是Linux中最常用的文件传输命令。</p>
+<hr>
+<h2 id="超多协议传输的-curl"><a href="#超多协议传输的-curl" class="headerlink" title="超多协议传输的 - curl"></a>超多协议传输的 - curl</h2><p>Linux <code>curl</code>命令是一款用于从一个server端传输的工具。</p>
+<p>很强力，支持众多协议，比如：DICT, FILE, FTP, FTPS, GOPHER, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, POP3, POP3S, RTMP, RTSP,  SCP,  SFTP,  SMB,  SMBS,  SMTP,SMTPS, TELNET 和 TFTP. </p>
+<p>说实话，有些协议我也不知道，不过我们只需要知道这个命令设计之初是希望不需要用户的交互和介入，就可以完成数据的传输。</p>
+<p>所以这个命令被广泛应用于数据传输、测试、调试和自动化脚本中。</p>
+<p>官方定义为：</p>
+<blockquote>
+<p>curl - transfer a URL</p>
+</blockquote>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl [options / URLs]</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>参数</strong>：</p>
+<ul>
+<li><code>-O</code> : 把输出写到该文件中，保留远程文件的文件名</li>
+<li><code>-u</code> : 通过服务端配置的用户名和密码授权访问</li>
+</ul>
+<h3 id="默认传输下载文件"><a href="#默认传输下载文件" class="headerlink" title="默认传输下载文件"></a>默认传输下载文件</h3><p>默认情况下，将下载的数据写入到文件，并且使用服务器上的名字，这里以下载Linux的内核代码为例。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ curl https://mirrors.edge.kernel.org/pub/linux/kernel/v2.4/linux-2.4.32.tar.gz -O</span><br><span class="line">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">  1 36.7M    1  575k    0     0  17431      0  0:36:50  0:00:33  0:36:17 27222</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="需要授权的网站"><a href="#需要授权的网站" class="headerlink" title="需要授权的网站"></a>需要授权的网站</h3><p>部分网站可能需要访问的授权，此时可以使用<code>-u</code>选项提供用户名和密码进行授权：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl -u username https://www.website.com/</span><br><span class="line"> Enter host password <span class="keyword">for</span> user <span class="string">'username'</span>:</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="批量下载"><a href="#批量下载" class="headerlink" title="批量下载"></a>批量下载</h3><p>当然，这么强力的工具，肯定是支持批量下载的，并且是正则表达式的支持。</p>
+<p>比如：<a href="ftp://ftp.example.com/%E7%9A%84file1%EF%BC%8Cfile5%E5%92%8Cfile7%EF%BC%8C%E6%96%B9%E6%B3%95%E5%A6%82%E4%B8%8B%EF%BC%9A">ftp://ftp.example.com/的file1，file5和file7，方法如下：</a></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl ftp://ftp.example.com/file{1,5,7}.txt</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>如果下载<a href="ftp://ftp.example.com/%E7%9A%84%E4%BB%8Efile1%E5%88%B0file100%E7%9A%84100%E7%BB%84%E6%96%87%E4%BB%B6%EF%BC%8C%E6%96%B9%E6%B3%95%E5%A6%82%E4%B8%8B%EF%BC%9A">ftp://ftp.example.com/的从file1到file100的100组文件，方法如下：</a></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl ftp://ftp.example.com/file[1-100].txt</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="非交互的下载工具-wget"><a href="#非交互的下载工具-wget" class="headerlink" title="非交互的下载工具 wget"></a>非交互的下载工具 wget</h2><p><code>Linux</code>系统中的<code>wget</code>是一个下载文件<span class="github-emoji"><span>📀</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4c0.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>的命令行工具，特别普遍 。</p>
+<p>对于<code>Linux</code>用户是必不可少的工具，对于经常要下载一些软件或从远程服务器恢复备份到本地服务器，这个命令尤为重要。</p>
+<p><code>wget</code>支持很多协议，比如<code>HTTP</code>，<code>HTTPS</code>和<code>FTP</code>协议，还可以使用<code>HTTP</code>代理。</p>
+<p><code>wget</code>的有诸多特点，比如</p>
+<ul>
+<li>自动下载 <code>wget</code>支持自动下载，即<code>wget</code>可以在用户退出系统的之后在后台执行。这意味着你可以登录系统，启动一个<code>wget</code>下载任务，然后退出系统，<code>wget</code>将在后台执行直到任务完成，这是个牛气冲天的功能。</li>
+<li>完全重建 <code>wget</code> 可以跟踪<code>HTML</code>页面上的链接依次下载来创建远程服务器的本地版本，完全重建原始站点的目录结构。这又常被称作”递归下载”。在递归下载的时候，<code>wget</code> 遵循Robot Exclusion标准(/robots.txt). <code>wget</code>可以在下载的同时，将链接转换成指向本地文件，以方便离线浏览。</li>
+<li>高稳定 <code>wget</code> 非常稳定，它在带宽很窄的情况下和不稳定网络中有很强的适应性.如果是由于网络的原因下载失败，<code>wget</code>会不断地尝试，直到整个文件下载完毕。如果是服务器打断下载过程，它会再次联到服务器上从停止的地方继续下载。这对从那些限定了链接时间的服务器上下载大文件非常有用。</li>
+</ul>
+<h3 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget [参数] [URL地址]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>用于从网络上下载资源，没有指定目录，下载资源会默认为当前目录。<code>wget</code>虽然功能强大，但是使用起来还是比较简单：</p>
+<h3 id="使用范例"><a href="#使用范例" class="headerlink" title="使用范例"></a>使用范例</h3><p><code>wget</code>的命令参数很多，不过常用的为下面几个，详细的可以看进阶。</p>
+<h4 id="使用wget下载单个文件"><a href="#使用wget下载单个文件" class="headerlink" title="使用wget下载单个文件"></a>使用wget下载单个文件</h4><p>比如，我们下载个Ubuntu的最新版本，试下效果如何</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://releases.ubuntu.com/16.04/ubuntu-16.04-desktop-amd64.iso</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在下载的过程中会显示进度条，包含（下载完成百分比，已经下载的字节，当前下载速度，剩余下载时间）。</p>
+<h4 id="使用wget-O下载并以不同的文件名保存"><a href="#使用wget-O下载并以不同的文件名保存" class="headerlink" title="使用wget -O下载并以不同的文件名保存"></a>使用wget -O下载并以不同的文件名保存</h4><p>这个对于动态链接的下载比较有用，特别是有些文件的名字实在是太……………….长了</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget -O wordpress.zip http://www.ubuntu.com/download.aspx?<span class="built_in">id</span>=1234</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="使用wget-c断点续传"><a href="#使用wget-c断点续传" class="headerlink" title="使用wget -c断点续传"></a>使用wget -c断点续传</h4><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ wget -c http://releases.ubuntu.com/16.04/ubuntu-16.04-desktop-amd64.iso</span><br><span class="line"></span><br><span class="line"><span class="comment"># or</span></span><br><span class="line"></span><br><span class="line">$ wget --<span class="built_in">continue</span> http://releases.ubuntu.com/16.04/ubuntu-16.04-desktop-amd64.iso</span><br></pre></td></tr></tbody></table></figure>
+
+<p>使用wget -c重新启动下载中断的文件，对于我们下载大文件时突然由于网络等原因中断非常有帮助，我们可以继续接着下载而不是重新下载一个文件。需要继续中断的下载时可以使用-c参数。</p>
+<h4 id="使用wget-o把下载信息存入日志文件"><a href="#使用wget-o把下载信息存入日志文件" class="headerlink" title="使用wget -o把下载信息存入日志文件"></a>使用wget -o把下载信息存入日志文件</h4><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget -o download.log URL</span><br></pre></td></tr></tbody></table></figure>
+
+<p>不希望下载信息直接显示在终端而是在一个日志文件，可以使用，特别注意需要与<code>-O</code>来区分开~</p>
+<hr>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/search/" rel="tag"># search</a>
+              <a href="/tags/wget/" rel="tag"># wget</a>
+              <a href="/tags/curl/" rel="tag"># curl</a>
+              <a href="/tags/%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93/" rel="tag"># 文件传输</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/12/diary-%E6%BF%91%E5%90%8D%E6%83%A0%E5%AD%90-%E5%B0%8F%E6%B4%8B%E8%91%B1%E5%A4%A7%E4%BD%9C%E6%88%98/" rel="prev" title="濑名惠子-小洋葱大作战">
+      <i class="fa fa-chevron-left"></i> 濑名惠子-小洋葱大作战
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/01/23/python-sphinx-output-format/" rel="next" title="python中文档SPHINX的输出格式">
+      python中文档SPHINX的输出格式 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#linux%E4%B8%AD%E6%9C%80%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">linux中最常用的文件传输命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B6%85%E5%A4%9A%E5%8D%8F%E8%AE%AE%E4%BC%A0%E8%BE%93%E7%9A%84-curl"><span class="nav-number">1.1.</span> <span class="nav-text">超多协议传输的 - curl</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E4%BC%A0%E8%BE%93%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.2.</span> <span class="nav-text">默认传输下载文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E6%8E%88%E6%9D%83%E7%9A%84%E7%BD%91%E7%AB%99"><span class="nav-number">1.1.3.</span> <span class="nav-text">需要授权的网站</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.1.4.</span> <span class="nav-text">批量下载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E4%BA%A4%E4%BA%92%E7%9A%84%E4%B8%8B%E8%BD%BD%E5%B7%A5%E5%85%B7-wget"><span class="nav-number">1.2.</span> <span class="nav-text">非交互的下载工具 wget</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">命令格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%8C%83%E4%BE%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">使用范例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8wget%E4%B8%8B%E8%BD%BD%E5%8D%95%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">使用wget下载单个文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8wget-O%E4%B8%8B%E8%BD%BD%E5%B9%B6%E4%BB%A5%E4%B8%8D%E5%90%8C%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E4%BF%9D%E5%AD%98"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">使用wget -O下载并以不同的文件名保存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8wget-c%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">使用wget -c断点续传</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8wget-o%E6%8A%8A%E4%B8%8B%E8%BD%BD%E4%BF%A1%E6%81%AF%E5%AD%98%E5%85%A5%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">使用wget -o把下载信息存入日志文件</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2022/12/17/linux-collection-file-transfer/";
+    this.page.identifier = "2022/12/17/linux-collection-file-transfer/";
+    this.page.title = "linux中最常用的文件传输命令";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GNU Automake 版本(version 1.16.1, 26 February 2018) Permission is granted to copy, distribute and&#x2F;or modify thisdocument under the terms of the GNU Free Documentation License,Version 1.3 or any later v">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Automake 5  创建&#96;Makefile.in&#96;">
+<meta property="og:url" content="http://shaoguangleo.github.io/2018/03/15/linux-automake-5-create-makefile-in/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="GNU Automake 版本(version 1.16.1, 26 February 2018) Permission is granted to copy, distribute and&#x2F;or modify thisdocument under the terms of the GNU Free Documentation License,Version 1.3 or any later v">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-03-15T14:28:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.867Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="autotools">
+<meta property="article:tag" content="automake">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2018/03/15/linux-automake-5-create-makefile-in/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux Automake 5  创建`Makefile.in` | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2018/03/15/linux-automake-5-create-makefile-in/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux Automake 5  创建`Makefile.in`
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-03-15 22:28:00" itemprop="dateCreated datePublished" datetime="2018-03-15T22:28:00+08:00">2018-03-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Automake/" itemprop="url" rel="index"><span itemprop="name">Automake</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/03/15/linux-automake-5-create-makefile-in/" class="post-meta-item leancloud_visitors" data-flag-title="Linux Automake 5  创建`Makefile.in`" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/03/15/linux-automake-5-create-makefile-in/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/03/15/linux-automake-5-create-makefile-in/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/03/15/linux-automake-5-create-makefile-in/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/03/15/linux-automake-5-create-makefile-in/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>GNU Automake 版本(version 1.16.1, 26 February 2018)</p>
+<p>Permission is granted to copy, distribute and/or modify this<br>document under the terms of the GNU Free Documentation License,<br>Version 1.3 or any later version published by the Free Software<br>Foundation; with no Invariant Sections, with no Front-Cover texts,<br>and with no Back-Cover Texts.  A copy of the license is included in<br>the section entitled “GNU Free Documentation License.”</p>
+</blockquote>
+<h1 id="5-创建一个-Makefile-in"><a href="#5-创建一个-Makefile-in" class="headerlink" title="5 创建一个 Makefile.in"></a>5 创建一个 <code>Makefile.in</code></h1><hr>
+<p>为了创建一个包的<code>Makefile.in</code>，只需要在顶层目录执行命令 <code>automake</code>即可。 <code>automake</code> 会通过扫描文件<code>configure.ac</code>来找到每一个 <code>Makefile.am</code> 并生成相应的<code>Makefile.in</code>。</p>
+<blockquote>
+<p> 此处留意： <code>automake</code> 假定一个包只有一个<code>configure.ac</code>，所以如果你的包包含多个<code>configure.ac</code>就需要在每个包含的目录执行 <code>automake</code> ，或者使用Autoconf的命令<code>autoreconf</code>，这个命令可以自动遍历所有的目录。</p>
+</blockquote>
+<p>另外还需要留意 <code>automake</code> 必须在顶层目录执行，顶层目录需要包含文件 <code>configure.ac</code>。</p>
+<p>Automake通过运行<code>autoconf</code>来扫描文件 <code>configure.ac</code>及它的依赖，因此<code>autoconf</code> 必须在你的环境变量里面，如果有另外一个 <code>AUTOCONF</code> 环境变量，那么就会 替代默认的 <code>autoconf</code>，这在使用另外一个版本的时候比较有用。</p>
+<blockquote>
+<p>注：<code>automake</code> 只是通过 <code>autoconf</code> 来扫描<code>configure.ac</code>，并不会构建 <code>configure</code> ，所以还需要使用<code>autoconf</code>来构建。</p>
+</blockquote>
+<p>   <code>automake</code> 接收下面的参数：</p>
+<p><code>-a</code><br><code>--add-missing</code><br>​     Automake requires certain common files to exist in certain<br>​     situations; for instance, <code>config.guess</code> is required if<br>​     <code>configure.ac</code> invokes <code>AC_CANONICAL_HOST</code>.  Automake is<br>​     distributed with several of these files (; this option will cause the missing ones to be<br>​     automatically added to the package, whenever possible.  In general<br>​     if Automake tells you a file is missing, try using this option.  By<br>​     default Automake tries to make a symbolic link pointing to its own<br>​     copy of the missing file; this can be changed with <code>--copy</code>.</p>
+<pre><code> Many of the potentially-missing files are common scripts whose
+ location may be specified via the `AC_CONFIG_AUX_DIR` macro.
+ Therefore, `AC_CONFIG_AUX_DIR``s setting affects whether a file is
+ considered missing, and where the missing file is added (.
+
+ In some strictness modes, additional files are installed, x
+</code></pre>
+<p><code>--libdir=DIR</code><br>​     Look for Automake data files in directory DIR instead of in the<br>​     installation directory.  This is typically used for debugging.</p>
+<pre><code> The environment variable `AUTOMAKE_LIBDIR` provides another way to
+ set the directory containing Automake data files.  However
+ `--libdir` takes precedence over it.
+</code></pre>
+<p><code>--print-libdir</code><br>​     Print the path of the installation directory containing<br>​     Automake-provided scripts and data files (like e.g., <code>texinfo.texi</code><br>​     and <code>install-sh</code>).</p>
+<p><code>-c</code><br><code>--copy</code><br>​     使用 <code>--add-missing</code>的时候默认会生成一个符号链接，这个选项会拷贝文件。</p>
+<p><code>-f</code><br><code>--force-missing</code><br>​     When used with <code>--add-missing</code>, causes standard files to be<br>​     reinstalled even if they already exist in the source tree.  This<br>​     involves removing the file from the source tree before creating the<br>​     new symlink (or, with <code>--copy</code>, copying the new file).</p>
+<p><code>--foreign</code><br>​     设定级别为 <code>foreign</code>.</p>
+<p><code>--gnits</code><br>​     设定级别为 <code>gnits</code>.  </p>
+<p><code>--gnu</code><br>​     设定级别为 <code>gnu</code>.</p>
+<p><code>--help</code><br>​     打印一系列命令行选项并退出</p>
+<p><code>-i</code><br><code>--ignore-deps</code><br>​     This disables the dependency tracking feature in generated<br>​     <code>Makefile</code>s; see</p>
+<p><code>--include-deps</code><br>​     This enables the dependency tracking feature.  This feature is<br>​     enabled by default.  This option is provided for historical reasons<br>​     only and probably should not be used.</p>
+<p><code>--no-force</code><br>​     Ordinarily <code>automake</code> creates all <code>Makefile.in</code>s mentioned in<br>​     <code>configure.ac</code>.  This option causes it to only update those<br>​     <code>Makefile.in</code>s that are out of date with respect to one of their<br>​     dependents.</p>
+<p><code>-o DIR</code><br><code>--output-dir=DIR</code><br>​     Put the generated <code>Makefile.in</code> in the directory DIR.  Ordinarily<br>​     each <code>Makefile.in</code> is created in the directory of the corresponding<br>​     <code>Makefile.am</code>.  This option is deprecated and will be removed in a<br>​     future release.</p>
+<p><code>-v</code><br><code>--verbose</code><br>​     Cause Automake to print information about which files are being<br>​     read or created.</p>
+<p><code>--version</code><br>​     打印版本号并退出</p>
+<p><code>-W CATEGORY</code><br><code>--warnings=CATEGORY</code><br>​     Output warnings falling in CATEGORY.  CATEGORY can be one of:<br>​     <code>gnu</code><br>​          warnings related to the GNU Coding Standards (<br>​     <code>obsolete</code><br>​          obsolete features or constructions<br>​     <code>override</code><br>​          user redefinitions of Automake rules or variables<br>​     <code>portability</code><br>​          portability issues (e.g., use of <code>make</code> features that are<br>​          known to be not portable)<br>​     <code>extra-portability</code><br>​          extra portability issues related to obscure tools.  One<br>​          example of such a tool is the Microsoft <code>lib</code> archiver.<br>​     <code>syntax</code><br>​          weird syntax, unused variables, typos<br>​     <code>unsupported</code><br>​          unsupported or incomplete features<br>​     <code>all</code><br>​          all the warnings<br>​     <code>none</code><br>​          turn off all the warnings<br>​     <code>error</code><br>​          treat warnings as errors</p>
+<pre><code> A category can be turned off by prefixing its name with `no-`.  For
+ instance, `-Wno-syntax` will hide the warnings about unused
+ variables.
+
+ The categorie output by default are `obsolete`, `syntax` and
+ `unsupported`.  Additionally, `gnu` and `portability` are enabled
+ in `--gnu` and `--gnits` strictness.
+
+ Turning off `portability` will also turn off `extra-portability`,
+ and similarly turning on `extra-portability` will also turn on
+ `portability`.  However, turning on `portability` or turning off
+ `extra-portability` will not affect the other category.
+
+ The environment variable `WARNINGS` can contain a comma separated
+ list of categorie to enable.  It will be taken into account before
+ the command-line switches, this way `-Wnone` will also ignore any
+ warning category enabled by `WARNINGS`.  This variable is also used
+ by other tools like `autoconf`; unknown categorie are ignored for
+ this reason.
+</code></pre>
+<p>   If the environment variable <code>AUTOMAKE_JOBS</code> contains a positive<br>number, it is taken as the maximum number of Perl threads to use in<br><code>automake</code> for generating multiple <code>Makefile.in</code> files concurrently.<br>This is an experimental feature.</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/autotools/" rel="tag"># autotools</a>
+              <a href="/tags/automake/" rel="tag"># automake</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/03/15/book-docker-learn-docker-step-by-step/" rel="prev" title="循序渐进学Docker">
+      <i class="fa fa-chevron-left"></i> 循序渐进学Docker
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/16/linux-automake-6-scanning-configure-ac/" rel="next" title="Linux Automake 6  解析`configure.ac`">
+      Linux Automake 6  解析`configure.ac` <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA-Makefile-in"><span class="nav-number">1.</span> <span class="nav-text">5 创建一个 Makefile.in</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2018/03/15/linux-automake-5-create-makefile-in/";
+    this.page.identifier = "2018/03/15/linux-automake-5-create-makefile-in/";
+    this.page.title = "Linux Automake 5  创建`Makefile.in`";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

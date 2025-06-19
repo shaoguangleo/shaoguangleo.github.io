@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GNU Automake 版本(version 1.16.1, 26 February 2018) Permission is granted to copy, distribute and&#x2F;or modify thisdocument under the terms of the GNU Free Documentation License,Version 1.3 or any later v">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Automake 7 目录">
+<meta property="og:url" content="http://shaoguangleo.github.io/2018/03/17/linux-automake-7-directories/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="GNU Automake 版本(version 1.16.1, 26 February 2018) Permission is granted to copy, distribute and&#x2F;or modify thisdocument under the terms of the GNU Free Documentation License,Version 1.3 or any later v">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-03-17T14:28:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.867Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="autotools">
+<meta property="article:tag" content="automake">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2018/03/17/linux-automake-7-directories/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux Automake 7 目录 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2018/03/17/linux-automake-7-directories/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux Automake 7 目录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-03-17 22:28:00" itemprop="dateCreated datePublished" datetime="2018-03-17T22:28:00+08:00">2018-03-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Automake/" itemprop="url" rel="index"><span itemprop="name">Automake</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/03/17/linux-automake-7-directories/" class="post-meta-item leancloud_visitors" data-flag-title="Linux Automake 7 目录" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/03/17/linux-automake-7-directories/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/03/17/linux-automake-7-directories/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/03/17/linux-automake-7-directories/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/03/17/linux-automake-7-directories/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>GNU Automake 版本(version 1.16.1, 26 February 2018)</p>
+<p>Permission is granted to copy, distribute and/or modify this<br>document under the terms of the GNU Free Documentation License,<br>Version 1.3 or any later version published by the Free Software<br>Foundation; with no Invariant Sections, with no Front-Cover texts,<br>and with no Back-Cover Texts.  A copy of the license is included in<br>the section entitled “GNU Free Documentation License.”</p>
+</blockquote>
+<p>7 Directories</p>
+<hr>
+<p>For simple projects that distribute all files in the same directory it<br>is enough to have a single ‘Makefile.am’ that builds everything in<br>place.</p>
+<p>   In larger projects, it is common to organize files in different<br>directories, in a tree.  For example, there could be a directory for the<br>program’s source, one for the testsuite, and one for the documentation;<br>or, for very large projects, there could be one directory per program,<br>per library or per module.</p>
+<p>   The traditional approach is to build these subdirectories<br>recursively, employing <em>make recursion</em>: each directory contains its own<br>‘Makefile’, and when ‘make’ is run from the top-level directory, it<br>enters each subdirectory in turn, and invokes there a new ‘make’<br>instance to build the directory’s contents.</p>
+<p>   Because this approach is very widespread, Automake offers built-in<br>support for it.  However, it is worth nothing that the use of make<br>recursion has its own serious issues and drawbacks, and that it’s well<br>possible to have packages with a multi directory layout that make little<br>or no use of such recursion (examples of such packages are GNU Bison and<br>GNU Automake itself); see also the</p>
+<h1 id="7-1-Recursing-subdirectories"><a href="#7-1-Recursing-subdirectories" class="headerlink" title="7.1 Recursing subdirectories"></a>7.1 Recursing subdirectories</h1><p>In packages using make recursion, the top level ‘Makefile.am’ must tell<br>Automake which subdirectories are to be built.  This is done via the<br>‘SUBDIRS’ variable.</p>
+<p>   The ‘SUBDIRS’ variable holds a list of subdirectories in which<br>building of various sorts can occur.  The rules for many targets (e.g.,<br>‘all’) in the generated ‘Makefile’ will run commands both locally and in<br>all specified subdirectories.  Note that the directories listed in<br>‘SUBDIRS’ are not required to contain ‘Makefile.am’s; only ‘Makefile’s<br>(after configuration).  This allows inclusion of libraries from packages<br>that do not use Automake (such as ‘gettext’; see also</p>
+<p>   In packages that use subdirectories, the top-level ‘Makefile.am’ is<br>often very short.  For instance, here is the ‘Makefile.am’ from the GNU<br>Hello distribution:</p>
+<pre><code> EXTRA_DIST = BUGS ChangeLog.O README-alpha
+ SUBDIRS = doc intl po src tests
+</code></pre>
+<p>   When Automake invokes ‘make’ in a subdirectory, it uses the value of<br>the ‘MAKE’ variable.  It passes the value of the variable ‘AM_MAKEFLAGS’<br>to the ‘make’ invocation; this can be set in ‘Makefile.am’ if there are<br>flags you must always pass to ‘make’.</p>
+<p>   The directories mentioned in ‘SUBDIRS’ are usually direct children of<br>the current directory, each subdirectory containing its own<br>‘Makefile.am’ with a ‘SUBDIRS’ pointing to deeper subdirectories.<br>Automake can be used to construct packages of arbitrary depth this way.</p>
+<p>   By default, Automake generates ‘Makefiles’ that work depth-first in<br>postfix order: the subdirectories are built before the current<br>directory.  However, it is possible to change this ordering.  You can do<br>this by putting ‘.’ into ‘SUBDIRS’.  For instance, putting ‘.’ first<br>will cause a prefix ordering of directories.</p>
+<p>   Using</p>
+<pre><code> SUBDIRS = lib src . test
+</code></pre>
+<p>will cause ‘lib/’ to be built before ‘src/’, then the current directory<br>will be built, finally the ‘test/’ directory will be built.  It is<br>customary to arrange test directories to be built after everything else<br>since they are meant to test what has been constructed.</p>
+<p>   In addition to the built-in recursive targets defined by Automake<br>(‘all’, ‘check’, etc.), the developer can also define his own recursive<br>targets.  That is done by passing the names of such targets as arguments<br>to the m4 macro ‘AM_EXTRA_RECURSIVE_TARGETS’ in ‘configure.ac’.<br>Automake generates rules to handle the recursion for such targets; and<br>the developer can define real actions for them by defining corresponding<br>‘-local’ targets.</p>
+<pre><code> % cat configure.ac
+ AC_INIT([pkg-name], [1.0]
+ AM_INIT_AUTOMAKE
+ AM_EXTRA_RECURSIVE_TARGETS([foo])
+ AC_CONFIG_FILES([Makefile sub/Makefile sub/src/Makefile])
+ AC_OUTPUT
+ % cat Makefile.am
+ SUBDIRS = sub
+ foo-local:
+         @echo This will be run by "make foo".
+ % cat sub/Makefile.am
+ SUBDIRS = src
+ % cat sub/src/Makefile.am
+ foo-local:
+         @echo This too will be run by a "make foo" issued either in
+         @echo the 'sub/src/' directory, the 'sub/' directory, or the
+         @echo top-level directory.
+</code></pre>
+<h1 id="7-2-Conditional-Subdirectories"><a href="#7-2-Conditional-Subdirectories" class="headerlink" title="7.2 Conditional Subdirectories"></a>7.2 Conditional Subdirectories</h1><p>It is possible to define the ‘SUBDIRS’ variable conditionally if, like<br>in the case of GNU Inetutils, you want to only build a subset of the<br>entire package.</p>
+<p>   To illustrate how this works, let’s assume we have two directories<br>‘src/’ and ‘opt/’.  ‘src/’ should always be built, but we want to decide<br>in ‘configure’ whether ‘opt/’ will be built or not.  (For this example<br>we will assume that ‘opt/’ should be built when the variable ‘$want_opt’<br>was set to ‘yes’.)</p>
+<p>   Running ‘make’ should thus recurse into ‘src/’ always, and then maybe<br>in ‘opt/’.</p>
+<p>   However ‘make dist’ should always recurse into both ‘src/’ and<br>‘opt/’.  Because ‘opt/’ should be distributed even if it is not needed<br>in the current configuration.  This means ‘opt/Makefile’ should be<br>created <em>unconditionally</em>.</p>
+<p>   There are two ways to setup a project like this.  You can use<br>Automake conditionals () or use Autoconf ‘AC_SUBST’<br>variables  Using Automake conditionals is the preferred solution.<br>Before we illustrate these two possibilities, let’s introduce<br>‘DIST_SUBDIRS’.</p>
+<h2 id="7-2-1-‘SUBDIRS’-vs-‘DIST-SUBDIRS’"><a href="#7-2-1-‘SUBDIRS’-vs-‘DIST-SUBDIRS’" class="headerlink" title="7.2.1 ‘SUBDIRS’ vs. ‘DIST_SUBDIRS’"></a>7.2.1 ‘SUBDIRS’ vs. ‘DIST_SUBDIRS’</h2><p>Automake considers two sets of directories, defined by the variables<br>‘SUBDIRS’ and ‘DIST_SUBDIRS’.</p>
+<p>   ‘SUBDIRS’ contains the subdirectories of the current directory that<br>must be built .  It must be defined manually;<br>Automake will never guess a directory is to be built.  As we will see in<br>the next two sections, it is possible to define it conditionally so that<br>some directory will be omitted from the build.</p>
+<p>   ‘DIST_SUBDIRS’ is used in rules that need to recurse in all<br>directories, even those that have been conditionally left out of the<br>build.  Recall our example where we may not want to build subdirectory<br>‘opt/’, but yet we want to distribute it?  This is where ‘DIST_SUBDIRS’<br>comes into play: ‘opt’ may not appear in ‘SUBDIRS’, but it must appear<br>in ‘DIST_SUBDIRS’.</p>
+<p>   Precisely, ‘DIST_SUBDIRS’ is used by ‘make maintainer-clean’, ‘make<br>distclean’ and ‘make dist’.  All other recursive rules use ‘SUBDIRS’.</p>
+<p>   If ‘SUBDIRS’ is defined conditionally using Automake conditionals,<br>Automake will define ‘DIST_SUBDIRS’ automatically from the possible<br>values of ‘SUBDIRS’ in all conditions.</p>
+<p>   If ‘SUBDIRS’ contains ‘AC_SUBST’ variables, ‘DIST_SUBDIRS’ will not<br>be defined correctly because Automake does not know the possible values<br>of these variables.  In this case ‘DIST_SUBDIRS’ needs to be defined<br>manually.</p>
+<h2 id="7-2-2-Subdirectories-with-‘AM-CONDITIONAL’"><a href="#7-2-2-Subdirectories-with-‘AM-CONDITIONAL’" class="headerlink" title="7.2.2 Subdirectories with ‘AM_CONDITIONAL’"></a>7.2.2 Subdirectories with ‘AM_CONDITIONAL’</h2><p>‘configure’ should output the ‘Makefile’ for each directory and define a<br>condition into which ‘opt/’ should be built.</p>
+<pre><code> ...
+ AM_CONDITIONAL([COND_OPT], [test "$want_opt" = yes])
+ AC_CONFIG_FILES([Makefile src/Makefile opt/Makefile])
+ ...
+</code></pre>
+<p>   Then ‘SUBDIRS’ can be defined in the top-level ‘Makefile.am’ as<br>follows.</p>
+<pre><code> if COND_OPT
+   MAYBE_OPT = opt
+ endif
+ SUBDIRS = src $(MAYBE_OPT)
+</code></pre>
+<p>   As you can see, running ‘make’ will rightly recurse into ‘src/’ and<br>maybe ‘opt/’.</p>
+<p>   As you can’t see, running ‘make dist’ will recurse into both ‘src/’<br>and ‘opt/’ directories because ‘make dist’, unlike ‘make all’, doesn’t<br>use the ‘SUBDIRS’ variable.  It uses the ‘DIST_SUBDIRS’ variable.</p>
+<p>   In this case Automake will define ‘DIST_SUBDIRS = src opt’<br>automatically because it knows that ‘MAYBE_OPT’ can contain ‘opt’ in<br>some condition.</p>
+<h2 id="7-2-3-Subdirectories-with-‘AC-SUBST’"><a href="#7-2-3-Subdirectories-with-‘AC-SUBST’" class="headerlink" title="7.2.3 Subdirectories with ‘AC_SUBST’"></a>7.2.3 Subdirectories with ‘AC_SUBST’</h2><p>Another possibility is to define ‘MAYBE_OPT’ from ‘./configure’ using<br>‘AC_SUBST’:</p>
+<pre><code> ...
+ if test "$want_opt" = yes; then
+   MAYBE_OPT=opt
+ else
+   MAYBE_OPT=
+ fi
+ AC_SUBST([MAYBE_OPT])
+ AC_CONFIG_FILES([Makefile src/Makefile opt/Makefile])
+ ...
+</code></pre>
+<p>   In this case the top-level ‘Makefile.am’ should look as follows.</p>
+<pre><code> SUBDIRS = src $(MAYBE_OPT)
+ DIST_SUBDIRS = src opt
+</code></pre>
+<p>   The drawback is that since Automake cannot guess what the possible<br>values of ‘MAYBE_OPT’ are, it is necessary to define ‘DIST_SUBDIRS’.</p>
+<h2 id="7-2-4-Unconfigured-Subdirectories"><a href="#7-2-4-Unconfigured-Subdirectories" class="headerlink" title="7.2.4 Unconfigured Subdirectories"></a>7.2.4 Unconfigured Subdirectories</h2><p>The semantics of ‘DIST_SUBDIRS’ are often misunderstood by some users<br>that try to <em>configure and build</em> subdirectories conditionally.  Here by<br>configuring we mean creating the ‘Makefile’ (it might also involve<br>running a nested ‘configure’ script: this is a costly operation that<br>explains why people want to do it conditionally, but only the ‘Makefile’<br>is relevant to the discussion).</p>
+<p>   The above examples all assume that every ‘Makefile’ is created, even<br>in directories that are not going to be built.  The simple reason is<br>that we want ‘make dist’ to distribute even the directories that are not<br>being built (e.g., platform-dependent code), hence ‘make dist’ must<br>recurse into the subdirectory, hence this directory must be configured<br>and appear in ‘DIST_SUBDIRS’.</p>
+<p>   Building packages that do not configure every subdirectory is a<br>tricky business, and we do not recommend it to the novice as it is easy<br>to produce an incomplete tarball by mistake.  We will not discuss this<br>topic in depth here, yet for the adventurous here are a few rules to<br>remember.</p>
+<p>   • ‘SUBDIRS’ should always be a subset of ‘DIST_SUBDIRS’.</p>
+<pre><code> It makes little sense to have a directory in ‘SUBDIRS’ that is not
+ in ‘DIST_SUBDIRS’.  Think of the former as a way to tell which
+ directories listed in the latter should be built.
+</code></pre>
+<p>   • Any directory listed in ‘DIST_SUBDIRS’ and ‘SUBDIRS’ must be<br>     configured.</p>
+<pre><code> I.e., the ‘Makefile’ must exists or the recursive ‘make’ rules will
+ not be able to process the directory.
+</code></pre>
+<p>   • Any configured directory must be listed in ‘DIST_SUBDIRS’.</p>
+<pre><code> So that the cleaning rules remove the generated ‘Makefile’s.  It
+ would be correct to see ‘DIST_SUBDIRS’ as a variable that lists all
+ the directories that have been configured.
+</code></pre>
+<p>   In order to prevent recursion in some unconfigured directory you must<br>therefore ensure that this directory does not appear in ‘DIST_SUBDIRS’<br>(and ‘SUBDIRS’).  For instance, if you define ‘SUBDIRS’ conditionally<br>using ‘AC_SUBST’ and do not define ‘DIST_SUBDIRS’ explicitly, it will be<br>default to ‘$(SUBDIRS)’; another possibility is to force ‘DIST_SUBDIRS =<br>$(SUBDIRS)’.</p>
+<p>   Of course, directories that are omitted from ‘DIST_SUBDIRS’ will not<br>be distributed unless you make other arrangements for this to happen<br>(for instance, always running ‘make dist’ in a configuration where all<br>directories are known to appear in ‘DIST_SUBDIRS’; or writing a<br>‘dist-hook’ target to distribute these directories).</p>
+<p>   In few packages, unconfigured directories are not even expected to be<br>distributed.  Although these packages do not require the aforementioned<br>extra arrangements, there is another pitfall.  If the name of a<br>directory appears in ‘SUBDIRS’ or ‘DIST_SUBDIRS’, ‘automake’ will make<br>sure the directory exists.  Consequently ‘automake’ cannot be run on<br>such a distribution when one directory has been omitted.  One way to<br>avoid this check is to use the ‘AC_SUBST’ method to declare conditional<br>directories; since ‘automake’ does not know the values of ‘AC_SUBST’<br>variables it cannot ensure the corresponding directory exists.</p>
+<h1 id="7-3-An-Alternative-Approach-to-Subdirectories"><a href="#7-3-An-Alternative-Approach-to-Subdirectories" class="headerlink" title="7.3 An Alternative Approach to Subdirectories"></a>7.3 An Alternative Approach to Subdirectories</h1><p>If you’ve ever read Peter Miller’s excellent paper, Recursive Make<br>Considered Harmful (<a href="http://miller.emu.id.au/pmiller/books/rmch/">http://miller.emu.id.au/pmiller/books/rmch/</a>), the<br>preceding sections on the use of make recursion will probably come as<br>unwelcome advice.  For those who haven’t read the paper, Miller’s main<br>thesis is that recursive ‘make’ invocations are both slow and<br>error-prone.</p>
+<p>   Automake provides sufficient cross-directory support (1) to enable<br>you to write a single ‘Makefile.am’ for a complex multi-directory<br>package.</p>
+<p>   By default an installable file specified in a subdirectory will have<br>its directory name stripped before installation.  For instance, in this<br>example, the header file will be installed as ‘$(includedir)/stdio.h’:</p>
+<pre><code> include_HEADERS = inc/stdio.h
+</code></pre>
+<p>   However, the ‘nobase_’ prefix can be used to circumvent this path<br>stripping.  In this example, the header file will be installed as<br>‘$(includedir)/sys/types.h’:</p>
+<pre><code> nobase_include_HEADERS = sys/types.h
+</code></pre>
+<p>   ‘nobase_’ should be specified first when used in conjunction with<br>either ‘dist_’ or ‘nodist_’ (.<br>For instance:</p>
+<pre><code> nobase_dist_pkgdata_DATA = images/vortex.pgm sounds/whirl.ogg
+</code></pre>
+<p>   Finally, note that a variable using the ‘nobase_’ prefix can often be<br>replaced by several variables, one for each destination directory (.  For instance, the last example could be rewritten as<br>follows:</p>
+<pre><code> imagesdir = $(pkgdatadir)/images
+ soundsdir = $(pkgdatadir)/sounds
+ dist_images_DATA = images/vortex.pgm
+ dist_sounds_DATA = sounds/whirl.ogg
+</code></pre>
+<p>This latter syntax makes it possible to change one destination directory<br>without changing the layout of the source tree.</p>
+<p>   Currently, ‘nobase_*_LTLIBRARIES’ are the only exception to this<br>rule, in that there is no particular installation order guarantee for an<br>otherwise equivalent set of variables without ‘nobase_’ prefix.</p>
+<p>   ———- Footnotes ———-</p>
+<p>   (1) We believe.  This work is new and there are probably warts.</p>
+<h1 id="7-4-Nesting-Packages"><a href="#7-4-Nesting-Packages" class="headerlink" title="7.4 Nesting Packages"></a>7.4 Nesting Packages</h1><p>In the GNU Build System, packages can be nested to arbitrary depth.<br>This means that a package can embed other packages with their own<br>‘configure’, ‘Makefile’s, etc.</p>
+<p>   These other packages should just appear as subdirectories of their<br>parent package.  They must be listed in ‘SUBDIRS’ like other ordinary<br>directories.  However the subpackage’s ‘Makefile’s should be output by<br>its own ‘configure’ script, not by the parent’s ‘configure’.  This is<br>achieved using the ‘AC_CONFIG_SUBDIRS’ Autoconf macro (</p>
+<p>   Here is an example package for an ‘arm’ program that links with a<br>‘hand’ library that is a nested package in subdirectory ‘hand/’.</p>
+<p>   ‘arm’’s ‘configure.ac’:</p>
+<pre><code> AC_INIT([arm], [1.0])
+ AC_CONFIG_AUX_DIR([.])
+ AM_INIT_AUTOMAKE
+ AC_PROG_CC
+ AC_CONFIG_FILES([Makefile])
+ # Call hand's ./configure script recursively.
+ AC_CONFIG_SUBDIRS([hand])
+ AC_OUTPUT
+</code></pre>
+<p>   ‘arm’’s ‘Makefile.am’:</p>
+<pre><code> # Build the library in the hand subdirectory first.
+ SUBDIRS = hand
+
+ # Include hand's header when compiling this directory.
+ AM_CPPFLAGS = -I$(srcdir)/hand
+
+ bin_PROGRAMS = arm
+ arm_SOURCES = arm.c
+ # link with the hand library.
+ arm_LDADD = hand/libhand.a
+</code></pre>
+<p>   Now here is ‘hand’’s ‘hand/configure.ac’:</p>
+<pre><code> AC_INIT([hand], [1.2])
+ AC_CONFIG_AUX_DIR([.])
+ AM_INIT_AUTOMAKE
+ AC_PROG_CC
+ AM_PROG_AR
+ AC_PROG_RANLIB
+ AC_CONFIG_FILES([Makefile])
+ AC_OUTPUT
+</code></pre>
+<p>and its ‘hand/Makefile.am’:</p>
+<pre><code> lib_LIBRARIES = libhand.a
+ libhand_a_SOURCES = hand.c
+</code></pre>
+<p>   When ‘make dist’ is run from the top-level directory it will create<br>an archive ‘arm-1.0.tar.gz’ that contains the ‘arm’ code as well as the<br>‘hand’ subdirectory.  This package can be built and installed like any<br>ordinary package, with the usual ‘./configure &amp;&amp; make &amp;&amp; make install’<br>sequence (the ‘hand’ subpackage will be built and installed by the<br>process).</p>
+<p>   When ‘make dist’ is run from the hand directory, it will create a<br>self-contained ‘hand-1.2.tar.gz’ archive.  So although it appears to be<br>embedded in another package, it can still be used separately.</p>
+<p>   The purpose of the ‘AC_CONFIG_AUX_DIR([.])’ instruction is to force<br>Automake and Autoconf to search for auxiliary scripts in the current<br>directory.  For instance, this means that there will be two copies of<br>‘install-sh’: one in the top-level of the ‘arm’ package, and another one<br>in the ‘hand/’ subdirectory for the ‘hand’ package.</p>
+<p>   The historical default is to search for these auxiliary scripts in<br>the parent directory and the grandparent directory.  So if the<br>‘AC_CONFIG_AUX_DIR([.])’ line was removed from ‘hand/configure.ac’, that<br>subpackage would share the auxiliary script of the ‘arm’ package.  This<br>may looks like a gain in size (a few kilobytes), but it is actually a<br>loss of modularity as the ‘hand’ subpackage is no longer self-contained<br>(‘make dist’ in the subdirectory will not work anymore).</p>
+<p>   Packages that do not use Automake need more work to be integrated<br>this way.  </p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/autotools/" rel="tag"># autotools</a>
+              <a href="/tags/automake/" rel="tag"># automake</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/03/16/linux-automake-6-scanning-configure-ac/" rel="prev" title="Linux Automake 6  解析`configure.ac`">
+      <i class="fa fa-chevron-left"></i> Linux Automake 6  解析`configure.ac`
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/20/linux-automake-8-building-programs-and-libraries/" rel="next" title="Linux Automake 8 编译程序和库">
+      Linux Automake 8 编译程序和库 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#7-1-Recursing-subdirectories"><span class="nav-number">1.</span> <span class="nav-text">7.1 Recursing subdirectories</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-2-Conditional-Subdirectories"><span class="nav-number">2.</span> <span class="nav-text">7.2 Conditional Subdirectories</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-1-%E2%80%98SUBDIRS%E2%80%99-vs-%E2%80%98DIST-SUBDIRS%E2%80%99"><span class="nav-number">2.1.</span> <span class="nav-text">7.2.1 ‘SUBDIRS’ vs. ‘DIST_SUBDIRS’</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-2-Subdirectories-with-%E2%80%98AM-CONDITIONAL%E2%80%99"><span class="nav-number">2.2.</span> <span class="nav-text">7.2.2 Subdirectories with ‘AM_CONDITIONAL’</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-3-Subdirectories-with-%E2%80%98AC-SUBST%E2%80%99"><span class="nav-number">2.3.</span> <span class="nav-text">7.2.3 Subdirectories with ‘AC_SUBST’</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-2-4-Unconfigured-Subdirectories"><span class="nav-number">2.4.</span> <span class="nav-text">7.2.4 Unconfigured Subdirectories</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-3-An-Alternative-Approach-to-Subdirectories"><span class="nav-number">3.</span> <span class="nav-text">7.3 An Alternative Approach to Subdirectories</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-4-Nesting-Packages"><span class="nav-number">4.</span> <span class="nav-text">7.4 Nesting Packages</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2018/03/17/linux-automake-7-directories/";
+    this.page.identifier = "2018/03/17/linux-automake-7-directories/";
+    this.page.title = "Linux Automake 7 目录";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

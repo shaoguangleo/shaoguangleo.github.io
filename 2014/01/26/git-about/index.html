@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="聊聊版本控制Git是一款分布式版本控制系统，有别于CVS和SVN等集中式版本控制系统，Git可以让研发团队更加高效地协同工作，从而提高生产率。  有很长一段时间Linus只使用diff、patch和tar包来管理Linux的代码。 大家平时在安装软件包的时候会发现软件包的名字后面有-svn,-git等等字眼。。到底有什么区别呢？看下面～～～  RCS(Revision Control System">
+<meta property="og:type" content="article">
+<meta property="og:title" content="聊聊版本">
+<meta property="og:url" content="http://shaoguangleo.github.io/2014/01/26/git-about/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="聊聊版本控制Git是一款分布式版本控制系统，有别于CVS和SVN等集中式版本控制系统，Git可以让研发团队更加高效地协同工作，从而提高生产率。  有很长一段时间Linus只使用diff、patch和tar包来管理Linux的代码。 大家平时在安装软件包的时候会发现软件包的名字后面有-svn,-git等等字眼。。到底有什么区别呢？看下面～～～  RCS(Revision Control System">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://shaoguangleo.github.io/2014/01/26/git-about/images/deltas.png">
+<meta property="og:image" content="http://shaoguangleo.github.io/2014/01/26/git-about/images/snapshots.png">
+<meta property="article:published_time" content="2014-01-26T14:14:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.713Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="cvs">
+<meta property="article:tag" content="diff">
+<meta property="article:tag" content="patch">
+<meta property="article:tag" content="rcs">
+<meta property="article:tag" content="scv">
+<meta property="article:tag" content="tar">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://shaoguangleo.github.io/2014/01/26/git-about/images/deltas.png">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2014/01/26/git-about/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>聊聊版本 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2014/01/26/git-about/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          聊聊版本
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-01-26 22:14:00" itemprop="dateCreated datePublished" datetime="2014-01-26T22:14:00+08:00">2014-01-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2014/01/26/git-about/" class="post-meta-item leancloud_visitors" data-flag-title="聊聊版本" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2014/01/26/git-about/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/01/26/git-about/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2014/01/26/git-about/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2014/01/26/git-about/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="聊聊版本控制"><a href="#聊聊版本控制" class="headerlink" title="聊聊版本控制"></a>聊聊版本控制</h1><p>Git是一款分布式版本控制系统，有别于CVS和SVN等集中式版本控制系统，Git可以让研发团队更加高效地协同工作，从而提高生产率。</p>
+<p> 有很长一段时间Linus只使用diff、patch和tar包来管理Linux的代码。</p>
+<p>大家平时在安装软件包的时候会发现软件包的名字后面有-svn,-git等等字眼。。到底有什么区别呢？看下面～～～</p>
+<ol>
+<li>RCS(Revision Control System) 修订控制系统，特点:</li>
+<li>简单</li>
+<li>使用Lock机制防止多个开发人员对同一个文件同时进行修改.</li>
+<li>CVS(Cocurrent Version System)并发版本系统,建立在RCS基础上,最流行的开放源代码版本控制系统,特点:</li>
+<li>使用单一的主代码树,而不像RCS那样依赖多个目录.</li>
+<li>最大优点在于多名开发人员可以同时对一个文件进行修改.允许合并.这就“并发“开发.</li>
+<li>SVN(SubVersion)</li>
+<li>目录的版本控制,CVS 只能对文件进行版本控制，不能对目录进行版本控制.CVS 只能注意到，一个文件在一个位置被删除了，而在一个新位置创建了另外一个文件。由于它不会连接两个操作，因此也很容易使文件历史轨迹丢失,SVN可以</li>
+<li>原子性提交,CVS 采用线性、串行的批量提交，即依次地，一个接一个地执行提交，每成功提交一个文件，该文件的一个新的版本即被记录到版本库中，提交时用户提供的日志信息被重复地存储到每一个被修改的文件的版本历史中。CVS 串行批量提交模式的弊端在于 －当任何原因造成批量操作的中断时（典型原因包括：网络中断、客户端死机等），版本库往往处于一个不一致的状态：原本应该全部入库的文件只有一部分入库，很有可能版本库中的最新版本不能顺利编译，更为严重的是，随着其他的用户执行cvs update 操作，该不一致性将迅速在开发团队中扩散，从而严重影响团队的开发效率，并存在质量隐患。另外，假如该批量提交的中断没有被及时发现，开发团队往往要花更多的时间进行软件调试和排错。</li>
+<li>Git, Git 是用于 Linux 内核开发的版本控制工具。与常用的版本控制工具 CVS, Subversion 等不同，它<strong>采用了分布式版本库的方式，不必服务器端软件支持，使源代码的发布和交流极其方便</strong>。 Git 的速度很快，这对于诸如 Linux kernel 这样的大项目来说自然很重要。 Git 最为出色的是它的合并跟踪（merge tracing）能力。git更加适合分布式开发项目。而svn（当然全称是subversion）则更适合于集中式大型开发项目。也有在git之上再使用一层svn的做法。</li>
+</ol>
+<h2 id="几个版本控制"><a href="#几个版本控制" class="headerlink" title="几个版本控制"></a>几个版本控制</h2><ul>
+<li>本地版本控制：这个可能是大多数人使用的方式，不同的名字或者时间信息等，但很容易混淆文件</li>
+<li>集中化版本控制：有个单一的集中管理的服务器，保持所有文件的修改版本，容易管理，但万一服务器宕机，风险就超级大了</li>
+<li>分布式版本控制：多地克隆备份</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>CVS,Git,Mercurial,Subversion比较</p>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>CVS</th>
+<th>Git</th>
+<th>Mercurial</th>
+<th>Subversion</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>是否原子提交</td>
+<td>没有</td>
+<td>是</td>
+<td>是的</td>
+<td>是</td>
+</tr>
+<tr>
+<td>文件和目录是否可以移动或重命名</td>
+<td>CVS: 不是. 重命名不支持. 如果手动进行, 可能会损坏历史记录</td>
+<td>Git: 支持重命名, 这是很实用的目的. git甚至能检测到重命名之后文件的改变. 尽管如此, 基于特殊的存储结构, 重命名不会被显示的记录, git能够推导出来(在实际使用中很容易做到)</td>
+<td>是的, 重命名是支持的</td>
+<td>是的. 支持重命名</td>
+</tr>
+<tr>
+<td>在移动或重命名之后智能合并</td>
+<td>CVS: 不能. 重命名都不支持, 就不必说智能了</td>
+<td>Git: 不支持.</td>
+<td>Mercurial: 是的. 重命名之后智能合并是支持的.</td>
+<td>不支持.</td>
+</tr>
+<tr>
+<td>文件和目录拷贝</td>
+<td>不能</td>
+<td>不能</td>
+<td>支持拷贝</td>
+<td>拷贝非常容易(O(1)). 包括产生分支</td>
+</tr>
+<tr>
+<td>远程存储仓库的备份</td>
+<td>间接的.</td>
+<td>git的内部特征</td>
+<td>是的</td>
+<td>间接的.</td>
+</tr>
+<tr>
+<td>是否传递变更到父仓库</td>
+<td>CVS: 不会</td>
+<td>是的</td>
+<td>是的</td>
+<td>是的,</td>
+</tr>
+<tr>
+<td>仓库权限</td>
+<td>CVS: 很有限.</td>
+<td></td>
+<td>Mercutial: 是的.</td>
+<td>Subversion: 是的.</td>
+</tr>
+<tr>
+<td>变更集</td>
+<td>CVS: 不是. 变更是基于文件的</td>
+<td>Git: 是的. 是支持的, 创建他们很容易</td>
+<td>Mercurial: 是的. 变更集是支持的</td>
+<td>Subversion: 部分支持. 对于一次提交会隐式创建一个变更集</td>
+</tr>
+<tr>
+<td>跟踪线性的文件历史</td>
+<td>CVS: 是的. cvs annotate</td>
+<td>Git: 是的.(git blame)</td>
+<td>Mercurial: 是的(hg annotate)</td>
+<td>Subversion: 是的(svn blame)</td>
+</tr>
+<tr>
+<td>能够只在仓库的单目录下作用</td>
+<td>CVS: 是的</td>
+<td>Git: 不是. 尽管如此, 提交多少能被限制</td>
+<td>Mercurial: 能够基于某树的某个子集进行提交. 也有局部检出的能力</td>
+<td>Subversion: 是的</td>
+</tr>
+<tr>
+<td>跟踪未提交的变化</td>
+<td>CVS: 是的. 通过cvs diff</td>
+<td>Git: 是的.</td>
+<td>Mercurial: 是的. 使用hg diff</td>
+<td>Subversion: 是的. 使用svn diff</td>
+</tr>
+<tr>
+<td>基于单个文件的提交信息</td>
+<td>CVS: 不是. 提交信息是基于单次变化的</td>
+<td>Git: 是的. 提交信息基于变更集</td>
+<td>Mercurial: 不是</td>
+<td>Subversion: 不是. 没有这个特征</td>
+</tr>
+<tr>
+<td>文档</td>
+<td>CVS: 非常棒. 有很多在线的tutorials和资源, 在线的书籍.</td>
+<td>Git: 良好. 短的帮助比较简洁难懂.</td>
+<td>Mercurial: 很好. 有基于公司的书籍和wiki. 每个命令都集成了帮助</td>
+<td>Subversion: 很好. 有一些在线的书籍和一些在线的tutorials和资源. 并且书籍是以docbook/xml写的</td>
+</tr>
+<tr>
+<td>配置是否轻松</td>
+<td>CVS: 好. 是个事实上的标准. 基于每个系统都有并且很容易配置</td>
+<td>Git: 好. 在现有平台上二进制可用. 需要C编译器和Perl. 在windows上需要cygwin. 并有一些Unix特征</td>
+<td>Mercurial: 非常好. 几乎所有平台都有二进制包. 从源码编译需要python2.3以上, 并且需要C编译器</td>
+<td>有些复杂</td>
+</tr>
+<tr>
+<td>命令集</td>
+<td>CVS: 包含了3个经常用到的命令的简单的命令集(cvs commit, cvs update和cvs checkout)和其它一些</td>
+<td>Git: 命令集很丰富, 并且和CVS不兼容</td>
+<td>Mercurial: 尝试模仿CVS交互方式, 但是偏离了基于不同的设计的意图</td>
+<td>Subversion: 类CVS的命令集, 能够很容易被CVS用户使用</td>
+</tr>
+<tr>
+<td>网络支持</td>
+<td>CVS: 好. cvs在不同的场合使用不同的协议. 协议能够通过ssh链接的加密隧道进行</td>
+<td>Git: 非常棒. 能够使用本地的git协议, 但也能在rsync, ssh, HTTP和HTTPS上使用</td>
+<td>Mercurial: 非常棒. 使用HTTP或ssh. 远程访问会非常安全, 在只读网络里不需要上锁</td>
+<td>Subversion: 非常好. Subversion服务器支持WebDAV+DeltaV(基于HTTP或HTTPS)作为底层协议, 或者它自身的协议同样能在ssh链接通道里使用.</td>
+</tr>
+<tr>
+<td>可移植性</td>
+<td>客户端能在UNIX, Windows和Mac OS上使用.</td>
+<td>客户端运行在大多数的UNIX系统上,</td>
+<td>运行在基于所有能运行python的平台</td>
+<td>客户端和服务器端都能在UNIX, Windows和Mac OS X上运行</td>
+</tr>
+<tr>
+<td>web接口</td>
+<td>.CVSweb, ViewVC, Chora和wwCVS</td>
+<td>Gitweb</td>
+<td>Mercurial: 是的. Web接口是内置组件</td>
+<td>ViewVC, SVN::Web, WebSVN, ViewSVN, mod_svn_view, Chora, Trac,SVN::RaWeb::Light,SVN Browser, Insurrection和perl_svn.</td>
+</tr>
+<tr>
+<td>图形用户界面</td>
+<td>WinCVS, Cervisia, TortoiseCVS</td>
+<td>Gitk,Qqit和Git-gui</td>
+<td>Hgit,hgct</td>
+<td>RapidSVN, TortoiseSVN, Jsvn(java),</td>
+</tr>
+</tbody></table>
+<h2 id="Git-是什么"><a href="#Git-是什么" class="headerlink" title="Git 是什么"></a>Git 是什么</h2><p>Git与其他版本控制系统的区别，其他的一般基于差异delta-based版本控制，如下：</p>
+<p><img src="/2014/01/26/git-about/images/deltas.png"></p>
+<p>而<code>git</code>是基于快照流的，如下：</p>
+<p><img src="/2014/01/26/git-about/images/snapshots.png"></p>
+<p>近乎所有的操作都是本地执行。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/git/" rel="tag"># git</a>
+              <a href="/tags/cvs/" rel="tag"># cvs</a>
+              <a href="/tags/diff/" rel="tag"># diff</a>
+              <a href="/tags/patch/" rel="tag"># patch</a>
+              <a href="/tags/rcs/" rel="tag"># rcs</a>
+              <a href="/tags/scv/" rel="tag"># scv</a>
+              <a href="/tags/tar/" rel="tag"># tar</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2014/01/26/git-config/" rel="prev" title="git 初始配置">
+      <i class="fa fa-chevron-left"></i> git 初始配置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2014/02/12/linux-w-beginner/" rel="next" title="什么？谁？w (who & what)">
+      什么？谁？w (who & what) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%81%8A%E8%81%8A%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">聊聊版本控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6"><span class="nav-number">1.1.</span> <span class="nav-text">几个版本控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.3.</span> <span class="nav-text">Git 是什么</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2014/01/26/git-about/";
+    this.page.identifier = "2014/01/26/git-about/";
+    this.page.title = "聊聊版本";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

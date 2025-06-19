@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="https:&#x2F;&#x2F;www.in-ulm.de&#x2F;~mascheck&#x2F;various&#x2F;argmax&#x2F;  ARG_MAX, maximum length of arguments for a new processor why do you getcommand: arg list too long2002-06-06 .. 2016-09-07 (see recent changes) Here yo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux ARG_MAX, maximum length of arguments for a new process">
+<meta property="og:url" content="http://shaoguangleo.github.io/2017/03/23/linux-command-line-arg-max/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="https:&#x2F;&#x2F;www.in-ulm.de&#x2F;~mascheck&#x2F;various&#x2F;argmax&#x2F;  ARG_MAX, maximum length of arguments for a new processor why do you getcommand: arg list too long2002-06-06 .. 2016-09-07 (see recent changes) Here yo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-03-23T14:11:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.873Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="export">
+<meta property="article:tag" content="PATH">
+<meta property="article:tag" content="command line">
+<meta property="article:tag" content="ARG_MAX">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2017/03/23/linux-command-line-arg-max/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux ARG_MAX, maximum length of arguments for a new process | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2017/03/23/linux-command-line-arg-max/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux ARG_MAX, maximum length of arguments for a new process
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-03-23 22:11:00" itemprop="dateCreated datePublished" datetime="2017-03-23T22:11:00+08:00">2017-03-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2017/03/23/linux-command-line-arg-max/" class="post-meta-item leancloud_visitors" data-flag-title="Linux ARG_MAX, maximum length of arguments for a new process" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/03/23/linux-command-line-arg-max/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/23/linux-command-line-arg-max/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2017/03/23/linux-command-line-arg-max/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/03/23/linux-command-line-arg-max/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p><a href="https://www.in-ulm.de/~mascheck/various/argmax/">https://www.in-ulm.de/~mascheck/various/argmax/</a></p>
+</blockquote>
+<p>ARG_MAX, maximum length of arguments for a new process<br>or why do you get<br>command: arg list too long<br>2002-06-06 .. 2016-09-07 (see recent changes)</p>
+<p>Here you’ll find</p>
+<p>More about the nature of this limit<br>The effectively usable space …and a way to determine it reliably<br>…alternatively: about the GNU autoconf check<br>How to avoid the limit in a shell<br>other limits: number of arguments and maximum length of one argument<br>Actual values for ARG_MAX (with some more details in the footnotes)<br>More pages<br>More about the nature of this limit<br>You will see this error message, if you try to call a program with too many arguments, that is,<br>most likely in connection with pattern matching:</p>
+<pre><code>$ command *
+</code></pre>
+<p>On some systems the limit is even hit with “grep pattern /usr/include/<em>/</em>“ (apart from that using find would be more appropriate).</p>
+<p>It’s only the exec() system call and its direct variants, which will yield this error.<br>They return the corresponding error condition E2BIG (&lt;sys/errno.h&gt;).<br>The shell is not to blame, it just delivers this error to you.<br>In fact, shell expansion is not a problem, because here exec() is not needed, yet.<br>Expansion is only limited by the virtual memory system resources [1].</p>
+<p>Thus the following commands work smoothly, because instead of handing over too many arguments to a new process,<br>they only make use of a shell built-in (echo) or iterate over the arguments with a control structure (for loop):</p>
+<pre><code>/dir-with-many-files$ echo * | wc -c
+/dir-with-many-files$ for i in * ; do grep ARG_MAX "$i"; done
+</code></pre>
+<p>There are different ways to learn the upper limit</p>
+<p>command: getconf ARG_MAX [2]<br>system call: sysconf(_SC_ARG_MAX) [3]<br>system header: ARG_MAX in e.g. &lt;[sys/]limits.h&gt; [4]<br>try xargs –show-limits[5], if you use GNU xargs<br>(However, on the few system that have no limit for ARG_MAX, these methods wrongly might print a limit.)</p>
+<p>From Version 7 on the limit was defined by NCARGS (usually in &lt;[sys/]params.h&gt;),<br>Later, ARG_MAX was introduced with 4.4BSD and System V.</p>
+<p>In contrast to the headers, sysconf and getconf tell the limit which is actually in effect.<br>This is relevant on systems which allow to change it at run time (AIX), by reconfiguration (UnixWare, IRIX),<br>by recompiling (e.g. Linux) or by applying patches (HP-UX 10) - see the end notes for more details.<br>(Usually these are solutions for special requirements only, because increasing the limit doesn’t solve the problem.)</p>
+<pre><code>[1]	However, in contrast to such expansions (which includes the literal overall command line length in scripts),
+</code></pre>
+<p>shells do have a limit for the interactive command line length (that is, what you may type in after the prompt).<br>But this limit is shell specific and not related to ARG_MAX.<br>Interestingly, putenv(3) is only limited by system resources, too. You just can’t exec() anmymore if you are over the limit.<br>    [2]	4.4BSD BSD and the successors ( NetBSD since 1.0, OpenBSD 2.0, FreeBSD 2.0 ) provide: sysctl kern.argmax.<br>getconf in turn was introduced on BSDs with these versions: NetBSD 1.0, OpenBSD 2.0, FreeBSD 4.8.<br>    [3]	example usage of sysconf():<br>#include &lt;stdio.h&gt;<br>#include &lt;unistd.h&gt;<br>int main() {<br>    return printf(“ARG_MAX: %ld\n”, sysconf(_SC_ARG_MAX));<br>}<br>    [4]	A handy way to find the limits in your headers, if you have cpp(1) installed, which doesn’t abort on file not found,<br>(inspired by Era Eriksson’s page about ARG_MAX):</p>
+<p>cpp &lt;&lt;EOF<br>#include &lt;limits.h&gt;<br>#include &lt;param.h&gt;<br>#include &lt;params.h&gt;<br>#include &lt;sys/limits.h&gt;<br>#include &lt;sys/param.h&gt;<br>#include &lt;sys/params.h&gt;<br>arg_max: ARG_MAX<br>ncargs: NCARGS<br>EOF<br>If your cpp doesn’t like non-existent files, you might try</p>
+<p>for file in limits.h param.h params.h sys/limits.h sys/param.h sys/params.h linux/limits.h linux/limits.h linux/param.h; do<br>cpp &lt;&lt;EOF 2&gt;&amp;1<br>#include &lt;$file&gt;<br>arg_max: ARG_MAX<br>ncargs: NCARGS<br>EOF<br>done|egrep ‘arg_max|ncargs’ |egrep -v ‘ARG_MAX|NCARGS’</p>
+<pre><code>[5]	$ xargs --show-limits
+</code></pre>
+<p>environment variables take up 533 bytes<br>POSIX upper limit on argument length (this system): 2094571<br>POSIX smallest allowable upper limit on argument length (all systems): 4096<br>Maximum length of command we could actually use: 2094038<br>Size of command buffer we are actually using: 131072<br>The effectively usable space<br>When looking at ARG_MAX/NCARGS, you have to consider the space comsumption by both argv[] and envp[] (arguments and environment).<br>Thus you have to decrease ARG_MAX at least by the results of “env|wc -c” and “env|wc -l * 4” [5] for a good estimation of the currently available space.</p>
+<pre><code>[5]	 Every entry in envp is terminated with a null byte. The env utility adds a terminating newline instead, so the result of "wc -c" is the same.
+</code></pre>
+<p>“wc -l” in turn accounts for the number of pointers in envp, i.e., usually 4 bytes each, according to sizeof().<br>Some modern shells allow for exporting functions to the environment. The above slightly miscalculates then,<br>because their definitions tend to contain newlines which are misinterpreted as new envp[].<br>The same applies if variable values contain newlines.<br>You can make wc -l ignore the wrappings and limit it to lines with = at the right place:<br>expr <code>getconf ARG_MAX</code> - <code>env|wc -c</code> - <code>env|egrep '^[^ ]+='|wc -l</code> * 4<br>(thanks to Michael Klement for pointing out the function issue and improving the calculation)</p>
+<p>POSIX suggests to subtract 2048 additionally so that the process may savely modify its environment. A quick estimation with the getconf command:<br>(all the calculations inspired by a post from Gunnar Ritter in de.comp.os.unix.shell, <a href="mailto:3B70A6AD.3L8115910@bigfoot.de">3B70A6AD.3L8115910@bigfoot.de</a>)</p>
+<p> expr <code>getconf ARG_MAX</code> - <code>env|wc -c</code> - <code>env|wc -l</code> * 4 - 2048<br>        or, if you even want to consider wrapped functions or variable values [5],<br>expr <code>getconf ARG_MAX</code> - <code>env|wc -c</code> - <code>env|egrep '^[^ ]+='|wc -l</code> * 4 - 2048,<br>…and a way to determine it reliably<br>The most reliable way to get the currently available space is to test the success of an exec() with increasing length of arguments until it fails.<br>This might be expensive, but at least you need to check only once, the length of envp[] is considered automatically, and the result is reliable.<br>…alternatively: about the GNU autoconf check<br>There’s an autoconf check “Checking for maximum length of command line arguments…”. It works quite similar.<br>However, it results in a much lower value (it can be a fourth of the actual value only) both by intention and for reasons of simplicity:<br>In a loop with increasing n, the check tries an exec() with an argument length of 2n (but won’t check for n higher than 16, that is 512kB).<br>The maximum is ARG_MAX/2 if ARG_MAX is a power of 2.<br>Finally, the found value is divided by 2 (for safety), with the reason “C++ compilers can tack on massive amounts of additional arguments”.</p>
+<p>How to avoid the limit in a shell<br>If command * fails, then you can<br>iterate with the shell:<br>for i in *; do command “$i”; done     (simple, completely robust and portable, may be very slow)<br>printf ‘%s\0’ *|xargs -0 command     (works only if printf is a built-in, but then it can be much faster on high counts. thanks to Michael Klement)<br>iterate with find<br>find . -exec command {} ;     (simple, completely robust and portable, may be very slow)<br>find . -exec command {} +       (optimizes speed, quite portable)<br>find . -print0|xargs -0 command      (optimizes speed, if find doesn’t implement “-exec +” but knows “-print0”)<br>find . -print|xargs command     (if there’s no white space in the arguments)</p>
+<p>Note: find descends into directories. To avoid that portably, you can use<br>“find . ! -name . -prune […]”<br>If the major part of the arguments consists of long, absolute or relative paths, then try to move your actions into the directory:<br>cd /directory/with/long/path; command *<br>And another quick fix may be to match fewer arguments:<br>command [a-e]<em>; command [f-m]</em>; …<br>Number of arguments and maximum length of one argument<br>At least on Linux 2.6, there’s also a limit on the maximum number of arguments in argv[].<br>On Linux 2.6.14 the function do_execve() in fs/exec.c tests if the number exceeds<br>  PAGE_SIZE*MAX_ARG_PAGES-sizeof(void *) / sizeof(void *)<br>On a 32-bit Linux, this is ARGMAX/4-1 (32767). This becomes relevant if the average length of arguments is smaller than 4.<br>Since Linux 2.6.23, this function tests if the number exceeds MAX_ARG_STRINGS in &lt;linux/binfmts.h&gt; (2^32-1 = 4294967296-1).</p>
+<p>And as additional limit since 2.6.23, one argument must not be longer than MAX_ARG_STRLEN (131072).<br>This might become relevant if you generate a long call like “sh -c ‘automatically generated with many arguments’”.<br>(pointed out by Xan Lopez and Ralf Wildenhues)</p>
+<p>Actual values for ARG_MAX (or NCARGS)<br>The maximum length of arguments for a new process is varying so much among unix flavours, that I had a look at some systems:</p>
+<p>System	value	getconf<br>available	default value determined by<br>non-competitive: 1st edition (V1)	255+? [1stEd]		experiments<br>non-competitive: V4, V5 and V6	512		documentation of exec(2) in V4, V6 and (no manual) sys1.c in V5<br>Version 7,<br>3 BSD,<br>System III, SVR1,<br>Ultrix 3.1	5120		NCARGS in &lt;sys/param.h&gt;<br>4.0/4.1/4.2 BSD	10240		NCARGS in &lt;sys/param.h&gt;<br>4.3 BSD / and -Tahoe	20480		NCARGS in &lt;sys/syslimits.h&gt;<br>4.3BSD-Reno, 4.3BS-Net2<br>4.4 BSD (alpha/lite/encumbered),<br>386BSD*, NetBSD 0.9,<br>BSD/OS 2.0	20480		ARG_MAX in &lt;sys/syslimits.h&gt; (NCARGS in &lt;sys/param.h&gt;)<br>POSIX/SUSv2,v3,v4 [posix]	4096 (minimum)	+	minimum _POSIX_ARG_MAX in &lt;limits.h&gt; , ARG_MAX<br>AIX 3.x, 4.x, 5.1[aix5]	24576	+	ARG_MAX in &lt;sys/limits.h&gt; (NCARGS in &lt;sys/param.h&gt;)<br>AIX 6.1, 7.2	1048576	+	online documentation (FilesReference/HeaderFiles) 6.1, 7.2 (ARG_MAX in &lt;limits.h&gt;)<br>BSD/OS 4.1,<br>NetBSD 1.0+x,<br>OpenBSD x:	262144	+	ARG_MAX(/NCARGS) in &lt;sys/syslimits.h&gt;<br>Cygwin 1.7.7 (win 5.1) [cygwin]	30000		ARG_MAX in &lt;limits.h&gt;<br>Dynix 3.2	12288		ARG_MAX in &lt;(sys/)limits.h&gt; (NCARGS in &lt;sys/param.h&gt;)<br>EP/IX 2.2.1AA:	20480		ARG_MAX in &lt;sys/limits.h&gt;<br>FreeBSD 2.0-5.5	65536	+	ARG_MAX(/NCARGS) in &lt;sys/syslimits.h&gt; [freebsd]<br>FreeBSD 6.0 (PowerPC 6.2, ARM 6.3)	262144	+	ARG_MAX(/NCARGS) in &lt;sys/syslimits.h&gt; [freebsd]<br>GNU Hurd 0.3 Mach 1.3.99	unlimited [hurd]<br>(stack size?)	+	<br>Haiku OS (2008-05-14) [haiku]	131072	?	MAX_PROCESS_ARGS_SIZE in &lt;system/user_runtime.h&gt;<br>HP-UX 8(.07), 9, 10	20478	+	ARG_MAX in &lt;limits.h&gt;<br>HP-UX 11.00	2048000 [hpux]	+	ARG_MAX in &lt;limits.h&gt;<br>Interix 3.5	1048576	+	-<br>IRIX 4.0.5	10240		NCARGS in &lt;sys/param.h&gt; (fallback: ARG_MAX in &lt;limits.h&gt;: 5120)<br>IRIX 5.x, 6.x	20480 [irix]	+	(fallback: ARG_MAX in &lt;limits.h&gt;: 5120)<br>Linux -2.6.22	131072	+	ARG_MAX in &lt;linux/limits.h&gt; [linux-pre-2.6.23]<br>Linux 2.6.23	(1/4th of stack size)	+	kernel code [linux-2.6.23]<br>MacOS X 10.6.2 (xnu 1486.2.11)	262144	+	ARG_MAX(/NCARGS) in &lt;sys/syslimits.h&gt;<br>MUNIX 3.2	10240	?	ARG_MAX in &lt;sys/syslimits.h&gt;<br>Minix 3.1.1	16384		ARG_MAX in &lt;limits.h&gt;<br>OSF1/V4, V5	38912	+	ARG_MAX in &lt;sys/syslimits.h&gt;<br>SCO UNIX SysV R3.2 V4.0/4.2<br>SCO Open Desktop R2.0/3.0	5120	?	online documentation<br>SCO OpenServer 5.0.x [osr5]	1048576	+	(fallback: ARG_MAX in &lt;limits.h&gt;: 5120)<br>UnixWare 7.1.4,<br>OpenUnix 8	32768 [uw/osr6]	+	(fallback ARG_MAX in &lt;limits.h&gt;: 10240)<br>SCO OpenServer 6.0.0	32768 [uw/osr6]	+	(fallback: ARG_MAX in &lt;limits.h&gt;: 10240)<br>SINIX V5.2	10240	?	ARG_MAX in &lt;limits.h&gt;<br>SunOS 3.x	10240	?	ARG_MAX in &lt;sys/param.h&gt;<br>SunOS 4.1.4	1048576		NCARGS in &lt;sys/param.h&gt; , sysconf(_SC_ARG_MAX)<br>SunOS 5.x (32bit process)	1048320 [sunos5]	+	ARG_MAX in &lt;limits.h&gt; (NCARGS in &lt;sys/param.h&gt;)<br>SunOS 5.7+ (64bit process)	2096640 [sunos5]	+	ARG_MAX in &lt;limits.h&gt; (NCARGS in &lt;sys/param.h&gt;)<br>SVR4.0 v2.1 (386)	5120		? (no ARG_MAX/NCARGS in in &lt;limits.h&gt;/&lt;sys/param.h&gt;)<br>Ultrix 4.3 (vax / mips)	10240 / 20480		NCARGS in &lt;sys/param.h&gt;<br>Unicos 9,<br>Unicos/mk 2	49999	+	ARG_MAX in &lt;sys/param.h&gt;<br>UnixWare 7: see OpenServer 6<br>UWIN 4.3 AT&amp;T Unix Services for Windows	32768	+	ARG_MAX in &lt;limits.h&gt;<br>[posix]	See the online documentation (please register for access) for getconf and &lt;limits.h&gt;.<br>[osr5]	Bela Lubkin points out:<br>The limit on SCO OpenServer 5.0.x is set by ‘unsigned int maxexecargs = 1024*1024;’<br>in /etc/conf/pack.d/kernel/space.c. It can also be changed on a live system with the <code>scodb</code> kernel debugger:</p>
+<h1 id="scodb-w"><a href="#scodb-w" class="headerlink" title="scodb -w"></a>scodb -w</h1><p>   scodb&gt; maxexecargs=1000000<br>   scodb&gt; q<br>(0x1000000 = 16MiB.) This is the max size of a new temporary allocation during each exec(), so it’s safe to change on the fly.</p>
+<p>Exceeding the limit generates a kernel warning:</p>
+<p>   WARNING: table_grow - exec data table page limit of 256 pages (MAXEXECARGS) exceeded by 1 pages<br>   WARNING: Reached MAXEXECARGS limit while adding arguments for executable “ls”<br>Some <code>configure</code> scripts trigger this message as they deliberately probe the limit.<br>Raising `maxexecargs’ will not fix this as the probe will simply try harder.</p>
+<p>[uw/osr6]	The limit on UnixWare can be increased by changing the kernel parameter ARG_MAX with /etc/conf/bin/idtune,<br>(probably in the range up to 1MB) regenerating the kernel with “etc/conf/bin/idbuild -B” and rebooting.<br>See also the online documentation.<br>On UnixWare 7.1.4, the run time limit for a default install of “Business Edition” is 32768.</p>
+<p>Bela Lubkin points out, that, very basically, OpenServer 6 can be described as a UnixWare 714 kernel with the OpenServer 5.0.7 userland running on top of it.</p>
+<p>[irix]	The limit on IRIX can be changed by changing the kernel parameter ncargs with systune<br>(in the range defined in /var/sysgen/mtune/kernel, probably varying from 64KB to 256KB),<br>regenerating the kernel with “autoconfig” and rebooting. See also the online documentation of systune(1M) and intro(2).<br>[aix5]	The limit on AIX 5.1 can be changed at run time with “chdev -l sys0 -a ncargs=value”, in the range from 6<em>4KB to 1024</em>4KB.<br>See also the online documentation for chdev (AIX documentation, Commands reference).<br>[freebsd]	Interesting and everything but academic was the reason for the first of two increases (40960, 65536) on FreeBSD:<br>    “Increase ARG_MAX so that `make clean’ in src/lib/libc works again.<br>    (Adding YP pushed it over the limit.)”<br>quoted from <a href="http://www.freebsd.org/cgi/cvsweb.cgi/src/sys/sys/syslimits.h">http://www.FreeBSD.org/cgi/cvsweb.cgi/src/sys/sys/syslimits.h</a><br>[linux-pre-2.6.23]	On Linux, the maximum almost always has been PAGE_SIZE<em>MAX_ARG_PAGES (4096</em>32) minus 4.<br>However, in Linux-0.0.1, ARG_MAX was not known yet, E2BIG not used yet and exec() returned -1 instead.<br>With linux-0.10 it returned ENOMEM and with Linux-0.99.8 it returned E2BIG.<br>ARG_MAX was introduced with linux-0.96, but it’s not used in the kernel code itself.<br>See do_execve() in fs/exec.c on <a href="http://www.oldlinux.org/Linux.old/">http://www.oldlinux.org/Linux.old/</a>.<br>If you want to increase the limit, you might succeed by carefully increasing MAX_ARG_PAGES (link to a discussion on the linux kernel mailing list 03/‘00)</p>
+<p>[linux-2.6.23]	With Linux 2.6.23, ARG_MAX is not hardcoded anymore. See the git entry.<br>It is limited to a 1/4-th of the stack size (ulimit -s), which ensures that the program still can run at all.<br>See also the git diff of fs/exec.c<br>getconf ARG_MAX might still report the former limit (being careful about applications or glibc not catching up, but especially because the kernel &lt;limits.h&gt; still defines it)</p>
+<p>[sunos5]	On SunOS 5.5, according to &lt;limits.h&gt;, ARG_MAX is 1M, decreased by the following amount:<br>  “((sizeof(struct arg_hunk <em>))</em>(0x10000/(sizeof)(struct arg_hunk)))<br>   space for other stuff on initial stack like aux vectors, saved<br>   registers, etc..”<br>On SunOS 5.9 this reads<br>  “ARG_MAX is calculated as follows:<br>   NCARGS - space for other stuff on initial stack<br>   like aux vectors, saved registers, etc..”<br>and &lt;sys/param.h&gt; defines NCARGS32/64 to 0x100000/0x200000 with NCARGS being substited at compile time.<br>ARG_MAX is not calculated in the header files but is set directly in &lt;limits.h&gt;, also substitued at compile time from _ARG_MAX32/64.<br>SunOS 5.7 is the first release to support 64bit processes.</p>
+<p>[hpux]	HP-UX 11 can also run programs compiled on HP-UX 10. Programs which have ARG_MAX compiled in as buffer length<br>and copy from argv[]/envp[] without boundary checking might crash due to the increased ARG_MAX.<br>See devresource.hp.com<br>[hurd]	NCARGS in contrast is arbitrarily set to INT_MAX (2147483647) in &lt;i386-gnu/sys/param.h&gt;<br>The reason: “ARG_MAX is unlimited, but we define NCARGS for BSD programs that want to compare against some fixed limit.”<br>I don’t know yet, if there are other limits like the stack.<br>[cygwin]	ARG_MAX 32000 was added to &lt;limits.h&gt; on 2006-11-07. It’s a conservative value, having in mind the windows limit of 32k.<br>However, the cygwin internal limit, that is, if you don’t call non-cygwin binaries, is much higher.<br>[haiku]	“Haiku is an open-source operating system […] inspired by the BeOS” (<a href="http://www.haiku-os.org/">www.haiku-os.org</a>). Thanks to Sylvain Kerjean for this pointer!<br>Note that there is also &lt;posix/limits.h&gt; with ARG_MAX / _POSIX_ARG_MAX for sysconf(), with more a more conservative value of 32768.<br>[1stEd]	By judging from experiments in the simh emulator with 1st edition kernel and 2nd edition shell, the results are somewhat undefined.<br>If the length or number of arguments (there is no environment yet) is too high, data corruption may occur, including a kernel crash.<br>The following may or may not indicate the nature of limits:<br>From the BUGS section in the 3rd edition exec(2) manual:<br>Very high core and very low core are used by exec to construct the argument list for the new core image.<br>If the original copies of the arguments reside in these places, problems can result.<br>and a related information about the placement of the arguments<br>(which is also available in 1st ed manual) reads equivalent:<br>1st edition: The arguments are placed as high as possible incore: just below 60000(8).<br>3rd edition: The arguments are placed as high as possible in core: just below 57000(8).</p>
+<p>By calling a script which just echoes its arguments (“sh s arguments”), I found:</p>
+<ul>
+<li>command line (script or interactive) not longer than 255 characters</li>
+<li>single argument not longer than 82 characters<br>As there is no working compiler (B) on that system, I haven’t digged further.</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/export/" rel="tag"># export</a>
+              <a href="/tags/PATH/" rel="tag"># PATH</a>
+              <a href="/tags/command-line/" rel="tag"># command line</a>
+              <a href="/tags/ARG-MAX/" rel="tag"># ARG_MAX</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/03/23/microsoft-visual-studio-code/" rel="prev" title="Microsoft Visual Studio Code技巧">
+      <i class="fa fa-chevron-left"></i> Microsoft Visual Studio Code技巧
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/03/31/python-matplotlib-scatter/" rel="next" title="Python matplotlib scatter 的使用">
+      Python matplotlib scatter 的使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#scodb-w"><span class="nav-number">1.</span> <span class="nav-text">scodb -w</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2017/03/23/linux-command-line-arg-max/";
+    this.page.identifier = "2017/03/23/linux-command-line-arg-max/";
+    this.page.title = "Linux ARG_MAX, maximum length of arguments for a new process";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

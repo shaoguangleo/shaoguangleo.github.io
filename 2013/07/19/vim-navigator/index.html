@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="基本的导航如果你只是使用h，j，k，l字符来导航，那你就太弱了，如果让你到有万行代码的第5500行你如何操作呢，如果让你去第10屏你将如何操作呢？下面的几个技巧教你在很少击打键盘情况下非常高效的导航文件内容。 滚动整屏或半屏请使用下面的页导航按键：  CTRL-F   向下滚动整页（Forward） CTRL-B  向上滚动整页（Back） CTRL-D  向下滚动半页（Down） CTRL-U">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vim 导航">
+<meta property="og:url" content="http://shaoguangleo.github.io/2013/07/19/vim-navigator/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="基本的导航如果你只是使用h，j，k，l字符来导航，那你就太弱了，如果让你到有万行代码的第5500行你如何操作呢，如果让你去第10屏你将如何操作呢？下面的几个技巧教你在很少击打键盘情况下非常高效的导航文件内容。 滚动整屏或半屏请使用下面的页导航按键：  CTRL-F   向下滚动整页（Forward） CTRL-B  向上滚动整页（Back） CTRL-D  向下滚动半页（Down） CTRL-U">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2013-07-19T08:13:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.952Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="vim">
+<meta property="article:tag" content="sort">
+<meta property="article:tag" content="shello">
+<meta property="article:tag" content="undo">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2013/07/19/vim-navigator/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>vim 导航 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2013/07/19/vim-navigator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vim 导航
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2013-07-19 16:13:00" itemprop="dateCreated datePublished" datetime="2013-07-19T16:13:00+08:00">2013-07-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vim/" itemprop="url" rel="index"><span itemprop="name">Vim</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2013/07/19/vim-navigator/" class="post-meta-item leancloud_visitors" data-flag-title="vim 导航" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2013/07/19/vim-navigator/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/07/19/vim-navigator/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2013/07/19/vim-navigator/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2013/07/19/vim-navigator/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="基本的导航"><a href="#基本的导航" class="headerlink" title="基本的导航"></a>基本的导航</h1><p>如果你只是使用h，j，k，l字符来导航，那你就太弱了，如果让你到有万行代码的第5500行你如何操作呢，如果让你去第10屏你将如何操作呢？下面的几个技巧教你在很少击打键盘情况下非常高效的导航文件内容。</p>
+<h2 id="滚动整屏或半屏"><a href="#滚动整屏或半屏" class="headerlink" title="滚动整屏或半屏"></a>滚动整屏或半屏</h2><p>请使用下面的页导航按键：</p>
+<ul>
+<li>CTRL-F   向下滚动整页（Forward）</li>
+<li>CTRL-B  向上滚动整页（Back）</li>
+<li>CTRL-D  向下滚动半页（Down）</li>
+<li>CTRL-U  向上滚动半页（Up）</li>
+</ul>
+<h2 id="词导航"><a href="#词导航" class="headerlink" title="词导航"></a>词导航</h2><ul>
+<li>w    移动到下一个单词的开始</li>
+<li>W    移动到下一个WORD的开始</li>
+<li>e     移动到当前单词的结尾</li>
+<li>E     移动到当前单词的结尾</li>
+<li>b     移动到前一个词的开始</li>
+<li>B     移动到前一个词的开始</li>
+</ul>
+<h2 id="在一行中特殊位置上的位置光标"><a href="#在一行中特殊位置上的位置光标" class="headerlink" title="在一行中特殊位置上的位置光标"></a>在一行中特殊位置上的位置光标</h2><ul>
+<li>0（zero）     移动到当前行的开始位置</li>
+<li>$(美元符号)   移动到当前行的结束位置</li>
+<li>^(…)      移动到当前行的第一个非空字符</li>
+<li>g_   移动到当前行的最后一个非空字符</li>
+</ul>
+<h2 id="快速跳转至文件首尾"><a href="#快速跳转至文件首尾" class="headerlink" title="快速跳转至文件首尾"></a>快速跳转至文件首尾</h2><p>导航键 描述</p>
+<p>:0 跳转至文件头–方法1</p>
+<p>gg 跳转至文件头–方法2</p>
+<p>1G 跳转至文件头–方法3</p>
+<p>:$ 跳转至文件尾–方法1</p>
+<p>G 跳转至文件尾–方法2</p>
+<h2 id="段落、章节和句子导航"><a href="#段落、章节和句子导航" class="headerlink" title="段落、章节和句子导航"></a>段落、章节和句子导航</h2><ul>
+<li>{      移动到当前段落的开始</li>
+<li>}      移动到下一个段落的开始</li>
+<li>[[     移动到当前章节的开始</li>
+<li>]]     移动到下一个章节的开始</li>
+<li>(      移动到前一个句子的开始</li>
+<li>)      移动到下一个句子的开始</li>
+</ul>
+<h2 id="使用CTRL-o和CTRL-I跳转"><a href="#使用CTRL-o和CTRL-I跳转" class="headerlink" title="使用CTRL-o和CTRL-I跳转"></a>使用CTRL-o和CTRL-I跳转</h2><p>Vim使用跳转列表来跟踪你的导航，你可以通过这个列表来向前或者向后导航。</p>
+<p>跳转列表保留所有地方的轨迹，它可以跟踪文件名、行号和列号。</p>
+<p>查看调整列表：:jumps</p>
+<table>
+<thead>
+<tr>
+<th>导航键</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CTRL-o</td>
+<td>跳转到上一个位置点</td>
+</tr>
+<tr>
+<td>CTRL-I</td>
+<td>跳转到下一个位置点</td>
+</tr>
+<tr>
+<td>5CTRL-o</td>
+<td>跳转到显示在位置0上面的位置5</td>
+</tr>
+<tr>
+<td>5CTRL-I</td>
+<td>跳转到显示在位置0下面的位置5</td>
+</tr>
+</tbody></table>
+<h2 id="Vim命令行导航"><a href="#Vim命令行导航" class="headerlink" title="Vim命令行导航"></a>Vim命令行导航</h2><p>当从命令行打开一个文件，你可以通过指定命令行参数来导航到一个特殊的位置，如下：</p>
+<table>
+<thead>
+<tr>
+<th>导航键</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$ vim +142 <filename></filename></td>
+<td>打开文件到143行</td>
+</tr>
+<tr>
+<td>$ vim +/search-term <filename></filename></td>
+<td>打开文件移动到向下搜索到指定词语的位置</td>
+</tr>
+<tr>
+<td>$ vim +?search-term <filename></filename></td>
+<td>打开文件移动到向上搜索到指定词语的位置</td>
+</tr>
+<tr>
+<td>$ vim -t TAG <filename></filename></td>
+<td>移动到指定的TAG处</td>
+</tr>
+</tbody></table>
+<h2 id="在非常长的行中导航"><a href="#在非常长的行中导航" class="headerlink" title="在非常长的行中导航"></a>在非常长的行中导航</h2><p>当你遇到<strong>非常长</strong>的行（没有任何新的行）时，Vim对待它作为单个行。<br>因此，当你对这一行输入j键后，它将跳到下一行上。然而，你会觉得它跳过了好多行。但实际上它只是跳过一个长行。</p>
+<p>可视化行：让我们假设有一个非常长的行，它回绕成5个可视化行。为了讨论的目的，让我们称每一单独的行为可视化行。</p>
+<p>下面的快捷方式可以帮我们有效地导航一个非常长的行，<code>只需要在前面的基础上加上一个g即可</code>。</p>
+<table>
+<thead>
+<tr>
+<th>导航键</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>gj</td>
+<td>向下滚动一个可视化行</td>
+</tr>
+<tr>
+<td>gk</td>
+<td>向上滚动一个可视化行</td>
+</tr>
+<tr>
+<td>g^</td>
+<td>移动到当前可视化行的开始位置</td>
+</tr>
+<tr>
+<td>g$</td>
+<td>移动到当前可视化行的结束位置</td>
+</tr>
+<tr>
+<td>gm</td>
+<td>移动到当前可视化行的中间位置</td>
+</tr>
+</tbody></table>
+<h2 id="文本编辑"><a href="#文本编辑" class="headerlink" title="文本编辑"></a>文本编辑</h2><p>下面说明各种改变文件中文本的方法。</p>
+<table>
+<thead>
+<tr>
+<th>键</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cc</td>
+<td>改变当前整行；与S键一样, 它会删除掉整行，并且进入到插入模式等待输入新文本</td>
+</tr>
+<tr>
+<td>C</td>
+<td>从当前光标位置改变当前行, 这会使出当前行中光标位置之后的文本，进入插入模式等待输入新的文本。</td>
+</tr>
+</tbody></table>
+<h3 id="替换文本"><a href="#替换文本" class="headerlink" title="替换文本"></a>替换文本</h3><p>这个与r的区别是，s会提前删除掉字符然后进入输入模式。</p>
+<table>
+<thead>
+<tr>
+<th>键</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>s</td>
+<td>使用新的字符替换当前字符</td>
+</tr>
+<tr>
+<td>S</td>
+<td>使用新的文本替换当前行</td>
+</tr>
+<tr>
+<td>4s</td>
+<td>使用新的文本替换4个字符（从当前位置开始）</td>
+</tr>
+<tr>
+<td>4S</td>
+<td>使用新的文本替换4行（从当前行开始）</td>
+</tr>
+</tbody></table>
+<h3 id="插入文本"><a href="#插入文本" class="headerlink" title="插入文本"></a>插入文本</h3><p>下面解释各种插入文本到文件的方法。</p>
+<table>
+<thead>
+<tr>
+<th>键</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>i</td>
+<td>在当前位置插入文本</td>
+</tr>
+<tr>
+<td>I</td>
+<td>在行的开始位置插入文本，键：大写的I，例如India</td>
+</tr>
+<tr>
+<td>o</td>
+<td>在当前行之后插入一行，并且插入文本，键：小写o，例如：orange</td>
+</tr>
+<tr>
+<td>O</td>
+<td>在当前行之前插入一行，并且插入文本键：大写O，例如：Orange</td>
+</tr>
+<tr>
+<td>:r FILENAME</td>
+<td>插入另外一个文件内容到当前文件的当前行之后</td>
+</tr>
+<tr>
+<td>:r! COMMAND</td>
+<td>插入执行命令的输出到当前文件的当前行之后</td>
+</tr>
+</tbody></table>
+<p>例如：你可以插入当前的日期和时间到你编辑的文件中，执行下面的命令：</p>
+<p>:r! date</p>
+<h3 id="恢复删除的文本"><a href="#恢复删除的文本" class="headerlink" title="恢复删除的文本"></a>恢复删除的文本</h3><p>如果你有与误操作删除文本，你可以恢复它。你可以恢复到9个删除文本的片段。</p>
+<table>
+<thead>
+<tr>
+<th>恢复删除</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>“1p</td>
+<td>恢复第一次删除</td>
+</tr>
+<tr>
+<td>“2p</td>
+<td>恢复第二次到最后一次删除</td>
+</tr>
+<tr>
+<td>“3p</td>
+<td>恢复第三次到最后一次删除</td>
+</tr>
+</tbody></table>
+<p>如果你不确切知道你删除的东西，你可以通过下面的方式浏览所有9次删除的缓冲区。当你看到你希望恢复的文笔，只需要在这一步停止。</p>
+<p>浏览所有删除的内容，直到你找到正确的一个。</p>
+<p>“1pu.u.u.u.u.</p>
+<p>你也可以使用:reg查看寄存器0到9中（删除寄存器）的文本，这会告诉你每个寄存器中使什么内容。</p>
+<h2 id="以只读模式打开"><a href="#以只读模式打开" class="headerlink" title="以只读模式打开"></a>以只读模式打开</h2><p>使用<code>-R</code>选项在只读模式下打开文件，如下所示：</p>
+<figure class="highlight css"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim -<span class="attribute">R</span> filename<span class="selector-class">.txt</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>或者</p>
+<figure class="highlight sas"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">view</span> <span class="keyword">filename</span>.txt</span><br></pre></td></tr></tbody></table></figure>
+
+<p>当你不想编辑一个文件时，使用上面的方法中的一个是习惯问题。这帮助你避免造成不必要的文件修改。</p>
+<h2 id="文件保存"><a href="#文件保存" class="headerlink" title="文件保存"></a>文件保存</h2><p>当你执行<code>:w</code>时，它会保存文件。<br><code>:w</code>的主要问题是当你输入<code>:w</code>时，不管文件有没有改变，它都会更新文件时间戳。</p>
+<p>幸运的是，<code>:up</code>可以保存文件，并且只是在文件存在改变时修改时间戳。</p>
+<table>
+<thead>
+<tr>
+<th>可视化模式类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>v 小写的v</td>
+<td>开始正常的可视化模式,在可视化模式下使用箭头导航选择文本</td>
+</tr>
+<tr>
+<td>V（大写）</td>
+<td>开始行可视化模式</td>
+</tr>
+<tr>
+<td>CTRL-V</td>
+<td>开始可视化块模式</td>
+</tr>
+</tbody></table>
+<h3 id="vim-自动补全"><a href="#vim-自动补全" class="headerlink" title="vim 自动补全"></a>vim 自动补全</h3><h4 id="自动单词不全"><a href="#自动单词不全" class="headerlink" title="自动单词不全"></a>自动单词不全</h4><ul>
+<li>CRTL+X CRTL+N ：单词前向补全；</li>
+<li>CRTL+X CRTL+P ：单词后向补全；</li>
+</ul>
+<h4 id="自动行补全"><a href="#自动行补全" class="headerlink" title="自动行补全"></a>自动行补全</h4><ul>
+<li>CRTL+X CRTL+L ：自动行补全；</li>
+</ul>
+<h4 id="自动文件名补全"><a href="#自动文件名补全" class="headerlink" title="自动文件名补全"></a>自动文件名补全</h4><ul>
+<li>CRTL+X CRTL+F ：文件名自动补全；</li>
+</ul>
+<h4 id="字典补全"><a href="#字典补全" class="headerlink" title="字典补全"></a>字典补全</h4><p>只需要在vimrc中设置:set dictionary+=/usr/share/dict/words即可补全words中的单词。<br>也可以使用CTRL+X CTRL+K来显示匹配的单词。</p>
+<h4 id="词典自动补全"><a href="#词典自动补全" class="headerlink" title="词典自动补全"></a>词典自动补全</h4><p>设置:set thesaurus+=/the/path/of/thesaurus文件，然后使用CTRL+X CTRL+T就可以找到相关单词的同义词。</p>
+<h3 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h3><p>下面是可视化模式下集中不同的类型：</p>
+<table>
+<thead>
+<tr>
+<th>可视化模式命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><esc></esc></td>
+<td>退出可视化模式</td>
+</tr>
+<tr>
+<td>d</td>
+<td>仅删除高亮的文本，例如，如果只是选择一行的部分，它只是删除该行上选择的部分。</td>
+</tr>
+<tr>
+<td>D</td>
+<td>删除高亮文本下的行，例如，如果只选择行的部分，它会删除整行。</td>
+</tr>
+<tr>
+<td>y</td>
+<td>仅拷贝（yank）高亮的文本</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>拷贝高亮文本所在的行</td>
+</tr>
+<tr>
+<td>c</td>
+<td>删除高亮文本，进入插入模式</td>
+</tr>
+<tr>
+<td>C</td>
+<td>删除高亮文本所在的行，进入插入模式</td>
+</tr>
+</tbody></table>
+<h2 id="窗口"><a href="#窗口" class="headerlink" title="窗口"></a>窗口</h2><ul>
+<li>:split file    —打开水平的两个窗口</li>
+<li>:vsplit file   —打开垂直的两个窗口</li>
+<li>CTRL+WW来移动到下一个窗口，或者使用CTRL+W{h/j/k/l}按照方向移动到相应的窗口；</li>
+<li>CTRL+W (+/-)来增加或减小当前的窗口所占比例大小；</li>
+<li>:N split filename来打开占用N列的窗口文件。</li>
+</ul>
+<h2 id="更改窗口显示标题"><a href="#更改窗口显示标题" class="headerlink" title="更改窗口显示标题"></a>更改窗口显示标题</h2><p>:set title titlestring=’I\ am\ coding\ now’</p>
+<h2 id="更改配色方案"><a href="#更改配色方案" class="headerlink" title="更改配色方案"></a>更改配色方案</h2><p>可以使用<code>:!ls $VIMRUNTIME/colors</code>来查看支持的配色方案并更改。</p>
+<figure class="highlight stylus"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Press ENTER or type command to continue</span><br><span class="line">README<span class="selector-class">.txt</span>	default<span class="selector-class">.vim</span>	elflord<span class="selector-class">.vim</span>	koehler<span class="selector-class">.vim</span>	pablo<span class="selector-class">.vim</span>	shine<span class="selector-class">.vim</span>	zellner<span class="selector-class">.vim</span></span><br><span class="line">blue<span class="selector-class">.vim</span>	delek<span class="selector-class">.vim</span>	evening<span class="selector-class">.vim</span>	morning<span class="selector-class">.vim</span>	peachpuff<span class="selector-class">.vim</span>	slate<span class="selector-class">.vim</span></span><br><span class="line">darkblue<span class="selector-class">.vim</span>	desert<span class="selector-class">.vim</span>	industry<span class="selector-class">.vim</span>	murphy<span class="selector-class">.vim</span>	ron<span class="selector-class">.vim</span>		torte<span class="selector-class">.vim</span></span><br><span class="line"></span><br><span class="line">Press ENTER or type command to continue</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="编辑文件"><a href="#编辑文件" class="headerlink" title="编辑文件"></a>编辑文件</h2><p>使用vim –p file1 file2 file3 …. fileN可以打开多个文件，与不加-p的区别在于，这些文件全部显示在一个tab上。</p>
+<p>然后我们就可以使用:tabn :tabp来到下一个tab或者上一个tab<br>可以使用:help tab来查看详情。</p>
+<h2 id="如何在插入状态下输入命令"><a href="#如何在插入状态下输入命令" class="headerlink" title="如何在插入状态下输入命令"></a>如何在插入状态下输入命令</h2><p>先输入CTRL+O，然后就可以输入命令了，比如5j，就会跳转5行，然后重新进入插入状态。<br>注意，这里只能执行一次哟。</p>
+<h2 id="查看当前文件细节"><a href="#查看当前文件细节" class="headerlink" title="查看当前文件细节"></a>查看当前文件细节</h2><p>使用CTRL+G或者gCTRL+G，得到的信息分别为基本信息和更详细信息。</p>
+<h2 id="数字增加或减少的快捷键"><a href="#数字增加或减少的快捷键" class="headerlink" title="数字增加或减少的快捷键"></a>数字增加或减少的快捷键</h2><p>可以使用CTRL+A或者CTRL+X来将某位数字加1或者减1。</p>
+<h2 id="跳转到变量定义处"><a href="#跳转到变量定义处" class="headerlink" title="跳转到变量定义处"></a>跳转到变量定义处</h2><p>可以使用gd或者gD来跳转到变量定义处，一个为local定义，一个是global定义，在跳转过程中，会将该变量高亮显示。</p>
+<h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><p>使用标签来创建的书签有两种类型的书签：局部书签和全局书签。</p>
+<p>这里我们介绍下局部书签：</p>
+<table>
+<thead>
+<tr>
+<th>标签命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ma</td>
+<td>在当前位置处创建一个名为“a”的标签</td>
+</tr>
+<tr>
+<td>`a(反引号 a)</td>
+<td>跳转到书签“a”的精确位置</td>
+</tr>
+<tr>
+<td>‘a(单引号 a)</td>
+<td>跳转到包含标签“a”哪行的开始</td>
+</tr>
+</tbody></table>
+<p>在单个文件中，当你希望跳转到特殊位置或者行上，你可以使用本地标签。如果你的标签名称是小写字符，那么它是个局部标签。</p>
+<p>注意：<strong>Vim与Vi不同的是在编辑器推出之后该标签还是存在的</strong>，这是一个让许多UNIX用户吃惊的强大特征。</p>
+<h2 id="文件加密"><a href="#文件加密" class="headerlink" title="文件加密"></a>文件加密</h2><p>在vim中使用:X然后输入密码就可是设置每次打开文件都要输入设置的密码，同时可以使用:set key=来取消密码。</p>
+<h2 id="保存会话"><a href="#保存会话" class="headerlink" title="保存会话"></a>保存会话</h2><p>如果在编辑当前文件的时候，想编辑另外一个文件，可以使用:mksession来保存当前对话，等回来的时候，重新使用vim –S Session.vim即可打开原来保存的会话，这个会话会保存buffer、窗口大小、自定义选项、文件夹、当前目录等。</p>
+<h2 id="在vim中执行shell命令"><a href="#在vim中执行shell命令" class="headerlink" title="在vim中执行shell命令"></a>在vim中执行shell命令</h2><p>使用方式为<code>:!cmd</code>即可。</p>
+<p>比如在修改源码的时候，我比较喜欢使用<code>:!date</code>这样就可以快速注释修改的时间了。</p>
+<h1 id="vimbook–OPL-–official-publications-library"><a href="#vimbook–OPL-–official-publications-library" class="headerlink" title="vimbook–OPL –official publications library"></a>vimbook–OPL –official publications library</h1><p>又大概看了一遍VIM-OPL，大概记了一些还不是很熟的知识点。</p>
+<h1 id="1-Basic-Editing"><a href="#1-Basic-Editing" class="headerlink" title="1 Basic Editing"></a>1 Basic Editing</h1><p>x—删除字符</p>
+<p>u—撤销</p>
+<p>Ctrl+U—还原</p>
+<p>ZZ—保存退出</p>
+<p>o—在当前行下方新建一行</p>
+<p>O—在当前行上方新建一行</p>
+<p>CTRL+] &amp;&amp; CTRL+T：浏览器间前进后退</p>
+<h3 id="帮助前缀"><a href="#帮助前缀" class="headerlink" title="帮助前缀"></a>帮助前缀</h3><p><strong>What                                         Prefix             Example</strong></p>
+<p>Normal-mode commands     (nothing)                 :help x</p>
+<p>Control character CTRL-        :help                          CTRL-u</p>
+<p>Visual-mode commands       v                                :help v_u</p>
+<p>Insert-mode commands        i                               :help i_<esc></esc></p>
+<p><em>ex</em>-mode commands             :                               :help :quit</p>
+<p>Command-line editing          c                          :help c_<del></del></p>
+<p><em>Vim</em> command arguments           –              :help -r</p>
+<p>Options                      ‘ (both ends)        :help ‘textwidth’</p>
+<p>​      特殊键需要使用尖括号括起来，例如向上的键:help <up></up></p>
+<h3 id="移动到行首行尾"><a href="#移动到行首行尾" class="headerlink" title="移动到行首行尾"></a>移动到行首行尾</h3><p>使用$移动到行尾，如果是2$就是移动到当前光标所在的下一行的行尾；</p>
+<p>0是移动到行首</p>
+<p>^是移动到第一个非空的字符上。</p>
+<h3 id="搜索字符"><a href="#搜索字符" class="headerlink" title="搜索字符"></a>搜索字符</h3><p>fx：即为从光标开始向前搜索字符x的所在；</p>
+<p>Fx：即为从光标开始向后搜索字符x的所在；</p>
+<p>与之相同的为tx和Tx，不过只是在前一个字符停下而已。</p>
+<h3 id="我在哪里"><a href="#我在哪里" class="headerlink" title="我在哪里"></a>我在哪里</h3><p>使用CTRL+G可以显示出你位于那里</p>
+<h3 id="向上或向下卷动"><a href="#向上或向下卷动" class="headerlink" title="向上或向下卷动"></a>向上或向下卷动</h3><p>CTRL+U：向上移动半屏</p>
+<p>CTRL+D：向下移动半屏</p>
+<h3 id="组合的威力"><a href="#组合的威力" class="headerlink" title="组合的威力"></a>组合的威力</h3><p>如果对于<b>，当光标在&lt;时，使用df&gt;将会把<b>整体删除，然后使用.就可以进行相同的编辑操作。</b></b></p>
+<h3 id="改变大小写"><a href="#改变大小写" class="headerlink" title="改变大小写"></a>改变大小写</h3><p>~</p>
+<h3 id="键盘宏–处理更复杂的操作"><a href="#键盘宏–处理更复杂的操作" class="headerlink" title="键盘宏–处理更复杂的操作"></a>键盘宏–处理更复杂的操作</h3><p>将</p>
+<p>stdio.h</p>
+<p>fcntl.h</p>
+<p>unistd.h</p>
+<p>stdlib.h</p>
+<p>修改为</p>
+<p>#include “stdio.h”</p>
+<p>#include “fcntl.h”</p>
+<p>#include “unistd.h”</p>
+<p>#include “stdlib.h”</p>
+<p>方法如下：</p>
+<p><strong>qa</strong>   <strong>开始录制宏到寄存器a</strong></p>
+<p><strong>^</strong>   <strong>移动到行首</strong></p>
+<p><strong>i#include “<esc></esc></strong> <strong>在行首插入字符串#include</strong>”</p>
+<p><strong>$</strong>   <strong>移动到行尾</strong></p>
+<p><strong>a”<esc></esc></strong>  在行尾添加”</p>
+<p><strong>j</strong>  移动到下一行</p>
+<p><strong>q</strong>   停止录制宏</p>
+<p>然后我们就可以使用@a来重复刚才的动作。</p>
+<h3 id="输入图标或键盘上没有的符号"><a href="#输入图标或键盘上没有的符号" class="headerlink" title="输入图标或键盘上没有的符号"></a>输入图标或键盘上没有的符号</h3><p>可以使用:digraphs来查看可以输入的符号，输入方法为<strong>CTRL-Kat****，即可输入@。</strong></p>
+<h3 id="正则表达式搜索"><a href="#正则表达式搜索" class="headerlink" title="正则表达式搜索"></a>正则表达式搜索</h3><p>/^include：只搜索每行中的第一个include</p>
+<p>/include$：只搜索每行中的最后一个include</p>
+<p>/^include$：只搜索准确的include，而不显示诸如includeaaa等。</p>
+<h3 id="正则表达式总结"><a href="#正则表达式总结" class="headerlink" title="正则表达式总结"></a>正则表达式总结</h3><p>x The literal character x</p>
+<p>^ 行的开始</p>
+<p>$  行的结尾</p>
+<p>.  匹配单个字符</p>
+<p>character  诸如.*[]ˆ%/?~$需要来搜索</p>
+<h3 id="使用标记mark"><a href="#使用标记mark" class="headerlink" title="使用标记mark"></a>使用标记mark</h3><ol>
+<li><p>使用：mark a来标记a</p>
+</li>
+<li><p>移动到另一个位置</p>
+</li>
+<li><p>执行d’a就可以删除从当前位置到a的文本</p>
+</li>
+</ol>
+<p>使用标记的好处是它可以为你一直保持，你可以随时跳转回去。</p>
+<p>使用标记后，可以使用y’a来复制当前位置到标记的地方。</p>
+<h3 id="的妙用"><a href="#的妙用" class="headerlink" title="!!的妙用"></a>!!的妙用</h3><p>！！date就是把当前 时间插入，同样地！！ls就是把当前文件夹列表的内容插入到当前行。</p>
+<h3 id="直接在vim中打开另一个文件"><a href="#直接在vim中打开另一个文件" class="headerlink" title="直接在vim中打开另一个文件"></a>直接在vim中打开另一个文件</h3><p>​      如果你已经使用vim打开了一个文件，又想打开另外一个文件，可以先退出在打开另一个，但是还有一个比较快捷的方法，就是直接:vi filename，就可以自动关闭原来的文件，打开filename。</p>
+<h3 id="我位于那个文件"><a href="#我位于那个文件" class="headerlink" title="我位于那个文件"></a>我位于那个文件</h3><p>​      输入:args可以在打开过个文件的时候定位到底在那个文件。</p>
+<h3 id="三种visual模式"><a href="#三种visual模式" class="headerlink" title="三种visual模式"></a>三种visual模式</h3><p>l  V：选择整行；</p>
+<p>l  v：按照字符选择；</p>
+<p>l  CTRL+V：矩形块选择；</p>
+<h3 id="Visual模式中连接多行"><a href="#Visual模式中连接多行" class="headerlink" title="Visual模式中连接多行"></a>Visual模式中连接多行</h3><p>在V模式下，使用J可以连接各行，而gJ可以不让连接的各行有空格。</p>
+<h3 id="Visual模式下平移"><a href="#Visual模式下平移" class="headerlink" title="Visual模式下平移"></a>Visual模式下平移</h3><p>选定文本后，使用SHIFT+&gt;来平移文本。</p>
+<h3 id="多行插入相同文本"><a href="#多行插入相同文本" class="headerlink" title="多行插入相同文本"></a>多行插入相同文本</h3><p>使用CTRL+V选定文本后，使用I即可插入在选定的地方插入相同文本（光标其实）；而A在选定的区域之后。</p>
+<h3 id="如果c程序的后缀名不是c"><a href="#如果c程序的后缀名不是c" class="headerlink" title="如果c程序的后缀名不是c"></a>如果c程序的后缀名不是c</h3><p>可以使用:set filetype=c来强制默认为c类型</p>
+<h3 id="自动缩进"><a href="#自动缩进" class="headerlink" title="自动缩进"></a>自动缩进</h3><p>有三个缩进</p>
+<p>l  cindent</p>
+<p>l  smartindent</p>
+<p>l  autoindent</p>
+<h3 id="程序中定位"><a href="#程序中定位" class="headerlink" title="程序中定位"></a>程序中定位</h3><p>*：可以定位到光标下的单词；</p>
+<p>gd：移动到变量的定义处；</p>
+<p>[d：显示宏定义</p>
+<h3 id="匹配对"><a href="#匹配对" class="headerlink" title="匹配对"></a>匹配对</h3><p>%：用于匹配（）、/*  */、｛｝或[]；</p>
+<h3 id="查找man信息"><a href="#查找man信息" class="headerlink" title="查找man信息"></a>查找man信息</h3><p>在关键词上直接敲K就可以打开man帮助信息。</p>
+<h3 id="在文件中直接make"><a href="#在文件中直接make" class="headerlink" title="在文件中直接make"></a>在文件中直接make</h3><p>我们可以在文件中直接使用:make来编译程序，这样就可以自动定位到错误的地方。:cc可以列出所有的编译信息，:cnext或这:clist可以到下一个报警错误或者列出所有信息。</p>
+<h3 id="进入命令行模式"><a href="#进入命令行模式" class="headerlink" title="进入命令行模式"></a>进入命令行模式</h3><p>按下Q即可进入。</p>
+<h3 id="文本格式命令"><a href="#文本格式命令" class="headerlink" title="文本格式命令"></a>文本格式命令</h3><p>:range center/right/left width可以居中</p>
+<h3 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h3><p>我们可以使使用CTRL+N或者CTRL+P来自动搜索匹配的词。</p>
+<h3 id="显示字符的ascii码"><a href="#显示字符的ascii码" class="headerlink" title="显示字符的ascii码"></a>显示字符的ascii码</h3><p>输入ga就可以显示出光标下字符的各个进制数。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vim/" rel="tag"># vim</a>
+              <a href="/tags/sort/" rel="tag"># sort</a>
+              <a href="/tags/shello/" rel="tag"># shello</a>
+              <a href="/tags/undo/" rel="tag"># undo</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2013/07/18/linux-centos-fedora-package-cleanup/" rel="prev" title="Linux package-cleanup的使用">
+      <i class="fa fa-chevron-left"></i> Linux package-cleanup的使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2013/07/19/diary-All-about-Tsien-Hsue-shen/" rel="next" title="走近钱学森">
+      走近钱学森 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%9A%84%E5%AF%BC%E8%88%AA"><span class="nav-number">1.</span> <span class="nav-text">基本的导航</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BB%9A%E5%8A%A8%E6%95%B4%E5%B1%8F%E6%88%96%E5%8D%8A%E5%B1%8F"><span class="nav-number">1.1.</span> <span class="nav-text">滚动整屏或半屏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E5%AF%BC%E8%88%AA"><span class="nav-number">1.2.</span> <span class="nav-text">词导航</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E4%B8%80%E8%A1%8C%E4%B8%AD%E7%89%B9%E6%AE%8A%E4%BD%8D%E7%BD%AE%E4%B8%8A%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%85%89%E6%A0%87"><span class="nav-number">1.3.</span> <span class="nav-text">在一行中特殊位置上的位置光标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E8%B7%B3%E8%BD%AC%E8%87%B3%E6%96%87%E4%BB%B6%E9%A6%96%E5%B0%BE"><span class="nav-number">1.4.</span> <span class="nav-text">快速跳转至文件首尾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AE%B5%E8%90%BD%E3%80%81%E7%AB%A0%E8%8A%82%E5%92%8C%E5%8F%A5%E5%AD%90%E5%AF%BC%E8%88%AA"><span class="nav-number">1.5.</span> <span class="nav-text">段落、章节和句子导航</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8CTRL-o%E5%92%8CCTRL-I%E8%B7%B3%E8%BD%AC"><span class="nav-number">1.6.</span> <span class="nav-text">使用CTRL-o和CTRL-I跳转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vim%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AF%BC%E8%88%AA"><span class="nav-number">1.7.</span> <span class="nav-text">Vim命令行导航</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E9%9D%9E%E5%B8%B8%E9%95%BF%E7%9A%84%E8%A1%8C%E4%B8%AD%E5%AF%BC%E8%88%AA"><span class="nav-number">1.8.</span> <span class="nav-text">在非常长的行中导航</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91"><span class="nav-number">1.9.</span> <span class="nav-text">文本编辑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%BF%E6%8D%A2%E6%96%87%E6%9C%AC"><span class="nav-number">1.9.1.</span> <span class="nav-text">替换文本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%96%87%E6%9C%AC"><span class="nav-number">1.9.2.</span> <span class="nav-text">插入文本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%81%A2%E5%A4%8D%E5%88%A0%E9%99%A4%E7%9A%84%E6%96%87%E6%9C%AC"><span class="nav-number">1.9.3.</span> <span class="nav-text">恢复删除的文本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5%E5%8F%AA%E8%AF%BB%E6%A8%A1%E5%BC%8F%E6%89%93%E5%BC%80"><span class="nav-number">1.10.</span> <span class="nav-text">以只读模式打开</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%BF%9D%E5%AD%98"><span class="nav-number">1.11.</span> <span class="nav-text">文件保存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vim-%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="nav-number">1.11.1.</span> <span class="nav-text">vim 自动补全</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%8D%95%E8%AF%8D%E4%B8%8D%E5%85%A8"><span class="nav-number">1.11.1.1.</span> <span class="nav-text">自动单词不全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%A1%8C%E8%A1%A5%E5%85%A8"><span class="nav-number">1.11.1.2.</span> <span class="nav-text">自动行补全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E6%96%87%E4%BB%B6%E5%90%8D%E8%A1%A5%E5%85%A8"><span class="nav-number">1.11.1.3.</span> <span class="nav-text">自动文件名补全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E8%A1%A5%E5%85%A8"><span class="nav-number">1.11.1.4.</span> <span class="nav-text">字典补全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%8D%E5%85%B8%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="nav-number">1.11.1.5.</span> <span class="nav-text">词典自动补全</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="nav-number">1.11.2.</span> <span class="nav-text">可视化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AA%97%E5%8F%A3"><span class="nav-number">1.12.</span> <span class="nav-text">窗口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%94%B9%E7%AA%97%E5%8F%A3%E6%98%BE%E7%A4%BA%E6%A0%87%E9%A2%98"><span class="nav-number">1.13.</span> <span class="nav-text">更改窗口显示标题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%94%B9%E9%85%8D%E8%89%B2%E6%96%B9%E6%A1%88"><span class="nav-number">1.14.</span> <span class="nav-text">更改配色方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%BE%91%E6%96%87%E4%BB%B6"><span class="nav-number">1.15.</span> <span class="nav-text">编辑文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8%E6%8F%92%E5%85%A5%E7%8A%B6%E6%80%81%E4%B8%8B%E8%BE%93%E5%85%A5%E5%91%BD%E4%BB%A4"><span class="nav-number">1.16.</span> <span class="nav-text">如何在插入状态下输入命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E6%96%87%E4%BB%B6%E7%BB%86%E8%8A%82"><span class="nav-number">1.17.</span> <span class="nav-text">查看当前文件细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E5%A2%9E%E5%8A%A0%E6%88%96%E5%87%8F%E5%B0%91%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="nav-number">1.18.</span> <span class="nav-text">数字增加或减少的快捷键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%B3%E8%BD%AC%E5%88%B0%E5%8F%98%E9%87%8F%E5%AE%9A%E4%B9%89%E5%A4%84"><span class="nav-number">1.19.</span> <span class="nav-text">跳转到变量定义处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE"><span class="nav-number">1.20.</span> <span class="nav-text">标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%8A%A0%E5%AF%86"><span class="nav-number">1.21.</span> <span class="nav-text">文件加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E4%BC%9A%E8%AF%9D"><span class="nav-number">1.22.</span> <span class="nav-text">保存会话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8vim%E4%B8%AD%E6%89%A7%E8%A1%8Cshell%E5%91%BD%E4%BB%A4"><span class="nav-number">1.23.</span> <span class="nav-text">在vim中执行shell命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vimbook%E2%80%93OPL-%E2%80%93official-publications-library"><span class="nav-number">2.</span> <span class="nav-text">vimbook–OPL –official publications library</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Basic-Editing"><span class="nav-number">3.</span> <span class="nav-text">1 Basic Editing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%AE%E5%8A%A9%E5%89%8D%E7%BC%80"><span class="nav-number">3.0.1.</span> <span class="nav-text">帮助前缀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E5%88%B0%E8%A1%8C%E9%A6%96%E8%A1%8C%E5%B0%BE"><span class="nav-number">3.0.2.</span> <span class="nav-text">移动到行首行尾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E5%AD%97%E7%AC%A6"><span class="nav-number">3.0.3.</span> <span class="nav-text">搜索字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%88%91%E5%9C%A8%E5%93%AA%E9%87%8C"><span class="nav-number">3.0.4.</span> <span class="nav-text">我在哪里</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%91%E4%B8%8A%E6%88%96%E5%90%91%E4%B8%8B%E5%8D%B7%E5%8A%A8"><span class="nav-number">3.0.5.</span> <span class="nav-text">向上或向下卷动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E7%9A%84%E5%A8%81%E5%8A%9B"><span class="nav-number">3.0.6.</span> <span class="nav-text">组合的威力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B9%E5%8F%98%E5%A4%A7%E5%B0%8F%E5%86%99"><span class="nav-number">3.0.7.</span> <span class="nav-text">改变大小写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%AE%E7%9B%98%E5%AE%8F%E2%80%93%E5%A4%84%E7%90%86%E6%9B%B4%E5%A4%8D%E6%9D%82%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">3.0.8.</span> <span class="nav-text">键盘宏–处理更复杂的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E5%9B%BE%E6%A0%87%E6%88%96%E9%94%AE%E7%9B%98%E4%B8%8A%E6%B2%A1%E6%9C%89%E7%9A%84%E7%AC%A6%E5%8F%B7"><span class="nav-number">3.0.9.</span> <span class="nav-text">输入图标或键盘上没有的符号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%90%9C%E7%B4%A2"><span class="nav-number">3.0.10.</span> <span class="nav-text">正则表达式搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%80%BB%E7%BB%93"><span class="nav-number">3.0.11.</span> <span class="nav-text">正则表达式总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A0%87%E8%AE%B0mark"><span class="nav-number">3.0.12.</span> <span class="nav-text">使用标记mark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9A%84%E5%A6%99%E7%94%A8"><span class="nav-number">3.0.13.</span> <span class="nav-text">!!的妙用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E5%9C%A8vim%E4%B8%AD%E6%89%93%E5%BC%80%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="nav-number">3.0.14.</span> <span class="nav-text">直接在vim中打开另一个文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%88%91%E4%BD%8D%E4%BA%8E%E9%82%A3%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="nav-number">3.0.15.</span> <span class="nav-text">我位于那个文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%A7%8Dvisual%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.0.16.</span> <span class="nav-text">三种visual模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Visual%E6%A8%A1%E5%BC%8F%E4%B8%AD%E8%BF%9E%E6%8E%A5%E5%A4%9A%E8%A1%8C"><span class="nav-number">3.0.17.</span> <span class="nav-text">Visual模式中连接多行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Visual%E6%A8%A1%E5%BC%8F%E4%B8%8B%E5%B9%B3%E7%A7%BB"><span class="nav-number">3.0.18.</span> <span class="nav-text">Visual模式下平移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E8%A1%8C%E6%8F%92%E5%85%A5%E7%9B%B8%E5%90%8C%E6%96%87%E6%9C%AC"><span class="nav-number">3.0.19.</span> <span class="nav-text">多行插入相同文本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9Cc%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%90%8E%E7%BC%80%E5%90%8D%E4%B8%8D%E6%98%AFc"><span class="nav-number">3.0.20.</span> <span class="nav-text">如果c程序的后缀名不是c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E7%BC%A9%E8%BF%9B"><span class="nav-number">3.0.21.</span> <span class="nav-text">自动缩进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E4%B8%AD%E5%AE%9A%E4%BD%8D"><span class="nav-number">3.0.22.</span> <span class="nav-text">程序中定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E5%AF%B9"><span class="nav-number">3.0.23.</span> <span class="nav-text">匹配对</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E6%89%BEman%E4%BF%A1%E6%81%AF"><span class="nav-number">3.0.24.</span> <span class="nav-text">查找man信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9B%B4%E6%8E%A5make"><span class="nav-number">3.0.25.</span> <span class="nav-text">在文件中直接make</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.0.26.</span> <span class="nav-text">进入命令行模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E6%A0%BC%E5%BC%8F%E5%91%BD%E4%BB%A4"><span class="nav-number">3.0.27.</span> <span class="nav-text">文本格式命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="nav-number">3.0.28.</span> <span class="nav-text">自动补全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E5%AD%97%E7%AC%A6%E7%9A%84ascii%E7%A0%81"><span class="nav-number">3.0.29.</span> <span class="nav-text">显示字符的ascii码</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2013/07/19/vim-navigator/";
+    this.page.identifier = "2013/07/19/vim-navigator/";
+    this.page.title = "vim 导航";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

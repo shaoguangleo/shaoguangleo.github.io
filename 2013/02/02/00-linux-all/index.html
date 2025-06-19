@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="LINUX 集锦汇总并总结一下关于LINUX的命令集   Linux No such device eth0  汇报磁盘空间的df  好看的字体  时间日期 集锦  Linux的stat命令  远程登录不需要密码  Linux GNUplot  放开了去的 ulimit 命令  显示管理磁盘分区 fdisk  Linux的 rmdir 命令  Linux换行符和Windows换行符的区别与转换">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LINUX 集锦">
+<meta property="og:url" content="http://shaoguangleo.github.io/2013/02/02/00-linux-all/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="LINUX 集锦汇总并总结一下关于LINUX的命令集   Linux No such device eth0  汇报磁盘空间的df  好看的字体  时间日期 集锦  Linux的stat命令  远程登录不需要密码  Linux GNUplot  放开了去的 ulimit 命令  显示管理磁盘分区 fdisk  Linux的 rmdir 命令  Linux换行符和Windows换行符的区别与转换">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2013-02-02T13:11:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.699Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="集锦">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2013/02/02/00-linux-all/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>LINUX 集锦 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2013/02/02/00-linux-all/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LINUX 集锦
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2013-02-02 21:11:00" itemprop="dateCreated datePublished" datetime="2013-02-02T21:11:00+08:00">2013-02-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9B%86%E9%94%A6/" itemprop="url" rel="index"><span itemprop="name">集锦</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2013/02/02/00-linux-all/" class="post-meta-item leancloud_visitors" data-flag-title="LINUX 集锦" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2013/02/02/00-linux-all/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/02/02/00-linux-all/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2013/02/02/00-linux-all/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2013/02/02/00-linux-all/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="LINUX-集锦"><a href="#LINUX-集锦" class="headerlink" title="LINUX 集锦"></a>LINUX 集锦</h1><p>汇总并总结一下关于LINUX的命令集</p>
+<ul>
+<li><a href="http://shaoguangleo.github.io/2013/07/12/linux-no-such-device-eth"> Linux No such device eth0</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/20/linux-df-beginner"> 汇报磁盘空间的df</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/09/linux-font"> 好看的字体</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E6%97%B6%E9%97%B4%E6%97%A5%E6%9C%9F"> 时间日期 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/09/17/linux-stat-beginner"> Linux的stat命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/02/12/linux-ssh-nopasswd-misc"> 远程登录不需要密码</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-4-graphical-analysis-with-gnuplot-13-fundamental-graphical-methods"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/02/12/linux-ulimit-beginner"> 放开了去的 ulimit 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/01/16/linux-fdisk-beginner"> 显示管理磁盘分区 fdisk</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-rmdir"> Linux的 rmdir 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/07/08/windows-linux-return"> Linux换行符和Windows换行符的区别与转换</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/05/06/linux-source-beginner"> Linux的source命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/23/linux-ps1"> Linux PS1参数</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/12/27/linux-uniq-beginner"> 你是唯一的 uniq</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/08/02/linux-xfs-filesystem"> Linux xfs文件系统</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/05/06/linux-centos-install-idle"> CentOS安装IDLE</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/05/06/linux-centos-install-idle"> CentOS安装IDLE</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-whatis"> Linux 的 whatis 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/18/linux-centos-fedora-package-cleanup"> Linux package-cleanup的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/18/linux-centos-fedora-package-cleanup"> Linux package-cleanup的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/07/linux-useradd-beginner"> Linux useradd</a></li>
+<li><a href="http://shaoguangleo.github.io//linux-dir-beginner"></a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-tee-beginner"> Linux的 tee 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/12/linux-whoami"> Linux的 whoami命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-groupadd"> groupadd 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/12/linux-systemctl-beginner"> 任务管理器的 top</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-software"> software 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-2-polishing-7-all-about-axes"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/06/linux-tcpdump-beginner"> Linux的tcpdump命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/24/linux-ssh-beginner"> 远程登陆利器 ssh</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-4-graphical-analysis-with-gnuplot-14-techniques-of-graphical-analysis"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/02/12/linux-figlet-misc"> linux之figlet命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E6%96%87%E6%A1%A3%E6%9F%A5%E7%9C%8B"> 文档查看 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/17/linux-automake-7-directories"> Linux Automake 7 目录</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-cal-beginner"> 可看黄道吉日的 cal</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-mkdir"> mkdir 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/05/06/linux-centos7-update-gitlab-ce"> CentOS7升级gitlab-ce</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/05/06/linux-centos7-update-gitlab-ce"> CentOS7升级gitlab-ce</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/08/26/linux-whois-beginner"> 探索网络信息的利器 whois</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-1-basic-4-practical-matters"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/12/linux-wall"> Linux的 wall 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/03/07/linux-chattr-advanced"> Linux之修改文件属性 —— chattr和lsattr命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/12/linux-time-beginner"> 时光总是催人老 time</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/12/linux-top-beginner"> 任务管理器的 top</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-rm"> Linux的 rm 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/12/linux-top"> Linux的 top 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/05/07/linux-su"> Linux的su命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/06/22/linux-du"> Linux du命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2022/12/17/linux-collection-file-transfer"> linux中最常用的文件传输命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/05/06/linux-centos7-install-gitlab-ce"> CentOS7安装gitlab-ce</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/05/06/linux-centos7-install-gitlab-ce"> CentOS7安装gitlab-ce</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/06/08/linux-awk"> Linux awk 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/02/12/linux-screenfetch-misc"> linux之screenfetch命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/08/23/linux-opengl"> Linux OpenGL</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/03/07/linux-head-library-advanced"> Linux之修改文件属性 —— chattr和lsattr命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-cp-beginner"> 安全起见，拷贝为先 - cp</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/27/linux-grep"> Linux的 grep 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/02/00-linux-all"> LINUX 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/05/06/linux-tracepath"> Linux的tracepath命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/08/27/linux-core"> 不明所以的core文件，就这样出现了</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/07/linux-ls"> Linux的 ls 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-cp"> Linux的 cp 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/12/linux-rpm-beginner"> 稍显底层的红帽系软件管理工具 - rpm</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/12/01/linux-hostnamectl"> Linux的hostnamectl</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/04/02/linux-centos-booterror"> System BootOrder not found. Initializing defaults</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/04/02/linux-centos-booterror"> System BootOrder not found. Initializing defaults</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/12/01/linux-hostname-beginner"> Linux的hostname</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/07/linux-reboot-beginner"> Linux reboot/poweroff/halt 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF"> 用户信息 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/05/07/linux-debian-sources-list"> Linux Debian sources.list</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/02/12/linux-hpc"> Linux的 HPC</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/04/07/linux-bc-beginner"> 迷你计算器 bc</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/02/12/linux-dmidecode"> Linux查看内存信息（型号、大小、速率等）</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/07/28/linux-ps-beginner"> 显示进程状态 ps</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/17/linux-man-pages"> Linux 安装 man 帮助程序</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-touch"> touch 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/17/linux-date-beginner"> 一日难再晨及时当勉励 date</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/01/03/linux-virtualbox"> Linux VirutalBox</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/07/07/linux-sed"> Linux sed命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-cal"> Linux的 cal 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/17/linux-shell-date"> Linux shell系统时间</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-ssh"> ssh 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/05/22/linux-anjuta"> anjuta的安装、配置以及第一个hello程序</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-kill"> kill 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/06/08/linux-xfs"> CentOS 上源码升级安装xfs软件包</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/11/18/linux-collection-package-managerment"> Linux最常用的几个软件包管理命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/01/30/linux-beginner-summary"> Linux 入门的100+个命令 终于阶段性完结</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/02/12/linux-ulimit"> Linux的 ulimit 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-cat"> Linux的 cat 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-tar"> Linux 的 tar 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/03/22/linux-opencl"> OpenCL</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/10/19/linux-wait"> Linux wait函数进程进程</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/12/17/linux-collection-file-operation"> linux中最常用的文件操作命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/15/linux-language"> Linux的语言设置</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/12/linux-man"> Linux 之 man 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/07/linux-unzip"> Linux unzip</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/05/06/linux-tmux"> Linux tmux终端复用神器</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/07/linux-shutdown-beginner"> Linux shutdown 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/12/27/linux-sort-beginner"> 没有规矩不成方圆 sort</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/03/12/linux-who-beginner"> 谁？ who</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/16/linux-fedora-upgrade"> Linux Fedora 升级</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-chmod-beginner"> 你或他是否可读写  chmod</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/06/22/linux-du-beginner"> Linux du命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/02/12/linux-htop"> Linux的 htop 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/12/04/linux-centos-troubleshooting"> Centos问题集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/12/04/linux-centos-troubleshooting"> Centos问题集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/16/linux-automake-6-scanning-configure-ac"> Linux Automake 6  解析<code>configure.ac</code></a></li>
+<li><a href="http://shaoguangleo.github.io/2014/02/12/linux-cowsay-misc"> linux之cowsay命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/05/07/linux-sudo"> Linux的sudo命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/11/20/linux-pgrep"> Linux的 pgrep/pkill 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/20/linux-chown"> linux 设置文件所有者命令 chmod</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/15/linux-redhat-configure-network"> Linux Redhat配置网络</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/15/linux-redhat-configure-network"> Linux Redhat配置网络</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/15/linux-kernal-study"> 深入研究Linux内核</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/15/linux-ln-beginner"> Linux的快捷方式的创建ln</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/15/linux-ln"> Linux的快捷方式的创建ln</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/07/07/linux-lspci"> Linux的 lspci 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/12/linux-gtk-config"> ubuntu10.04后不支持gtk-config</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/03/12/linux-who"> Linux的 who 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-more"> more 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-mv"> Linux的 mv 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/05/13/linux-xargs-beginner"> Linux xargs 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E5%BD%92%E6%A1%A3%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4"> 归档压缩命令 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/19/linux-free-beginner"> 放空一下自我  free</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/05/07/linux-cpu"> Linux查看物理CPU个数、核数、逻辑CPU个数</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/12/27/linux-which-beginner"> Linux 的 which 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/09/02/linux-centos-install-hexo"> CentOS 如何安装hexo</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/09/02/linux-centos-install-hexo"> CentOS 如何安装hexo</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/03/07/linux-setfattr-advanced"> Linux之修改文件属性 —— chattr和lsattr命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/11/18/linux-collection-hardware-commands"> Linux最常用的硬件相关的命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/07/linux-passwd"> Linux passwd</a></li>
+<li><a href="http://shaoguangleo.github.io/2022/10/09/linux-collection-tricks"> Linux 炫技收集</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/12/06/linux-collection-funny-commands"> Linux最有趣的几个命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/12/27/linux-sort"> Linux的 uniq 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/09/linux-centos-install-django"> Centos 如何安装Django环境</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/09/linux-centos-install-django"> Centos 如何安装Django环境</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-1-simple-plot"> Linux gnuplot的第一幅绘图</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/07/linux-less-beginner"> 少就是多的 less</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/04/15/linux-debug-walk-around"> Linux debug 停下来环顾程序</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/02/12/linux-module"> Environment Modules</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/10/11/linux-collection-most-used-commands"> Linux 集锦 之 最常用的几个命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/07/linux-ping-beginner"> 网络中不中，先看ping行不行</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/06/08/windows-wsl2-ubuntu-gui"> Windows下使用Ubuntu</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/03/07/linux-lshw-beginner"> 列出系统硬件信息的lshw</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/12/linux-id"> Linux的 whoami命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/20/linux-chgrp"> linux设置特定的用户组</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/04/12/linux-tty"> Linux的 tty</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86"> 系统管理 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/03/07/linux-gunzip-beginner"> Linux gunzip</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/11/30/linux-centos-install-docker"> CentOS 7 安装配置Docker</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/11/30/linux-centos-install-docker"> CentOS 7 安装配置Docker</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/03/07/linux-nfs-advanced"> Linux之修改文件属性 —— chattr和lsattr命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/06/linux-enviroment"> 使用Linux环境变量</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-apropos"> apropos 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/03/06/linux-dos2unit"> Linux dos2unix命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-whatis-beginner"> 你是干什么的 whatis</a></li>
+<li>[ Linux - Resource temporarily unavailable](<a href="http://shaoguangleo.github.io/2022/06/11/linux-Resource">http://shaoguangleo.github.io/2022/06/11/linux-Resource</a> temporarily unavailable)</li>
+<li><a href="http://shaoguangleo.github.io/2017/07/07/linux-lscpu"> Linux的 lscpu 命令</a></li>
+<li>[ undefined reference to GTK_TEXT](<a href="http://shaoguangleo.github.io/2011/12/27/linux-gtk-text">http://shaoguangleo.github.io/2011/12/27/linux-gtk-text</a> copy)</li>
+<li><a href="http://shaoguangleo.github.io/2018/03/20/linux-automake-15-support-for-test-suites"> Linux Automake 15 Support for test suites</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/08/26/linux-ifconfig"> Linux 之 ifconfig 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-whatis"> whatis 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/05/06/linux-privilege"> Linux 权限设置</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-ping"> ping 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/17/linux-shell-standard"> Linux shell 编写规范化、标准化</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-1-basic-2-essential-gunplot"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/07/linux-zip-beginner"> 解压方法之一 zip</a></li>
+<li><a href="http://shaoguangleo.github.io/2021/10/06/0linux-all"> Linux 入门命令汇总</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/05/07/linux-sysctl"> Linux的sysctl命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/07/linux-more-beginner"> Linux 的 more 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/20/linux-automake-8-building-programs-and-libraries"> Linux Automake 8 编译程序和库</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-linux"> Linux 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/01/16/linux-join-beginner"> 存同求异 join</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/07/07/linux-socket-gaierror"> Linux的 socket.gaierror</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/07/linux-zip-advanced"> Linux 之 zip 命令 压缩文件</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/05/06/linux-forget-passed"> VirtualBox虚拟机Linux忘记密码</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/20/linux-change-mac-address"> 更改linux的MAC地址</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/01/06/linux-slurm"> Linux slurm 作业提交系统</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/20/linux-execute-history-command"> 执行以特定字开头的历史命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/07/07/linux-tr-beginner"> 真假转换之间 tr</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-usermod"> usermod 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/07/07/linux-lscpu-beginner"> 显示CPU架构的有关信息lscpu</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/10/30/linux-delete-redundant-linux-kernel"> 删除Linux多余的内核</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E7%82%AB%E6%8A%80"> 炫技 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/07/linux-uname-beginner"> Linux uname</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/01/linux-distributions"> Linux 十大发行版</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/15/linux-write"> Linux的 write命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"> 文件操作 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-chmod"> Linux的 chmod 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/10/08/linux-shortcut"> linux技巧</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/10/linux-automake-3-general-ideas"> Linux Automake 3 General ideas</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/06/linux-decode"> Linux base64命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/11/20/linux-pkill-beginner"> Linux的 pkill 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/10/31/linux-centos-yum"> Linux CentOS下查看. 更新. 删除yum安装包</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/10/31/linux-centos-yum"> Linux CentOS下查看. 更新. 删除yum安装包</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/07/07/linux-socket"> Linux的 socket 相关</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/06/06/linux-centos-version"> Linux CentOS的版本</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/06/06/linux-centos-version"> Linux CentOS的版本</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/07/linux-wget-beginner"> 非交互的下载工具 wget</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/07/linux-od"> Linux的 od 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/07/linux-userdel-beginner"> Linux userdel</a></li>
+<li><a href="http://shaoguangleo.github.io//linux-beginner-all"></a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/31/linux-nohup"> Linux nohup 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/08/08/windows-connect-linux-desktop"> Windows 7开启NFS共享</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/08/linux-history"> Linux history命令</a></li>
+<li><a href="http://shaoguangleo.github.io//linux-collection-todo"></a></li>
+<li><a href="http://shaoguangleo.github.io/2016/08/26/linux-ip-beginner"> 网络配置的大拿 ip</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/27/linux-grep-beginner"> 文件内容搜索利器 - grep</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-mkdir-beginner"> Linux的 mkdir 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-system-management-commands"> System-Management-Commands 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/10/17/linux-collection-file-management"> linux中最常用的文件管理命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-tar-beginner"> 解压方法之一 tar</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/04/07/linux-tree"> Linux的 tree 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/08/20/linux-env-beginner"> 换一种环境 的 env</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/17/linux-shell-troubleshootings"> Linux Shell遍历文件夹所有文件</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/07/07/linux-lsblk"> Linux的 lsblk 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/04/10/linux-rsync"> Linux rsync</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/01/linux-pkg-config"> pkg-config 自动解决依赖</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E5%8D%B1%E9%99%A9%E5%91%BD%E4%BB%A4"> 危险命令 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/03/12/linux-yum-beginner"> 红帽系的软件管理利器 - yum</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/05/26/linux-troubleshootings"> Linux下碰到的一些问题</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-pwd"> pwd 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/04/17/linux-apropos"> Linux apropos命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/04/07/linux-bc"> Linux的 bc 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-tail-beginner"> 不可狗尾续貂的tail</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-tail"> Linux tail 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/20/linux-df"> Linux df命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/06/linux-ntp-ntpdate"> 关于NTP及ntpdate</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/09/01/linux-xterm"> Linux XTerm的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/02/12/linux-mail"> Linux的 mailx 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/04/10/linux-rsync-beginner"> Linux rsync</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/04/linux-ld"> Linux的 /usr/bin/ld  cannot find -lxxx 的解决办法</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/26/linux-echo-beginner"> 念念不忘，必有回响 的 echo</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-wc"> Linux的 wc 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/09/01/linux-centos-install-chinese-fonts"> CentOS下安装微软雅黑字体</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/09/01/linux-centos-install-chinese-fonts"> CentOS下安装微软雅黑字体</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/10/linux-semantic-version"> Linux 语义化版本</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/12/linux-gtk-glib"> Glib数据类型</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/17/linux-shell-loop-directory"> Linux Shell遍历文件夹所有文件</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-wc-beginner"> Linux的 wc 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/16/linux-fdisk"> Linux fdisk</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-rm-beginner"> 一去不复还的rm 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/12/01/linux-hostname"> Linux的hostname</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/01/03/linux-virtualbox_can-not-open-terminal"> Linux VirutalBox 无法打开终端肿么办</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-CentOS"> CentOS 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-4-graphical-analysis-with-gnuplot-15-coda-understanding-data-with-graphs"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-chown-misc"> 通过其他文件修改模式</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-3-advanced-gnuplot-11-terminals-in-depth"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/07/linux-nice-beginner"> Linux nice 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"> 数据处理 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/08/03/linux-filesystems"> Linux 我知道的一些文件系统</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-bash%E5%86%85%E5%BB%BA%E6%8C%87%E4%BB%A4"> bash内建指令 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/02/12/linux-w"> Linux的 w 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/05/07/linux-find-print"> Linux find命令print0和xargs命令-0</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/12/linux-time"> Linux的 time 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/06/linux-automake"> Linux 自动化编译autotools的使用</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/02/12/linux-w-beginner"> 什么？谁？w (who &amp; what)</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/10/08/linux-sharememory"> Linux中的共享内存及其配置</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/05/07/linux-clear-beginner"> 清空历史，忘掉从前 - clear</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/20/linux-chgrp-beginner"> 有所依靠的chgrp</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-tee"> Linux的 tee 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/07/linux-uname"> Linux uname</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/27/linux-gtk-text"> undefined reference to GTK_TEXT</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/24/linux-scp-beginner"> Linux 的 scp 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/07/linux-usermod"> Linux usermod</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/05/20/linux-automake-27-frequently-asked-questions-about-automake"> Linux Automake 27 Frequently Asked Questions about Automake</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/08/26/linux-ifconfig-beginner"> 查看网络信息的原初 ifconfig</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/07/linux-ping"> Linux的 ping 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/05/13/linux-xargs"> Linux xargs 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/17/linux-shell-variable"> Linux shell变量</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-3-advanced-gnuplot-10-advanced-plotting-concepts"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/05/linux-command-line-shortcut"> Linux 命令行快捷键</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/12/linux-whoami-beginner"> 我是谁 whoami</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/07/linux-wget"> Linux wget 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/01/24/linux-scp"> Linux 的 scp 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/20/linux-chown-beginner"> 极具归属感的 - chown</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-sleep-beginner"> 休息一会 sleep</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/07/linux-userdel"> Linux userdel</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E7%BD%91%E7%BB%9C%E5%91%BD%E4%BB%A4"> 网络命令 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/04/07/linux-pstree-beginner"> Linux的 pstree 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/08/26/linux-netstat-beginner"> 探索网络连接的netstat</a></li>
+<li><a href="http://shaoguangleo.github.io/2022/07/07/linux-sed-beginner"> sed 入门</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-0-install-startup"> Linux gnuplot安装与启动</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/07/linux-halt-beginner"> Linux halt 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E7%9B%AE%E5%BD%95%E5%AF%BC%E8%88%AA"> 目录导航 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/23/linux-readline"> 极易被人忽略却又如此重要的readline</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-tac-beginner"> 反向显示之 tac</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/05/07/linux-sudo-beginner"> 超凡脱俗的 sudo</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/07/linux-gzip-beginner"> 解压命令之一 gzip</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/17/linux-cd"> Linux cd命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/12/12/linux-collection-help-commands"> linux中最常用的帮助命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/12/linux-killall-beginner"> Linux 之 killall 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/07/linux-passwd-beginner"> 不要告诉别人的passwd</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86"> 磁盘管理 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/17/linux-date"> Linux shell系统时间</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/10/23/linux-process-threads"> Linux 进程和线程</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/02/12/linux-mysql"> Linux的 mysql数据库安装和配置</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/07/linux-unzip-beginner"> 解压命令之一 unzip</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/26/linux-echo"> Linux echo命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/06/linux-diff-beginner"> 远看高低各不同 diff</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/03/12/linux-apt-beginner"> 软件管理利器  - Debian系的apt</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/02/12/linux-wildcard-misc"> 通配符 - 命令行的倚天剑、屠龙刀</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-shutdown"> shutdown 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2024/01/11/linux-collection-all"> Linux集锦大全</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/08/linux-history-beginner"> Linux 的 history 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/06/01/linux-fedora17-initial-configuration"> Fedora17初始配置</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/03/07/linux-insert-content-at-header"> 在文件开头插入一行或一段文本</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/01/linux-ubuntu11"> Ubuntu11.10初始配置</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/01/linux-ubuntu11"> Ubuntu11.10初始配置</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/07/linux-automake-2-introduction-autotools"> Linux Automake 2 Autotools 简介</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/11/16/linux-collection-data-processing-commands"> Linux数据处理的几个命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/17/linux-mac"> Linux CentOS修改MAC地址</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-lsblk"> lsblk 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-1-basic-1-understanding-data-with-gnuplot"> 使用gnuplot来理解数据</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/12/linux-kill-beginner"> 精准终止 之 kill</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/02/01/linux-ubuntu-busybox"> Ubuntu busybox 无法启动问题</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/02/01/linux-ubuntu-busybox"> Ubuntu busybox 无法启动问题</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-3-advanced-gnuplot-12-macors-scripting-and-batch-operations"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/11/20/linux-pgrep-beginner"> Linux的 pgrep/pkill 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-disk-space"> disk-space 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/07/linux-find-beginnner"> Linux 的 find 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-write"> write 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/12/27/linux-collection-search-commands"> linux中最常用的搜索命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-chmod"> chmod 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/17/linux-shell-for-loop"> Linux shell中的for循环用法详解</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/05/17/linux-xfs-troubleshooting"> CentOS xfs 疑难解决</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-alias-beginner"> 别有一番风趣的alias</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/04/13/linux-debug-pre"> Linux 调试预备知识</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/03/07/linux-virtual-gcc-advanced"> CentOS 安装C++17</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-man"> man 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/10/31/linux-centos-mount-ntfs"> Linux centos自动挂载ntfs</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/10/31/linux-centos-mount-ntfs"> Linux centos自动挂载ntfs</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-cat"> cat 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/07/07/linux-lshw"> Linux的 lshw 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/04/10/linux-rpm"> Linux RPM 软件包</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/05/07/linux-su-beginner"> 焕然一新的 su</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/12/linux-man-beginner"> 此man非man的意思</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/07/07/linux-lspci-beginner"> Linux的 lspci 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-info"> Linux的 info 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/24/linux-ssh"> Linux ssh命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-tree"> tree 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/10/31/linux-mount"> Linux mount挂载nfs</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/04/17/linux-apropos-beginner"> 刚刚好合适的 apropos 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/21/linux-centos-yum-rpmdb"> solved - RPMDB altered outside of yum</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/21/linux-centos-yum-rpmdb"> solved - RPMDB altered outside of yum</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/01/06/linux-signal"> Linux 进程信号</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/12/02/00-linux-beginner-all"> LINUX 入门集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/12/linux-head-beginner"> 从头开始的head</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-rmdir-beginner"> Linux的 rmdir 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/08/linux-history-full"> Linux 的 history 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-1-basic-3-working-with-data"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF"> 硬件信息 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/07/linux-useradd"> Linux useradd</a></li>
+<li><a href="http://shaoguangleo.github.io/2022/02/11/linux-remove-duplicate-packages"> How to Remove Duplicate Packages in CentOS/RHEL</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/02/01/linux-ubuntu-install-ipp"> Ubuntu 安装Intel IPP</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/02/01/linux-ubuntu-install-ipp"> Ubuntu 安装Intel IPP</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/04/12/linux-tty-what-is-tty"> Linux 的 tty 是个什么东西？</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/23/linux-bashrc"> Linux 启动命令如何不输入./</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-alias"> alias 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/04/16/linux-debug-crash"> Linux debug 程序崩溃处理</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/07/linux-library"> Linux的静态库和动态库</a></li>
+<li><a href="http://shaoguangleo.github.io/2024/01/01/linux-collection-user-information-commands"> linux中最常用的用户信息命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E7%AE%A1%E7%90%86%E5%91%98"> 管理员 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/20/linux-editors"> Linux 編輯器</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/07/linux-less"> Linux的 less 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-who"> who 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2022/10/09/linux-collection-date-commands"> Linux最常用的几个时间日期命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/03/30/difx-dependenciesubuntu"> DiFX Ubuntu 安装包依赖</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/07/linux-find-beginner"> 一切皆可查的 find</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-lolcat-misc"> Linux命令lolcat</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/06/09/linux-free-memory"> Linux下清理缓存，以释放内存</a></li>
+<li><a href="http://shaoguangleo.github.io/2010/01/03/linux-vncviewer"> Linux VNCViewer远程桌面按d后最小化桌面</a></li>
+<li><a href="http://shaoguangleo.github.io/2021/01/15/linux-network-monitor"> Linux 查看网络流量</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/03/07/linux-drop_cache"> Linux Drop Caches</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/12/27/linux-which"> Linux 的 which 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4"> 帮助命令 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/04/19/linux-debug-other-tools"> Linux 调试编译其他工具</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/03/23/linux-command-line-arg-max"> Linux ARG_MAX, maximum length of arguments for a new process</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/20/linux-dd"> 低调但大胆的 - dd 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/11/30/linux-centos7-install-docker"> CentOS 7 安装配置Docker-CE</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/11/30/linux-centos7-install-docker"> CentOS 7 安装配置Docker-CE</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/12/linux-id-beginner"> 我也是有身份…证的人 之 id</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/01/linux-ubuntu-install-gtk"> Ubuntu 安装GTK</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/01/linux-ubuntu-install-gtk"> Ubuntu 安装GTK</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/03/20/linux-whereis-beginner"> 指定目录的定位 whereis</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/12/17/linux-collection-directory-navigation-commands"> linux中最常用的目录导航命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/07/linux-nice"> Linux nice 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/24/astronomy-difx-install-on-centos"> CentOS 安装 DiFX</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-1-set-axis"> Linux gnuplot的坐标取值范围及刻度</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/17/linux-shell-shelltype"> Linux的几种可选shell</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/07/linux-ping2"> Linux 之 ping 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/01/29/linux-iperf"> 使用iperf测试网络性能</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/18/linux-gtk-simple"> GTK 创建最简单的一个创建窗口的示例</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/17/linux-cd-beginner"> 探索未知世界的cd</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/07/28/linux-ps"> Linux 之 ps 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-2-polishing-5-doing-it-with-style"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/10/23/linux-aio"> Linux aio异步读写</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/02/11/linux-last-beginner"> 还有谁 last</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/18/linux-centos-install-vnc"> CentOS 6 安装配置VNC</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/18/linux-centos-install-vnc"> CentOS 6 安装配置VNC</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/01/20/linux-dd-beginner"> 低调但大胆的 - dd 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/12/linux-wall-beginner"> Linux的 wall 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/07/linux-ncurses"> Linux 解决lnurses库问题之/usr/bin/ld</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/04/linux-loop"> Linux的 loop循环</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/07/linux-find"> Linux 的 find 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/07/07/linux-tr"> Linux的 tr 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/11/22/docker-centos"> CentOS 安装 docker</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/05/17/linux-arp"> Linux arp命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/06/linux-diff"> Linux diff命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-lock-dir-misc"> 锁定Linux文件夹</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/08/26/linux-ip"> Linux 之 ip 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/package/cleanup/linux-yum-duplicate-packages"> Cleaning up duplicate packages when yum has failed</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/02/12/linux-crontab"> Linux的 crontab 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/04/12/linux-debug"> Linux 调试预备知识</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/02/12/linux-terminal-misc"> 终端技巧</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/06/09/linux-fix-GDBusError"> Linux下 修正GDBus 错误</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/02/07/linux-poweroff-beginner"> Linux poweroff 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-shell"> shell 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/11/18/linux-collection-compress-commands"> Linux最常用的几个归档和压缩命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/04/07/linux-lsblk-beginner"> 查看块设备的lsblk</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-dangerous"> dangerous 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/09/17/linux-stat"> Linux的stat命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-unzip"> unzip 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/24/linux-locate"> locate  - 精准快速定位</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/01/linux-study-method"> Linux学习之道</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/18/linux-glib"> GLib 编译应用程序</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/06/08/windows-ubuntu"> Windows下使用Ubuntu</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/02/11/linux-last"> Linux的 last 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-3-advanced-gnuplot-9-color"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/06/linux-touch-beginner"> Linux的touch命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2024/01/09/linux-collection-must-know"> 每个人都应该知道的100+个命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/24/linux-locate-beginner"> 精准快速定位的locate</a></li>
+<li><a href="http://shaoguangleo.github.io/2019/03/17/linux-hwinfo-beginner"> 显示硬件信息的hwinfo</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/11/16/linux-collection-dangerous-commands"> Linux最危险的几个命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/15/linux-pwd-beginner"> 查看目录命令pwd</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/12/linux-head"> Linux的 head 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/06/linux-automake-1-introduction"> Linux Automake 1 简介</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/29/diary-ibm-buy-redhat"> IBM 收购 Redhat &amp;&amp; 咏远有李</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/12/03/ubuntu-troubleshooting"> Ubuntu 问题集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-du"> du 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/08/27/linux-nfs"> Linux NFS 配置</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/04/02/linux-centos-install-vlc"> 如何在CentOS上安装VLC</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/04/02/linux-centos-install-vlc"> 如何在CentOS上安装VLC</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/06/linux-touch"> Linux的touch命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/07/16/diary-20130716-linux-3">  Linux 3.11已经发布了</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/28/linux-raid"> Linux的 RAID 冗余磁盘阵列</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-cmatrix-misc"> Linux命令cmatrix</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/15/linux-automake-5-create-makefile-in"> Linux Automake 5  创建<code>Makefile.in</code></a></li>
+<li><a href="http://shaoguangleo.github.io/2017/04/12/linux-tty-beginner"> 终端链接 tty</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/17/linux-centos-add-epel-repo"> CentOS 添加 EPEL 源</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/17/linux-centos-add-epel-repo"> CentOS 添加 EPEL 源</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/03/07/linux-issue-LD_LIBRARY_PATH"> checking LD_LIBRARY_PATH variable… contains current directory</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/04/07/linux-tree-beginner"> 树状结构的tree</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/15/linux-split-beginner"> split - 精准快速定位</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/15/linux-pwd"> linux 命令 pwd 查看目录命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/05/06/linux-tracepath-beginner"> Linux的tracepath命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/17/linux-shells"> Linux的几种可选shell</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/20/linux-grafana"> linux grafana使用教程</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/06/linux-file-beginner"> Linux的file命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-mv-beginner"> Linux的 mv 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/05/06/linux-file"> Linux的file命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93"> 数据传输 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-mkdir"> Linux的 mkdir 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2021/12/07/linux-out-of-memory"> Linux Out of Memory</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-cat-beginner"> 查看庐山真面貌的cat</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/12/linux-kill"> Linux 之 kill 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/05/06/linux-traceroute-beginner"> Linux的traceroute命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"> 文件管理 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/03/14/linux-automake-4-some-example-packages"> Linux Automake 4  一些示例包</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-3-advanced-gnuplot-8-three-dimensional-plots"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/06/08/linux-zabbix"> CentOS 安装配置zabbix库</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/11/02/linux-beautify-fonts-in-console"> Linux 终端中漂亮的几款字体</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/05/06/redhat-using-centos-yum-source"> Redhat使用CentOS的源</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/05/06/redhat-using-centos-yum-source"> Redhat使用CentOS的源</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/18/linux-google"> Installing Google Chrome on CentOS</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/07/07/linux-todo-kernal"> Linux sed命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-2-polishing-6-decorations"> Linux GNUplot</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/10/09/linux-collection-beginner"> Linux 入门命令汇总</a></li>
+<li><a href="http://shaoguangleo.github.io/2014/01/24/linux-split"> split - 精准快速定位</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/04/linux-ide"> Linux IDE</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/03/27/linux-ubuntu-delete-kernels"> Ubuntu 删除多余内核</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/03/27/linux-ubuntu-delete-kernels"> Ubuntu 删除多余内核</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-Linux%E7%82%AB%E6%8A%80"> Linux炫技 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-sort"> sort 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2023/10/08/linux-collection-advanced"> Linux 入门命令汇总</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/01/15/linux-gnu-shell"> GNU 实用程序Shell</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/05/07/linux-debian-utc-setting"> Linux Debian 时区设定</a></li>
+<li><a href="http://shaoguangleo.github.io/2017/03/22/linux-opencv"> OpenCV</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/03/19/linux-free"> Linux free命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2024/01/02/linux-collection-network-commands"> linux中最常用的网络命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-0-prepare-math"> Linux gnuplot的数学表达式</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/12/27/linux-uniq"> Linux的 uniq 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/12/linux-skill-beginner"> Linux 之 skill 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/08/18/linux-centos-gui-command-screen"> Linux CentOS7图形界面与命令行界面切换</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/08/18/linux-centos-gui-command-screen"> Linux CentOS7图形界面与命令行界面切换</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/04/15/linux-write-beginner"> Linux的 write命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2020/02/11/linux-tracker-extract"> Linux Tracker-extract and Tracker-store processes consuming huge Amount of RAM</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/03/07/linux-usermod-beginner"> Linux usermod</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/12/11/linux-fedora-install-gnome"> Linux Fedora安装gnome-gtk开发环境</a></li>
+<li><a href="http://shaoguangleo.github.io/2016/09/06/ubuntu-old-release-update"> ubuntu10.4的更新源因过期无法更新的解决方法</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/07/07/linux-ls-beginner"> 最常用的且没有之一的  ls</a></li>
+<li><a href="http://shaoguangleo.github.io/2012/02/07/linux-more"> Linux 的 more 命令</a></li>
+<li><a href="http://shaoguangleo.github.io/2011/02/12/linux-fortunes-misc"> Linux命令fortune</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/20/linux-gnuplot-1-plot-simple-data"> Linux gnuplot的坐标取值范围及刻度</a></li>
+<li><a href="http://shaoguangleo.github.io/2013/03/06/linux-curl-beginner"> 超多协议传输的 - curl</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/05/19/linux-fedora-yum-is-dead-use-dnf"> YUM已死，DNF永生</a></li>
+<li><a href="http://shaoguangleo.github.io/2018/10/28/linux-collection-sudo"> sudo 集锦</a></li>
+<li><a href="http://shaoguangleo.github.io/2015/01/20/linux-ethtool"> Linux 强大的网络工具 ethtool</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9B%86%E9%94%A6/" rel="tag"># 集锦</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2013/02/02/00-mac-all/" rel="prev" title="MAC 集锦">
+      <i class="fa fa-chevron-left"></i> MAC 集锦
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2013/02/02/00-git-all/" rel="next" title="GIT 集锦">
+      GIT 集锦 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LINUX-%E9%9B%86%E9%94%A6"><span class="nav-number">1.</span> <span class="nav-text">LINUX 集锦</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2013/02/02/00-linux-all/";
+    this.page.identifier = "2013/02/02/00-linux-all/";
+    this.page.title = "LINUX 集锦";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

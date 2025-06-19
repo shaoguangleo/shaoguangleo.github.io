@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="solved : RPMDB altered outside of yum在使用yum的时候报的错误，解决方法为： 1yum history sync  主要是将我们rpmdb和yumdb进行同步一下，注意，这个过程根据你的机器情况和安装软件包的数量可能会小小的需要一段时间。 Refer：  https:&#x2F;&#x2F;access.redhat.com&#x2F;site&#x2F;documentation&#x2F;en-US&#x2F;Re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="solved - RPMDB altered outside of yum">
+<meta property="og:url" content="http://shaoguangleo.github.io/2014/01/21/linux-centos-yum-rpmdb/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="solved : RPMDB altered outside of yum在使用yum的时候报的错误，解决方法为： 1yum history sync  主要是将我们rpmdb和yumdb进行同步一下，注意，这个过程根据你的机器情况和安装软件包的数量可能会小小的需要一段时间。 Refer：  https:&#x2F;&#x2F;access.redhat.com&#x2F;site&#x2F;documentation&#x2F;en-US&#x2F;Re">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-01-21T07:04:40.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.870Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="yum">
+<meta property="article:tag" content="centos">
+<meta property="article:tag" content="redhat">
+<meta property="article:tag" content="fedora">
+<meta property="article:tag" content="rpmdb">
+<meta property="article:tag" content="yumdb">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2014/01/21/linux-centos-yum-rpmdb/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>solved - RPMDB altered outside of yum | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2014/01/21/linux-centos-yum-rpmdb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          solved - RPMDB altered outside of yum
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-01-21 15:04:40" itemprop="dateCreated datePublished" datetime="2014-01-21T15:04:40+08:00">2014-01-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CentOS/" itemprop="url" rel="index"><span itemprop="name">CentOS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CentOS/Fedora/" itemprop="url" rel="index"><span itemprop="name">Fedora</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2014/01/21/linux-centos-yum-rpmdb/" class="post-meta-item leancloud_visitors" data-flag-title="solved - RPMDB altered outside of yum" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2014/01/21/linux-centos-yum-rpmdb/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/01/21/linux-centos-yum-rpmdb/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2014/01/21/linux-centos-yum-rpmdb/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2014/01/21/linux-centos-yum-rpmdb/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="solved-RPMDB-altered-outside-of-yum"><a href="#solved-RPMDB-altered-outside-of-yum" class="headerlink" title="solved : RPMDB altered outside of yum"></a>solved : RPMDB altered outside of yum</h1><p>在使用yum的时候报的错误，解决方法为：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="built_in">history</span> <span class="built_in">sync</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>主要是将我们rpmdb和yumdb进行同步一下，注意，这个过程根据你的机器情况和安装软件包的数量可能会小小的需要一段时间。</p>
+<p>Refer：</p>
+<blockquote>
+<p><a href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/7-Beta/html/System_Administrators_Guide/sect-Yum-Transaction_History.html">https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/7-Beta/html/System_Administrators_Guide/sect-Yum-Transaction_History.html</a></p>
+</blockquote>
+<p>5.4. Working with Transaction History</p>
+<p>The yum history command allows users to review information about a timeline of Yum transactions, the dates and times they occurred, the number of packages affected, whether transactions succeeded or were aborted, and if the RPM database was changed between transactions. Additionally, this command can be used to undo or redo certain transactions. All history data are stored in the history DB in the var/lib/yum/history/ directory.</p>
+<p>5.4.1. Listing Transactions</p>
+<p>To display a list of twenty most recent transactions, as root, either run yum history with no additional arguments, or type the following at a shell prompt:</p>
+<p>yum history list</p>
+<p>To display all transactions, add the all keyword:</p>
+<p>yum history list all</p>
+<p>To display only transactions in a given range, use the command in the following form:</p>
+<p>yum history list start_id..end_id</p>
+<p>You can also list only transactions regarding a particular package or packages. To do so, use the command with a package name or a glob expression:</p>
+<p>yum history list glob_expression…</p>
+<p>Example 5.18. Listing the five oldest transactions</p>
+<p>In the output of yum history list, the most recent transaction is displayed at the top of the list. To display information about the five oldest transactions stored in the history data base, type:</p>
+<p>~]# yum history list 1..5</p>
+<p>Loaded plugins: product-id, refresh-packagekit, subscription-manager</p>
+<p>ID     | Login user               | Date and time    | Action(s)      | Altered</p>
+<p>——————————————————————————-</p>
+<pre><code> 5 | Jaromir … &lt;jhradilek&gt;  | 2013-07-29 15:33 | Install        |    1
+
+ 4 | Jaromir … &lt;jhradilek&gt;  | 2013-07-21 15:10 | Install        |    1
+
+ 3 | Jaromir … &lt;jhradilek&gt;  | 2013-07-16 15:27 | I, U           |   73
+
+ 2 | System &lt;unset&gt;           | 2013-07-16 15:19 | Update         |    1
+
+ 1 | System &lt;unset&gt;           | 2013-07-16 14:38 | Install        | 1106
+</code></pre>
+<p>history list</p>
+<p>All forms of the yum history list command produce tabular output with each row consisting of the following columns:</p>
+<p>ID — an integer value that identifies a particular transaction.</p>
+<p>Login user — the name of the user whose login session was used to initiate a transaction. This information is typically presented in the Full Name <username> form. For transactions that were not issued by a user (such as an automatic system update), System <unset> is used instead.</unset></username></p>
+<p>Date and time — the date and time when a transaction was issued.</p>
+<p>Action(s) — a list of actions that were performed during a transaction as described in Table 5.1, “Possible values of the Action(s) field”.</p>
+<p>Altered — the number of packages that were affected by a transaction, possibly followed by additional information as described in Table 5.2, “Possible values of the Altered field”.</p>
+<p>Table 5.1. Possible values of the Action(s) field</p>
+<p>Action   Abbreviation   Description</p>
+<p>Downgrade D    At least one package has been downgraded to an older version.</p>
+<p>Erase    E     At least one package has been removed.</p>
+<p>Install    I      At least one new package has been installed.</p>
+<p>Obsoleting  O    At least one package has been marked as obsolete.</p>
+<p>Reinstall      R     At least one package has been reinstalled.</p>
+<p>Update U    At least one package has been updated to a newer version.</p>
+<p>Table 5.2. Possible values of the Altered field</p>
+<p>Symbol Description</p>
+<p>&lt;     Before the transaction finished, the rpmdb database was changed outside Yum.</p>
+<blockquote>
+<pre><code>After the transaction finished, the rpmdb database was changed outside Yum.
+</code></pre>
+</blockquote>
+<ul>
+<li><pre><code>The transaction failed to finish.
+</code></pre>
+</li>
+</ul>
+<h1 id="The-transaction-finished-successfully-but-yum-returned-a-non-zero-exit-code"><a href="#The-transaction-finished-successfully-but-yum-returned-a-non-zero-exit-code" class="headerlink" title="The transaction finished successfully, but yum returned a non-zero exit code."></a>The transaction finished successfully, but yum returned a non-zero exit code.</h1><p>E     The transaction finished successfully, but an error or a warning was displayed.</p>
+<p>P     The transaction finished successfully, but problems already existed in the rpmdb database.</p>
+<p>s     The transaction finished successfully, but the –skip-broken command line option was used and certain packages were skipped.</p>
+<p>To synchronize the rpmdb or yumdb database contents for any installed package with the currently used rpmdb or yumdb database, type the following:</p>
+<p>yum history sync</p>
+<p>To display some overall statistics about the currently used history DB use the following command:</p>
+<p>yum history stats</p>
+<p>Example 5.19. Example output of yum history stats</p>
+<p>~]# yum history stats</p>
+<p>Loaded plugins: langpacks, presto, refresh-packagekit</p>
+<p>File        : //var/lib/yum/history/history-2012-08-15.sqlite</p>
+<p>Size        : 2,766,848</p>
+<p>Transactions: 41</p>
+<p>Begin time  : Wed Aug 15 16:18:25 2012</p>
+<p>End time    : Wed Feb 27 14:52:30 2013</p>
+<p>Counts      :</p>
+<p>  NEVRAC :  2,204</p>
+<p>  NEVRA  :  2,204</p>
+<p>  NA     :  1,759</p>
+<p>  NEVR   :  2,204</p>
+<p>  rpm DB :  2,204</p>
+<p>  yum DB :  2,204</p>
+<p>history stats</p>
+<p>Yum also allows you to display a summary of all past transactions. To do so, run the command in the following form as root:</p>
+<p>yum history summary</p>
+<p>To display only transactions in a given range, type:</p>
+<p>yum history summary start_id..end_id</p>
+<p>Similarly to the yum history list command, you can also display a summary of transactions regarding a certain package or packages by supplying a package name or a glob expression:</p>
+<p>yum history summary glob_expression…</p>
+<p>Example 5.20. Summary of the five latest transactions</p>
+<p>~]# yum history summary 1..5</p>
+<p>Loaded plugins: product-id, refresh-packagekit, subscription-manager</p>
+<p>Login user                 | Time                | Action(s)        | Altered</p>
+<p>——————————————————————————-</p>
+<p>Jaromir … <jhradilek>    | Last day            | Install          |        1</jhradilek></p>
+<p>Jaromir … <jhradilek>    | Last week           | Install          |        1</jhradilek></p>
+<p>Jaromir … <jhradilek>    | Last 2 weeks        | I, U             |       73</jhradilek></p>
+<p>System <unset>             | Last 2 weeks        | I, U             |     1107</unset></p>
+<p>history summary</p>
+<p>All forms of the yum history summary command produce simplified tabular output similar to the output of yum history list.</p>
+<p>As shown above, both yum history list and yum history summary are oriented towards transactions, and although they allow you to display only transactions related to a given package or packages, they lack important details, such as package versions. To list transactions from the perspective of a package, run the following command as root:</p>
+<p>yum history package-list glob_expression…</p>
+<p>Example 5.21. Tracing the history of a package</p>
+<p>For example, to trace the history of subscription-manager and related packages, type the following at a shell prompt:</p>
+<p>~]# yum history package-list subscription-manager*</p>
+<p>Loaded plugins: product-id, refresh-packagekit, subscription-manager</p>
+<p>ID     | Action(s)      | Package</p>
+<p>——————————————————————————-</p>
+<pre><code> 3 | Updated        | subscription-manager-0.95.11-1.el6.x86_64
+
+ 3 | Update         |                      0.95.17-1.el6_1.x86_64
+
+ 3 | Updated        | subscription-manager-firstboot-0.95.11-1.el6.x86_64
+
+ 3 | Update         |                                0.95.17-1.el6_1.x86_64
+
+ 3 | Updated        | subscription-manager-gnome-0.95.11-1.el6.x86_64
+
+ 3 | Update         |                            0.95.17-1.el6_1.x86_64
+
+ 1 | Install        | subscription-manager-0.95.11-1.el6.x86_64
+
+ 1 | Install        | subscription-manager-firstboot-0.95.11-1.el6.x86_64
+
+ 1 | Install        | subscription-manager-gnome-0.95.11-1.el6.x86_64
+</code></pre>
+<p>history package-list</p>
+<p>In this example, three packages were installed during the initial system installation: subscription-manager, subscription-manager-firstboot, and subscription-manager-gnome. In the third transaction, all these packages were updated from version 0.95.11 to version 0.95.17.</p>
+<p>5.4.2. Examining Transactions</p>
+<p>To display the summary of a single transaction, as root, use the yum history summary command in the following form:</p>
+<p>yum history summary id</p>
+<p>To examine a particular transaction or transactions in more detail, run the following command as root:</p>
+<p>yum history info id…</p>
+<p>The id argument is optional and when you omit it, yum automatically uses the last transaction. Note that when specifying more than one transaction, you can also use a range:</p>
+<p>yum history info start_id..end_id</p>
+<p>Example 5.22. Example output of yum history info</p>
+<p>The following is sample output for two transactions, each installing one new package:</p>
+<p>~]# yum history info 4..5</p>
+<p>Loaded plugins: product-id, refresh-packagekit, subscription-manager</p>
+<p>Transaction ID : 4..5</p>
+<p>Begin time     : Thu Jul 21 15:10:46 2011</p>
+<p>Begin rpmdb    : 1107:0c67c32219c199f92ed8da7572b4c6df64eacd3a</p>
+<p>End time       :            15:33:15 2011 (22 minutes)</p>
+<p>End rpmdb      : 1109:1171025bd9b6b5f8db30d063598f590f1c1f3242</p>
+<p>User           : Jaromir Hradilek <jhradilek></jhradilek></p>
+<p>Return-Code    : Success</p>
+<p>Command Line   : install screen</p>
+<p>Command Line   : install yum-plugin-fs-snapshot</p>
+<p>Transaction performed with:</p>
+<pre><code>Installed     rpm-4.8.0-16.el6.x86_64
+
+Installed     yum-3.2.29-17.el6.noarch
+
+Installed     yum-metadata-parser-1.1.2-16.el6.x86_64
+</code></pre>
+<p>Packages Altered:</p>
+<pre><code>Install screen-4.0.3-16.el6.x86_64
+
+Install yum-plugin-fs-snapshot-1.1.30-6.el6.noarch
+</code></pre>
+<p>history info</p>
+<p>You can also view additional information, such as what configuration options were used at the time of the transaction, or from what repository and why were certain packages installed. To determine what additional information is available for a certain transaction, type the following at a shell prompt as root:</p>
+<p>yum history addon-info id</p>
+<p>Similarly to yum history info, when no id is provided, yum automatically uses the latest transaction. Another way to refer to the latest transaction is to use the last keyword:</p>
+<p>yum history addon-info last</p>
+<p>Example 5.23. Example output of yum history addon-info</p>
+<p>For the fourth transaction in the history, the yum history addon-info command provides the following output:</p>
+<p>~]# yum history addon-info 4</p>
+<p>Loaded plugins: product-id, refresh-packagekit, subscription-manager</p>
+<p>Transaction ID: 4</p>
+<p>Available additional history information:</p>
+<p>  config-main</p>
+<p>  config-repos</p>
+<p>  saved_tx</p>
+<p>history addon-info</p>
+<p>In the output of the yum history addon-info command, three types of information are available:</p>
+<p>config-main — global Yum options that were in use during the transaction. Refer to Section 5.5.1, “Setting [main] Options” for information on how to change global options.</p>
+<p>config-repos — options for individual Yum repositories. Refer to Section 5.5.2, “Setting [repository] Options” for information on how to change options for individual repositories.</p>
+<p>saved_tx — the data that can be used by the yum load-transaction command in order to repeat the transaction on another machine (see below).</p>
+<p>To display selected type of additional information, run the following command as root:</p>
+<p>yum history addon-info id information</p>
+<p>5.4.3. Reverting and Repeating Transactions</p>
+<p>Apart from reviewing the transaction history, the yum history command provides means to revert or repeat a selected transaction. To revert a transaction, type the following at a shell prompt as root:</p>
+<p>yum history undo id</p>
+<p>To repeat a particular transaction, as root, run the following command:</p>
+<p>yum history redo id</p>
+<p>Both commands also accept the last keyword to undo or repeat the latest transaction.</p>
+<p>Note that both yum history undo and yum history redo commands only revert or repeat the steps that were performed during a transaction. If the transaction installed a new package, the yum history undo command will uninstall it, and if the transaction uninstalled a package the command will again install it. This command also attempts to downgrade all updated packages to their previous version, if these older packages are still available. If you need to restore the system to the state before an update, consider using the fs-snapshot plug-in described in Section 5.6.3, “Working with Plug-ins”.</p>
+<p>When managing several identical systems, Yum also allows you to perform a transaction on one of them, store the transaction details in a file, and after a period of testing, repeat the same transaction on the remaining systems as well. To store the transaction details to a file, type the following at a shell prompt as root:</p>
+<p>yum -q history addon-info id saved_tx &gt; file_name</p>
+<p>Once you copy this file to the target system, you can repeat the transaction by using the following command as root:</p>
+<p>yum load-transaction file_name</p>
+<p>You can configure load-transaction to ignore missing packages or rpmdb version. For more information on these configuration options see the yum.conf man page.</p>
+<p>5.4.4. Starting New Transaction History</p>
+<p>Yum stores the transaction history in a single SQLite database file. To start new transaction history, run the following command as root:</p>
+<p>yum history new</p>
+<p>This will create a new, empty database file in the /var/lib/yum/history/ directory. The old transaction history will be kept, but will not be accessible as long as a newer database file is present in the directory.</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/yum/" rel="tag"># yum</a>
+              <a href="/tags/centos/" rel="tag"># centos</a>
+              <a href="/tags/redhat/" rel="tag"># redhat</a>
+              <a href="/tags/fedora/" rel="tag"># fedora</a>
+              <a href="/tags/rpmdb/" rel="tag"># rpmdb</a>
+              <a href="/tags/yumdb/" rel="tag"># yumdb</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2014/01/20/linux-grafana/" rel="prev" title="linux grafana使用教程">
+      <i class="fa fa-chevron-left"></i> linux grafana使用教程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2014/01/24/book-%E6%97%A0%E5%99%A8%E6%A2%B0%E5%81%A5%E8%BA%AB/" rel="next" title="无器械健身">
+      无器械健身 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#solved-RPMDB-altered-outside-of-yum"><span class="nav-number">1.</span> <span class="nav-text">solved : RPMDB altered outside of yum</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-transaction-finished-successfully-but-yum-returned-a-non-zero-exit-code"><span class="nav-number">2.</span> <span class="nav-text">The transaction finished successfully, but yum returned a non-zero exit code.</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2014/01/21/linux-centos-yum-rpmdb/";
+    this.page.identifier = "2014/01/21/linux-centos-yum-rpmdb/";
+    this.page.title = "solved - RPMDB altered outside of yum";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

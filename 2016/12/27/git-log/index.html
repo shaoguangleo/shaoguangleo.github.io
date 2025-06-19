@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Git log 查看提交历史在提交了若干更新，又或者克隆了某个项目之后，你也许想回顾下提交历史。 完成这个任务最简单而又有效的工具是 git log 命令。 当你在此项目中运行 git log 命令时，可以看到下面的输出： 1234567$ git logcommit ca82a6dff817ec66f44342007202690a93763949Author: Scott Chacon &lt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git log查看提交历史">
+<meta property="og:url" content="http://shaoguangleo.github.io/2016/12/27/git-log/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="Git log 查看提交历史在提交了若干更新，又或者克隆了某个项目之后，你也许想回顾下提交历史。 完成这个任务最简单而又有效的工具是 git log 命令。 当你在此项目中运行 git log 命令时，可以看到下面的输出： 1234567$ git logcommit ca82a6dff817ec66f44342007202690a93763949Author: Scott Chacon &lt;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-12-27T14:52:29.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.714Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="log">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2016/12/27/git-log/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Git log查看提交历史 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2016/12/27/git-log/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git log查看提交历史
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-12-27 22:52:29" itemprop="dateCreated datePublished" datetime="2016-12-27T22:52:29+08:00">2016-12-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2016/12/27/git-log/" class="post-meta-item leancloud_visitors" data-flag-title="Git log查看提交历史" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/12/27/git-log/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/12/27/git-log/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2016/12/27/git-log/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2016/12/27/git-log/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Git-log-查看提交历史"><a href="#Git-log-查看提交历史" class="headerlink" title="Git log 查看提交历史"></a>Git log 查看提交历史</h1><p>在提交了若干更新，又或者克隆了某个项目之后，你也许想回顾下提交历史。 完成这个任务最简单而又有效的工具是 <code>git log</code> 命令。</p>
+<p>当你在此项目中运行 <code>git log</code> 命令时，可以看到下面的输出：</p>
+<figure class="highlight console"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">log</span></span></span><br><span class="line">commit ca82a6dff817ec66f44342007202690a93763949</span><br><span class="line">Author: Scott Chacon &lt;schacon@gee-mail.com&gt;</span><br><span class="line">Date:   Mon Mar 17 21:52:11 2008 -0700</span><br><span class="line"></span><br><span class="line">    changed the version number</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p>不传入任何参数的默认情况下，<code>git log</code> 会按时间先后顺序列出所有的提交，最近的更新排在最上面。 正如你所看到的，这个命令会列出每个提交的 SHA-1 校验和、作者的名字和电子邮件地址、提交时间以及提交说明。</p>
+<p><code>git log</code> 有许多选项可以帮助你搜寻你所要找的提交， 下面我们会介绍几个最常用的选项。</p>
+<h2 id="显示差异"><a href="#显示差异" class="headerlink" title="显示差异"></a>显示差异</h2><p>其中一个比较有用的选项是 <code>-p</code> 或 <code>--patch</code> ，它会显示每次提交所引入的差异（按 <strong>补丁</strong> 的格式输出）。 你也可以限制显示的日志条目数量，例如使用 <code>-2</code> 选项来只显示最近的两次提交：</p>
+<figure class="highlight console"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">log</span> -p -2</span></span><br><span class="line">commit ca82a6dff817ec66f44342007202690a93763949</span><br><span class="line">Author: Scott Chacon &lt;schacon@gee-mail.com&gt;</span><br><span class="line">Date:   Mon Mar 17 21:52:11 2008 -0700</span><br><span class="line"></span><br><span class="line">    changed the version number</span><br><span class="line"></span><br><span class="line">diff --git a/Rakefile b/Rakefile</span><br><span class="line">index a874b73..8f94139 100644</span><br><span class="line">--- a/Rakefile</span><br><span class="line">+++ b/Rakefile</span><br><span class="line">@@ -5,7 +5,7 @@ require 'rake/gempackagetask'</span><br><span class="line"> spec = Gem::Specification.new do |s|</span><br><span class="line">     s.platform  =   Gem::Platform::RUBY</span><br><span class="line">     s.name      =   "simplegit"</span><br><span class="line">-    s.version   =   "0.1.0"</span><br><span class="line">+    s.version   =   "0.1.1"</span><br><span class="line">     s.author    =   "Scott Chacon"</span><br><span class="line">     s.email     =   "schacon@gee-mail.com"</span><br><span class="line">     s.summary   =   "A simple gem for using Git in Ruby code."</span><br><span class="line"></span><br><span class="line">commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7</span><br><span class="line">Author: Scott Chacon &lt;schacon@gee-mail.com&gt;</span><br><span class="line">Date:   Sat Mar 15 16:40:33 2008 -0700</span><br><span class="line"></span><br><span class="line">    removed unnecessary test</span><br><span class="line"></span><br><span class="line">diff --git a/lib/simplegit.rb b/lib/simplegit.rb</span><br><span class="line">index a0a60ae..47c6340 100644</span><br><span class="line">--- a/lib/simplegit.rb</span><br><span class="line">+++ b/lib/simplegit.rb</span><br><span class="line">@@ -18,8 +18,3 @@ class SimpleGit</span><br><span class="line">     end</span><br><span class="line"></span><br><span class="line"> end</span><br><span class="line">-</span><br><span class="line">-if $0 == __FILE__</span><br><span class="line">-  git = SimpleGit.new</span><br><span class="line">-  puts git.show</span><br><span class="line">-end</span><br></pre></td></tr></tbody></table></figure>
+
+<p>该选项除了显示基本信息之外，还附带了每次提交的变化。 当进行代码审查，或者快速浏览某个搭档的提交所带来的变化的时候，这个参数就非常有用了。 你也可以为 <code>git log</code> 附带一系列的总结性选项。</p>
+<h2 id="统计信息"><a href="#统计信息" class="headerlink" title="统计信息"></a>统计信息</h2><p> 比如你想看到每次提交的简略统计信息，可以使用 <code>--stat</code> 选项：</p>
+<figure class="highlight console"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">log</span> --<span class="built_in">stat</span></span></span><br><span class="line">commit ca82a6dff817ec66f44342007202690a93763949</span><br><span class="line">Author: Scott Chacon &lt;schacon@gee-mail.com&gt;</span><br><span class="line">Date:   Mon Mar 17 21:52:11 2008 -0700</span><br><span class="line"></span><br><span class="line">    changed the version number</span><br><span class="line"></span><br><span class="line"> Rakefile | 2 +-</span><br><span class="line"> 1 file changed, 1 insertion(+), 1 deletion(-)</span><br><span class="line"></span><br><span class="line">commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7</span><br><span class="line">Author: Scott Chacon &lt;schacon@gee-mail.com&gt;</span><br><span class="line">Date:   Sat Mar 15 16:40:33 2008 -0700</span><br><span class="line"></span><br><span class="line">    removed unnecessary test</span><br><span class="line"></span><br><span class="line"> lib/simplegit.rb | 5 -----</span><br><span class="line"> 1 file changed, 5 deletions(-)</span><br><span class="line"></span><br><span class="line">commit a11bef06a3f659402fe7563abf99ad00de2209e6</span><br><span class="line">Author: Scott Chacon &lt;schacon@gee-mail.com&gt;</span><br><span class="line">Date:   Sat Mar 15 10:31:28 2008 -0700</span><br><span class="line"></span><br><span class="line">    first commit</span><br><span class="line"></span><br><span class="line"> README           |  6 ++++++</span><br><span class="line"> Rakefile         | 23 +++++++++++++++++++++++</span><br><span class="line"> lib/simplegit.rb | 25 +++++++++++++++++++++++++</span><br><span class="line"> 3 files changed, 54 insertions(+)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>正如你所看到的，<code>--stat</code> 选项在每次提交的下面列出所有被修改过的文件、有多少文件被修改了以及被修改过的文件的哪些行被移除或是添加了。 在每次提交的最后还有一个总结。</p>
+<h2 id="展示方式"><a href="#展示方式" class="headerlink" title="展示方式"></a>展示方式</h2><p>另一个非常有用的选项是 <code>--pretty</code>。 这个选项可以使用不同于默认格式的方式展示提交历史。 这个选项有一些内建的子选项供你使用。 比如 <code>oneline</code> 会将每个提交放在一行显示，在浏览大量的提交时非常有用。 另外还有 <code>short</code>，<code>full</code> 和 <code>fuller</code> 选项，它们展示信息的格式基本一致，但是详尽程度不一：</p>
+<figure class="highlight console"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">log</span> --pretty=oneline</span></span><br><span class="line">ca82a6dff817ec66f44342007202690a93763949 changed the version number</span><br><span class="line">085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test</span><br><span class="line">a11bef06a3f659402fe7563abf99ad00de2209e6 first commit</span><br></pre></td></tr></tbody></table></figure>
+
+<p>最有意思的是 <code>format</code> ，可以定制记录的显示格式。 这样的输出对后期提取分析格外有用——因为你知道输出的格式不会随着 Git 的更新而发生改变：</p>
+<figure class="highlight console"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">log</span> --pretty=format:<span class="string">"%h - %an, %ar : %s"</span></span></span><br><span class="line">ca82a6d - Scott Chacon, 6 years ago : changed the version number</span><br><span class="line">085bb3b - Scott Chacon, 6 years ago : removed unnecessary test</span><br><span class="line">a11bef0 - Scott Chacon, 6 years ago : first commit</span><br></pre></td></tr></tbody></table></figure>
+
+<p><a href="http://git-scm.com/book/zh/v2/ch00/pretty_format"><code>git log --pretty=format</code> 常用的选项</a> 列出了 <code>format</code> 接受的常用格式占位符的写法及其代表的意义。</p>
+<table>
+<thead>
+<tr>
+<th align="left">选项</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>%H</code></td>
+<td align="left">提交的完整哈希值</td>
+</tr>
+<tr>
+<td align="left"><code>%h</code></td>
+<td align="left">提交的简写哈希值</td>
+</tr>
+<tr>
+<td align="left"><code>%T</code></td>
+<td align="left">树的完整哈希值</td>
+</tr>
+<tr>
+<td align="left"><code>%t</code></td>
+<td align="left">树的简写哈希值</td>
+</tr>
+<tr>
+<td align="left"><code>%P</code></td>
+<td align="left">父提交的完整哈希值</td>
+</tr>
+<tr>
+<td align="left"><code>%p</code></td>
+<td align="left">父提交的简写哈希值</td>
+</tr>
+<tr>
+<td align="left"><code>%an</code></td>
+<td align="left">作者名字</td>
+</tr>
+<tr>
+<td align="left"><code>%ae</code></td>
+<td align="left">作者的电子邮件地址</td>
+</tr>
+<tr>
+<td align="left"><code>%ad</code></td>
+<td align="left">作者修订日期（可以用 –date=选项 来定制格式）</td>
+</tr>
+<tr>
+<td align="left"><code>%ar</code></td>
+<td align="left">作者修订日期，按多久以前的方式显示</td>
+</tr>
+<tr>
+<td align="left"><code>%cn</code></td>
+<td align="left">提交者的名字</td>
+</tr>
+<tr>
+<td align="left"><code>%ce</code></td>
+<td align="left">提交者的电子邮件地址</td>
+</tr>
+<tr>
+<td align="left"><code>%cd</code></td>
+<td align="left">提交日期</td>
+</tr>
+<tr>
+<td align="left"><code>%cr</code></td>
+<td align="left">提交日期（距今多长时间）</td>
+</tr>
+<tr>
+<td align="left"><code>%s</code></td>
+<td align="left">提交说明</td>
+</tr>
+</tbody></table>
+<p>你一定奇怪 <em>作者</em> 和 <em>提交者</em> 之间究竟有何差别， 其实作者指的是实际作出修改的人，提交者指的是最后将此工作成果提交到仓库的人。 所以，当你为某个项目发布补丁，然后某个核心成员将你的补丁并入项目时，你就是作者，而那个核心成员就是提交者。 我们会在 <a href="http://git-scm.com/book/zh/v2/ch00/ch05-distributed-git">分布式 Git</a> 再详细介绍两者之间的细微差别。</p>
+<p>当 <code>oneline</code> 或 <code>format</code> 与另一个 <code>log</code> 选项 <code>--graph</code> 结合使用时尤其有用。 这个选项添加了一些 ASCII 字符串来形象地展示你的分支、合并历史：</p>
+<figure class="highlight console"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">log</span> --pretty=format:<span class="string">"%h %s"</span> --graph</span></span><br><span class="line">* 2d3acf9 ignore errors from SIGCHLD on trap</span><br><span class="line">*  5e3ee11 Merge branch 'master' of git://github.com/dustin/grit</span><br><span class="line">|\</span><br><span class="line">| * 420eac9 Added a method for getting the current branch.</span><br><span class="line">* | 30e367c timeout code and tests</span><br><span class="line">* | 5a09431 add timeout protection to grit</span><br><span class="line">* | e1193f8 support for heads with slashes in them</span><br><span class="line">|/</span><br><span class="line">* d6016bc require time for xmlschema</span><br><span class="line">*  11d191e Merge branch 'defunkt' into local</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这种输出类型会在我们下一章学完分支与合并以后变得更加有趣。</p>
+<h2 id="format选项"><a href="#format选项" class="headerlink" title="format选项"></a>format选项</h2><p>以上只是简单介绍了一些 <code>git log</code> 命令支持的选项。 <a href="http://git-scm.com/book/zh/v2/ch00/log_options"><code>git log</code> 的常用选项</a> 列出了我们目前涉及到的和没涉及到的选项，以及它们是如何影响 log 命令的输出的：</p>
+<table>
+<thead>
+<tr>
+<th align="left">选项</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>-p</code></td>
+<td align="left">按补丁格式显示每个提交引入的差异。</td>
+</tr>
+<tr>
+<td align="left"><code>--stat</code></td>
+<td align="left">显示每次提交的文件修改统计信息。</td>
+</tr>
+<tr>
+<td align="left"><code>--shortstat</code></td>
+<td align="left">只显示 –stat 中最后的行数修改添加移除统计。</td>
+</tr>
+<tr>
+<td align="left"><code>--name-only</code></td>
+<td align="left">仅在提交信息后显示已修改的文件清单。</td>
+</tr>
+<tr>
+<td align="left"><code>--name-status</code></td>
+<td align="left">显示新增、修改、删除的文件清单。</td>
+</tr>
+<tr>
+<td align="left"><code>--abbrev-commit</code></td>
+<td align="left">仅显示 SHA-1 校验和所有 40 个字符中的前几个字符。</td>
+</tr>
+<tr>
+<td align="left"><code>--relative-date</code></td>
+<td align="left">使用较短的相对时间而不是完整格式显示日期（比如“2 weeks ago”）。</td>
+</tr>
+<tr>
+<td align="left"><code>--graph</code></td>
+<td align="left">在日志旁以 ASCII 图形显示分支与合并历史。</td>
+</tr>
+<tr>
+<td align="left"><code>--pretty</code></td>
+<td align="left">使用其他格式显示历史提交信息。可用的选项包括 oneline、short、full、fuller 和 format（用来定义自己的格式）。</td>
+</tr>
+<tr>
+<td align="left"><code>--oneline</code></td>
+<td align="left"><code>--pretty=oneline --abbrev-commit</code> 合用的简写。</td>
+</tr>
+</tbody></table>
+<h3 id="限制输出长度"><a href="#限制输出长度" class="headerlink" title="限制输出长度"></a>限制输出长度</h3><p>除了定制输出格式的选项之外，<code>git log</code> 还有许多非常实用的限制输出长度的选项，也就是只输出一部分的提交。 之前你已经看到过 <code>-2</code> 选项了，它只会显示最近的两条提交， 实际上，你可以使用类似 <code>-&lt;n&gt;</code> 的选项，其中的 <code>n</code> 可以是任何整数，表示仅显示最近的 <code>n</code> 条提交。 不过实践中这个选项不是很常用，因为 Git 默认会将所有的输出传送到分页程序中，所以你一次只会看到一页的内容。</p>
+<p>但是，类似 <code>--since</code> 和 <code>--until</code> 这种按照时间作限制的选项很有用。 例如，下面的命令会列出最近两周的所有提交：</p>
+<figure class="highlight console"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">log</span> --since=2.weeks</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>该命令可用的格式十分丰富——可以是类似 <code>"2008-01-15"</code> 的具体的某一天，也可以是类似 <code>"2 years 1 day 3 minutes ago"</code> 的相对日期。</p>
+<p>还可以过滤出匹配指定条件的提交。 用 <code>--author</code> 选项显示指定作者的提交，用 <code>--grep</code> 选项搜索提交说明中的关键字。</p>
+<table>
+<thead>
+<tr>
+<th>Note</th>
+<th>你可以指定多个 <code>--author</code> 和 <code>--grep</code> 搜索条件，这样会只输出匹配 <strong>任意</strong> <code>--author</code> 模式和 <strong>任意</strong> <code>--grep</code> 模式的提交。然而，如果你添加了 <code>--all-match</code> 选项， 则只会输出匹配 <strong>所有</strong> <code>--grep</code> 模式的提交。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>另一个非常有用的过滤器是 <code>-S</code>（俗称“pickaxe”选项，取“用鹤嘴锄在土里捡石头”之意）， 它接受一个字符串参数，并且只会显示那些添加或删除了该字符串的提交。 假设你想找出添加或删除了对某一个特定函数的引用的提交，可以调用：</p>
+<figure class="highlight console"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">log</span> -S function_name</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>最后一个很实用的 <code>git log</code> 选项是路径（path）， 如果只关心某些文件或者目录的历史提交，可以在 git log 选项的最后指定它们的路径。 因为是放在最后位置上的选项，所以用两个短划线（–）隔开之前的选项和后面限定的路径名。</p>
+<p>在 <a href="http://git-scm.com/book/zh/v2/ch00/limit_options">限制 <code>git log</code> 输出的选项</a> 中列出了常用的选项</p>
+<table>
+<thead>
+<tr>
+<th align="left">选项</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>-&lt;n&gt;</code></td>
+<td align="left">仅显示最近的 n 条提交。</td>
+</tr>
+<tr>
+<td align="left"><code>--since</code>, <code>--after</code></td>
+<td align="left">仅显示指定时间之后的提交。</td>
+</tr>
+<tr>
+<td align="left"><code>--until</code>, <code>--before</code></td>
+<td align="left">仅显示指定时间之前的提交。</td>
+</tr>
+<tr>
+<td align="left"><code>--author</code></td>
+<td align="left">仅显示作者匹配指定字符串的提交。</td>
+</tr>
+<tr>
+<td align="left"><code>--committer</code></td>
+<td align="left">仅显示提交者匹配指定字符串的提交。</td>
+</tr>
+<tr>
+<td align="left"><code>--grep</code></td>
+<td align="left">仅显示提交说明中包含指定字符串的提交。</td>
+</tr>
+<tr>
+<td align="left"><code>-S</code></td>
+<td align="left">仅显示添加或删除内容匹配指定字符串的提交。</td>
+</tr>
+</tbody></table>
+<p>来看一个实际的例子，如果要在 Git 源码库中查看 Junio Hamano 在 2008 年 10 月其间， 除了合并提交之外的哪一个提交修改了测试文件，可以使用下面的命令：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --pretty=<span class="string">"%h - %s"</span> --author=<span class="string">'Junio C Hamano'</span> --since=<span class="string">"2008-10-01"</span> \</span><br><span class="line">   --before=<span class="string">"2008-11-01"</span> --no-merges -- t/</span><br><span class="line">5610e3b - Fix testcase failure when extended attributes are <span class="keyword">in</span> use</span><br><span class="line">acd3b9e - Enhance hold_lock_file_for_{update,append}() API</span><br><span class="line">f563754 - demonstrate breakage of detached checkout with symbolic <span class="built_in">link</span> HEAD</span><br><span class="line">d1a43f2 - reset --hard/read-tree --reset -u: remove unmerged new paths</span><br><span class="line">51a94af - Fix <span class="string">"checkout --track -b newbranch"</span> on detached HEAD</span><br><span class="line">b0ad11e - pull: allow <span class="string">"git pull origin <span class="variable">$something</span>:<span class="variable">$current_branch</span>"</span> into an unborn branch</span><br></pre></td></tr></tbody></table></figure>
+
+<p>在近 40000 条提交中，上面的输出仅列出了符合条件的 6 条记录。</p>
+<blockquote>
+<p>隐藏合并提交按照你代码仓库的工作流程，记录中可能有为数不少的合并提交，它们所包含的信息通常并不多。 为了避免显示的合并提交弄乱历史记录，可以为 <code>log</code> 加上 <code>--no-merges</code> 选项。</p>
+</blockquote>
+<h2 id="查看当前分支指向的对象"><a href="#查看当前分支指向的对象" class="headerlink" title="查看当前分支指向的对象"></a>查看当前分支指向的对象</h2><p>可以简单地使用 git log 命令查看各个分支当前所指的对象。 提供这一功能的参数是 –decorate。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline --decorate</span><br><span class="line">f30ab (HEAD -&gt; master, testing) add feature <span class="comment">#32 - ability to add new formats to the central interface</span></span><br><span class="line">34ac2 Fixed bug <span class="comment">#1328 - stack overflow under certain conditions</span></span><br><span class="line">98ca9 The initial commit of my project</span><br></pre></td></tr></tbody></table></figure>
+
+<p>正如你所见，当前 master 和 testing 分支均指向校验和以 f30ab 开头的提交对象。</p>
+<h2 id="项目分叉历史"><a href="#项目分叉历史" class="headerlink" title="项目分叉历史"></a>项目分叉历史</h2><p>项目分叉历史<br>你可以简单地使用 git log 命令查看分叉历史。 运行 git log –oneline –decorate –graph –all ，它会输出你的提交历史、各个分支的指向以及项目的分支分叉情况。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline --decorate --graph --all</span><br><span class="line">* c2b9e (HEAD, master) made other changes</span><br><span class="line">| * 87ab2 (testing) made a change</span><br><span class="line">|/</span><br><span class="line">* f30ab add feature <span class="comment">#32 - ability to add new formats to the</span></span><br><span class="line">* 34ac2 fixed bug <span class="comment">#1328 - stack overflow under certain conditions</span></span><br><span class="line">* 98ca9 initial commit of my project</span><br></pre></td></tr></tbody></table></figure>
+
+<p>由于 Git 的分支实质上仅是包含所指对象校验和（长度为 40 的 SHA-1 值字符串）的文件，所以它的创建和销毁都异常高效。 创建一个新分支就相当于往一个文件中写入 41 个字节（40 个字符和 1 个换行符），如此的简单能不快吗？</p>
+<h2 id="制作提交简报"><a href="#制作提交简报" class="headerlink" title="制作提交简报"></a>制作提交简报</h2><p>现在是时候通知邮件列表里那些好奇你的项目发生了什么的人了。 使用 git shortlog 命令可以快速生成一份包含从上次发布之后项目新增内容的修改日志（changelog）类文档。 它会对你给定范围内的所有提交进行总结；比如，你的上一次发布名称是 v1.0.1，那么下面的命令可以给出上次发布以来所有提交的总结：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git shortlog --no-merges master --not v1.0.1</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="包含修改历史"><a href="#包含修改历史" class="headerlink" title="包含修改历史"></a>包含修改历史</h2><p>This repo has a lot of files which have been renamed over the years. To see the full history of a file through all of the renames, add <code>--follow</code> to the <code>git log</code> command:</p>
+<figure class="highlight applescript"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> -p <span class="comment">--follow README.md</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>The above log also illustrates a cosmetic problem we have with file history thanks to the svn-to-git conversion in 2020: some svn branch creation events have caused a large number of spurious file deletions in individual file histories</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/git/" rel="tag"># git</a>
+              <a href="/tags/log/" rel="tag"># log</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/12/21/git-push/" rel="prev" title="git push用法">
+      <i class="fa fa-chevron-left"></i> git push用法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/01/23/flex_manual_intro/" rel="next" title="Flex 介绍">
+      Flex 介绍 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Git-log-%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2"><span class="nav-number">1.</span> <span class="nav-text">Git log 查看提交历史</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E5%B7%AE%E5%BC%82"><span class="nav-number">1.1.</span> <span class="nav-text">显示差异</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E4%BF%A1%E6%81%AF"><span class="nav-number">1.2.</span> <span class="nav-text">统计信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%95%E7%A4%BA%E6%96%B9%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">展示方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#format%E9%80%89%E9%A1%B9"><span class="nav-number">1.4.</span> <span class="nav-text">format选项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%90%E5%88%B6%E8%BE%93%E5%87%BA%E9%95%BF%E5%BA%A6"><span class="nav-number">1.4.1.</span> <span class="nav-text">限制输出长度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E5%88%86%E6%94%AF%E6%8C%87%E5%90%91%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.5.</span> <span class="nav-text">查看当前分支指向的对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%86%E5%8F%89%E5%8E%86%E5%8F%B2"><span class="nav-number">1.6.</span> <span class="nav-text">项目分叉历史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%B6%E4%BD%9C%E6%8F%90%E4%BA%A4%E7%AE%80%E6%8A%A5"><span class="nav-number">1.7.</span> <span class="nav-text">制作提交简报</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%85%E5%90%AB%E4%BF%AE%E6%94%B9%E5%8E%86%E5%8F%B2"><span class="nav-number">1.8.</span> <span class="nav-text">包含修改历史</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2016/12/27/git-log/";
+    this.page.identifier = "2016/12/27/git-log/";
+    this.page.title = "Git log查看提交历史";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

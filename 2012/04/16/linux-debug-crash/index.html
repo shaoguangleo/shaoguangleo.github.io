@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="程序崩溃处理有人说C语言是低级语言，这有一部分原因是因为应用程序的内存管理大部分需要由程序员来实现。虽然这种方法非常有用，但是也给程序员添加了很多的麻烦。 也有人说，C语言是相对较小且容易学习的语言，然而，只有不考虑标准C语言库的典型实现时，C语言才比较小，这个库相当庞大，很多程序员认为C语言是易用语言，那是因为他们还没有遇到指针。 一般而言，程序错误会导致下面两件事情的发生：  导致程序做一些程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux debug 程序崩溃处理">
+<meta property="og:url" content="http://shaoguangleo.github.io/2012/04/16/linux-debug-crash/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="程序崩溃处理有人说C语言是低级语言，这有一部分原因是因为应用程序的内存管理大部分需要由程序员来实现。虽然这种方法非常有用，但是也给程序员添加了很多的麻烦。 也有人说，C语言是相对较小且容易学习的语言，然而，只有不考虑标准C语言库的典型实现时，C语言才比较小，这个库相当庞大，很多程序员认为C语言是易用语言，那是因为他们还没有遇到指针。 一般而言，程序错误会导致下面两件事情的发生：  导致程序做一些程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2012-04-16T14:11:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.874Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="malloc">
+<meta property="article:tag" content="free">
+<meta property="article:tag" content="gdb">
+<meta property="article:tag" content="eclipse">
+<meta property="article:tag" content="core file">
+<meta property="article:tag" content="ddd">
+<meta property="article:tag" content="debug">
+<meta property="article:tag" content="fault">
+<meta property="article:tag" content="segmentation">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2012/04/16/linux-debug-crash/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux debug 程序崩溃处理 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2012/04/16/linux-debug-crash/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux debug 程序崩溃处理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2012-04-16 22:11:00" itemprop="dateCreated datePublished" datetime="2012-04-16T22:11:00+08:00">2012-04-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/GDB/" itemprop="url" rel="index"><span itemprop="name">GDB</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2012/04/16/linux-debug-crash/" class="post-meta-item leancloud_visitors" data-flag-title="Linux debug 程序崩溃处理" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2012/04/16/linux-debug-crash/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/04/16/linux-debug-crash/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2012/04/16/linux-debug-crash/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2012/04/16/linux-debug-crash/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="程序崩溃处理"><a href="#程序崩溃处理" class="headerlink" title="程序崩溃处理"></a>程序崩溃处理</h1><p>有人说C语言是低级语言，这有一部分原因是因为应用程序的内存管理大部分需要由程序员来实现。虽然这种方法非常有用，但是也给程序员添加了很多的麻烦。</p>
+<p>也有人说，C语言是相对较小且容易学习的语言，然而，只有不考虑标准C语言库的典型实现时，C语言才比较小，这个库相当庞大，很多程序员认为C语言是易用语言，那是因为他们还没有遇到指针。</p>
+<p>一般而言，程序错误会导致下面两件事情的发生：</p>
+<ul>
+<li>导致程序做一些程序员没有打算做的事情；</li>
+<li>导致程序崩溃</li>
+</ul>
+<p>相信很多调试过程序的兄弟都碰到过段错误即<code>segmentation fault</code>，则合格主要原因是试图在未经允许的情况下访问一个内存单元。硬件会感知这件事并执行对操作系统的跳转。</p>
+<h2 id="堆区域"><a href="#堆区域" class="headerlink" title="堆区域"></a>堆区域</h2><p>调用malloc函数分配的内存；</p>
+<h2 id="栈区域"><a href="#栈区域" class="headerlink" title="栈区域"></a>栈区域</h2><p>用来动态分配数据的空间，函数调用的数据（包括参数、局部变量和返回地址）都存储在栈上。</p>
+<h2 id="查看程序在Linux上的精确内存布局情况"><a href="#查看程序在Linux上的精确内存布局情况" class="headerlink" title="查看程序在Linux上的精确内存布局情况"></a>查看程序在Linux上的精确内存布局情况</h2><p>可以通过使用info proc mappings来详细查看该程序在Linux上的精确内存布局情况，例如：</p>
+<p>此时我们还可以看到这个进程号为14455，所以我们还可以通过文件/proc/14455/maps来查看该信息。通过这些信息，我们有可能看到文本和数据区域，以及堆和栈。</p>
+<h2 id="分配页策略"><a href="#分配页策略" class="headerlink" title="分配页策略"></a>分配页策略</h2><p>操作系统不会将不完整的页分配给程序，例如，如果要运行的程序总共大约有10000字节，如果完全加载，会占用3个内存页（一个页占4096个字节），它不会仅占用2.5个页，因为页是虚拟内存系统能够操作的最小内存单元，这是调试时要着重了解的情况，这也导致了程序的一些错误内存访问不会触发段错误，换言之，在调试会话期间，没有引起段错误并不能直接说明代码是没有问题的。</p>
+<h2 id="页的角色细节"><a href="#页的角色细节" class="headerlink" title="页的角色细节"></a>页的角色细节</h2><p>当程序执行时，它会连续访问程序中的各个区域，导致硬件按照以下几种情况所示处理页表：</p>
+<ul>
+<li>每次程序使用全局变量时，需要具有对数据区域的读写访问权限；</li>
+<li>每次程序访问局部变量时，程序会访问栈，需要对栈区域具有读写访问权限；</li>
+<li>每次程序进入或离开函数时，对该栈进行一次或多次访问，需要对栈区具有读写访问权限；</li>
+<li>每次程序访问通过调用malloc或者new创建的存储器时，都会发生堆访问，也需要读写访问权限；</li>
+<li>程序执行的每个机器指令是从文本区域取出的，因此需要具有读和执行文件；</li>
+</ul>
+<h2 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h2><p>这里需要注意的是，进程抛出的信号，实际上没有任何内容发送给进程。所发生的事情只不过是操作系统将信号记录到进程表中，以便下次进程接收信号时得到CPU上的时间片，执行恰当的信号处理程序。</p>
+<h3 id="自定义信号的复杂性"><a href="#自定义信号的复杂性" class="headerlink" title="自定义信号的复杂性"></a>自定义信号的复杂性</h3><p>使用GDB/DDD/Eclipse调试时，自定义信号处理程序可能会使程序变得复杂，无论是直接使用还是通过DDD GUI，每当发出任何信号时，GDB都会停止进程，所以，有可能意味着GDB会因为与调试无关的工作而频繁的停止，此时可以使用handle命令告诉GDB在某些信号发生时不要停止。</p>
+<h2 id="总线错误的原因"><a href="#总线错误的原因" class="headerlink" title="总线错误的原因"></a>总线错误的原因</h2><ul>
+<li>访问不存在的物理地址；</li>
+<li>在很多架构上，要求访问32位量的机器指令要求字对齐，而导致视图在奇数号地址上访问具有4字节的数的指针错误可能引起总线错误。</li>
+</ul>
+<p>总线错误是处理器层的异常，导致在Unix系统上发出SIGBUS信号，默认情况下，SIGBUS会导致转储内存并终止。</p>
+<h2 id="核心文件"><a href="#核心文件" class="headerlink" title="核心文件"></a>核心文件</h2><p>有些信号表示让某个进程继续是不妥当的，甚至是不可能的，在这些情况中，默认动作是提前终止进程，并编写一个名为核心文件core file的文件，俗称转储核心。</p>
+<p>核心文件包含程序崩溃时对程序状态的详细描述：栈的内容、CPU寄存器的内容、程序的静态分配变量的值。</p>
+<p>我们可以通过file命令来查看文件的详细信息。</p>
+<h3 id="为什么需要核心文件"><a href="#为什么需要核心文件" class="headerlink" title="为什么需要核心文件"></a>为什么需要核心文件</h3><ul>
+<li>只有在运行了一段长时间后才发生段错误，所以在调试器中无法重新创建该错误；</li>
+<li>程序的行为取决于随机的环境事件，因此再次运行程序可能不会再现段错误；</li>
+<li>当新手用户运行程序时发生的段错误，需要发送核心文件给开发人员。</li>
+</ul>
+<h2 id="重载功能"><a href="#重载功能" class="headerlink" title="重载功能"></a>重载功能</h2><p>当GDB注意到重新编译了程序后，它会自动加载新的可执行文件，因此不需要退出和重启GDB。</p>
+<p>调试设计的内容</p>
+<ul>
+<li>确认原则；</li>
+<li>使用核心文件进行崩溃进程的“死后”分析；</li>
+<li>纠正、编译并重新运行程序后，甚至不需要退出GDB；</li>
+<li>Printf()风格调试的不足之处；</li>
+<li>利用你的智慧，这是无可替代的；</li>
+<li>如果你过去使用printf风格调试的，就会发现使用printf跟踪这些程序错误中的部分错误原来有多难，虽然在调试中使用printf诊断代码有一定的好处，但是作为一种通用目的的工具，它远远不足以用来跟踪实际代码中发生的大部分程序错误。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/malloc/" rel="tag"># malloc</a>
+              <a href="/tags/free/" rel="tag"># free</a>
+              <a href="/tags/gdb/" rel="tag"># gdb</a>
+              <a href="/tags/eclipse/" rel="tag"># eclipse</a>
+              <a href="/tags/core-file/" rel="tag"># core file</a>
+              <a href="/tags/ddd/" rel="tag"># ddd</a>
+              <a href="/tags/debug/" rel="tag"># debug</a>
+              <a href="/tags/fault/" rel="tag"># fault</a>
+              <a href="/tags/segmentation/" rel="tag"># segmentation</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2012/04/15/linux-debug-walk-around/" rel="prev" title="Linux debug 停下来环顾程序">
+      <i class="fa fa-chevron-left"></i> Linux debug 停下来环顾程序
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2012/04/19/linux-debug-other-tools/" rel="next" title="Linux 调试编译其他工具">
+      Linux 调试编译其他工具 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E5%B4%A9%E6%BA%83%E5%A4%84%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">程序崩溃处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E5%8C%BA%E5%9F%9F"><span class="nav-number">1.1.</span> <span class="nav-text">堆区域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%E5%8C%BA%E5%9F%9F"><span class="nav-number">1.2.</span> <span class="nav-text">栈区域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%A8%8B%E5%BA%8F%E5%9C%A8Linux%E4%B8%8A%E7%9A%84%E7%B2%BE%E7%A1%AE%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E6%83%85%E5%86%B5"><span class="nav-number">1.3.</span> <span class="nav-text">查看程序在Linux上的精确内存布局情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E9%85%8D%E9%A1%B5%E7%AD%96%E7%95%A5"><span class="nav-number">1.4.</span> <span class="nav-text">分配页策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B5%E7%9A%84%E8%A7%92%E8%89%B2%E7%BB%86%E8%8A%82"><span class="nav-number">1.5.</span> <span class="nav-text">页的角色细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7"><span class="nav-number">1.6.</span> <span class="nav-text">信号</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BF%A1%E5%8F%B7%E7%9A%84%E5%A4%8D%E6%9D%82%E6%80%A7"><span class="nav-number">1.6.1.</span> <span class="nav-text">自定义信号的复杂性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BA%BF%E9%94%99%E8%AF%AF%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.7.</span> <span class="nav-text">总线错误的原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%96%87%E4%BB%B6"><span class="nav-number">1.8.</span> <span class="nav-text">核心文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%A0%B8%E5%BF%83%E6%96%87%E4%BB%B6"><span class="nav-number">1.8.1.</span> <span class="nav-text">为什么需要核心文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E8%BD%BD%E5%8A%9F%E8%83%BD"><span class="nav-number">1.9.</span> <span class="nav-text">重载功能</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2012/04/16/linux-debug-crash/";
+    this.page.identifier = "2012/04/16/linux-debug-crash/";
+    this.page.title = "Linux debug 程序崩溃处理";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

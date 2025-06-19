@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="grep 文件内容搜索利器Linux grep 命令用于查找文件里符合条件的字符串。 官方定义为：  grep, egrep, fgrep - print lines matching a pattern  grep支持正则表达式，是一个强大的文本搜索工具。 语法语法也挺复杂，因为功能确实很强大。 123$ grep [OPTION...] PATTERNS [FILE...]$ grep [OP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux的 grep 命令">
+<meta property="og:url" content="http://shaoguangleo.github.io/2011/12/27/linux-grep/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="grep 文件内容搜索利器Linux grep 命令用于查找文件里符合条件的字符串。 官方定义为：  grep, egrep, fgrep - print lines matching a pattern  grep支持正则表达式，是一个强大的文本搜索工具。 语法语法也挺复杂，因为功能确实很强大。 123$ grep [OPTION...] PATTERNS [FILE...]$ grep [OP">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.githubassets.com/images/icons/emoji/unicode/274c.png?v8">
+<meta property="og:image" content="https://github.githubassets.com/images/icons/emoji/unicode/274c.png?v8">
+<meta property="og:image" content="https://github.githubassets.com/images/icons/emoji/unicode/274c.png?v8">
+<meta property="article:published_time" content="2011-12-27T14:28:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.897Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="grep">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.githubassets.com/images/icons/emoji/unicode/274c.png?v8">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2011/12/27/linux-grep/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux的 grep 命令 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2011/12/27/linux-grep/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux的 grep 命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2011-12-27 22:28:00" itemprop="dateCreated datePublished" datetime="2011-12-27T22:28:00+08:00">2011-12-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">Linux入门</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2011/12/27/linux-grep/" class="post-meta-item leancloud_visitors" data-flag-title="Linux的 grep 命令" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2011/12/27/linux-grep/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/12/27/linux-grep/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2011/12/27/linux-grep/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2011/12/27/linux-grep/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="grep-文件内容搜索利器"><a href="#grep-文件内容搜索利器" class="headerlink" title="grep 文件内容搜索利器"></a>grep 文件内容搜索利器</h1><p>Linux <code>grep</code> 命令用于查找文件里符合条件的字符串。</p>
+<p>官方定义为：</p>
+<blockquote>
+<p><code>grep</code>, <code>egrep</code>, <code>fgrep</code> - print lines matching a pattern</p>
+</blockquote>
+<p>grep支持正则表达式，是一个强大的文本搜索工具。</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>语法也挺复杂，因为功能确实很强大。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ grep [OPTION...] PATTERNS [FILE...]</span><br><span class="line">$ grep [OPTION...] -e PATTERNS ... [FILE...]      <span class="comment"># 使用egrep</span></span><br><span class="line">$ grep [OPTION...] -f PATTERN_FILE ... [FILE...]  <span class="comment"># 使用fgrep</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>常用的参数为：</p>
+<ul>
+<li><strong>-r 或 –recursive</strong> : 此参数的效果和指定”-d recurse”参数相同</li>
+<li><strong>-v 或 –invert-match</strong> : 显示不包含匹配文本的所有行</li>
+<li><strong>-i 或 –ignore-case</strong> : 忽略字符大小写的差别</li>
+<li><strong>-n 或 –line-number</strong> : 在显示符合样式的那一行之前，标示出该行的列数编号。</li>
+</ul>
+<p>假定有如下3个文件，1个文件夹，内容如下：</p>
+<figure class="highlight css"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">a</span></span><br><span class="line">    This is <span class="selector-tag">a</span></span><br><span class="line">    Hello <span class="selector-tag">a</span></span><br><span class="line">    </span><br><span class="line"><span class="selector-tag">b</span> </span><br><span class="line">    this is <span class="selector-tag">b</span></span><br><span class="line">    Hello <span class="selector-tag">b</span></span><br><span class="line">c </span><br><span class="line">    This is c</span><br><span class="line">    Hello c</span><br><span class="line"></span><br><span class="line">d/d </span><br><span class="line">    This is d</span><br><span class="line">    Hello d</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="默认无参数"><a href="#默认无参数" class="headerlink" title="默认无参数"></a>默认无参数</h2><p>在当前目录搜索包含<strong>is</strong>字符串，可以看到**<u>a/b/c</u>**三个文件均有输出，而<u>d</u>因为是目录，暂时无输出。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ grep is *</span><br><span class="line">a:This is a</span><br><span class="line">b:this is b</span><br><span class="line">c:This is c</span><br><span class="line">grep: d: Is a directory</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="增加文件夹"><a href="#增加文件夹" class="headerlink" title="增加文件夹"></a>增加文件夹</h2><p>与其他命令类似，增加<code>-r</code>参数，递归搜索</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ grep -r is *</span><br><span class="line">a:This is a</span><br><span class="line">b:this is b</span><br><span class="line">c:This is c</span><br><span class="line">d/d:This is d</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="反向查找"><a href="#反向查找" class="headerlink" title="反向查找"></a>反向查找</h2><p>在某些情况下，或许正想找到不包含某些字符串的内容，如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ grep -rv is *</span><br><span class="line">a:Hello a</span><br><span class="line">b:Hello b</span><br><span class="line">c:Hello c</span><br><span class="line">d/d:Hello d</span><br></pre></td></tr></tbody></table></figure>
+
+<p>此时可以看到，不包含<strong>is</strong>的内容显示了出来。</p>
+<h2 id="不区分大小写"><a href="#不区分大小写" class="headerlink" title="不区分大小写"></a>不区分大小写</h2><p>而某些情况下，或许我们希望找到不区分大小写的内容，比如对于<u>This/this</u>而言：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ grep -r This *</span><br><span class="line">a:This is a</span><br><span class="line">c:This is c</span><br><span class="line">d/d:This is d</span><br><span class="line"></span><br><span class="line">$ grep -ri This *</span><br><span class="line">a:This is a</span><br><span class="line">b:this is b</span><br><span class="line">c:This is c</span><br><span class="line">d/d:This is d</span><br></pre></td></tr></tbody></table></figure>
+
+<p>可以看到此时有可能笔误，或者其他原因的b文件已经被找到了。</p>
+<h2 id="显示行数，精准定位"><a href="#显示行数，精准定位" class="headerlink" title="显示行数，精准定位"></a>显示行数，精准定位</h2><p>   如果文件内容比较多，此时显示内容在哪一行，是很重要的，加上<code>-n</code>参数既可解决。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ grep -rn This *</span><br><span class="line">a:1:This is a</span><br><span class="line">c:1:This is c</span><br><span class="line">d/d:1:This is d</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p><strong>参数</strong>：</p>
+<ul>
+<li><strong>-a 或 –text</strong> : 不要忽略二进制的数据。</li>
+<li><strong>-A&lt;显示行数&gt; 或 –after-context=&lt;显示行数&gt;</strong> : 除了显示符合范本样式的那一列之外，并显示该行之后的内容。</li>
+<li><strong>-b 或 –byte-offset</strong> : 在显示符合样式的那一行之前，标示出该行第一个字符的编号。</li>
+<li><strong>-B&lt;显示行数&gt; 或 –before-context=&lt;显示行数&gt;</strong> : 除了显示符合样式的那一行之外，并显示该行之前的内容。</li>
+<li><strong>-c 或 –count</strong> : 计算符合样式的列数。</li>
+<li><strong>-C&lt;显示行数&gt; 或 –context=&lt;显示行数&gt;或-&lt;显示行数&gt;</strong> : 除了显示符合样式的那一行之外，并显示该行之前后的内容。</li>
+<li><strong>-d &lt;动作&gt; 或 –directories=&lt;动作&gt;</strong> : 当指定要查找的是目录而非文件时，必须使用这项参数，否则grep指令将回报信息并停止动作。</li>
+<li><strong>-e&lt;范本样式&gt; 或 –regexp=&lt;范本样式&gt;</strong> : 指定字符串做为查找文件内容的样式。</li>
+<li><strong>-E 或 –extended-regexp</strong> : 将样式为延伸的正则表达式来使用。</li>
+<li><strong>-f&lt;规则文件&gt; 或 –file=&lt;规则文件&gt;</strong> : 指定规则文件，其内容含有一个或多个规则样式，让grep查找符合规则条件的文件内容，格式为每行一个规则样式。</li>
+<li><strong>-F 或 –fixed-regexp</strong> : 将样式视为固定字符串的列表。</li>
+<li><strong>-G 或 –basic-regexp</strong> : 将样式视为普通的表示法来使用。</li>
+<li><strong>-h 或 –no-filename</strong> : 在显示符合样式的那一行之前，不标示该行所属的文件名称。</li>
+<li><strong>-H 或 –with-filename</strong> : 在显示符合样式的那一行之前，表示该行所属的文件名称。</li>
+<li><strong>-l 或 –file-with-matches</strong> : 列出文件内容符合指定的样式的文件名称。</li>
+<li><strong>-L 或 –files-without-match</strong> : 列出文件内容不符合指定的样式的文件名称。</li>
+<li><strong>-o 或 –only-matching</strong> : 只显示匹配PATTERN 部分。</li>
+<li><strong>-q 或 –quiet或–silent</strong> : 不显示任何信息。</li>
+<li><strong>-s 或 –no-messages</strong> : 不显示错误信息。</li>
+<li><strong>-w 或 –word-regexp</strong> : 只显示全字符合的列。</li>
+<li><strong>-x –line-regexp</strong> : 只显示全列符合的列。</li>
+<li><strong>-y</strong> : 此参数的效果和指定”-i”参数相同。</li>
+</ul>
+<p>命令格式：grep [option] pattern file</p>
+<p>grep的常用选项：</p>
+<p>-E： 解释PATTERN作为扩展正则表达式，也就相当于使用egrep。 或操作</p>
+<p>-F :   解释PATTERN作为固定字符串的列表，由换行符分隔，其中任何一个都要匹配。也就相当于使用fgrep。</p>
+<p>-G:   将范本样式视为普通的表示法来使用。这是默认值。加不加都是使用grep。</p>
+<p>匹配控制选项：</p>
+<p>-e :  使用PATTERN作为模式。这可以用于指定多个搜索模式，或保护以连字符（ - ）开头的图案。指定字符串做为查找文件内容的样式。   </p>
+<p>-f :  指定规则文件，其内容含有一个或多个规则样式，让grep查找符合规则条件的文件内容，格式为每行一个规则样式。</p>
+<p>-w：匹配整词，精确地单词,单词的两边必须是非字符符号(即不能是字母数字或下划线)</p>
+<p>-x：仅选择与整行完全匹配的匹配项。精确匹配整行内容(包括行首行尾那些看不到的空格内容都要完全匹配)</p>
+<p>-y：此参数的效果和指定“-i”参数相同。</p>
+<p>一般输出控制选项：</p>
+<p>-c： 抑制正常输出;而是为每个输入文件打印匹配线的计数。</p>
+<p>–color [= WHEN]：让关键字高亮显示，如–color=auto</p>
+<p>-L：列出文件内容不符合指定的范本样式的文件名称</p>
+<p>-l : 列出文件内容符合指定的范本样式的文件名称。</p>
+<p>-m num：当匹配内容的行数达到num行后,grep停止搜索,并输出停止前搜索到的匹配内容</p>
+<p>-o: 只输出匹配的具体字符串,匹配行中其他内容不会输出</p>
+<p>-q：安静模式,不会有任何输出内容,查找到匹配内容会返回0,未查找到匹配内容就返回非0</p>
+<p>-s：不会输出查找过程中出现的任何错误消息，-q和-s选项因为与其他系统的grep有兼容问题，shell脚本应该避免使用-q和-s，并且应该将标准和错误输出重定向到/dev/null 代替。</p>
+<p>输出线前缀控制：</p>
+<p>-b：输出每一个匹配行(或匹配的字符串)时在其前附加上偏移量(从文件第一个字符到该匹配内容之间的字节数)</p>
+<p>-H：在每一个匹配行之前加上文件名一起输出(针对于查找单个文件),当查找多个文件时默认就会输出文件名</p>
+<p>-h：禁止输出上的文件名的前缀。无论查找几个文件都不会在匹配内容前输出文件名</p>
+<p>–label = LABEL：显示实际来自标准输入的输入作为来自文件LABEL的输入。这是特别在实现zgrep等工具时非常有用，例如gzip -cd foo.gz | grep –label = foo -H的东西。看到 也是-H选项。</p>
+<p>-T：初始标签确保实际行内容的第一个字符位于制表位上，以便对齐标签看起来很正常。在匹配信息和其前的附加信息之间加入tab以使格式整齐。</p>
+<p>上下文线控制选项：</p>
+<p>-A num：匹配到搜索到的行以及该行下面的num行</p>
+<p>-B num：匹配到搜索到的行以及该行上面的num行</p>
+<p>-C num：匹配到搜索到的行以及上下各num行</p>
+<p>文件和目录选择选项：</p>
+<p>-a： 处理二进制文件，就像它是文本;这相当于–binary-files = text选项。不忽略二进制的数据。  </p>
+<p> –binary-files = TYPE：如果文件的前几个字节指示文件包含二进制数据，则假定该文件为类型TYPE。默认情况下，TYPE是二进制的，grep通常输出一行消息二进制文件匹配，或者如果没有匹配则没有消息。如果TYPE不匹配，grep假定二进制文件不匹配;这相当于-I选项。如果TYPE是文本，则grep处理a二进制文件，如果它是文本;这相当于-a选项。警告：grep –binary-files = text可能会输出二进制的垃圾，如果输出是一个终端和如果可能有讨厌的副作用终端驱动程序将其中的一些解释为命令。</p>
+<p>-D：如果输入文件是设备，FIFO或套接字，请使用ACTION处理。默认情况下，读取ACTION，这意味着设备被读取，就像它们是普通文件一样。如果跳过ACTION，设备为 默默地跳过。</p>
+<p>-d:  如果输入文件是目录，请使用ACTION处理它。默认情况下，ACTION是读的，这意味着目录被读取，就像它们是普通文件一样。如果跳过ACTION，目录将静默跳过。如果ACTION是recurse，grep将递归读取每个目录下的所有文件;这是相当于-r选项。</p>
+<p>–exclude=GLOB：跳过基本名称与GLOB匹配的文件（使用通配符匹配）。文件名glob可以使用<em>，？和[…]作为通配符，和\引用通配符或反斜杠字符。搜索其文件名和GLOB通配符相匹配的文件的内容来查找匹配使用方法:grep -H –exclude=c</em> “old” ./*  c<em>是通配文件名的通配符./</em> 指定需要先通配文件名的文件的范围,必须要给*,不然就匹配不出内容,(如果不给*,带上-r选项也可以匹配)</p>
+<p>–exclude-from = FILE：在文件中编写通配方案,grep将不会到匹配方案中文件名的文件去查找匹配内容</p>
+<p>–exclude-dir = DIR：匹配一个目录下的很多内容同时还要让一些子目录不接受匹配,就使用此选项。</p>
+<p> –include = GLOB：仅搜索其基本名称与GLOB匹配的文件（使用–exclude下所述的通配符匹配）。</p>
+<p>-R ,-r :以递归方式读取每个目录下的所有文件; 这相当于-d recurse选项。</p>
+<p>其他选项：</p>
+<p>–line-buffered： 在输出上使用行缓冲。这可能会导致性能损失。</p>
+<p>–mmap：启用mmap系统调用代替read系统调用</p>
+<p>-U：将文件视为二进制。</p>
+<p>-z：将输入视为一组行，每一行由一个零字节（ASCII NUL字符）而不是a终止新队。与-Z或–null选项一样，此选项可以与排序-z等命令一起使用来处理任意文件名。</p>
+<p>简述</p>
+<figure class="highlight jboss-cli"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">-a   <span class="params">--text</span>   <span class="comment">#不要忽略二进制的数据。 将 binary 文件以 text 文件的方式搜寻数据 </span></span><br><span class="line">-A&lt;显示行数&gt;   <span class="params">--after-context=</span>&lt;显示行数&gt;   <span class="comment">#除了显示符合范本样式的那一列之外，并显示该行之后的内容。   </span></span><br><span class="line">-b   <span class="params">--byte-offset</span>   <span class="comment">#在显示符合样式的那一行之前，标示出该行第一个字符的编号。   </span></span><br><span class="line">-B&lt;显示行数&gt;   <span class="params">--before-context=</span>&lt;显示行数&gt;   <span class="comment">#除了显示符合样式的那一行之外，并显示该行之前的内容。   </span></span><br><span class="line">-c    <span class="params">--count</span>   <span class="comment">#计算符合样式的行数。   </span></span><br><span class="line">-C&lt;显示行数&gt;    <span class="params">--context=</span>&lt;显示行数&gt;或-&lt;显示行数&gt;   <span class="comment">#除了显示符合样式的那一行之外，并显示该行之前后的内容。   </span></span><br><span class="line">-d &lt;动作&gt;      <span class="params">--directories=</span>&lt;动作&gt;   <span class="comment">#当指定要查找的是目录而非文件时，必须使用这项参数，否则grep指令将回报信息并停止动作。   </span></span><br><span class="line">-e&lt;范本样式&gt;  <span class="params">--regexp=</span>&lt;范本样式&gt;   <span class="comment">#指定字符串做为查找文件内容的样式。   </span></span><br><span class="line">-E      <span class="params">--extended-regexp</span>   <span class="comment">#将样式为延伸的普通表示法来使用。   </span></span><br><span class="line">-f&lt;规则文件&gt;  <span class="params">--file=</span>&lt;规则文件&gt;   <span class="comment">#指定规则文件，其内容含有一个或多个规则样式，让grep查找符合规则条件的文件内容，格式为每行一个规则样式。   </span></span><br><span class="line">-F   <span class="params">--fixed-regexp</span>   <span class="comment">#将样式视为固定字符串的列表。   </span></span><br><span class="line">-G   <span class="params">--basic-regexp</span>   <span class="comment">#将样式视为普通的表示法来使用。   </span></span><br><span class="line">-h   <span class="params">--no-filename</span>   <span class="comment">#在显示符合样式的那一行之前，不标示该行所属的文件名称。   </span></span><br><span class="line">-H   <span class="params">--with-filename</span>   <span class="comment">#在显示符合样式的那一行之前，表示该行所属的文件名称。   </span></span><br><span class="line">-i    <span class="params">--ignore-case</span>   <span class="comment">#忽略字符大小写的差别。   </span></span><br><span class="line">-l    <span class="params">--file-with-matches</span>   <span class="comment">#列出文件内容符合指定的样式的文件名称。   </span></span><br><span class="line">-L   <span class="params">--files-without-match</span>   <span class="comment">#列出文件内容不符合指定的样式的文件名称。   </span></span><br><span class="line">-n   <span class="params">--line-number</span>   <span class="comment">#在显示符合样式的那一行之前，标示出该行的列数编号。   </span></span><br><span class="line">-q   <span class="params">--quiet</span>或<span class="params">--silent</span>   <span class="comment">#不显示任何信息。   </span></span><br><span class="line">-r   <span class="params">--recursive</span>   <span class="comment">#此参数的效果和指定“-d recurse”参数相同。   </span></span><br><span class="line">-s   <span class="params">--no-messages</span>   <span class="comment">#不显示错误信息。   </span></span><br><span class="line">-v   <span class="params">--revert-match</span>   <span class="comment">#显示不包含匹配文本的所有行。   </span></span><br><span class="line">-V   <span class="params">--version</span>   <span class="comment">#显示版本信息。   </span></span><br><span class="line">-w   <span class="params">--word-regexp</span>   <span class="comment">#只显示全字符合的列。   </span></span><br><span class="line">-x    <span class="params">--line-regexp</span>   <span class="comment">#只显示全列符合的列。   </span></span><br><span class="line">-y   <span class="comment">#此参数的效果和指定“-i”参数相同。</span></span><br><span class="line"><span class="params">--color=auto</span> ：可以将找到的关键词部分加上颜色的显示</span><br></pre></td></tr></tbody></table></figure>
+
+<p>一、常用用法</p>
+<p>grep -i pattern files ：不区分大小写地搜索。默认情况区分大小写，<br>grep -l pattern files ：只列出匹配的文件名，<br>grep -L pattern files ：列出不匹配的文件名，<br>grep -w pattern files ：只匹配整个单词，而不是字符串的一部分（如匹配‘magic’，而不是‘magical’），<br>grep -C number pattern files ：匹配的上下文分别显示[number]行，<br>grep pattern1 | pattern2 files ：显示匹配 pattern1 或 pattern2 的行，<br>grep pattern1 files | grep pattern2 ：显示既匹配 pattern1 又匹配 pattern2 的行。</p>
+<p>这里还有些用于搜索的特殊符号：<br>&lt; 和 &gt; 分别标注单词的开始与结尾。<br>例如：<br>grep man * 会匹配 ‘Batman’、‘manic’、‘man’等，<br>grep '&lt;man' * 匹配‘manic’和‘man’，但不是‘Batman’，<br>grep '<man>' 只匹配‘man’，而不是‘Batman’或‘manic’等其他的字符串。<br>'^'：指匹配的字符串在行首，<br>'$'：指匹配的字符串在行尾，<br>如果您不习惯命令行参数，可以试试图形界面的‘grep’，如 reXgrep 。这个软件提供 AND、OR、NOT 等语法，还有漂亮的按钮 :-) 。如果您只是需要更清楚的输出，不妨试试 fungrep 。</man></p>
+<p>.grep 搜索字符串<br>命令格式:<br>grep string filename<br>寻找字串的方法很多，比如说我想找所有以M开头的行.此时必须引进pattern的观<br>念.以下是一些简单的□例，以及说明：<br>^M 以M开头的行，^表示开始的意思<br>M$ 以M结尾的行，$表示结束的意思<br>^[0-9] 以数字开始的行，[]内可列举字母<br>^[124ab] 以1,2,4,a,或b开头的行<br>^b.503 句点表示任一字母</p>
+<ul>
+<li>星号表示0个以上的字母(可以没有)</li>
+</ul>
+<ul>
+<li>加号表示1个以上的字母<br>. 斜线可以去掉特殊意义<br><eg> cat passwd | grep ^b 列出大学部有申请帐号者名单<br>cat passwd | grep ^s 列出交换学生申请帐号者名单<br>cat passwd | grep '^b.503' 列出电机系各年级…<br>grep '^.' myfile.txt 列出所有以句点开头的行</eg></li>
+</ul>
+<p>1、查找指定进程</p>
+<p>命令：ps -ef|grep java</p>
+<p>2、查找指定进程个数</p>
+<p>命令：ps -ef|grep -c java</p>
+<p>或ps -ef|grep java -c</p>
+<p>3、从文件中读取关键词进行搜索，默认是显示的是行 </p>
+<p>命令1：cat test.txt | grep -f test2.txt</p>
+<p>命令2（显示行号）：cat test.txt | grep -nf test2.txt</p>
+<p>作用：输出test.txt文件中含有从test2.txt文件中读取出的关键词的内容行，可用于按指定关键词（放到一个文件中）搜索日志文件。</p>
+<p>另一种用法：将多个文件之间相同的行输出来</p>
+<h1 id="cd-x2F-etc-x2F-sysconfig-x2F-network-scripts-x2F"><a href="#cd-x2F-etc-x2F-sysconfig-x2F-network-scripts-x2F" class="headerlink" title="cd /etc/sysconfig/network-scripts/"></a>cd /etc/sysconfig/network-scripts/</h1><h1 id="grep-“IPADDR”-ifcfg-eth0-ifcfg-lo-默认不加参数指定过滤关键字，外加多个文件，只是将多个文件里面有匹配的行输出"><a href="#grep-“IPADDR”-ifcfg-eth0-ifcfg-lo-默认不加参数指定过滤关键字，外加多个文件，只是将多个文件里面有匹配的行输出" class="headerlink" title="grep  “IPADDR” ifcfg-eth0  ifcfg-lo      #默认不加参数指定过滤关键字，外加多个文件，只是将多个文件里面有匹配的行输出"></a>grep  “IPADDR” ifcfg-eth0  ifcfg-lo      #默认不加参数指定过滤关键字，外加多个文件，只是将多个文件里面有匹配的行输出</h1><p>ifcfg-eth0:IPADDR=192.168.1.108</p>
+<p>ifcfg-lo:IPADDR=127.0.0.1</p>
+<h1 id="grep-f-ifcfg-eth0-ifcfg-lo-grep-f-文件1-文件2-会将多个文件之间相同的行输出出来"><a href="#grep-f-ifcfg-eth0-ifcfg-lo-grep-f-文件1-文件2-会将多个文件之间相同的行输出出来" class="headerlink" title="grep -f ifcfg-eth0  ifcfg-lo  #grep -f 文件1 文件2 ,会将多个文件之间相同的行输出出来"></a>grep -f ifcfg-eth0  ifcfg-lo  #grep -f 文件1 文件2 ,会将多个文件之间相同的行输出出来</h1><p>ONBOOT=yes</p>
+<p>-o:只显示被模式匹配到的字符串，而不是整个行</p>
+<p>命令：grep -o “you” ab.log </p>
+<h1 id="grep-“root”-x2F-etc-x2F-passwd-先看下正常的过滤，会将整个一行过滤出来"><a href="#grep-“root”-x2F-etc-x2F-passwd-先看下正常的过滤，会将整个一行过滤出来" class="headerlink" title="grep “root”  /etc/passwd  #先看下正常的过滤，会将整个一行过滤出来"></a>grep “root”  /etc/passwd  #先看下正常的过滤，会将整个一行过滤出来</h1><p>root<span class="github-emoji"><span>❌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>0:0:root:/root:/bin/bash</p>
+<p>operator<span class="github-emoji"><span>❌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>11:0:operator:/root:/sbin/nologin</p>
+<h1 id="grep-o-“root”-x2F-etc-x2F-passwd-加o之后的操作，只过滤关键字出来"><a href="#grep-o-“root”-x2F-etc-x2F-passwd-加o之后的操作，只过滤关键字出来" class="headerlink" title="grep -o “root” /etc/passwd  #加o之后的操作，只过滤关键字出来"></a>grep -o “root” /etc/passwd  #加o之后的操作，只过滤关键字出来</h1><p>root</p>
+<p>root</p>
+<p>root</p>
+<p>root</p>
+<h1 id="grep-o-“root-0”-x2F-etc-x2F-passwd-加上正则表达式，这样才是正确的用法，不用输出一整行，只是输出一小段"><a href="#grep-o-“root-0”-x2F-etc-x2F-passwd-加上正则表达式，这样才是正确的用法，不用输出一整行，只是输出一小段" class="headerlink" title="grep -o “root:.*0” /etc/passwd    #加上正则表达式，这样才是正确的用法，不用输出一整行，只是输出一小段"></a>grep -o “root:.*0” /etc/passwd    #加上正则表达式，这样才是正确的用法，不用输出一整行，只是输出一小段</h1><p>root<span class="github-emoji"><span>❌</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/274c.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>0:0</p>
+<h1 id="grep-o-“root”-b-x2F-etc-x2F-passwd"><a href="#grep-o-“root”-b-x2F-etc-x2F-passwd" class="headerlink" title="grep -o “root” -b   /etc/passwd"></a>grep -o “root” -b   /etc/passwd</h1><p>-b和-o一般是配合使用的，一行中字符串的字符是从该行的第一个字符开始计算，起始值为0。这里左边的数字就是此关键字在此文件中的起始位置，第一个root出现在0位置，然后字符字母有一个算一个，你就一个个的向右数吧，下一个root出现在11位置以此类推。</p>
+<p>0:root</p>
+<p>11:root</p>
+<p>17:root</p>
+<p>414:root</p>
+<p>4、从文件中查找关键词，忽略大小写，默认情况区分大小写</p>
+<p>命令1：grep ‘linux’ test.txt</p>
+<p>命令2（从多个文件中查找）：grep ‘linux’ test.txt test2.txt</p>
+<p>　　多文件时，输出查询到的信息内容行时，会把文件的命名在行最前面输出并且加上”:”作为标示符</p>
+<p>命令3（忽略大小写）：grep -i  ‘linux’ test.txt</p>
+<p>命令：find . -name “.log” | grep -i error | grep -vi “info”</p>
+<p>1）使用find -name 来列出所有log文件，重定向给grep<br>2）使用grep -i 来查找包含error的行<br>3）使用grep -vi 来查找不包含info的行</p>
+<p>5、grep不显示本身</p>
+<p>命令：</p>
+<p>ps aux|grep [s]sh</p>
+<p>ps aux | grep ssh | grep -v “grep”      #不包含grep ssh这条命令</p>
+<p>grep -v root /etc/passwd | grep -v nologin  #将/etc/passwd，将没有出现 root 和nologin的行取出来</p>
+<p>6、-r 递归查找子目录<br> 查找当前目录及其子目录下面包含匹配字符的文件</p>
+<h1 id="grep-‘ab’-在当前目录搜索带’ab’行的文件"><a href="#grep-‘ab’-在当前目录搜索带’ab’行的文件" class="headerlink" title="grep ‘ab’ * #在当前目录搜索带’ab’行的文件"></a>grep ‘ab’ * #在当前目录搜索带’ab’行的文件</h1><h1 id="grep-r-‘ab’-在当前目录及其子目录下搜索’ab’行的文件"><a href="#grep-r-‘ab’-在当前目录及其子目录下搜索’ab’行的文件" class="headerlink" title="grep -r ‘ab’ * #在当前目录及其子目录下搜索’ab’行的文件"></a>grep -r ‘ab’ * #在当前目录及其子目录下搜索’ab’行的文件</h1><h1 id="grep-l-r-‘ab’-在当前目录及其子目录下搜索’ab’行的文件，但是不显示匹配的行，只显示匹配的文件"><a href="#grep-l-r-‘ab’-在当前目录及其子目录下搜索’ab’行的文件，但是不显示匹配的行，只显示匹配的文件" class="headerlink" title="grep -l -r ‘ab’ * #在当前目录及其子目录下搜索’ab’行的文件，但是不显示匹配的行，只显示匹配的文件"></a>grep -l -r ‘ab’ * #在当前目录及其子目录下搜索’ab’行的文件，但是不显示匹配的行，只显示匹配的文件</h1><h1 id="grep-nr-BLOG-查找子目录，匹配后输出行号，这里的点表示当前目录"><a href="#grep-nr-BLOG-查找子目录，匹配后输出行号，这里的点表示当前目录" class="headerlink" title="grep -nr BLOG* . # 查找子目录，匹配后输出行号，这里的点表示当前目录"></a>grep -nr BLOG* . # 查找子目录，匹配后输出行号，这里的点表示当前目录</h1><h1 id="grep-lr-BLOG-查找子目录，匹配后只输出文件名"><a href="#grep-lr-BLOG-查找子目录，匹配后只输出文件名" class="headerlink" title="grep -lr BLOG* . #查找子目录，匹配后只输出文件名"></a>grep -lr BLOG* . #查找子目录，匹配后只输出文件名</h1><p>查询不包含某个目录</p>
+<p>#grep -R –exclude-dir=node_modules ‘some pattern’ /path/to/search   #不包含txt目录 </p>
+<p>7、列出关键字所在行的前几行与后几行也一起显示</p>
+<p>  -A -B -C</p>
+<p>很多时候，我们并关心匹配行而是关心匹配行的上下文。这时候-A -B -C就有用了<br>-A n 后n行，A记忆为(After)<br>-B n 前n行，B记忆为(Before)<br>-C n 前n行，后n行，C记忆为(Center)</p>
+<p>[root@www ~]# dmesg | grep -n -A3 -B2 –color=auto ‘eth’<br>245-PCI: setting IRQ 10 as level-triggered<br>246-ACPI: PCI Interrupt 0000:00:0e.0[A] -&gt; Link [LNKB] …<br>247:eth0: RealTek RTL8139 at 0xee846000, 00:90:cc:a6:34:84, IRQ 10<br>248:eth0: Identified 8139 chip type ‘RTL-8139C’<br>249-input: PC Speaker as /class/input/input2<br>250-ACPI: PCI Interrupt 0000:00:01.4[B] -&gt; Link [LNKB] …<br>251-hdb: ATAPI 48X DVD-ROM DVD-R-RAM CD-R/RW drive, 2048kB Cache, UDMA(66)</p>
+<h1 id="如上所示，你会发现关键字-247-所在的前两行及-248-后三行也都被显示出来！"><a href="#如上所示，你会发现关键字-247-所在的前两行及-248-后三行也都被显示出来！" class="headerlink" title="如上所示，你会发现关键字 247 所在的前两行及 248 后三行也都被显示出来！"></a>如上所示，你会发现关键字 247 所在的前两行及 248 后三行也都被显示出来！</h1><p>8、–line-buffered 打开buffering 模式</p>
+<p>有一个文件是动态的，它不断地添加信息到文件的尾部，而你想要输出包含某些信息的行。即持续的grep一个动态的流</p>
+<p>9、e与E区别</p>
+<p>grep想同时过滤多个条件或操作</p>
+<p>错误写法：</p>
+<h1 id="netstat-an-grep-“ESTABLISHED-WAIT”-默认grep不支持多条件匹配"><a href="#netstat-an-grep-“ESTABLISHED-WAIT”-默认grep不支持多条件匹配" class="headerlink" title="netstat -an|grep “ESTABLISHED|WAIT”      #默认grep不支持多条件匹配"></a>netstat -an|grep “ESTABLISHED|WAIT”      #默认grep不支持多条件匹配</h1><p>正确写法：</p>
+<h1 id="netstat-an-grep-E-“ESTABLISHED-WAIT”-加上-E-多条件用””包起来，然后多条件之间用-管道符分开"><a href="#netstat-an-grep-E-“ESTABLISHED-WAIT”-加上-E-多条件用””包起来，然后多条件之间用-管道符分开" class="headerlink" title="netstat -an|grep -E “ESTABLISHED|WAIT”     #加上-E 多条件用””包起来，然后多条件之间用|管道符分开"></a>netstat -an|grep -E “ESTABLISHED|WAIT”     #加上-E 多条件用””包起来，然后多条件之间用|管道符分开</h1><p>tcp        0     52 192.168.1.108:22            192.168.1.104:54127         ESTABLISHED </p>
+<h1 id="ps-aux-grep-e-udevd-e-master-awk-‘print-NF-1-’-sort-uniq-而-e呢不用””包起来，-e-指定一个匹配条件"><a href="#ps-aux-grep-e-udevd-e-master-awk-‘print-NF-1-’-sort-uniq-而-e呢不用””包起来，-e-指定一个匹配条件" class="headerlink" title="ps -aux|grep -e udevd -e master|awk {‘print $(NF-1)’}|sort|uniq    #而-e呢不用””包起来，-e 指定一个匹配条件"></a>ps -aux|grep -e udevd -e master|awk {‘print $(NF-1)’}|sort|uniq    #而-e呢不用””包起来，-e 指定一个匹配条件</h1><p>/sbin/udevd</p>
+<p>/usr/bin/salt-master</p>
+<p>  grep -E ‘123|abc’ filename  // 找出文件（filename）中包含123或者包含abc的行<br>  egrep ‘123|abc’ filename    // 用egrep同样可以实现<br>  awk ‘/123|abc/‘ filename   // awk 的实现方式</p>
+<p>与操作</p>
+<p> grep pattern1 files | grep pattern2 ：显示既匹配 pattern1 又匹配 pattern2 的行。</p>
+<p>10、-c 统计行数</p>
+<h1 id="grep-i-“abc”-test-txt-wc-l-不分大小写。test-txt里面包含abc过滤条件的为2行"><a href="#grep-i-“abc”-test-txt-wc-l-不分大小写。test-txt里面包含abc过滤条件的为2行" class="headerlink" title="grep -i “abc” test.txt|wc -l  #不分大小写。test.txt里面包含abc过滤条件的为2行"></a>grep -i “abc” test.txt|wc -l  #不分大小写。test.txt里面包含abc过滤条件的为2行</h1><p>2</p>
+<h1 id="grep-yc-“abc”-test-txt-c呢，就是不显示行的内容，直接显示有几行"><a href="#grep-yc-“abc”-test-txt-c呢，就是不显示行的内容，直接显示有几行" class="headerlink" title="grep -yc “abc” test.txt  #-c呢，就是不显示行的内容，直接显示有几行"></a>grep -yc “abc” test.txt  #-c呢，就是不显示行的内容，直接显示有几行</h1><p>2</p>
+<h1 id="cat-x2F-etc-x2F-passwd-wc-l"><a href="#cat-x2F-etc-x2F-passwd-wc-l" class="headerlink" title="cat  /etc/passwd|wc -l"></a>cat  /etc/passwd|wc -l</h1><p>55</p>
+<h1 id="grep-c-“-”-x2F-etc-x2F-passwd-那么我们除了wc-l用来统一一个文件有多少行以外，又多了一种统计文件多少行的方法"><a href="#grep-c-“-”-x2F-etc-x2F-passwd-那么我们除了wc-l用来统一一个文件有多少行以外，又多了一种统计文件多少行的方法" class="headerlink" title="grep  -c “^.*$” /etc/passwd  #那么我们除了wc -l用来统一一个文件有多少行以外，又多了一种统计文件多少行的方法"></a>grep  -c “^.*$” /etc/passwd  #那么我们除了wc -l用来统一一个文件有多少行以外，又多了一种统计文件多少行的方法</h1><p>55</p>
+<p>11、 -m的使用</p>
+<h1 id="cat-test2-txt-这是测试文件"><a href="#cat-test2-txt-这是测试文件" class="headerlink" title="cat test2.txt  #这是测试文件"></a>cat test2.txt  #这是测试文件</h1><p>abc 1</p>
+<p>abc 2</p>
+<p>abc 3</p>
+<p>abc 4</p>
+<p>abc 5</p>
+<h1 id="grep-m-3-“abc”-test2-txt-只匹配到了第三行就退出了"><a href="#grep-m-3-“abc”-test2-txt-只匹配到了第三行就退出了" class="headerlink" title="grep -m 3 “abc” test2.txt  #只匹配到了第三行就退出了"></a>grep -m 3 “abc” test2.txt  #只匹配到了第三行就退出了</h1><p>abc 1</p>
+<p>abc 2</p>
+<p>abc 3</p>
+<p>二、与正则表达式结合</p>
+<p>grep的规则表达式:<br>\     反义字符：如”""“表示匹配””<br>[ - ] 匹配一个范围，[0-9a-zA-Z]匹配所有数字和字母</p>
+<ul>
+<li>所有字符，长度可为0</li>
+</ul>
+<ul>
+<li>前面的字符出现了一次或者多次<br>^  #匹配行的开始 如：’^grep’匹配所有以grep开头的行。</li>
+</ul>
+<p>$  #匹配行的结束 如：’grep$’匹配所有以grep结尾的行。<br>.  #匹配一个非换行符的字符 如：’gr.p’匹配gr后接一个任意字符，然后是p。    </p>
+<ul>
+<li>#匹配零个或多个先前字符 如：’*grep’匹配所有一个或多个空格后紧跟grep的行。</li>
+</ul>
+<p>.*   #一起用代表任意字符。<br>[]   #匹配一个指定范围内的字符，如’[Gg]rep’匹配Grep和grep。<br>[^]  #匹配一个不在指定范围内的字符，如：’[^A-FH-Z]rep’匹配不包含A-R和T-Z的一个字母开头，紧跟rep的行。<br>(..)  #标记匹配字符，如’(love)‘，love被标记为1。<br>&lt;      #到匹配正则表达式的行开始，如:’&lt;grep’匹配包含以grep开头的单词的行。<br>&gt;      #到匹配正则表达式的行结束，如’grep&gt;‘匹配包含以grep结尾的单词的行。<br>x{m}  #重复字符x，m次，如：’0{5}‘匹配包含5个o的行。<br>x{m,}  #重复字符x,至少m次，如：’o{5,}‘匹配至少有5个o的行。<br>x{m,n}  #重复字符x，至少m次，不多于n次，如：’o{5,10}‘匹配5–10个o的行。<br>\w    #匹配文字和数字字符，也就是[A-Za-z0-9]，如：’G\w*p’匹配以G后跟零个或多个文字或数字字符，然后是p。<br>\W    #\w的反置形式，匹配一个或多个非单词字符，如点号句号等。<br>\b    #单词锁定符，如: ‘\bgrep\b’只匹配grep。  </p>
+<p>POSIX字符:<br>为了在不同国家的字符编码中保持一至，POSIX(The Portable Operating System Interface)增加了特殊的字符类，如[:alnum:]是[A-Za-z0-9]的另一个写法。要把它们放到[]号内才能成为正则表达式，如[A- Za-z0-9]或[[:alnum:]]。在linux下的grep除fgrep外，都支持POSIX的字符类。<br>[:alnum:]    #文字数字字符<br>[:alpha:]    #文字字符<br>[:digit:]    #数字字符<br>[:graph:]    #非空字符（非空格、控制字符）<br>[:lower:]    #小写字符<br>[:cntrl:]    #控制字符<br>[:print:]    #非空字符（包括空格）<br>[:punct:]    #标点符号<br>[:space:]    #所有空白字符（新行，空格，制表符）<br>[:upper:]    #大写字符<br>[:xdigit:]   #十六进制数字（0-9，a-f，A-F） </p>
+<p>例：通过管道过滤ls -l输出的内容，只显示以a开头的行。</p>
+<p>首与行尾字节 ^ $，^ 符号，在字符类符号(括号[])之内与之外是不同的！ 在 [] 内代表『反向选择』，在 [] 之外则代表定位在行首的意义！</p>
+<p>$ ls -l | grep '^a'</p>
+<p>$ ls -l | grep  ^a</p>
+<p>$ ls -l | grep  ^[^a]      #输出非a开头的行，反向选择</p>
+<p>$ grep -n ‘^$’ express.txt      #找出空白行，因为只有行首跟行尾 (^$)</p>
+<p>例：显示所有以d开头的文件中包含test的行。</p>
+<p>$ grep 'test' d*</p>
+<p>例：输出以hat结尾的行内容</p>
+<p>$ cat test.txt |grep hat$</p>
+<p>例：显示在aa，bb，cc文件中匹配test的行。</p>
+<p>$ grep 'test' aa bb cc</p>
+<p>例：显示所有包含每个字符串至少有5个连续小写字符的字符串的行。</p>
+<p>在一组集合字节中，如果该字节组是连续的，例如大写英文/小写英文/数字等等，就可以使用[a-z],[A-Z],[0-9]等方式来书写，那么如果我们的要求字串是数字与英文呢？就将他全部写在一起，变成：[a-zA-Z0-9]。</p>
+<p>$ grep '[a-z]{5}' aa</p>
+<p>$ grep -n ‘[0-9]’ regular_express.txt  　　#取得有数字的那一行</p>
+<p>$ grep -n ‘^[a-z]’ regular_express.txt 　　 #只输出开头是小写字母的那一行</p>
+<p>$ grep -n ‘^[^a-zA-Z]’ regular_express.txt   #不输出开头是英文的</p>
+<p>$ grep -n ‘.$’ regular_express.txt   　　　　 #只输出行尾结束为小数点 (.) 的那一行</p>
+<p>注意：小数点具有其他意义，所以必须要使用转义字符()来加以解除其特殊意义！</p>
+<p>例：显示包含ed或者at字符的内容行</p>
+<p>命令：cat test.txt |grep -E “ed|at”</p>
+<p>例：如果west被匹配，则es就被存储到内存中，并标记为1，然后搜索任意个字符（.*），这些字符后面紧跟着另外一个es（1），找到就显示该行。如果用egrep或grep -E，就不用””号进行转义，直接写成'w(es)t.*1'就可以了。</p>
+<p>$ grep 'w(es)t.*1' aa</p>
+<p>例：显示当前目录下面以.txt 结尾的文件中的所有包含每个字符串至少有7个连续小写字符的字符串的行</p>
+<p>命令：grep ‘[a-z]{7}‘ *.txt</p>
+<p>例：查询IP地址、邮箱、手机号</p>
+<p>这里用到了-o和-P命令<br>man grep查看<br>-o, –only-matching：<br>              Show only the part of a matching line that matches PATTERN.<br>-P, –perl-regexp：<br>              Interpret PATTERN as a Perl regular expression.</p>
+<p>也就是说-o，只显示匹配行中匹配正则表达式的那部分，-P，作为Perl正则匹配</p>
+<p>192.168.0.1</p>
+<p><a href="mailto:abc@163.com">abc@163.com</a></p>
+<p>匹配ABC类IP地址即 1.0.0.1—223.255.255.254</p>
+<p>命令（IP）：grep -oP “([0-9]{1,3}.){3}[0-9]{1,3}” file.txt</p>
+<p>或grep -E –color “&lt;([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-1][0-9]|22[0-3]).([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5]).([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5]).([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-4])&gt;“ file.txt</p>
+<p>邮箱是任意长度数字字母@任意长度数字字母</p>
+<p>命令（邮箱）：grep -oP “[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(.[a-zA-Z0-9_-]+)+” file.txt</p>
+<p>手机号码是1[3|4|5|8]后面接9位数字的</p>
+<p>命令（手机号）：grep -E “&lt;1[3|4|5|8][0-9]{9}&gt;“  file.txt</p>
+<p>例：任意一个字节 . 与重复字节 *</p>
+<p>. (小数点)：代表『一定有一个任意字节』的意思；</p>
+<ul>
+<li>(星号)：代表『重复前一个字符， 0 到无穷多次』的意思，为组合形态<br>$ grep -n ‘[0-9][0-9]*’ regular_express.txt     #找出『任意数字』的行</li>
+</ul>
+<p>$ grep -n ‘g.*g’ regular_express.txt       #找出以g行首与行尾的行，当中的字符可有可无</p>
+<p>这个 .* 的 RE 表示任意字符是很常见的.</p>
+<p>例：限定连续 RE 字符范围 {}</p>
+<p>利用 . 与 RE 字符及 * 来配置 0 个到无限多个重复字节</p>
+<p>打算找出两个到五个 o 的连续字串，该如何作？这时候就得要使用到限定范围的字符 {} 了。 但因为 { 与 } 的符号在 shell 是有特殊意义的，因此， 我们必须要使用字符   \ 来让他失去特殊意义才行。 </p>
+<p>$ grep -n ‘o{2}‘ regular_express.txt</p>
+<p>$ grep -n ‘go{2,5}g’ regular_express.txt  #要找出 g 后面接 2 到 5 个 o ，然后再接一个 g 的字串</p>
+<p>$ grep -n ‘go{2,}g’ regular_express.txt    #想要的是 2 个 o 以上的 goooo….g 呢？除了可以是 gooo*g</p>
+<p>NOTE 还有一些衍生命令，比如egrep和fgrep。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/grep/" rel="tag"># grep</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2011/12/27/linux-gtk-text%20copy/" rel="prev" title="undefined reference to GTK_TEXT">
+      <i class="fa fa-chevron-left"></i> undefined reference to GTK_TEXT
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2011/12/27/linux-grep-beginner/" rel="next" title="文件内容搜索利器 - grep">
+      文件内容搜索利器 - grep <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%90%9C%E7%B4%A2%E5%88%A9%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">grep 文件内容搜索利器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E6%97%A0%E5%8F%82%E6%95%B0"><span class="nav-number">1.2.</span> <span class="nav-text">默认无参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="nav-number">1.3.</span> <span class="nav-text">增加文件夹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%90%91%E6%9F%A5%E6%89%BE"><span class="nav-number">1.4.</span> <span class="nav-text">反向查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%8C%BA%E5%88%86%E5%A4%A7%E5%B0%8F%E5%86%99"><span class="nav-number">1.5.</span> <span class="nav-text">不区分大小写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E8%A1%8C%E6%95%B0%EF%BC%8C%E7%B2%BE%E5%87%86%E5%AE%9A%E4%BD%8D"><span class="nav-number">1.6.</span> <span class="nav-text">显示行数，精准定位</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cd-x2F-etc-x2F-sysconfig-x2F-network-scripts-x2F"><span class="nav-number">2.</span> <span class="nav-text">cd &#x2F;etc&#x2F;sysconfig&#x2F;network-scripts&#x2F;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-%E2%80%9CIPADDR%E2%80%9D-ifcfg-eth0-ifcfg-lo-%E9%BB%98%E8%AE%A4%E4%B8%8D%E5%8A%A0%E5%8F%82%E6%95%B0%E6%8C%87%E5%AE%9A%E8%BF%87%E6%BB%A4%E5%85%B3%E9%94%AE%E5%AD%97%EF%BC%8C%E5%A4%96%E5%8A%A0%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6%EF%BC%8C%E5%8F%AA%E6%98%AF%E5%B0%86%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6%E9%87%8C%E9%9D%A2%E6%9C%89%E5%8C%B9%E9%85%8D%E7%9A%84%E8%A1%8C%E8%BE%93%E5%87%BA"><span class="nav-number">3.</span> <span class="nav-text">grep  “IPADDR” ifcfg-eth0  ifcfg-lo      #默认不加参数指定过滤关键字，外加多个文件，只是将多个文件里面有匹配的行输出</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-f-ifcfg-eth0-ifcfg-lo-grep-f-%E6%96%87%E4%BB%B61-%E6%96%87%E4%BB%B62-%E4%BC%9A%E5%B0%86%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%9B%B8%E5%90%8C%E7%9A%84%E8%A1%8C%E8%BE%93%E5%87%BA%E5%87%BA%E6%9D%A5"><span class="nav-number">4.</span> <span class="nav-text">grep -f ifcfg-eth0  ifcfg-lo  #grep -f 文件1 文件2 ,会将多个文件之间相同的行输出出来</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-%E2%80%9Croot%E2%80%9D-x2F-etc-x2F-passwd-%E5%85%88%E7%9C%8B%E4%B8%8B%E6%AD%A3%E5%B8%B8%E7%9A%84%E8%BF%87%E6%BB%A4%EF%BC%8C%E4%BC%9A%E5%B0%86%E6%95%B4%E4%B8%AA%E4%B8%80%E8%A1%8C%E8%BF%87%E6%BB%A4%E5%87%BA%E6%9D%A5"><span class="nav-number">5.</span> <span class="nav-text">grep “root”  &#x2F;etc&#x2F;passwd  #先看下正常的过滤，会将整个一行过滤出来</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-o-%E2%80%9Croot%E2%80%9D-x2F-etc-x2F-passwd-%E5%8A%A0o%E4%B9%8B%E5%90%8E%E7%9A%84%E6%93%8D%E4%BD%9C%EF%BC%8C%E5%8F%AA%E8%BF%87%E6%BB%A4%E5%85%B3%E9%94%AE%E5%AD%97%E5%87%BA%E6%9D%A5"><span class="nav-number">6.</span> <span class="nav-text">grep -o “root” &#x2F;etc&#x2F;passwd  #加o之后的操作，只过滤关键字出来</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-o-%E2%80%9Croot-0%E2%80%9D-x2F-etc-x2F-passwd-%E5%8A%A0%E4%B8%8A%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%8C%E8%BF%99%E6%A0%B7%E6%89%8D%E6%98%AF%E6%AD%A3%E7%A1%AE%E7%9A%84%E7%94%A8%E6%B3%95%EF%BC%8C%E4%B8%8D%E7%94%A8%E8%BE%93%E5%87%BA%E4%B8%80%E6%95%B4%E8%A1%8C%EF%BC%8C%E5%8F%AA%E6%98%AF%E8%BE%93%E5%87%BA%E4%B8%80%E5%B0%8F%E6%AE%B5"><span class="nav-number">7.</span> <span class="nav-text">grep -o “root:.*0” &#x2F;etc&#x2F;passwd    #加上正则表达式，这样才是正确的用法，不用输出一整行，只是输出一小段</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-o-%E2%80%9Croot%E2%80%9D-b-x2F-etc-x2F-passwd"><span class="nav-number">8.</span> <span class="nav-text">grep -o “root” -b   &#x2F;etc&#x2F;passwd</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-%E2%80%98ab%E2%80%99-%E5%9C%A8%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E6%90%9C%E7%B4%A2%E5%B8%A6%E2%80%99ab%E2%80%99%E8%A1%8C%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">9.</span> <span class="nav-text">grep ‘ab’ * #在当前目录搜索带’ab’行的文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-r-%E2%80%98ab%E2%80%99-%E5%9C%A8%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E5%8F%8A%E5%85%B6%E5%AD%90%E7%9B%AE%E5%BD%95%E4%B8%8B%E6%90%9C%E7%B4%A2%E2%80%99ab%E2%80%99%E8%A1%8C%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">10.</span> <span class="nav-text">grep -r ‘ab’ * #在当前目录及其子目录下搜索’ab’行的文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-l-r-%E2%80%98ab%E2%80%99-%E5%9C%A8%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E5%8F%8A%E5%85%B6%E5%AD%90%E7%9B%AE%E5%BD%95%E4%B8%8B%E6%90%9C%E7%B4%A2%E2%80%99ab%E2%80%99%E8%A1%8C%E7%9A%84%E6%96%87%E4%BB%B6%EF%BC%8C%E4%BD%86%E6%98%AF%E4%B8%8D%E6%98%BE%E7%A4%BA%E5%8C%B9%E9%85%8D%E7%9A%84%E8%A1%8C%EF%BC%8C%E5%8F%AA%E6%98%BE%E7%A4%BA%E5%8C%B9%E9%85%8D%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">11.</span> <span class="nav-text">grep -l -r ‘ab’ * #在当前目录及其子目录下搜索’ab’行的文件，但是不显示匹配的行，只显示匹配的文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-nr-BLOG-%E6%9F%A5%E6%89%BE%E5%AD%90%E7%9B%AE%E5%BD%95%EF%BC%8C%E5%8C%B9%E9%85%8D%E5%90%8E%E8%BE%93%E5%87%BA%E8%A1%8C%E5%8F%B7%EF%BC%8C%E8%BF%99%E9%87%8C%E7%9A%84%E7%82%B9%E8%A1%A8%E7%A4%BA%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95"><span class="nav-number">12.</span> <span class="nav-text">grep -nr BLOG* . # 查找子目录，匹配后输出行号，这里的点表示当前目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-lr-BLOG-%E6%9F%A5%E6%89%BE%E5%AD%90%E7%9B%AE%E5%BD%95%EF%BC%8C%E5%8C%B9%E9%85%8D%E5%90%8E%E5%8F%AA%E8%BE%93%E5%87%BA%E6%96%87%E4%BB%B6%E5%90%8D"><span class="nav-number">13.</span> <span class="nav-text">grep -lr BLOG* . #查找子目录，匹配后只输出文件名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%B8%8A%E6%89%80%E7%A4%BA%EF%BC%8C%E4%BD%A0%E4%BC%9A%E5%8F%91%E7%8E%B0%E5%85%B3%E9%94%AE%E5%AD%97-247-%E6%89%80%E5%9C%A8%E7%9A%84%E5%89%8D%E4%B8%A4%E8%A1%8C%E5%8F%8A-248-%E5%90%8E%E4%B8%89%E8%A1%8C%E4%B9%9F%E9%83%BD%E8%A2%AB%E6%98%BE%E7%A4%BA%E5%87%BA%E6%9D%A5%EF%BC%81"><span class="nav-number">14.</span> <span class="nav-text">如上所示，你会发现关键字 247 所在的前两行及 248 后三行也都被显示出来！</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#netstat-an-grep-%E2%80%9CESTABLISHED-WAIT%E2%80%9D-%E9%BB%98%E8%AE%A4grep%E4%B8%8D%E6%94%AF%E6%8C%81%E5%A4%9A%E6%9D%A1%E4%BB%B6%E5%8C%B9%E9%85%8D"><span class="nav-number">15.</span> <span class="nav-text">netstat -an|grep “ESTABLISHED|WAIT”      #默认grep不支持多条件匹配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#netstat-an-grep-E-%E2%80%9CESTABLISHED-WAIT%E2%80%9D-%E5%8A%A0%E4%B8%8A-E-%E5%A4%9A%E6%9D%A1%E4%BB%B6%E7%94%A8%E2%80%9D%E2%80%9D%E5%8C%85%E8%B5%B7%E6%9D%A5%EF%BC%8C%E7%84%B6%E5%90%8E%E5%A4%9A%E6%9D%A1%E4%BB%B6%E4%B9%8B%E9%97%B4%E7%94%A8-%E7%AE%A1%E9%81%93%E7%AC%A6%E5%88%86%E5%BC%80"><span class="nav-number">16.</span> <span class="nav-text">netstat -an|grep -E “ESTABLISHED|WAIT”     #加上-E 多条件用””包起来，然后多条件之间用|管道符分开</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ps-aux-grep-e-udevd-e-master-awk-%E2%80%98print-NF-1-%E2%80%99-sort-uniq-%E8%80%8C-e%E5%91%A2%E4%B8%8D%E7%94%A8%E2%80%9D%E2%80%9D%E5%8C%85%E8%B5%B7%E6%9D%A5%EF%BC%8C-e-%E6%8C%87%E5%AE%9A%E4%B8%80%E4%B8%AA%E5%8C%B9%E9%85%8D%E6%9D%A1%E4%BB%B6"><span class="nav-number">17.</span> <span class="nav-text">ps -aux|grep -e udevd -e master|awk {‘print $(NF-1)’}|sort|uniq    #而-e呢不用””包起来，-e 指定一个匹配条件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-i-%E2%80%9Cabc%E2%80%9D-test-txt-wc-l-%E4%B8%8D%E5%88%86%E5%A4%A7%E5%B0%8F%E5%86%99%E3%80%82test-txt%E9%87%8C%E9%9D%A2%E5%8C%85%E5%90%ABabc%E8%BF%87%E6%BB%A4%E6%9D%A1%E4%BB%B6%E7%9A%84%E4%B8%BA2%E8%A1%8C"><span class="nav-number">18.</span> <span class="nav-text">grep -i “abc” test.txt|wc -l  #不分大小写。test.txt里面包含abc过滤条件的为2行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-yc-%E2%80%9Cabc%E2%80%9D-test-txt-c%E5%91%A2%EF%BC%8C%E5%B0%B1%E6%98%AF%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%A1%8C%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%8C%E7%9B%B4%E6%8E%A5%E6%98%BE%E7%A4%BA%E6%9C%89%E5%87%A0%E8%A1%8C"><span class="nav-number">19.</span> <span class="nav-text">grep -yc “abc” test.txt  #-c呢，就是不显示行的内容，直接显示有几行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cat-x2F-etc-x2F-passwd-wc-l"><span class="nav-number">20.</span> <span class="nav-text">cat  &#x2F;etc&#x2F;passwd|wc -l</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-c-%E2%80%9C-%E2%80%9D-x2F-etc-x2F-passwd-%E9%82%A3%E4%B9%88%E6%88%91%E4%BB%AC%E9%99%A4%E4%BA%86wc-l%E7%94%A8%E6%9D%A5%E7%BB%9F%E4%B8%80%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E6%9C%89%E5%A4%9A%E5%B0%91%E8%A1%8C%E4%BB%A5%E5%A4%96%EF%BC%8C%E5%8F%88%E5%A4%9A%E4%BA%86%E4%B8%80%E7%A7%8D%E7%BB%9F%E8%AE%A1%E6%96%87%E4%BB%B6%E5%A4%9A%E5%B0%91%E8%A1%8C%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">21.</span> <span class="nav-text">grep  -c “^.*$” &#x2F;etc&#x2F;passwd  #那么我们除了wc -l用来统一一个文件有多少行以外，又多了一种统计文件多少行的方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cat-test2-txt-%E8%BF%99%E6%98%AF%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6"><span class="nav-number">22.</span> <span class="nav-text">cat test2.txt  #这是测试文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#grep-m-3-%E2%80%9Cabc%E2%80%9D-test2-txt-%E5%8F%AA%E5%8C%B9%E9%85%8D%E5%88%B0%E4%BA%86%E7%AC%AC%E4%B8%89%E8%A1%8C%E5%B0%B1%E9%80%80%E5%87%BA%E4%BA%86"><span class="nav-number">23.</span> <span class="nav-text">grep -m 3 “abc” test2.txt  #只匹配到了第三行就退出了</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2011/12/27/linux-grep/";
+    this.page.identifier = "2011/12/27/linux-grep/";
+    this.page.title = "Linux的 grep 命令";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

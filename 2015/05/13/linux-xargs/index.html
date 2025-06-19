@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Linux xargs命令xargs是一个非常非常强大的命令，是eXtended ARGuments的缩写，可以取一个命令的输出作为另一个命令的参数。 默认的用法为初始化输入字符，加上一些参数就能达到超级赞的效果（这里说的参数一般是和管道一起使用）。 官方定义为：  xargs - build and execute command lines from standard input  含义为从标">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux xargs 命令">
+<meta property="og:url" content="http://shaoguangleo.github.io/2015/05/13/linux-xargs/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="Linux xargs命令xargs是一个非常非常强大的命令，是eXtended ARGuments的缩写，可以取一个命令的输出作为另一个命令的参数。 默认的用法为初始化输入字符，加上一些参数就能达到超级赞的效果（这里说的参数一般是和管道一起使用）。 官方定义为：  xargs - build and execute command lines from standard input  含义为从标">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-05-13T14:14:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.906Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="shell">
+<meta property="article:tag" content="xargs">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2015/05/13/linux-xargs/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux xargs 命令 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2015/05/13/linux-xargs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux xargs 命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-05-13 22:14:00" itemprop="dateCreated datePublished" datetime="2015-05-13T22:14:00+08:00">2015-05-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Shell/" itemprop="url" rel="index"><span itemprop="name">Shell</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2015/05/13/linux-xargs/" class="post-meta-item leancloud_visitors" data-flag-title="Linux xargs 命令" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2015/05/13/linux-xargs/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/05/13/linux-xargs/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2015/05/13/linux-xargs/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2015/05/13/linux-xargs/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Linux-xargs命令"><a href="#Linux-xargs命令" class="headerlink" title="Linux xargs命令"></a>Linux xargs命令</h1><p><code>xargs</code>是一个非常非常强大的命令，是<u>eXtended ARGuments</u>的缩写，可以取一个命令的输出作为另一个命令的参数。</p>
+<p>默认的用法为初始化输入字符，加上一些参数就能达到超级赞的效果（这里说的参数一般是和管道一起使用）。</p>
+<p>官方定义为：</p>
+<blockquote>
+<p>xargs - build and execute command lines from standard input</p>
+</blockquote>
+<p>含义为从标准输入构建和执行命令。</p>
+<p>用法为：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ xargs [options] [<span class="built_in">command</span> [initial-arguments]]</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>常用参数为：</p>
+<ul>
+<li><code>-n max-args</code>,<code> --max-args=max-args</code> ：后面加次数，表示命令在执行的时候一次用的argument的个数，默认是用所有的</li>
+<li><code>--delimiter=delim</code>, <code>-d delim</code> ：默认的分隔符是回车，这里重定义了分隔符修改的是xargs的分隔符。</li>
+</ul>
+<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><p>读取输入数据重新格式化后输出。比如一个测试文件，内容如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> test.txt</span><br><span class="line"></span><br><span class="line">h e l l o w o r l d</span><br><span class="line"></span><br><span class="line">H O W A R E Y O U</span><br></pre></td></tr></tbody></table></figure>
+
+<p>现在我们单行输出：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> test.txt | xargs</span><br><span class="line"></span><br><span class="line">h e l l o w o r l d H O W A R E Y O U</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="指定输出几个字符"><a href="#指定输出几个字符" class="headerlink" title="指定输出几个字符"></a>指定输出几个字符</h2><p>也可以使用参数-n指定一行输出几个字符，比如</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> test.txt | xargs -n3</span><br><span class="line"></span><br><span class="line">h e l</span><br><span class="line">l o w</span><br><span class="line">o r l</span><br><span class="line">d H O </span><br><span class="line">W A R </span><br><span class="line">E Y O</span><br><span class="line">U</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>这对于对仗的唐诗是个绝佳的选择，比如五言绝句。</p>
+</blockquote>
+<h2 id="指定分界符"><a href="#指定分界符" class="headerlink" title="指定分界符"></a>指定分界符</h2><p>使用<code>-d</code>参数可以指定定界符：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">"name1,name2,name3,name4"</span> | xargs -d,</span><br><span class="line"></span><br><span class="line">name1 name2 name3 name4</span><br></pre></td></tr></tbody></table></figure>
+
+<p>可以认为简单快捷地初步解析了CSV格式的数据了。</p>
+<p>同上，配合上-n选项，可以指定每行输出几项</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">"name1,name2,name3,name4"</span> | xargs -d, -n2</span><br><span class="line"></span><br><span class="line">name1 name2</span><br><span class="line">name3 name4</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="结合管道的简单使用"><a href="#结合管道的简单使用" class="headerlink" title="结合管道的简单使用"></a>结合管道的简单使用</h2><p>前面说了很强大，到底如何强大呢，加入你有一个文件夹photo，里面有几百个文件夹，可能还有各种文件，其中有一些jpg后缀的特别想保存，怎么办，一个命令搞定。</p>
+<p>接下来这个命令就是找出所有的.jpg格式的图片，并将其打包归档。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /the/path/of/photo -name *.jpg -<span class="built_in">type</span> f -<span class="built_in">print</span> | xargs tar -cvzf images.tar.gz</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>其他的强大组合，以后再续。</p>
+<p>获得/etc下所有以.conf结尾的文件。<br>可以有多种方法获得如下结果。<br>以下命令仅仅为了帮助大家理解如何使用xargs.find命令的输入结果一个接一个的传递给xargs，作为ls -l的参数。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">find /etc -name <span class="string">"*.conf"</span> | xargs <span class="built_in">ls</span> –l</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>当你想下载一些URL，这些URL都保存在一个文件里，你可以以如下的方式使用xargs命令</p>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$</span> <span class="built_in">cat</span> url<span class="literal">-list</span>.txt | xargs <span class="built_in">wget</span> –c</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+<h1 id="Linux-xargs-命令"><a href="#Linux-xargs-命令" class="headerlink" title="Linux xargs 命令"></a>Linux xargs 命令</h1><p>xargs（英文全拼： eXtended ARGuments）是给命令传递参数的一个过滤器，也是组合多个命令的一个工具。</p>
+<p>xargs 可以将管道或标准输入（stdin）数据转换成命令行参数，也能够从文件的输出中读取数据。</p>
+<p>xargs 也可以将单行或多行文本输入转换为其他格式，例如多行变单行，单行变多行。</p>
+<p>xargs 默认的命令是 echo，这意味着通过管道传递给 xargs 的输入将会包含换行和空白，不过通过 xargs 的处理，换行和空白将被空格取代。</p>
+<p>xargs 是一个强有力的命令，它能够捕获一个命令的输出，然后传递给另外一个命令。</p>
+<p>之所以能用到这个命令，关键是由于很多命令不支持|管道来传递参数，而日常工作中有有这个必要，所以就有了 xargs 命令，例如：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find /sbin -perm +700 |<span class="built_in">ls</span> -l       <span class="comment">#这个命令是错误的</span></span><br><span class="line">find /sbin -perm +700 |xargs <span class="built_in">ls</span> -l   <span class="comment">#这样才是正确的</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p><strong>命令格式：</strong></p>
+<figure class="highlight livecodeserver"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">somecommand |xargs -<span class="keyword">item</span>  <span class="keyword">command</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>参数：</strong></p>
+<ul>
+<li>-a file 从文件中读入作为 stdin</li>
+<li>-e flag ，注意有的时候可能会是-E，flag必须是一个以空格分隔的标志，当xargs分析到含有flag这个标志的时候就停止。</li>
+<li>-p 当每次执行一个argument的时候询问一次用户。</li>
+<li>-t 表示先打印命令，然后再执行。</li>
+<li>-i 或者是-I，这得看linux支持了，将xargs的每项名称，一般是一行一行赋值给 {}，可以用 {} 代替。</li>
+<li>-r no-run-if-empty 当xargs的输入为空的时候则停止xargs，不用再去执行了。</li>
+<li>-s num 命令行的最大字符数，指的是 xargs 后面那个命令的最大命令行字符数。</li>
+<li>-L num 从标准输入一次读取 num 行送给 command 命令。</li>
+<li>-l 同 -L。</li>
+<li>-x exit的意思，主要是配合-s使用。。</li>
+<li>-P 修改最大的进程数，默认是1，为0时候为as many as it can ，这个例子我没有想到，应该平时都用不到的吧。</li>
+</ul>
+<p>假设一个命令为 sk.sh 和一个保存参数的文件 arg.txt：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment">#sk.sh命令内容，打印出所有参数。</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> $*</span><br></pre></td></tr></tbody></table></figure>
+
+<p>arg.txt文件内容：</p>
+<figure class="highlight mipsasm"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat arg.txt</span></span><br><span class="line"></span><br><span class="line">aaa</span><br><span class="line"><span class="keyword">bbb</span></span><br><span class="line"><span class="keyword"></span>ccc</span><br></pre></td></tr></tbody></table></figure>
+
+<p>xargs 的一个选项 -I，使用 -I 指定一个替换字符串 {}，这个字符串在 xargs 扩展时会被替换掉，当 -I 与 xargs 结合使用，每一个参数命令都会被执行一次：</p>
+<figure class="highlight ldif"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat arg.txt | xargs -I {} ./sk.sh -p {} -l</span></span><br><span class="line"></span><br><span class="line"><span class="literal">-</span>p aaa -l</span><br><span class="line"><span class="literal">-</span>p bbb -l</span><br><span class="line"><span class="literal">-</span>p ccc -l</span><br></pre></td></tr></tbody></table></figure>
+
+<p>复制所有图片文件到 /data/images 目录下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> *.jpg | xargs -n1 -I {} <span class="built_in">cp</span> {} /data/images</span><br></pre></td></tr></tbody></table></figure>
+
+<p>xargs 结合 find 使用</p>
+<p>用 rm 删除太多的文件时候，可能得到一个错误信息：**/bin/rm Argument list too long.** 用 xargs 去避免这个问题：</p>
+<figure class="highlight ada"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -<span class="keyword">type</span> <span class="type">f </span>-name <span class="string">"*.log"</span> -print0 | xargs -<span class="number">0</span> rm -f</span><br></pre></td></tr></tbody></table></figure>
+
+<p>xargs -0 将 \0 作为定界符。</p>
+<p>统计一个源代码目录中所有 php 文件的行数：</p>
+<figure class="highlight ada"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -<span class="keyword">type</span> <span class="type">f </span>-name <span class="string">"*.php"</span> -print0 | xargs -<span class="number">0</span> wc -l</span><br></pre></td></tr></tbody></table></figure>
+
+<p>查找所有的 jpg 文件，并且压缩它们：</p>
+<figure class="highlight routeros"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">find</span> . -type f -name <span class="string">"*.jpg"</span> -<span class="built_in">print</span> | xargs tar -czvf images.tar.gz</span><br></pre></td></tr></tbody></table></figure>
+
+<p>xargs 其他应用</p>
+<p>假如你有一个文件包含了很多你希望下载的 URL，你能够使用 xargs下载所有链接：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">cat</span> url-list.txt | xargs wget -c</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<p>DESCRIPTION<br>       This manual page documents the GNU version of xargs.  xargs reads items from the standard input, delimited by blanks (which can be pro‐<br>       tected with double or single quotes or a backslash) or newlines, and executes the command (default is /bin/echo) one or more times with<br>       any initial-arguments followed by items read from standard input.  Blank lines on the standard input are ignored.</p>
+<pre><code>   The  command  line for command is built up until it reaches a system-defined limit (unless the -n and -L options are used).  The speci‐
+   fied command will be invoked as many times as necessary to use up the list of input items.  In general, there will be many fewer  invo‐
+   cations  of  command  than there were items in the input.  This will normally have significant performance benefits.  Some commands can
+   usefully be executed in parallel too; see the -P option.
+
+   Because Unix filenames can contain blanks and newlines, this default behaviour is often problematic; filenames containing blanks and/or
+   newlines  are  incorrectly  processed  by  xargs.  In these situations it is better to use the -0 option, which prevents such problems.
+   When using this option you will need to ensure that the program which produces the input for xargs also uses a null character as a sep‐
+   arator.  If that program is GNU find for example, the -print0 option does this for you.
+
+   If  any  invocation of the command exits with a status of 255, xargs will stop immediately without reading any further input.  An error
+   message is issued on stderr when this happens.
+</code></pre>
+<p>OPTIONS<br>       -0, –null<br>              Input items are terminated by a null character instead of by whitespace, and the quotes and backslash  are  not  special  (every<br>              character  is  taken  literally).  Disables the end of file string, which is treated like any other argument.  Useful when input<br>              items might contain white space, quote marks, or backslashes.  The GNU find -print0 option  produces  input  suitable  for  this<br>              mode.</p>
+<pre><code>   -a file, --arg-file=file
+          Read  items from file instead of standard input.  If you use this option, stdin remains unchanged when commands are run.  Other‐
+          wise, stdin is redirected from /dev/null.
+
+
+
+   -E eof-str
+          Set  the  end of file string to eof-str.  If the end of file string occurs as a line of input, the rest of the input is ignored.
+          If neither -E nor -e is used, no end of file string is used.
+
+   -e[eof-str], --eof[=eof-str]
+          This option is a synonym for the -E option.  Use -E instead, because it is POSIX compliant while this option is not.  If eof-str
+          is omitted, there is no end of file string.  If neither -E nor -e is used, no end of file string is used.
+
+   -I replace-str
+          Replace  occurrences  of replace-str in the initial-arguments with names read from standard input.  Also, unquoted blanks do not
+          terminate input items; instead the separator is the newline character.  Implies -x and -L 1.
+
+   -i[replace-str], --replace[=replace-str]
+          This option is a synonym for -Ireplace-str if replace-str is specified.  If the replace-str argument is missing, the  effect  is
+          the same as -I{}.  This option is deprecated; use -I instead.
+
+   -L max-lines
+          Use  at  most max-lines nonblank input lines per command line.  Trailing blanks cause an input line to be logically continued on
+          the next input line.  Implies -x.
+
+   -l[max-lines], --max-lines[=max-lines]
+          Synonym for the -L option.  Unlike -L, the max-lines argument is optional.  If max-lines is not specified, it defaults  to  one.
+          The -l option is deprecated since the POSIX standard specifies -L instead.
+
+
+   -P max-procs, --max-procs=max-procs
+          Run up to max-procs processes at a time; the default is 1.  If max-procs is 0, xargs will run as many processes as possible at a
+          time.   Use  the -n option or the -L option with -P; otherwise chances are that only one exec will be done.  While xargs is run‐
+          ning, you can send its process a SIGUSR1 signal to increase the number of commands to run simultaneously, or a  SIGUSR2  to  de‐
+          crease  the number.  You cannot increase it above an implementation-defined limit (which is shown with --show-limits).  You can‐
+          not decrease it below 1.  xargs never terminates its commands; when asked to decrease, it merely waits for more than one  exist‐
+          ing command to terminate before starting another.
+
+          Please  note that it is up to the called processes to properly manage parallel access to shared resources.  For example, if more
+          than one of them tries to print to stdout, the output will be produced in an indeterminate order (and very likely mixed up)  un‐
+          less  the processes collaborate in some way to prevent this.  Using some kind of locking scheme is one way to prevent such prob‐
+          lems.  In general, using a locking scheme will help ensure correct output but reduce performance.  If you don't want to tolerate
+          the  performance  difference,  simply  arrange for each process to produce a separate output file (or otherwise use separate re‐
+          sources).
+
+   -o, --open-tty
+          Reopen stdin as /dev/tty in the child process before executing the command.  This is useful if you want xargs to run an interac‐
+          tive application.
+
+   -p, --interactive
+          Prompt  the user about whether to run each command line and read a line from the terminal.  Only run the command line if the re‐
+          sponse starts with `y' or `Y'.  Implies -t.
+
+   --process-slot-var=name
+          Set the environment variable name to a unique value in each running child process.  Values are reused once child processes exit.
+          This can be used in a rudimentary load distribution scheme, for example.
+
+   -r, --no-run-if-empty
+          If  the  standard input does not contain any nonblanks, do not run the command.  Normally, the command is run once even if there
+          is no input.  This option is a GNU extension.
+
+   -s max-chars, --max-chars=max-chars
+          Use at most max-chars characters per command line, including the command and initial-arguments and the terminating nulls at  the
+          ends of the argument strings.  The largest allowed value is system-dependent, and is calculated as the argument length limit for
+          exec, less the size of your environment, less 2048 bytes of headroom.  If this value is more than 128KiB, 128Kib is used as  the
+          default  value;  otherwise,  the  default value is the maximum.  1KiB is 1024 bytes.  xargs automatically adapts to tighter con‐
+          straints.
+
+   --show-limits
+          Display the limits on the command-line length which are imposed by the operating system, xargs' choice of buffer size and the -s
+          option.  Pipe the input from /dev/null (and perhaps specify --no-run-if-empty) if you don't want xargs to do anything.
+
+   -t, --verbose
+          Print the command line on the standard error output before executing it.
+
+   -x, --exit
+          Exit if the size (see the -s option) is exceeded.
+
+   --help Print a summary of the options to xargs and exit.
+
+   --version
+          Print the version number of xargs and exit.
+</code></pre>
+<p>EXAMPLES<br>       find /tmp -name core -type f -print | xargs /bin/rm -f</p>
+<pre><code>   Find  files named core in or below the directory /tmp and delete them.  Note that this will work incorrectly if there are any filenames
+   containing newlines or spaces.
+
+   find /tmp -name core -type f -print0 | xargs -0 /bin/rm -f
+
+   Find files named core in or below the directory /tmp and delete them, processing filenames in such a way that file or  directory  names
+   containing spaces or newlines are correctly handled.
+
+   find /tmp -depth -name core -type f -delete
+
+   Find  files  named  core  in or below the directory /tmp and delete them, but more efficiently than in the previous example (because we
+   avoid the need to use fork(2) and exec(2) to launch rm and we don't need the extra xargs process).
+
+   cut -d: -f1 &lt; /etc/passwd | sort | xargs echo
+
+   Generates a compact listing of all the users on the system.
+</code></pre>
+<p>EXIT STATUS<br>       xargs exits with the following status:<br>       0 if it succeeds<br>       123 if any invocation of the command exited with status 1-125<br>       124 if the command exited with status 255<br>       125 if the command is killed by a signal<br>       126 if the command cannot be run<br>       127 if the command is not found<br>       1 if some other error occurred.</p>
+<pre><code>   Exit codes greater than 128 are used by the shell to indicate that a program died due to a fatal signal.
+</code></pre>
+<p>STANDARDS CONFORMANCE<br>       As of GNU xargs version 4.2.9, the default behaviour of xargs is not to have a logical end-of-file marker.   POSIX  (IEEE  Std  1003.1,<br>       2004 Edition) allows this.</p>
+<pre><code>   The  -l and -i options appear in the 1997 version of the POSIX standard, but do not appear in the 2004 version of the standard.  There‐
+   fore you should use -L and -I instead, respectively.
+
+   The -o option is an extension to the POSIX standard for better compatibility with BSD.
+
+   The POSIX standard allows implementations to have a limit on the size of arguments to the exec functions.  This limit could be  as  low
+   as  4096  bytes  including  the size of the environment.  For scripts to be portable, they must not rely on a larger value.  However, I
+   know of no implementation whose actual limit is that small.  The --show-limits option can be used to  discover  the  actual  limits  in
+   force on the current system.
+</code></pre>
+<p>SEE ALSO<br>       find(1), locate(1), locatedb(5), updatedb(1), fork(2), execvp(3), kill(1), signal(7),</p>
+<pre><code>   The   full  documentation  for  xargs is maintained as a Texinfo manual.  If the info and xargs programs are properly installed at your
+   site, the command info xargs should give you access to the complete manual.
+</code></pre>
+<p>COPYRIGHT<br>       Copyright © 1990-2019 Free Software Foundation, Inc.  License GPLv3+: GNU GPL version 3 or later <a href="https://gnu.org/licenses/gpl.html">https://gnu.org/licenses/gpl.html</a>.<br>       This is free software: you are free to change and redistribute it.  There is NO WARRANTY, to the extent permitted by law.</p>
+<p>BUGS<br>       The -L option is incompatible with the -I option, but perhaps should not be.</p>
+<pre><code>   It is not possible for xargs to be used securely, since there will always be a time gap between the production of  the  list  of  input
+   files  and  their  use in the commands that xargs issues.  If other users have access to the system, they can manipulate the filesystem
+   during this time window to force the action of the commands xargs runs to apply to files that you didn't intend.  For a  more  detailed
+   discussion  of  this  and related problems, please refer to the ``Security Considerations'' chapter in the findutils Texinfo documenta‐
+   tion.  The -execdir option of find can often be used as a more secure alternative.
+
+   When you use the -I option, each line read from the input is buffered internally.   This means that there is  an  upper  limit  on  the
+   length of input line that xargs will accept when used with the -I option.  To work around this limitation, you can use the -s option to
+   increase the amount of buffer space that xargs uses, and you can also use an extra invocation of xargs to ensure that very  long  lines
+   do not occur.  For example:
+
+   somecommand | xargs -s 50000 echo | xargs -I '{}' -s 100000 rm '{}'
+
+   Here,  the  first  invocation  of  xargs has no input line length limit because it doesn't use the -i option.  The second invocation of
+   xargs does have such a limit, but we have ensured that the it never encounters a line which is longer than it can handle.   This is not
+   an ideal solution.  Instead, the -i option should not impose a line length limit, which is why this discussion appears in the BUGS sec‐
+   tion.  The problem doesn't occur with the output of find(1) because it emits just one filename per line.
+
+   The best way to report a bug is to use the form at https://savannah.gnu.org/bugs/?group=findutils.  The reason for  this  is  that  you
+   will  then  be able to track progress in fixing the problem.   Other comments about xargs(1) and about the findutils package in general
+   can be sent to the bug-findutils mailing list.  To join the list, send email to bug-findutils-request@gnu.org.
+
+                                                                                                                                  XARGS(1)
+</code></pre>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/shell/" rel="tag"># shell</a>
+              <a href="/tags/xargs/" rel="tag"># xargs</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/05/07/linux-debian-utc-setting/" rel="prev" title="Linux Debian 时区设定">
+      <i class="fa fa-chevron-left"></i> Linux Debian 时区设定
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2015/05/13/linux-xargs-beginner/" rel="next" title="Linux xargs 命令">
+      Linux xargs 命令 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-xargs%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">Linux xargs命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E8%BE%93%E5%87%BA%E5%87%A0%E4%B8%AA%E5%AD%97%E7%AC%A6"><span class="nav-number">1.2.</span> <span class="nav-text">指定输出几个字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E5%88%86%E7%95%8C%E7%AC%A6"><span class="nav-number">1.3.</span> <span class="nav-text">指定分界符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E5%90%88%E7%AE%A1%E9%81%93%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="nav-number">1.4.</span> <span class="nav-text">结合管道的简单使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-xargs-%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">Linux xargs 命令</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2015/05/13/linux-xargs/";
+    this.page.identifier = "2015/05/13/linux-xargs/";
+    this.page.title = "Linux xargs 命令";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

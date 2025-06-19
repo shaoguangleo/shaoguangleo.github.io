@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="DiFX 示例教程一些基础要求需要掌握一些基础的 Linux &#x2F; Unix 和 bash shell的内容。 另外一些基本的文本编辑知识也很必要，比如使用vim来编辑文件。 在演示中使用的程序基本都具有内置的帮助信息，可以通过在命令行中使用 -h 选项运行来访问。 例如： 123456789101112131415161718192021222324252627282930313233343536">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DiFX 2016 IVS school 练习">
+<meta property="og:url" content="http://shaoguangleo.github.io/2023/03/30/difx-ivs2016/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="DiFX 示例教程一些基础要求需要掌握一些基础的 Linux &#x2F; Unix 和 bash shell的内容。 另外一些基本的文本编辑知识也很必要，比如使用vim来编辑文件。 在演示中使用的程序基本都具有内置的帮助信息，可以通过在命令行中使用 -h 选项运行来访问。 例如： 123456789101112131415161718192021222324252627282930313233343536">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-30T14:28:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.712Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="difx">
+<meta property="article:tag" content="dokuwiki">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2023/03/30/difx-ivs2016/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>DiFX 2016 IVS school 练习 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2023/03/30/difx-ivs2016/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DiFX 2016 IVS school 练习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-30 22:28:00" itemprop="dateCreated datePublished" datetime="2023-03-30T22:28:00+08:00">2023-03-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DiFX/" itemprop="url" rel="index"><span itemprop="name">DiFX</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2023/03/30/difx-ivs2016/" class="post-meta-item leancloud_visitors" data-flag-title="DiFX 2016 IVS school 练习" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2023/03/30/difx-ivs2016/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/03/30/difx-ivs2016/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/03/30/difx-ivs2016/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/03/30/difx-ivs2016/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="DiFX-示例教程"><a href="#DiFX-示例教程" class="headerlink" title="DiFX 示例教程"></a>DiFX 示例教程</h1><h2 id="一些基础要求"><a href="#一些基础要求" class="headerlink" title="一些基础要求"></a>一些基础要求</h2><p>需要掌握一些基础的 Linux / Unix 和 bash shell的内容。</p>
+<p>另外一些基本的文本编辑知识也很必要，比如使用vim来编辑文件。</p>
+<p>在演示中使用的程序基本都具有内置的帮助信息，可以通过在命令行中使用 <code>-h</code> 选项运行来访问。 例如：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br></pre></td><td class="code"><pre><span class="line">$ vex2difx -h</span><br><span class="line"></span><br><span class="line">vex2difx version 3.1.0  Walter Brisken/Adam Deller 20221115</span><br><span class="line"></span><br><span class="line">Usage:  vex2difx [&lt;options&gt;] &lt;v2d file&gt;</span><br><span class="line"></span><br><span class="line">  &lt;options&gt; can include:</span><br><span class="line">     -h</span><br><span class="line">     --<span class="built_in">help</span>        display this information and quit.</span><br><span class="line"></span><br><span class="line">     -v</span><br><span class="line">     --verbose     increase the verbosity of the output; -v -v <span class="keyword">for</span> more.</span><br><span class="line"></span><br><span class="line">     -o</span><br><span class="line">     --output      create a v2d file with all defaults populated.</span><br><span class="line"></span><br><span class="line">     -d</span><br><span class="line">     --delete-old  delete all job(s) <span class="keyword">in</span> this series before running.</span><br><span class="line"></span><br><span class="line">     -f</span><br><span class="line">     --force       <span class="built_in">continue</span> desipte warnings.</span><br><span class="line"></span><br><span class="line">     -s</span><br><span class="line">     --strict      treat some warnings as errors and quit [default].</span><br><span class="line"></span><br><span class="line">     -6</span><br><span class="line">     --mk6         call mk62v2d utility to generate mark6 related files</span><br><span class="line"></span><br><span class="line">  &lt;v2d file&gt; is the vex2difx configuration file to process.</span><br><span class="line"></span><br><span class="line">$ difx2fits -h</span><br><span class="line">difx2fits ver. 3.8.0   Walter Brisken &lt;wbrisken@nrao.edu&gt;</span><br><span class="line"></span><br><span class="line">A program to convert DiFX format data to FITS-IDI</span><br><span class="line"></span><br><span class="line">Usage : difx2fits [options] &lt;baseFilename1&gt; [&lt;baseFilename2&gt; ... ] [&lt;outfile&gt;]</span><br><span class="line"></span><br><span class="line">It assumed that SWIN format visibility file(s) to be converted live</span><br><span class="line"><span class="keyword">in</span> directory &lt;baseFilename&gt;.difx/</span><br><span class="line">It is also assumed that at least 3 additional files exist:</span><br><span class="line">  &lt;baseFilename&gt;.input    DiFX input file</span><br><span class="line">  &lt;baseFilename&gt;.calc     Base file <span class="keyword">for</span> calcif </span><br><span class="line">  &lt;baseFilename&gt;.im       Polynomial UVW and model</span><br><span class="line">One other files is optionally <span class="built_in">read</span>:</span><br><span class="line">  &lt;baseFilename&gt;.flag     Antenna-based flagging</span><br><span class="line"></span><br><span class="line">VLBA calibration transfer will produce 4 files:</span><br><span class="line">  flag, tsys, pcal, weather</span><br><span class="line">If these are present <span class="keyword">in</span> the current directory, they will be used to</span><br><span class="line">form the FL, TS, PH and WR tables</span><br><span class="line"></span><br><span class="line">If <span class="built_in">env</span> variable GAIN_CURVE_PATH is <span class="built_in">set</span>, gain curves will be looked <span class="keyword">for</span></span><br><span class="line">and turned into a GN table</span><br><span class="line"></span><br><span class="line">The output file &lt;outfile&gt; will be written <span class="keyword">in</span> FITS-IDI format nearly</span><br><span class="line">identical to that made at the VLBA HW correlator.  The first two optional</span><br><span class="line">files are required <span class="keyword">for</span> full model accountability.</span><br><span class="line"></span><br><span class="line">options can include:</span><br><span class="line">  --<span class="built_in">help</span></span><br><span class="line">  -h                  Print this <span class="built_in">help</span> message</span><br><span class="line"></span><br><span class="line">  --bin        &lt;bin&gt;</span><br><span class="line">  -B           &lt;bin&gt;  Select on this pulsar bin number</span><br><span class="line"></span><br><span class="line">  --difx</span><br><span class="line">  -d                  Run on all .difx files <span class="keyword">in</span> directory</span><br><span class="line"></span><br><span class="line">  --no-model</span><br><span class="line">  -n                  Don<span class="string">'t write model (ML) table</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --dont-combine</span></span><br><span class="line"><span class="string">  -1                  Don'</span>t combine <span class="built_in">jobs</span></span><br><span class="line"></span><br><span class="line">  --scale &lt;scale&gt;</span><br><span class="line">  -s      &lt;scale&gt;     Scale visibility data by &lt;scale&gt;</span><br><span class="line"></span><br><span class="line">  --deltat &lt;deltat&gt;</span><br><span class="line">  -t       &lt;deltat&gt;   Set interval (sec) <span class="keyword">in</span> printing job matrix (default 20.0)</span><br><span class="line"></span><br><span class="line">  --difx-tsys-interval</span><br><span class="line">  -i       &lt;interval&gt; Set the Difx-derived tsys interval (sec) (default 30.0)</span><br><span class="line"></span><br><span class="line">  --difx-pcal-interval</span><br><span class="line">           &lt;interval&gt; Set the Difx-derived pcal interval (sec) (default 30.0), 0 means to average over a whole scan</span><br><span class="line"></span><br><span class="line">  --phaseCentre &lt;p&gt;</span><br><span class="line">  --phasecenter &lt;p&gt;   Create a fits file <span class="keyword">for</span> all the &lt;p&gt;th phase centres (default 0)</span><br><span class="line"></span><br><span class="line">  --keep-order</span><br><span class="line">  -k                  Keep antenna order</span><br><span class="line"></span><br><span class="line">  --ac-always</span><br><span class="line">  -a                  Write standard autocorrelations into every output file</span><br><span class="line"></span><br><span class="line">  --profilemode       Don<span class="string">'t discard autocorrelations for pulsar bins other than bin 0</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --skip-extra-autocorrs</span></span><br><span class="line"><span class="string">                      Ignore e.g. LL autocorrs in a job with only RR cross-corrs</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --history &lt;file&gt;</span></span><br><span class="line"><span class="string">  -H &lt;file&gt;           Read file &lt;file&gt; and populate FITS History</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --sniff-all</span></span><br><span class="line"><span class="string">  -S                  Sniff all bins and centers</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --dont-sniff</span></span><br><span class="line"><span class="string">  -x                  Don'</span>t produce sniffer output</span><br><span class="line"></span><br><span class="line">  --sniff-time &lt;t&gt;</span><br><span class="line">  -T           &lt;t&gt;    Sniff output on a &lt;t&gt; second timescale (default 30.0)</span><br><span class="line">                      Set to zero to <span class="built_in">disable</span> sniffing</span><br><span class="line"></span><br><span class="line">  --union</span><br><span class="line">  -u                  Form union of frequency setups</span><br><span class="line"></span><br><span class="line">  --max-jobs &lt;max&gt;</span><br><span class="line">  -m &lt;max&gt;            Set maximum number of <span class="built_in">jobs</span> to merge into one FITS file to &lt;max&gt;</span><br><span class="line"></span><br><span class="line">  --eop-merge-mode    Set the mode <span class="keyword">for</span> merging differerent EOPs. Legal modes are strict (default), drop, relaxed.</span><br><span class="line"></span><br><span class="line">  --clock-merge-mode  Set the mode <span class="keyword">for</span> merging clock entries of an antenna. Legal modes are strict (default), drop (ignore clock breaks).</span><br><span class="line"></span><br><span class="line">  --verbose</span><br><span class="line">  -v                  Be verbose.  -v -v <span class="keyword">for</span> more!</span><br><span class="line"></span><br><span class="line">  --override-version  Ignore difx versions</span><br><span class="line"></span><br><span class="line">  --zero</span><br><span class="line">  -0                  Don<span class="string">'t put visibility data in FITS file</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --antpol            Use antenna-based polarization codes. Warning: fits-idi file will violate original specifcaitions and abide extended specifications.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --polxy2hv          Convert XY polarziation codes to HV codes. Requires --antpol option</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --localdir</span></span><br><span class="line"><span class="string">  -l                  *.calc, *.im, and *.difx are sought in the same directory as *.input files</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --all-pcal-tones</span></span><br><span class="line"><span class="string">  -A                  Extract all phase calibration tones</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --primary-band &lt;pb&gt; Add PRIBAND keyword with value &lt;pb&gt; to FITS file</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --relabelCircular   Change naming of all polarizations to R/L</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --vanVleck          Force difx2fits to apply van Vleck correction</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --bandpass          Write baseline-based bandpass to .bandpass file</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --applybandpass &lt;file&gt;</span></span><br><span class="line"><span class="string">                      Read &lt;file&gt; and apply it as a bandpass to the output</span></span><br><span class="line"><span class="string">  --applydelaycal &lt;file&gt;</span></span><br><span class="line"><span class="string">                      Read &lt;file&gt; and apply it as delay corrections to the output</span></span><br><span class="line"><span class="string">  --sourcelist &lt;list&gt;</span></span><br><span class="line"><span class="string">                      Only propagate source(s) listed (comma separated)</span></span><br><span class="line"><span class="string">difx2fits responds to the following environment variables:</span></span><br><span class="line"><span class="string">    DIFX_GROUP_ID             If set, run with umask(2).</span></span><br><span class="line"><span class="string">    DIFX_VERSION              The DiFX version to report.</span></span><br><span class="line"><span class="string">    DIFX_LABEL                Your local DiFX version label.</span></span><br><span class="line"><span class="string">    GAIN_CURVE_PATH           Path where gain curves can be found.</span></span><br><span class="line"><span class="string">    TCAL_PATH                 Path where switched power T_cal values are found.</span></span><br><span class="line"><span class="string">    TCAL_FILE                 Path to single specific T_cal file.</span></span><br><span class="line"><span class="string">    DIFX_MAX_SNIFFER_MEMORY   Max number of bytes to allow for sniffing.</span></span><br><span class="line"><span class="string">    DIFX2FITS_UVFITS_DUMP         Prints in stdout the ascii dump of records from the binary visilibity file. Warning: the output may be huge.</span></span><br><span class="line"><span class="string">    DIFX2FITS_UVFITS_DUMP_UTCMIN  Sets the minimum UTC time tag for the visibility dump. Units are seconds. Default is zero.</span></span><br><span class="line"><span class="string">    DIFX2FITS_UVFITS_DUMP_UTCMAX  Sets the maximum UTC time tag for the visibility dump. Units are seconds. Default is 86400.</span></span><br><span class="line"><span class="string">    DIFX_USE_CABLE_CAL            If 0, then cable calibration files are ignored. Default is 1.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">PLEASE file all bug reports at http://svn.atnf.csiro.au/trac/difx .</span></span><br><span class="line"><span class="string">Include at a minimum the output of difx2fits with extra verbosity</span></span><br><span class="line"><span class="string">(that is with -v -v).  The .input, .im &amp; .calc files may help too.</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>通常，如果不熟悉一个程序的话，可以通过运行此程序，了解可用的选项以及语法的帮助。</p>
+<p>如果需要更详细的帮助，可以参考DiFX的用户手册。</p>
+<p>不过手册中也不一定是最新的内容，目前可以考虑通过阅读 <a href="https://difx.readthedocs.io/">https://difx.readthedocs.io</a> 来阅读最新的文档。</p>
+<h2 id="预备工作"><a href="#预备工作" class="headerlink" title="预备工作"></a>预备工作</h2><p>DiFX包含一套程序，库和小型实用程序，通常安装在非系统目录中，所以如果没有配置的话，是不能使用的。</p>
+<p>另外实际使用的相关处理机可能会安装多个版本。</p>
+<p>这种情况下，每个版本都可以通过设置脚本进行选择。 对于本次的演示，使用单个DiFX版本，并且可以通过键入来配置</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">source</span> setup.bash</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>其中setup.bash是一个设置脚本，可以在DiFX安装过程中找到。</p>
+</blockquote>
+<p>这种方法的弊端在于，每次打开新的终端都需要键入这个命令，所以，可以把这个命令加到<code>.bashrc</code>中，这样每次打开终端都将自动设置好需要的环境。</p>
+<h2 id="启动时延模型服务"><a href="#启动时延模型服务" class="headerlink" title="启动时延模型服务"></a>启动时延模型服务</h2><p>在计算机启动后需要启动一次时延模型服务。 这可以通过以下方式完成：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ startCalcServer</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这个命令将在后台启动了一个名为<strong>CalcServer</strong>的进程。</p>
+<blockquote>
+<p>不过在DiFX2版本之后，这个服务已经不再需要了，相关处理的时延多项式可以通过<code>difxcalc</code>来完成。 </p>
+</blockquote>
+<h2 id="准备数据集1：2台站UT1-UTC观测"><a href="#准备数据集1：2台站UT1-UTC观测" class="headerlink" title="准备数据集1：2台站UT1-UTC观测"></a>准备数据集1：2台站UT1-UTC观测</h2><h3 id="创建工作目录"><a href="#创建工作目录" class="headerlink" title="创建工作目录"></a>创建工作目录</h3><p>在您的主目录中创建一个新目录，比如<code>~/data/</code>，然后进入该目录</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> ~/data/</span><br><span class="line">$ <span class="built_in">cd</span> ~/data/</span><br></pre></td></tr></tbody></table></figure>
+
+
+<h3 id="拷贝-vex文件和-v2d文件"><a href="#拷贝-vex文件和-v2d文件" class="headerlink" title="拷贝.vex文件和.v2d文件"></a>拷贝.vex文件和.v2d文件</h3><p><code>.vex</code> 文件是由观测纲要程序生成的，该文件包含实验的基本描述，观测源的坐标以及每个scan使用的设置。</p>
+<p>大多数相关处理实验所需的信息都包含在此文件中。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cp</span> /the/path/of/vex/file.vex .</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>详细的可以参考 <a href="https://vlbi.org/vlbi-standards/vex/">https://vlbi.org/vlbi-standards/vex/</a> </p>
+</blockquote>
+<p>.v2d文件补充了.vex文件，它包含两种类型的信息：</p>
+<ol>
+<li>不包含在.vex文件中的信息，例如积分时间（也称为累积周期）以及在相关处理中要使用的频谱分辨率;</li>
+<li>覆盖.vex文件中包含的值信息。</li>
+</ol>
+<blockquote>
+<p>一般的理念是.vex文件不需要编辑，并且相关处理所需的更改应包含在.v2d文件中。</p>
+<p>所以对于常规的观测而言，vex文件避免编辑，需要的参数可以通过v2d文件来调整相关处理的参数。</p>
+</blockquote>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cp</span> /the/path/of/v2d/file.v2d .</span><br></pre></td></tr></tbody></table></figure>
+
+
+<p>.v2d文件的名称（.v2d扩展名之前的所有内容）构成相关处理作业名称的基础。<br>为了防止混淆（稍后会详细介绍），建议将.v2d文件重命名为唯一的名称, 这可以是您的姓名或者处理中心的缩写。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mv</span> file.v2d yourname.v2d</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>在接下来的示例中，假设它被称为yourname.v2d。 随时替换为你喜欢的名字。</p>
+<h3 id="生成要相关处理的基带数据列表"><a href="#生成要相关处理的基带数据列表" class="headerlink" title="生成要相关处理的基带数据列表"></a>生成要相关处理的基带数据列表</h3><p>相关处理需要知道在哪里找到数据以及要与每个文件关联的时间范围。 </p>
+<p>这可以通过检查数据本身的工具来完成。 </p>
+<p>对于这个特定的实验，数据是用称为Mark5B的数据格式记录的（这种数据的描述请参阅<a href="http://www.haystack.mit.edu/tech/vlbi/mark5/mark5_memos/019.pdf">http://www.haystack.mit.edu/tech/vlbi/mark5/mark5_memos/019.pdf</a>）。 </p>
+<p>一个名为 <code>m5bsum</code> 的工具可以制作需要的列表信息。</p>
+<p>比如分别对来自两个站点的数据执行此操作（其中PT = Pie Town和MK = Mauna Kea，这两个站点都是美国的VLBA天线）。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ m5bsum -s /the/data/of/pt/station/n6043/NRAO+301* &gt; filelist.pt</span><br><span class="line">$ m5bsum -s /the/data/of/mk/station/n6043/NRAO+390* &gt; filelist.mk</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p><code>-s</code> 选项很重要，上面的命令会强制生成每个文件的一行摘要，可以给后来的软件使用。 </p>
+<p>请注意，您可以将这些大型数据文件保留在当前位置，而不需要将其拷贝到处理目录，并且建议相关处理的目录和原始数据最好分开存放。<br>比如相关处理的结果可以存放在<code>~/corr/</code>目录下，而原始数据可以存放在<code>/data/</code>目录下。<br>如果您想查看单个文件的更多详细信息，可以尝试：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ m5bsum /the/data/of/pt/station/n6043/NRAO+301_0540_N6043_PT_No0008</span><br></pre></td></tr></tbody></table></figure>
+
+
+<p>这里创建的两个文件将需要在.v2d文件中引用，进行后面的相关处理。 </p>
+<p>这些文件是ASCII文本，可以使用cat，less或您喜欢的编辑器查看。 </p>
+<p>长数字是以MJD表示的开始和停止时间。</p>
+<p><code>cat filelist.pt</code></p>
+<h3 id="检查并修改-v2d文件"><a href="#检查并修改-v2d文件" class="headerlink" title="检查并修改.v2d文件"></a>检查并修改.v2d文件</h3><p>.v2d文件已经创建好。 </p>
+<p>文件中的许多内容都可以更改。</p>
+<p>对于第一次相关处理，建议不要改变任何东西。 </p>
+<p>如果时间允许，可以尝试更改一些参数。 </p>
+<p>如果您这样做，最好重命名.v2d文件，以便可以保留以前相关处理的输出。 </p>
+<p>可以尝试的一些相关参数是：</p>
+<ul>
+<li><code>tInt</code>  积分周期（秒）：数字最好在0.25和4之间</li>
+<li><code>specRes</code> 相关处理输出的谱分辨率（MHz）。 数字最好在0.05和0.5之间</li>
+<li><code>fftSpecRes</code> 执行FFT的分辨率。 必须是specRes必须是整数倍。 这会影响光谱响应。</li>
+<li><code>clockOffset</code> 改变时钟偏移（微秒）并产生输出中的相位斜率。 建议可以尝试数字高达0.2左右。</li>
+<li><code>addZoomFreq</code>  允许放大到带宽的一部分。 这是一个高级功能，对不同带宽的可以考虑。</li>
+</ul>
+<p>关于 vex2difx 的详细文档可以参考其使用说明 <a href="vex2difx">vex2difx</a> .</p>
+<p>一旦 <code>.v2d</code> 文件准备就绪，运行 <code>vex2difx</code> :</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vex2difx yourname.v2d</span><br></pre></td></tr></tbody></table></figure>
+
+<p>仔细查看输出。 可能会有有意义的消息。<br>如果您看到错误，则该步骤失败，您需要调试.v2d文件。<br>如果您看到警告，则可能会出现问题，但请仔细查看消息，因为它可能意味着某些内容可能是不对的。<br>如果您看到一个注释，那么 <code>vex2difx</code> 中做出了一些假设，这可能是预期的，但您可能需要确保它是有意义的。</p>
+<p><code>vex2difx</code> 为项目生成一个或多个作业。 每个作业都有一个不同的数字（在下划线之后）。<br>此阶段的每个作业应该已经有一些文件。 <code>.input</code> 文件包含作业的DiFX配置，<code>.calc</code> 文件包含生成延迟多项式所需的信息。<br>这两个文件都是ASCII文本，可以像为filelist文件所做的那样查看。</p>
+<h3 id="生成时延多项式"><a href="#生成时延多项式" class="headerlink" title="生成时延多项式"></a>生成时延多项式</h3><p>延迟多项式用于将每个数据流延迟所需的时间，以使波前从接收站传播到地球中心，通常为10毫秒或更少。<br>Goddard Calc程序用于执行此操作。 当前的安装使用Calc 9.1，但是Calc 11可通过名为difxcalc的程序提供给difx。<br>执行Calc的最简单方法是运行</p>
+<p><code>calcif2 -a</code></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ calcif2 -a</span><br></pre></td></tr></tbody></table></figure>
+
+<p>它将遍历当前目录中所有的.calc文件并生成模型文件（以.im结尾）。<br>同样，这些输出文件是ASCII文本，可以检查。</p>
+<h3 id="启动一些监视进程"><a href="#启动一些监视进程" class="headerlink" title="启动一些监视进程"></a>启动一些监视进程</h3><p>当DiFX运行时，它会产生信息（有时是错误）消息。 它还生成状态信息。 这些信息的位是多播的，以便本地网络上的任何进程都可以听到。 这意味着您将能够看到来自邻居进程的消息。 要仅过滤与您的进程相关的消息，请使用标准unix工具grep来过滤输出。 如果您愿意，可以在没有grep的情况下运行并立即查看所有人的信息！ 请注意，即使在相关处理正在进行时，您也可以启动和停止这些监视器进程。</p>
+<h4 id="启动错误或者消息监视"><a href="#启动错误或者消息监视" class="headerlink" title="启动错误或者消息监视"></a>启动错误或者消息监视</h4><p>启动一个新的终端窗口并在shell中设置环境：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">source</span> setup.bash</span><br></pre></td></tr></tbody></table></figure>
+
+<p>然后运行</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ errormon | grep yourname</span><br></pre></td></tr></tbody></table></figure>
+
+<p>但是不要忘记将我的名字更改为您的进程的名称。</p>
+<h4 id="启动状态监视"><a href="#启动状态监视" class="headerlink" title="启动状态监视"></a>启动状态监视</h4><p>启动一个新的终端窗口并在shell中设置环境：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">source</span> setup.bash</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Then run 然后运行</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ statemon | grep yourname</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="启动DiFX"><a href="#启动DiFX" class="headerlink" title="启动DiFX!"></a>启动DiFX!</h3><p>此时，一切就绪，可以开始进行相关处理了。可以使用以下命令运行DiFX：</p>
+<p><code>startdifx -v -f -n yourname*.input</code></p>
+<p>请注意，<code>-f</code> 选项强制执行并将覆盖同一作业的以前的相关结果。 小心使用！<br><code>-v</code> 选项仅增加输出的详细程度，并且在这种情况下需要 <code>-n</code> 选项以防止覆盖机器文件，描述要使用的计算机集群的哪些元素（在这种情况下仅为您的工作站）。</p>
+<p>运行这些作业根据观测时常、台站等的不同需要一会时间。 在运行时，您可以监视两个诊断窗口。 </p>
+<h3 id="转换为FITS输出"><a href="#转换为FITS输出" class="headerlink" title="转换为FITS输出"></a>转换为FITS输出</h3><p><code>difx2fits</code> 程序接受DiFX的原始输出以及用于驱动它的文件，以生成FITS-IDI格式的文件。<br>FITS-IDI是干涉测量数据的标准格式，文档位于<a href="http://www.aoc.nrao.edu/~egreisen/AIPSMEM114.PDF">http://www.aoc.nrao.edu/~egreisen/AIPSMEM114.PDF</a>。<br>此文件格式适合读入AIPS，这是天文VLBI观测的常规数据路径。 </p>
+<p><code>difx2fits</code> 还会生成一些诊断输出，这些输出非常方便（请参见下一节）。</p>
+<p>运行difx2fits:</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ difx2fits yourname*.difx YOURNAME.FITS</span><br></pre></td></tr></tbody></table></figure>
+
+
+<h3 id="生成诊断图并检查"><a href="#生成诊断图并检查" class="headerlink" title="生成诊断图并检查"></a>生成诊断图并检查</h3><p>一个名为difxsniff的工具可用于制作“sniffer plots”，以快速查看数据。 NRAO的数据分析师使用这些图来确定项目的成功。 运行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ difxsniff YOURNAME.FITS PT</span><br></pre></td></tr></tbody></table></figure>
+
+<p>第二个参数PT是将在某些图中用作“参考天线”的站点。 通常，VLBI阵列中心附近的行为良好的天线用于此。 这将在名为sniffer / PT /的子目录中生成文件。 主要感兴趣的文件如下：</p>
+<ul>
+<li>YOURNAME.apd.ps : 绘制所有基线到参考天线的速率，延迟，相位和幅度随时间变化的图</li>
+<li>YOURNAME.acb.ps : 绘制所有自相关带通</li>
+<li>YOURNAME.xcb.ps : 绘制所有与参考天线的交叉相关带通</li>
+<li>YOURNAME.wts.ps : 绘制数据有效权重随时间变化</li>
+</ul>
+<p>所有这些文件都是PostScript文件，可以使用任何PostScript查看器查看。 例如，您可以使用evince：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ evince YOURNAME.apd.ps</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="为大地测量处理制作Mark4输出"><a href="#为大地测量处理制作Mark4输出" class="headerlink" title="为大地测量处理制作Mark4输出"></a>为大地测量处理制作Mark4输出</h3><p>确保回到实验目录（即，如果您进入了sniffer目录，请回来），您可以从相同的DiFX输出中制作Mark4数据集。 这可以通过以下方式调用：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ difx2mark4 yourname*.input</span><br></pre></td></tr></tbody></table></figure>
+
+
+<p>输出文件将放在一个编号的目录中（默认为1234/）。 </p>
+<h2 id="数据集2：10站VLBA观测（如果时间允许）"><a href="#数据集2：10站VLBA观测（如果时间允许）" class="headerlink" title="数据集2：10站VLBA观测（如果时间允许）"></a>数据集2：10站VLBA观测（如果时间允许）</h2><p>使用上面的工具（有一些例外：请参见下文），尝试相关10个站点的VLBA观测。 问题中的数据使用多线程VDIF数据（如果您想知道VDIF数据的格式，请参见<a href="http://vlbi.org/vdif/docs/VDIF_specification_Release_1.1.1.pdf">http://vlbi.org/vdif/docs/VDIF_specification_Release_1.1.1.pdf</a>）。 下面是一些最少的信息，应该可以让您开始：</p>
+<ol>
+<li>一个scan的实验可用。</li>
+<li>数据来自对夸克星的12.2 GHz观测，具有4个基带通道，每个通道4 MHz。</li>
+<li>基带通道以极化对的形式出现：RCP和LCP。</li>
+<li>数据文件可以在/home/avntrainee/difx_data/ts036h（站点名称是文件名的倒数第二个字段）</li>
+<li>Vex和示例.v2d文件可以在同一位置找到（称为ts036h.vex.obs和ts036h.v2d）</li>
+<li>为了生成文件列表，您需要使用<code>vsum -s</code>而不是<code>m5bsum -s</code></li>
+<li>您需要制作10个文件列表。 请注意，10个VLBA站点的站点代码为：BR，FD，HN，KP，LA，MK，NL，OV，PT，SC，如.v2d文件顶部所列。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/difx/" rel="tag"># difx</a>
+              <a href="/tags/dokuwiki/" rel="tag"># dokuwiki</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/03/30/difx-ivs2016extras/" rel="prev" title="可选的练习">
+      <i class="fa fa-chevron-left"></i> 可选的练习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/03/30/difx-dependenciesubuntu/" rel="next" title="DiFX Ubuntu 安装包依赖">
+      DiFX Ubuntu 安装包依赖 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DiFX-%E7%A4%BA%E4%BE%8B%E6%95%99%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">DiFX 示例教程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E8%A6%81%E6%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">一些基础要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%84%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.2.</span> <span class="nav-text">预备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%97%B6%E5%BB%B6%E6%A8%A1%E5%9E%8B%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.3.</span> <span class="nav-text">启动时延模型服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E6%95%B0%E6%8D%AE%E9%9B%861%EF%BC%9A2%E5%8F%B0%E7%AB%99UT1-UTC%E8%A7%82%E6%B5%8B"><span class="nav-number">1.4.</span> <span class="nav-text">准备数据集1：2台站UT1-UTC观测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95"><span class="nav-number">1.4.1.</span> <span class="nav-text">创建工作目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%B7%E8%B4%9D-vex%E6%96%87%E4%BB%B6%E5%92%8C-v2d%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.2.</span> <span class="nav-text">拷贝.vex文件和.v2d文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E8%A6%81%E7%9B%B8%E5%85%B3%E5%A4%84%E7%90%86%E7%9A%84%E5%9F%BA%E5%B8%A6%E6%95%B0%E6%8D%AE%E5%88%97%E8%A1%A8"><span class="nav-number">1.4.3.</span> <span class="nav-text">生成要相关处理的基带数据列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E5%B9%B6%E4%BF%AE%E6%94%B9-v2d%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.4.</span> <span class="nav-text">检查并修改.v2d文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E6%97%B6%E5%BB%B6%E5%A4%9A%E9%A1%B9%E5%BC%8F"><span class="nav-number">1.4.5.</span> <span class="nav-text">生成时延多项式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E4%B8%80%E4%BA%9B%E7%9B%91%E8%A7%86%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.4.6.</span> <span class="nav-text">启动一些监视进程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E9%94%99%E8%AF%AF%E6%88%96%E8%80%85%E6%B6%88%E6%81%AF%E7%9B%91%E8%A7%86"><span class="nav-number">1.4.6.1.</span> <span class="nav-text">启动错误或者消息监视</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E7%8A%B6%E6%80%81%E7%9B%91%E8%A7%86"><span class="nav-number">1.4.6.2.</span> <span class="nav-text">启动状态监视</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8DiFX"><span class="nav-number">1.4.7.</span> <span class="nav-text">启动DiFX!</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AC%E6%8D%A2%E4%B8%BAFITS%E8%BE%93%E5%87%BA"><span class="nav-number">1.4.8.</span> <span class="nav-text">转换为FITS输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E8%AF%8A%E6%96%AD%E5%9B%BE%E5%B9%B6%E6%A3%80%E6%9F%A5"><span class="nav-number">1.4.9.</span> <span class="nav-text">生成诊断图并检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E5%A4%A7%E5%9C%B0%E6%B5%8B%E9%87%8F%E5%A4%84%E7%90%86%E5%88%B6%E4%BD%9CMark4%E8%BE%93%E5%87%BA"><span class="nav-number">1.4.10.</span> <span class="nav-text">为大地测量处理制作Mark4输出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%862%EF%BC%9A10%E7%AB%99VLBA%E8%A7%82%E6%B5%8B%EF%BC%88%E5%A6%82%E6%9E%9C%E6%97%B6%E9%97%B4%E5%85%81%E8%AE%B8%EF%BC%89"><span class="nav-number">1.5.</span> <span class="nav-text">数据集2：10站VLBA观测（如果时间允许）</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2023/03/30/difx-ivs2016/";
+    this.page.identifier = "2023/03/30/difx-ivs2016/";
+    this.page.title = "DiFX 2016 IVS school 练习";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

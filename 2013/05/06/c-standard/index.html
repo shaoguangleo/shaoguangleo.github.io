@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="C语言的标准（K&amp;R C，ANSI C，C89，C90，C99）历史 C语言：1973年由Dennis M. Ritchie设计和实现。  K&amp;R C：1978年由Kernighan和Ritchie合写的书《The C Programming Language》，形成了C语言的事实的标准，简称为K&amp;R C。  ANSI C（C89或C90）：1989年，美国国家标准局（AN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言的各种标准">
+<meta property="og:url" content="http://shaoguangleo.github.io/2013/05/06/c-standard/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="C语言的标准（K&amp;R C，ANSI C，C89，C90，C99）历史 C语言：1973年由Dennis M. Ritchie设计和实现。  K&amp;R C：1978年由Kernighan和Ritchie合写的书《The C Programming Language》，形成了C语言的事实的标准，简称为K&amp;R C。  ANSI C（C89或C90）：1989年，美国国家标准局（AN">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2013-05-06T14:54:20.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.707Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="c">
+<meta property="article:tag" content="_Bool">
+<meta property="article:tag" content="ANSI C">
+<meta property="article:tag" content="C89">
+<meta property="article:tag" content="C99">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2013/05/06/c-standard/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C语言的各种标准 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2013/05/06/c-standard/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C语言的各种标准
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2013-05-06 22:54:20" itemprop="dateCreated datePublished" datetime="2013-05-06T22:54:20+08:00">2013-05-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2013/05/06/c-standard/" class="post-meta-item leancloud_visitors" data-flag-title="C语言的各种标准" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2013/05/06/c-standard/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/05/06/c-standard/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2013/05/06/c-standard/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2013/05/06/c-standard/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="C语言的标准（K-amp-R-C，ANSI-C，C89，C90，C99）"><a href="#C语言的标准（K-amp-R-C，ANSI-C，C89，C90，C99）" class="headerlink" title="C语言的标准（K&amp;R C，ANSI C，C89，C90，C99）"></a>C语言的标准（K&amp;R C，ANSI C，C89，C90，C99）</h1><h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><ul>
+<li><p>C语言：1973年由Dennis M. Ritchie设计和实现。</p>
+</li>
+<li><p>K&amp;R C：1978年由Kernighan和Ritchie合写的书《The C Programming Language》，形成了C语言的事实的标准，简称为K&amp;R C。</p>
+</li>
+<li><p>ANSI C（C89或C90）：1989年，美国国家标准局（ANSI）颁布了第一个官方的C语言标准（X3.159-1989），简称为ANSI C或C89；1990年，它被国际标准化组织（ISO）采纳国际标准（ISO/IEC9899:1990），简称为C90。这个标准是目前广泛使用并完全支持的。</p>
+</li>
+<li><p>C99：1999年，ISO/ANSI又推出了新的标准（ISO9899:1999），简称C99。这个标准目前支持的可能还不太全面。</p>
+</li>
+</ul>
+<h2 id="C89-x2F-C90标准的指导原则是"><a href="#C89-x2F-C90标准的指导原则是" class="headerlink" title="C89/C90标准的指导原则是"></a>C89/C90标准的指导原则是</h2><ul>
+<li>相信程序员；</li>
+<li>不妨碍程序员做需要完成的事情；</li>
+<li>让语言保持短小简单；</li>
+<li>只提供一种方法来执行一种操作；</li>
+<li>使程序运行速度快，即使不能保证其可移植性。（不追求定义的抽象统一，更优先考虑运行效率）</li>
+</ul>
+<h2 id="C89-x2F-C90对K-amp-R-C的改变有："><a href="#C89-x2F-C90对K-amp-R-C的改变有：" class="headerlink" title="C89/C90对K&amp;R C的改变有："></a>C89/C90对K&amp;R C的改变有：</h2><ul>
+<li>增加了函数原型（prototype），强调对函数的输入参数进行严格的类型检查；并补充定义了C语言的标准函数库</li>
+<li>删除了关键字：entry（条目/入口）</li>
+<li>增加了关键字：const（常型变量）、enum（枚举类型）、signed（有符号的，例如signed char）、void（空/无，可用于函数返回值和形参、通用指针类型）、volatile（易变变量，防止编译器错误的优化）</li>
+<li>传递结构：允许将结构本身作为参数传递给函数（原来只允许传地址）</li>
+<li>函数原型：增加了函数原型（便于编译器进行类型检查）</li>
+<li>增加了预处理指令：#elif（else if）、#error（错误，强制编译停止）、#line（修改当前行号和源文件名）、#pragma（附注/编译指令，编译器定义的与实现有关的指令）</li>
+<li>定义了固有宏：__LINE__（当前行号）、__FILE__（源文件名）、__DATE__（当前系统日期）、__TIME__（当前系统时间）、__STDC__（标准C版时为1）</li>
+</ul>
+<h2 id="C99的修订目标主要有三点："><a href="#C99的修订目标主要有三点：" class="headerlink" title="C99的修订目标主要有三点："></a>C99的修订目标主要有三点：</h2><ul>
+<li>支持国际化编程，引入了支持国际字符集Unicode的数据类型和库函数；</li>
+<li>修正原有版本的明显缺点。如整数的移植方法，例如int8_t、int16_t、int32_t和int64_t等类型；</li>
+<li>针对科学和工程的需要，改进计算的实用性。例如添加了复数类型和新数学函数。</li>
+</ul>
+<h2 id="C99标准的新特性"><a href="#C99标准的新特性" class="headerlink" title="C99标准的新特性"></a>C99标准的新特性</h2><p>C99是在C89（Ansi C）的基础上发展起来的,增加了基本数据类型,关键字 ,和一些系统函数等。目前完全支持的有这些：MinGW、Borland C++、dev-C++。</p>
+<h2 id="相对于c89的变化包括"><a href="#相对于c89的变化包括" class="headerlink" title="相对于c89的变化包括"></a>相对于c89的变化包括</h2><ul>
+<li>增加restrict指针</li>
+<li>inline（内联）关键字</li>
+<li>新增数据类型 _Bool</li>
+<li>对数组的增强: 可变长数组</li>
+<li>可以单行注释</li>
+<li>分散代码与声明</li>
+<li>预处理程序的修改</li>
+<li>复合赋值</li>
+<li>柔性数组结构成员</li>
+<li>指定的初始化符</li>
+<li>printf()和scanf()函数系列的增强</li>
+</ul>
+<h2 id="C89中标准的头文件"><a href="#C89中标准的头文件" class="headerlink" title="C89中标准的头文件"></a>C89中标准的头文件</h2><ul>
+<li>&lt;assert.h&gt; 定义宏assert()</li>
+<li>&lt;ctype.h&gt; 字符处理</li>
+<li>&lt;errno.h&gt; 错误报告</li>
+<li>&lt;float.h&gt; 定义与实现相关的浮点值勤</li>
+<li>&lt;limits.h&gt; 定义与实现相关的各种极限值</li>
+<li>&lt;locale.h&gt; 支持函数setlocale()</li>
+<li>&lt;math.h&gt; 数学函数库使用的各种定义</li>
+<li>&lt;setjmp.h&gt; 支持非局部跳转</li>
+<li>&lt;signal.h&gt; 定义信号值</li>
+<li>&lt;stdarg.h&gt; 支持可变长度的变元列表</li>
+<li>&lt;stddef.h&gt; 定义常用常数</li>
+<li>&lt;stdio.h&gt; 支持文件输入和输出</li>
+<li>&lt;stdlib.h&gt; 其他各种声明</li>
+<li>&lt;string.h&gt; 支持串函数</li>
+<li>&lt;time.h&gt; 支持系统时间函数</li>
+</ul>
+<h2 id="C99新增的头文件和库"><a href="#C99新增的头文件和库" class="headerlink" title="C99新增的头文件和库"></a>C99新增的头文件和库</h2><ul>
+<li>&lt;complex.h&gt; 支持复数算法</li>
+<li>&lt;fenv.h&gt; 给出对浮点状态标记和浮点环境的其他方面的访问</li>
+<li>&lt;inttypes.h&gt; 定义标准的、可移植的整型类型集合。也支持处理最大宽度整数的函数</li>
+<li>&lt;iso646.h&gt; 首先在此1995年第一次修订时引进，用于定义对应各种运算符的宏</li>
+<li>&lt;stdbool.h&gt; 支持布尔数据类型类型。定义宏bool，以便兼容于C++</li>
+<li>&lt;stdint.h&gt; 定义标准的、可移植的整型类型集合。该文件包含在&lt;inttypes.h&gt;中</li>
+<li>&lt;tgmath.h&gt; 定义一般类型的浮点宏</li>
+<li>&lt;wchar.h&gt; 首先在1995年第一次修订时引进，用于支持多字节和宽字节函数</li>
+<li>&lt;wctype.h&gt; 首先在1995年第一次修订时引进，用于支持多字节和宽字节分类函数</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>限制</th>
+<th>C89标准</th>
+<th>C99标准</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据块的嵌套层数</td>
+<td>15</td>
+<td>127</td>
+</tr>
+<tr>
+<td>条件语句的嵌套层数</td>
+<td>8</td>
+<td>63</td>
+</tr>
+<tr>
+<td>内部标识符中的有效字符个数</td>
+<td>31</td>
+<td>63</td>
+</tr>
+<tr>
+<td>外部标识符中的有效字符个数</td>
+<td>6</td>
+<td>31</td>
+</tr>
+<tr>
+<td>结构或联合中的成员个数</td>
+<td>127</td>
+<td>1023</td>
+</tr>
+<tr>
+<td>函数调用中的参数个数</td>
+<td>31</td>
+<td>127</td>
+</tr>
+</tbody></table>
+<p>不再支持隐含式的int规则etc…</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/c/" rel="tag"># c</a>
+              <a href="/tags/Bool/" rel="tag"># _Bool</a>
+              <a href="/tags/ANSI-C/" rel="tag"># ANSI C</a>
+              <a href="/tags/C89/" rel="tag"># C89</a>
+              <a href="/tags/C99/" rel="tag"># C99</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2013/05/06/linux-tracepath-beginner/" rel="prev" title="Linux的tracepath命令">
+      <i class="fa fa-chevron-left"></i> Linux的tracepath命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2013/05/20/pgplot-cpgerrb/" rel="next" title="PGPLOT cpgconb 绘制等高线图">
+      PGPLOT cpgconb 绘制等高线图 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C%E8%AF%AD%E8%A8%80%E7%9A%84%E6%A0%87%E5%87%86%EF%BC%88K-amp-R-C%EF%BC%8CANSI-C%EF%BC%8CC89%EF%BC%8CC90%EF%BC%8CC99%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">C语言的标准（K&amp;R C，ANSI C，C89，C90，C99）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%86%E5%8F%B2"><span class="nav-number">1.1.</span> <span class="nav-text">历史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C89-x2F-C90%E6%A0%87%E5%87%86%E7%9A%84%E6%8C%87%E5%AF%BC%E5%8E%9F%E5%88%99%E6%98%AF"><span class="nav-number">1.2.</span> <span class="nav-text">C89&#x2F;C90标准的指导原则是</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C89-x2F-C90%E5%AF%B9K-amp-R-C%E7%9A%84%E6%94%B9%E5%8F%98%E6%9C%89%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">C89&#x2F;C90对K&amp;R C的改变有：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C99%E7%9A%84%E4%BF%AE%E8%AE%A2%E7%9B%AE%E6%A0%87%E4%B8%BB%E8%A6%81%E6%9C%89%E4%B8%89%E7%82%B9%EF%BC%9A"><span class="nav-number">1.4.</span> <span class="nav-text">C99的修订目标主要有三点：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C99%E6%A0%87%E5%87%86%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7"><span class="nav-number">1.5.</span> <span class="nav-text">C99标准的新特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%AF%B9%E4%BA%8Ec89%E7%9A%84%E5%8F%98%E5%8C%96%E5%8C%85%E6%8B%AC"><span class="nav-number">1.6.</span> <span class="nav-text">相对于c89的变化包括</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C89%E4%B8%AD%E6%A0%87%E5%87%86%E7%9A%84%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="nav-number">1.7.</span> <span class="nav-text">C89中标准的头文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C99%E6%96%B0%E5%A2%9E%E7%9A%84%E5%A4%B4%E6%96%87%E4%BB%B6%E5%92%8C%E5%BA%93"><span class="nav-number">1.8.</span> <span class="nav-text">C99新增的头文件和库</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2013/05/06/c-standard/";
+    this.page.identifier = "2013/05/06/c-standard/";
+    this.page.title = "C语言的各种标准";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Linux最常用的几个时间日期命令桃花谢了春红，太匆匆，无奈朝来风雨晚来风。 时光只解催人老，不信多情，长恨离亭，泪滴春衫酒易醒。 时间就在指缝间，悄然的离去了。  一日难再晨及时当勉励 datedate命令可以用来打印显示亦或者更改日期和时间。 看看官方的定义如下：   date - print or set the system date and time  用法如下： 12$ date [O">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux最常用的几个时间日期命令">
+<meta property="og:url" content="http://shaoguangleo.github.io/2022/10/09/linux-collection-date-commands/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="Linux最常用的几个时间日期命令桃花谢了春红，太匆匆，无奈朝来风雨晚来风。 时光只解催人老，不信多情，长恨离亭，泪滴春衫酒易醒。 时间就在指缝间，悄然的离去了。  一日难再晨及时当勉励 datedate命令可以用来打印显示亦或者更改日期和时间。 看看官方的定义如下：   date - print or set the system date and time  用法如下： 12$ date [O">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-09T14:28:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.871Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Linux汇总">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2022/10/09/linux-collection-date-commands/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux最常用的几个时间日期命令 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2022/10/09/linux-collection-date-commands/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux最常用的几个时间日期命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-09 22:28:00" itemprop="dateCreated datePublished" datetime="2022-10-09T22:28:00+08:00">2022-10-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux%E9%9B%86%E9%94%A6/" itemprop="url" rel="index"><span itemprop="name">Linux集锦</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/10/09/linux-collection-date-commands/" class="post-meta-item leancloud_visitors" data-flag-title="Linux最常用的几个时间日期命令" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/10/09/linux-collection-date-commands/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/10/09/linux-collection-date-commands/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/10/09/linux-collection-date-commands/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/10/09/linux-collection-date-commands/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Linux最常用的几个时间日期命令"><a href="#Linux最常用的几个时间日期命令" class="headerlink" title="Linux最常用的几个时间日期命令"></a>Linux最常用的几个时间日期命令</h1><p>桃花谢了春红，太匆匆，无奈朝来风雨晚来风。</p>
+<p>时光只解催人老，不信多情，长恨离亭，泪滴春衫酒易醒。</p>
+<p>时间就在指缝间，悄然的离去了。</p>
+<hr>
+<h2 id="一日难再晨及时当勉励-date"><a href="#一日难再晨及时当勉励-date" class="headerlink" title="一日难再晨及时当勉励 date"></a>一日难再晨及时当勉励 date</h2><p>date命令可以用来打印显示亦或者更改日期和时间。</p>
+<p>看看官方的定义如下：</p>
+<blockquote>
+<p> date - print or set the system date and time</p>
+</blockquote>
+<p>用法如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">date</span> [OPTION]... [+FORMAT]</span><br><span class="line">$ <span class="built_in">date</span> [-u | --utc| --universal] [MMDDhhmm[[CC]YY][.ss]]</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>较常用的OPTION为：</p>
+<ul>
+<li><code>-R</code> ： 显示时区</li>
+<li><code>-u, --utc, --universal</code>：打印或者设置世界协调时</li>
+<li><code>-d, --date=STRING</code>：显示<strong>STRING</strong>的时间</li>
+</ul>
+<h3 id="默认输入"><a href="#默认输入" class="headerlink" title="默认输入"></a>默认输入</h3><p>date 命令默认情况下为CST时区，</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">date</span></span><br><span class="line">Mon Jun  5 15:11:44 CST 2014</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="显示时区"><a href="#显示时区" class="headerlink" title="显示时区"></a>显示时区</h3><p>如果加上<code> -R</code>参数就可以带上时区，比如我们的东八区</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">date</span> -R</span><br><span class="line">Mon, 05 Jun 2014 15:15:25 +0800</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="世界协调时"><a href="#世界协调时" class="headerlink" title="世界协调时"></a>世界协调时</h3><p>选项<code>-u, --utc, --universal</code>可以显示世界协调时</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">date</span> -u</span><br><span class="line">Mon Jun  5 07:15:46 UTC 2014</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">date</span> --utc</span><br><span class="line">Mon Jun  5 07:15:48 UTC 2014</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">date</span> --universal</span><br><span class="line">Mon Jun  5 07:15:55 UTC 2014</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+<h3 id="格式化日期"><a href="#格式化日期" class="headerlink" title="格式化日期"></a>格式化日期</h3><p>可以通过不同的参数来格式化日期，这里需要注意的是：不同的大小写代表的是不同的含义</p>
+<p>比较常用的日期和时间如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示年月日时分秒</span></span><br><span class="line">$ <span class="built_in">date</span>  +%Y-%m-%dT%H:%M:%S</span><br><span class="line">2013-01-17T18:01:08</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者 下面一样的效果</span></span><br><span class="line"></span><br><span class="line">$ data +%FT%T</span><br><span class="line">2013-01-17T18:02:12</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+
+
+
+<h2 id="时光总是催人老-time"><a href="#时光总是催人老-time" class="headerlink" title="时光总是催人老 time"></a>时光总是催人老 time</h2><p>Linux <code>time</code>命令的用途，在于测量指定命令消耗的时间。</p>
+<p><strong>最常用的在于大概评估一个程序的运行时间。</strong></p>
+<p>这个命令很容易给人的印象是与date混淆起来</p>
+<p>官方定义为：</p>
+<blockquote>
+<p>time - time a simple command or give resource usage</p>
+</blockquote>
+<p>可以给出包括系统的粗略时间。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">time</span> [options] <span class="built_in">command</span> [arguments...]</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>参数</strong>：</p>
+<p>​	- 可以认为没有参数</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>会显示程序或命令执行的消耗时间</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">time</span> <span class="built_in">ls</span> /var</span><br><span class="line">account  crash  games     lib    <span class="built_in">log</span>  ......</span><br><span class="line"></span><br><span class="line">real    0m0.014s</span><br><span class="line">user    0m0.003s</span><br><span class="line">sys     0m0.010s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ <span class="keyword">time</span> ps -aux</span><br><span class="line">root     295490  0.0  0.0      0     0 ?        S    Feb20   0:10 [ldlm_cb00_019</span><br><span class="line">root     297717  0.0  0.0      0     0 ?        S&lt;   Jan29   0:04 [kworker/58:1H</span><br><span class="line">root     304801  0.0  0.0      0     0 ?        S    Mar19   0:00 [kworker/1:1]</span><br><span class="line">root     311110  0.0  0.0      0     0 ?        S    Mar20   0:00 [kworker/66:0]</span><br><span class="line">root     313146  0.0  0.0      0     0 ?        S    Mar20   0:01 [kworker/73:2]</span><br><span class="line">root     313461  0.0  0.0      0     0 ?        S&lt;   Jan29   0:00 [kworker/44:2H</span><br><span class="line">root     313914  0.0  0.0      0     0 ?        S    Feb21   0:10 [kworker/9:2]</span><br><span class="line">root     314118  0.0  0.0      0     0 ?        S    Feb21   3:34 [kworker/18:1]</span><br><span class="line">root     315801  0.0  0.0      0     0 ?        S    Mar20   0:00 [kworker/79:2]</span><br><span class="line"></span><br><span class="line">real    0m0.180s</span><br><span class="line">user    0m0.019s</span><br><span class="line">sys     0m0.114</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>唯一需要留意的是上面的三个含义：</p>
+<ol>
+<li><strong>real</strong> : 程序从开始调用到最后终止之间经过的实时时间</li>
+<li><strong>user</strong> : 程序本身，以及它所调用的库中的子例程使用的CPU 时间</li>
+<li><strong>sys</strong> : 程序直接或间接调用的系统调用执行的CPU 时间</li>
+</ol>
+<h2 id="休息一会-sleep"><a href="#休息一会-sleep" class="headerlink" title="休息一会 sleep"></a>休息一会 sleep</h2><p>Linux <code>sleep</code>命令可以用来将目前动作延迟一段时间。</p>
+<p><code>sleep</code>的官方定义为：</p>
+<blockquote>
+<p> sleep - delay for a specified amount of time</p>
+</blockquote>
+<p>或许你觉得计算机太累，让它稍事休息，亦或许过个个把钟头需要喝杯水，此时<code>sleep</code>就有点小作用了。</p>
+<p>其用法如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sleep</span> [--<span class="built_in">help</span>] [--version] number[smhd]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>除了帮助和版本信息，基本没有参数了。</p>
+<p>其中的number是必须的，也就是sleep多久的数字，默认为<code>s</code>秒。其他的几个含义为：</p>
+<ul>
+<li><code>s</code> second 秒</li>
+<li><code>m</code> minute分钟</li>
+<li><code>h</code> hour 小时</li>
+<li><code>d</code> day 天</li>
+</ul>
+<h3 id="休息5分钟"><a href="#休息5分钟" class="headerlink" title="休息5分钟"></a>休息5分钟</h3><p>工作太累了，学习太累了，躺着太累了，休息5分钟</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sleep</span> 5m</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="1小时后提醒我"><a href="#1小时后提醒我" class="headerlink" title="1小时后提醒我"></a>1小时后提醒我</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sleep</span> 1h</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="时分秒搭配使用"><a href="#时分秒搭配使用" class="headerlink" title="时分秒搭配使用"></a>时分秒搭配使用</h3><p>当然，<code>sleep</code>也是支持时分秒搭配使用的，如下所示：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sleep</span> 1h 2m 3s</span><br></pre></td></tr></tbody></table></figure>
+
+<p>将会<code>sleep</code> 1个小时2分钟3秒。</p>
+<h3 id="倒计时计时器"><a href="#倒计时计时器" class="headerlink" title="倒计时计时器"></a>倒计时计时器</h3><p>当然也可以做个循环计时器，通过<code>sleep 1</code></p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">"five"</span>   &amp;&amp; <span class="built_in">sleep</span> 1 &amp;&amp; <span class="built_in">echo</span> <span class="string">"four"</span>   &amp;&amp; <span class="built_in">sleep</span> 1 &amp;&amp; <span class="built_in">sleep</span> 1 &amp;&amp; <span class="built_in">echo</span> <span class="string">"three"</span>   &amp;&amp; <span class="built_in">sleep</span> 1 &amp;&amp; <span class="built_in">echo</span> <span class="string">"two"</span> &amp;&amp; <span class="built_in">sleep</span> 1 &amp;&amp; <span class="built_in">echo</span> <span class="string">"one"</span> &amp;&amp; <span class="built_in">echo</span> <span class="string">"Stop"</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+
+<h3 id="结合脚本"><a href="#结合脚本" class="headerlink" title="结合脚本"></a>结合脚本</h3><p><code>sleep</code>在程序里面使用比较频繁，特别是单片机的走马灯等。而Linux的<code>sleep</code>，也是比较常与bash脚本来配合使用，如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">"start to sleep 15 seconds......"</span></span><br><span class="line"><span class="built_in">sleep</span> 15</span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">"continue to run program......"</span></span><br><span class="line">./program</span><br></pre></td></tr></tbody></table></figure>
+
+
+<h2 id="可看黄道吉日的-cal"><a href="#可看黄道吉日的-cal" class="headerlink" title="可看黄道吉日的 cal"></a>可看黄道吉日的 cal</h2><p><code>cal</code>用于显示当前日历信息或者指定日期的公历信息。</p>
+<p><code>cal</code>的官方定义为：</p>
+<blockquote>
+<p> cal, ncal — displays a calendar and the date of Easter</p>
+</blockquote>
+<p><code>cal</code>也是来自于<u>calendar</u>的前三个字母。</p>
+<p>其用法有好几种，比如可以为：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ cal [-31jy] [-A number] [-B number] [-d yyyy-mm] [[month] year]</span><br><span class="line">$ cal [-31j] [-A number] [-B number] [-d yyyy-mm] -m month [year]</span><br><span class="line">$ ncal [-C] [-31jy] [-A number] [-B number] [-d yyyy-mm] [[month] year]</span><br><span class="line">$ ncal [-C] [-31j] [-A number] [-B number] [-d yyyy-mm] -m month [year]</span><br><span class="line">$ ncal [-31bhjJpwySM] [-A number] [-B number] [-H yyyy-mm-dd] [-d yyyy-mm] [-s country_code] [[month] year]</span><br><span class="line">$ ncal [-31bhJeoSM] [-A number] [-B number] [-d yyyy-mm] [year]</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p><code>cal</code>可以没有参数，也可以多个参数组合。</p>
+<p><code>[[month] year]</code>的含义是，比如有<strong>year</strong>这个参数，然后可以出现<strong>month year</strong>两个参数。</p>
+<p>主要使用的参数为：</p>
+<ul>
+<li><code>-3</code> ：显示前后和当前3个月的日历</li>
+<li><code>-y</code> ：显示一年的日历，此时不要指定月份参数</li>
+<li><code>-j</code> ：显示在当年中的第几天（儒略日）</li>
+</ul>
+<h3 id="显示当前月份的日历"><a href="#显示当前月份的日历" class="headerlink" title="显示当前月份的日历"></a>显示当前月份的日历</h3><p>默认无参数会显示当前的月份等信息</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ cal</span><br><span class="line">   February 2011</span><br><span class="line">Su Mo Tu We Th Fr Sa</span><br><span class="line">       1  2  3  4  5</span><br><span class="line"> 6  7  8  9 10 11 12</span><br><span class="line">13 14 15 16 17 18 19</span><br><span class="line">20 21 22 23 24 25 26</span><br><span class="line">27 28</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="显示指定年月的日历"><a href="#显示指定年月的日历" class="headerlink" title="显示指定年月的日历"></a>显示指定年月的日历</h3><p>比如希望看看2012年12月份，可以运行如下命令：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ cal 12 2012</span><br><span class="line">   December 2012</span><br><span class="line">Su Mo Tu We Th Fr Sa</span><br><span class="line">                   1</span><br><span class="line"> 2  3  4  5  6  7  8</span><br><span class="line"> 9 10 11 12 13 14 15</span><br><span class="line">16 17 18 19 20 21 22</span><br><span class="line">23 24 25 26 27 28 29</span><br><span class="line">30 31</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="显示3个月的日历"><a href="#显示3个月的日历" class="headerlink" title="显示3个月的日历"></a>显示3个月的日历</h3><p><code>-3</code>将显示当前月份、前一个月、后一个月，共计3个月的日历。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ cal -3</span><br><span class="line">                            2011</span><br><span class="line">      January               February               March</span><br><span class="line">Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa</span><br><span class="line">                   1         1  2  3  4  5         1  2  3  4  5</span><br><span class="line"> 2  3  4  5  6  7  8   6  7  8  9 10 11 12   6  7  8  9 10 11 12</span><br><span class="line"> 9 10 11 12 13 14 15  13 14 15 16 17 18 19  13 14 15 16 17 18 19</span><br><span class="line">16 17 18 19 20 21 22  20 21 22 23 24 25 26  20 21 22 23 24 25 26</span><br><span class="line">23 24 25 26 27 28 29  27 28                 27 28 29 30 31</span><br><span class="line">30 31</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="显示一年的日历"><a href="#显示一年的日历" class="headerlink" title="显示一年的日历"></a>显示一年的日历</h3><p>使用<code>-y</code>参数，可以查看一年的日历。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">$ cal -y</span><br><span class="line">                            2011</span><br><span class="line">      January               February               March</span><br><span class="line">Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa</span><br><span class="line">                   1         1  2  3  4  5         1  2  3  4  5</span><br><span class="line"> 2  3  4  5  6  7  8   6  7  8  9 10 11 12   6  7  8  9 10 11 12</span><br><span class="line"> 9 10 11 12 13 14 15  13 14 15 16 17 18 19  13 14 15 16 17 18 19</span><br><span class="line">16 17 18 19 20 21 22  20 21 22 23 24 25 26  20 21 22 23 24 25 26</span><br><span class="line">23 24 25 26 27 28 29  27 28                 27 28 29 30 31</span><br><span class="line">30 31</span><br><span class="line"></span><br><span class="line">       April                  May                   June</span><br><span class="line">Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa</span><br><span class="line">                1  2   1  2  3  4  5  6  7            1  2  3  4</span><br><span class="line"> 3  4  5  6  7  8  9   8  9 10 11 12 13 14   5  6  7  8  9 10 11</span><br><span class="line">10 11 12 13 14 15 16  15 16 17 18 19 20 21  12 13 14 15 16 17 18</span><br><span class="line">17 18 19 20 21 22 23  22 23 24 25 26 27 28  19 20 21 22 23 24 25</span><br><span class="line">24 25 26 27 28 29 30  29 30 31              26 27 28 29 30</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        July                 August              September</span><br><span class="line">Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa</span><br><span class="line">                1  2      1  2  3  4  5  6               1  2  3</span><br><span class="line"> 3  4  5  6  7  8  9   7  8  9 10 11 12 13   4  5  6  7  8  9 10</span><br><span class="line">10 11 12 13 14 15 16  14 15 16 17 18 19 20  11 12 13 14 15 16 17</span><br><span class="line">17 18 19 20 21 22 23  21 22 23 24 25 26 27  18 19 20 21 22 23 24</span><br><span class="line">24 25 26 27 28 29 30  28 29 30 31           25 26 27 28 29 30</span><br><span class="line">31</span><br><span class="line"></span><br><span class="line">      October               November              December</span><br><span class="line">Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa</span><br><span class="line">                   1         1  2  3  4  5               1  2  3</span><br><span class="line"> 2  3  4  5  6  7  8   6  7  8  9 10 11 12   4  5  6  7  8  9 10</span><br><span class="line"> 9 10 11 12 13 14 15  13 14 15 16 17 18 19  11 12 13 14 15 16 17</span><br><span class="line">16 17 18 19 20 21 22  20 21 22 23 24 25 26  18 19 20 21 22 23 24</span><br><span class="line">23 24 25 26 27 28 29  27 28 29 30           25 26 27 28 29 30 31</span><br><span class="line">30 31</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="显示儒略日"><a href="#显示儒略日" class="headerlink" title="显示儒略日"></a>显示儒略日</h3><p><code>-j</code>用于显示儒略日，这里的儒略日的概念为从1月1日开始计算的多少天，这个在倒计时的时候挺好用的。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ cal -j </span><br><span class="line"> cal 02 2011 -j</span><br><span class="line">       February 2011</span><br><span class="line"> Su  Mo  Tu  We  Th  Fr  Sa</span><br><span class="line">         32  33  34  35  36</span><br><span class="line"> 37  38  39  40  41  42  43</span><br><span class="line"> 44  45  46  47  48  49  50</span><br><span class="line"> 51  52  53  54  55  56  57</span><br><span class="line"> 58  59</span><br></pre></td></tr></tbody></table></figure>
+
+<hr>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Linux%E6%B1%87%E6%80%BB/" rel="tag"># Linux汇总</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/09/linux-collection-tricks/" rel="prev" title="Linux 炫技收集">
+      <i class="fa fa-chevron-left"></i> Linux 炫技收集
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/12/diary-%E8%B7%AF%E5%BE%B7%E7%BB%B4%E6%A0%BC%E8%B4%9D%E6%A2%85%E5%B0%94%E6%9B%BC%E6%96%AF-%E7%8E%9B%E5%BE%B7%E7%90%B3-Madeline/" rel="next" title="玛德琳-Madeline">
+      玛德琳-Madeline <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E6%9C%80%E5%B8%B8%E7%94%A8%E7%9A%84%E5%87%A0%E4%B8%AA%E6%97%B6%E9%97%B4%E6%97%A5%E6%9C%9F%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">Linux最常用的几个时间日期命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E6%97%A5%E9%9A%BE%E5%86%8D%E6%99%A8%E5%8F%8A%E6%97%B6%E5%BD%93%E5%8B%89%E5%8A%B1-date"><span class="nav-number">1.1.</span> <span class="nav-text">一日难再晨及时当勉励 date</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E8%BE%93%E5%85%A5"><span class="nav-number">1.1.1.</span> <span class="nav-text">默认输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E6%97%B6%E5%8C%BA"><span class="nav-number">1.1.2.</span> <span class="nav-text">显示时区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%96%E7%95%8C%E5%8D%8F%E8%B0%83%E6%97%B6"><span class="nav-number">1.1.3.</span> <span class="nav-text">世界协调时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%97%A5%E6%9C%9F"><span class="nav-number">1.1.4.</span> <span class="nav-text">格式化日期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E5%85%89%E6%80%BB%E6%98%AF%E5%82%AC%E4%BA%BA%E8%80%81-time"><span class="nav-number">1.2.</span> <span class="nav-text">时光总是催人老 time</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95"><span class="nav-number">1.2.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%91%E6%81%AF%E4%B8%80%E4%BC%9A-sleep"><span class="nav-number">1.3.</span> <span class="nav-text">休息一会 sleep</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%91%E6%81%AF5%E5%88%86%E9%92%9F"><span class="nav-number">1.3.1.</span> <span class="nav-text">休息5分钟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E5%B0%8F%E6%97%B6%E5%90%8E%E6%8F%90%E9%86%92%E6%88%91"><span class="nav-number">1.3.2.</span> <span class="nav-text">1小时后提醒我</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E5%88%86%E7%A7%92%E6%90%AD%E9%85%8D%E4%BD%BF%E7%94%A8"><span class="nav-number">1.3.3.</span> <span class="nav-text">时分秒搭配使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%80%92%E8%AE%A1%E6%97%B6%E8%AE%A1%E6%97%B6%E5%99%A8"><span class="nav-number">1.3.4.</span> <span class="nav-text">倒计时计时器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E5%90%88%E8%84%9A%E6%9C%AC"><span class="nav-number">1.3.5.</span> <span class="nav-text">结合脚本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E7%9C%8B%E9%BB%84%E9%81%93%E5%90%89%E6%97%A5%E7%9A%84-cal"><span class="nav-number">1.4.</span> <span class="nav-text">可看黄道吉日的 cal</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E5%BD%93%E5%89%8D%E6%9C%88%E4%BB%BD%E7%9A%84%E6%97%A5%E5%8E%86"><span class="nav-number">1.4.1.</span> <span class="nav-text">显示当前月份的日历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E6%8C%87%E5%AE%9A%E5%B9%B4%E6%9C%88%E7%9A%84%E6%97%A5%E5%8E%86"><span class="nav-number">1.4.2.</span> <span class="nav-text">显示指定年月的日历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA3%E4%B8%AA%E6%9C%88%E7%9A%84%E6%97%A5%E5%8E%86"><span class="nav-number">1.4.3.</span> <span class="nav-text">显示3个月的日历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E4%B8%80%E5%B9%B4%E7%9A%84%E6%97%A5%E5%8E%86"><span class="nav-number">1.4.4.</span> <span class="nav-text">显示一年的日历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E5%84%92%E7%95%A5%E6%97%A5"><span class="nav-number">1.4.5.</span> <span class="nav-text">显示儒略日</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2022/10/09/linux-collection-date-commands/";
+    this.page.identifier = "2022/10/09/linux-collection-date-commands/";
+    this.page.title = "Linux最常用的几个时间日期命令";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

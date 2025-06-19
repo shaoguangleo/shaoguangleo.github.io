@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="如何在CentOS上安装DiFX如果只是使用，那么可以使用下面一个命令来获取DiFX的运行环境(需要安装docker)： 1$ docker run -it shaoguangleo&#x2F;centos-difx  如果希望运行图形界面，运行下述命令： 1$ docker run -it -e DISPLAY&#x3D;unix$DISPLAY -v &#x2F;tmp&#x2F;.X11-unix:&#x2F;tmp&#x2F;.X11-unix s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 安装 DiFX">
+<meta property="og:url" content="http://shaoguangleo.github.io/2018/01/24/astronomy-difx-install-on-centos/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="如何在CentOS上安装DiFX如果只是使用，那么可以使用下面一个命令来获取DiFX的运行环境(需要安装docker)： 1$ docker run -it shaoguangleo&#x2F;centos-difx  如果希望运行图形界面，运行下述命令： 1$ docker run -it -e DISPLAY&#x3D;unix$DISPLAY -v &#x2F;tmp&#x2F;.X11-unix:&#x2F;tmp&#x2F;.X11-unix s">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-01-24T12:58:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.701Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="astronomy">
+<meta property="article:tag" content="portmap">
+<meta property="article:tag" content="CentOS">
+<meta property="article:tag" content="DiFX">
+<meta property="article:tag" content="calcif2">
+<meta property="article:tag" content="calcserver">
+<meta property="article:tag" content="difx2fits">
+<meta property="article:tag" content="difx2mark4">
+<meta property="article:tag" content="difx2profile">
+<meta property="article:tag" content="difxio">
+<meta property="article:tag" content="difxmessage">
+<meta property="article:tag" content="fftw">
+<meta property="article:tag" content="ipp">
+<meta property="article:tag" content="mark5acess">
+<meta property="article:tag" content="mpich">
+<meta property="article:tag" content="mpifxcorr">
+<meta property="article:tag" content="pgplot">
+<meta property="article:tag" content="rpc">
+<meta property="article:tag" content="vdifio">
+<meta property="article:tag" content="vex2difx">
+<meta property="article:tag" content="vsi2screen">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="PGPLOT">
+<meta property="article:tag" content="AstroSoft">
+<meta property="article:tag" content="天文">
+<meta property="article:tag" content="射电">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2018/01/24/astronomy-difx-install-on-centos/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CentOS 安装 DiFX | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2018/01/24/astronomy-difx-install-on-centos/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CentOS 安装 DiFX
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-24 20:58:00" itemprop="dateCreated datePublished" datetime="2018-01-24T20:58:00+08:00">2018-01-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B0%84%E7%94%B5%E5%A4%A9%E6%96%87/" itemprop="url" rel="index"><span itemprop="name">射电天文</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/01/24/astronomy-difx-install-on-centos/" class="post-meta-item leancloud_visitors" data-flag-title="CentOS 安装 DiFX" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/01/24/astronomy-difx-install-on-centos/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/01/24/astronomy-difx-install-on-centos/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/01/24/astronomy-difx-install-on-centos/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/01/24/astronomy-difx-install-on-centos/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="如何在CentOS上安装DiFX"><a href="#如何在CentOS上安装DiFX" class="headerlink" title="如何在CentOS上安装DiFX"></a>如何在CentOS上安装DiFX</h1><p>如果只是使用，那么可以使用下面一个命令来获取DiFX的运行环境(<em>需要安装docker</em>)：</p>
+<figure class="highlight applescript"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">run</span> -<span class="keyword">it</span> shaoguangleo/centos-difx</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果希望运行图形界面，运行下述命令：</p>
+<figure class="highlight dockerfile"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker <span class="keyword">run</span><span class="language-bash"> -it -e DISPLAY=unix<span class="variable">$DISPLAY</span> -v /tmp/.X11-unix:/tmp/.X11-unix shaoguangleo/centos-difx</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果希望体验一下DiFX的安装，那就开始吧。</p>
+<p>最简单的安装方法可以参考<a href="https://github.com/shaoguangleo/AstroSoft">一步安装DiFX</a>,<code>star</code>或者<code>follow</code>后提供比较大的压缩包。</p>
+<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><ul>
+<li>CentOS 6.3</li>
+<li>CentOS-7.0</li>
+<li>CentOS-8.0</li>
+</ul>
+<h2 id="DiFX版本"><a href="#DiFX版本" class="headerlink" title="DiFX版本"></a>DiFX版本</h2><ul>
+<li>DiFX-2.1</li>
+<li>DiFX-2.4</li>
+<li>DiFX-2.5.1</li>
+<li>DiFX-2.6.2</li>
+<li>DiFX-2.7.0</li>
+<li>DiFX-2.8.1</li>
+</ul>
+<h2 id="前提配置："><a href="#前提配置：" class="headerlink" title="前提配置："></a>前提配置：</h2><p>首先更新系统；</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum update</span><br><span class="line">$ yum upgrade</span><br></pre></td></tr></tbody></table></figure>
+
+<p>安装依赖软件包</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ yum install pkgconfig bison  </span><br><span class="line">$ yum install fftw-devel openmpi-dev openmpi-bin</span><br><span class="line">$ yum install openmpi gcc-gfortran libgfortan libgfortan-static expat expat-devel expat-static</span><br><span class="line">$ yum install subversion doxygen</span><br><span class="line">$ yum install automake autoconf</span><br><span class="line">$ yum install libtool* flex*</span><br><span class="line">$ yum install libfftw3-dev libopenmpi-dev libexpat1-dev</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="安装步骤："><a href="#安装步骤：" class="headerlink" title="安装步骤："></a>安装步骤：</h2><h3 id="一）、安装-Intel-Integrated-Performance-Primitives（IPP）"><a href="#一）、安装-Intel-Integrated-Performance-Primitives（IPP）" class="headerlink" title="(一）、安装 Intel.Integrated.Performance.Primitives（IPP）"></a>(一）、安装 Intel.Integrated.Performance.Primitives（IPP）</h3><p>一路默认安装就可以了，默认安装到/opt/intel/ipp中(假设安装的路径为：/opt/intel/ipp/5.3/ia32/)。<br>添加环境变量：</p>
+<p>如果是以前的版本，需要自己指定IPPROOT及相应信息，如下所示：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> IPPROOT=/opt/intel/ipp/5.3/ia32</span><br></pre></td></tr></tbody></table></figure>
+
+<p>对于比较新的版本，可以只指定</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> IPPROOT=/opt/intel/</span><br></pre></td></tr></tbody></table></figure>
+
+<p>剩下的交给DiFX去处理。</p>
+<p>在安装DiFX的时候出现这个问题。</p>
+<p>运行install.sh出现：</p>
+<figure class="highlight pgsql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">*ERROR: Unable <span class="keyword">to</span> find rpm tool, please <span class="keyword">add</span> its <span class="keyword">location</span> <span class="keyword">to</span> your <span class="type">PATH</span> <span class="keyword">and</span> <span class="keyword">restart</span> installation</span><br><span class="line"> Installation failed.</span><br><span class="line"> Please see /var/<span class="keyword">log</span>/ipp_em64t_install.<span class="keyword">log</span> <span class="keyword">for</span> details.*</span><br><span class="line"></span><br><span class="line">*Installation <span class="keyword">is</span> complete:* *</span><br><span class="line"> Thank you <span class="keyword">for</span> <span class="keyword">using</span> Intel Software Development Products, tools <span class="keyword">for</span> improving application performance.</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>解决方法为： <code>**/install/install --nonrpm**</code></p>
+<p>这个bug在ipp5.3和ipp6.0都是存在的，从ipp6.1开始修复，对于全新的IPP，多个版本可以共存安装。</p>
+<h3 id="（二）、pgplot5-2-tar-gz的安装"><a href="#（二）、pgplot5-2-tar-gz的安装" class="headerlink" title="（二）、pgplot5.2.tar.gz的安装."></a>（二）、pgplot5.2.tar.gz的安装.</h3><p>参考 <a href="http://shaoguangleo.github.io/tags/pgplot/">Ubuntu/Debain/Fedora/Mac/CentOS 安装PGPLOT</a></p>
+<p>添加环境变量：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span>  PGPLOT_DIR=/usr/local/pgplot/</span><br><span class="line">$ <span class="built_in">export</span> PGPLOT_DEV=/xwindow</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="（三）、mpich的安装"><a href="#（三）、mpich的安装" class="headerlink" title="（三）、mpich的安装"></a>（三）、mpich的安装</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$./configure --prefix=/usr/local/mpich 2&gt;&amp;1 | <span class="built_in">tee</span> c.txt</span><br><span class="line">$ make 2&gt;&amp;1 | <span class="built_in">tee</span> m.txt</span><br><span class="line">$ make install 2&gt;&amp;1 | <span class="built_in">tee</span> mi.txt</span><br></pre></td></tr></tbody></table></figure>
+
+<p>添加环境变量：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PATH=/usr/local/mpich/bin:<span class="variable">$PATH</span>; <span class="built_in">export</span> PATH</span><br><span class="line"><span class="built_in">export</span> MPICXX=/usr/local/mpich/bin/mpicxx</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="（四）、-fftw的的安装"><a href="#（四）、-fftw的的安装" class="headerlink" title="（四）、 fftw的的安装"></a>（四）、 fftw的的安装</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure --enable-shared --enable-threads --enable-float</span><br><span class="line">$ make -j 2</span><br><span class="line">$ make install</span><br><span class="line">$ make clean</span><br><span class="line">$ ./configure --enable-shared --enable-threads --enable-long-double</span><br><span class="line">$ make -j 4</span><br><span class="line">$ make install</span><br><span class="line">$ make clean</span><br><span class="line">$ ./configure --enable-sse2</span><br><span class="line">$ make -j 4</span><br><span class="line">$ make install</span><br><span class="line">$ make clean</span><br><span class="line">$ updatedb</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="（五）、-DiFX‐2-4-1的安装"><a href="#（五）、-DiFX‐2-4-1的安装" class="headerlink" title="（五）、 DiFX‐2.4.1的安装"></a>（五）、 DiFX‐2.4.1的安装</h3><p>执行./genipppc</p>
+<p>修改setup.bash文件的如下部分(深红的部分）</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">####### DIFX VERSION ########################</span></span><br><span class="line"><span class="built_in">export</span> DIFX_VERSION=DiFX-2.1.1</span><br><span class="line"></span><br><span class="line"><span class="comment">####### ROOT PATHS ##########################</span></span><br><span class="line"><span class="built_in">export</span> DIFXROOT=/usr/local/difx</span><br><span class="line"><span class="built_in">export</span> DIFX_PREFIX=<span class="variable">$DIFXROOT</span></span><br><span class="line"><span class="built_in">export</span> PGPLOTDIR=/usr/local/pgplot</span><br><span class="line"><span class="built_in">export</span> IPPROOT=/opt/intel/ipp/5.3/ia32</span><br><span class="line"></span><br><span class="line"><span class="comment">####### COMPILER ############################</span></span><br><span class="line"><span class="built_in">export</span> MPICXX=/usr/local/mpich/bin/mpicxx</span><br><span class="line"></span><br><span class="line"><span class="comment">####### USE GFORTRAN IN PREFERENCE TO G77? ##</span></span><br><span class="line"><span class="comment">####### Comment out if not desired ##########</span></span><br><span class="line"></span><br><span class="line">$ <span class="built_in">mkdir</span> /usr/local/difx</span><br><span class="line">$ Source setup.bash</span><br><span class="line">$ ./install-difx</span><br><span class="line">$ ./install-difx --withhops</span><br><span class="line">$ ./install-difx --withfb</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cp</span> init.d/calcserver  /etc/init.d</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+
+<p>注：若不能运行成功则应向：<code>DiFX-2.1/mpifxcorr/src/fxmanager.cpp</code> 和 <code>DiFX-2.1/mpifxcorr/utils/dedisperse_difx.cpp</code> 中添加语句 <code>#include &lt;cstring&gt;</code> 若还不能成功运行则可根据错误提示安装相应的软件。</p>
+<h3 id="（六）、最后安装-portmap-程序包以启动rpc-（yum-install-portmap-、yum-install-rpc）"><a href="#（六）、最后安装-portmap-程序包以启动rpc-（yum-install-portmap-、yum-install-rpc）" class="headerlink" title="（六）、最后安装  portmap 程序包以启动rpc （yum install portmap 、yum install rpc）"></a>（六）、最后安装  portmap 程序包以启动rpc （yum install portmap 、yum install rpc）</h3><h3 id="（七）、总结如下："><a href="#（七）、总结如下：" class="headerlink" title="（七）、总结如下："></a>（七）、总结如下：</h3><p>DiFX的安装顺序如下：</p>
+<ul>
+<li>difxio</li>
+<li>difxmessage</li>
+<li>mark5access</li>
+<li>vdifio</li>
+<li>mpifxcorr</li>
+<li>calcserver</li>
+<li>calcif2</li>
+<li>difx2fits</li>
+<li>vex2difx</li>
+<li>difx2mark4</li>
+<li>pulsar/difx2profile</li>
+<li>misc</li>
+<li>vsi2screen</li>
+</ul>
+<h2 id="OUTPUT"><a href="#OUTPUT" class="headerlink" title="OUTPUT"></a>OUTPUT</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br></pre></td><td class="code"><pre><span class="line">\u@\h DiFX-2.4.1 \W&gt; <span class="built_in">source</span> setup.bash</span><br><span class="line"> DiFX version DiFX-2.4.1 is selected</span><br><span class="line">\u@\h DiFX-2.4.1 \W&gt; ./install-difx</span><br><span class="line">************************************</span><br><span class="line">Getting environmental variables</span><br><span class="line"></span><br><span class="line">************************************</span><br><span class="line">Setting up directories</span><br><span class="line"></span><br><span class="line">/home/AstroSoft/DiFX2.4.1/lib/pkgconfig/ipp.pc already exists</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">************************************</span><br><span class="line">Building  difxio/</span><br><span class="line"></span><br><span class="line">libtoolize: putting auxiliary files <span class="keyword">in</span> `.<span class="string">'.</span></span><br><span class="line"><span class="string">libtoolize: copying file `./ltmain.sh'</span></span><br><span class="line">libtoolize: Consider adding `AC_CONFIG_MACRO_DIR([m4])<span class="string">' to configure.ac and</span></span><br><span class="line"><span class="string">libtoolize: rerunning libtoolize, to keep the correct libtool macros in-tree.</span></span><br><span class="line"><span class="string">libtoolize: Consider adding `-I m4'</span> to ACLOCAL_AMFLAGS <span class="keyword">in</span> Makefile.am.</span><br><span class="line">difxio/Makefile.am:43: warning: <span class="string">'INCLUDES'</span> is the old name <span class="keyword">for</span> <span class="string">'AM_CPPFLAGS'</span> (or <span class="string">'*_CPPFLAGS'</span>)</span><br><span class="line">tests/Makefile.am:1: warning: <span class="string">'INCLUDES'</span> is the old name <span class="keyword">for</span> <span class="string">'AM_CPPFLAGS'</span> (or <span class="string">'*_CPPFLAGS'</span>)</span><br><span class="line">utils/Makefile.am:1: warning: <span class="string">'INCLUDES'</span> is the old name <span class="keyword">for</span> <span class="string">'AM_CPPFLAGS'</span> (or <span class="string">'*_CPPFLAGS'</span>)</span><br><span class="line">checking <span class="keyword">for</span> a BSD-compatible install... /usr/bin/install -c</span><br><span class="line">checking whether build environment is sane... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> a thread-safe <span class="built_in">mkdir</span> -p... /usr/bin/mkdir -p</span><br><span class="line">checking <span class="keyword">for</span> gawk... gawk</span><br><span class="line">checking whether make sets $(MAKE)... <span class="built_in">yes</span></span><br><span class="line">checking whether make supports nested variables... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> gcc... gcc</span><br><span class="line">checking whether the C compiler works... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> C compiler default output file name... a.out</span><br><span class="line">checking <span class="keyword">for</span> suffix of executables...</span><br><span class="line">checking whether we are cross compiling... no</span><br><span class="line">checking <span class="keyword">for</span> suffix of object files... o</span><br><span class="line">checking whether we are using the GNU C compiler... <span class="built_in">yes</span></span><br><span class="line">checking whether gcc accepts -g... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> gcc option to accept ISO C89... none needed</span><br><span class="line">checking <span class="keyword">for</span> style of include used by make... GNU</span><br><span class="line">checking dependency style of gcc... gcc3</span><br><span class="line">checking build system <span class="built_in">type</span>... x86_64-unknown-linux-gnu</span><br><span class="line">checking host system <span class="built_in">type</span>... x86_64-unknown-linux-gnu</span><br><span class="line">checking how to <span class="built_in">print</span> strings... <span class="built_in">printf</span></span><br><span class="line">checking <span class="keyword">for</span> a sed that does not <span class="built_in">truncate</span> output... /usr/bin/sed</span><br><span class="line">checking <span class="keyword">for</span> grep that handles long lines and -e... /usr/bin/grep</span><br><span class="line">checking <span class="keyword">for</span> egrep... /usr/bin/grep -E</span><br><span class="line">checking <span class="keyword">for</span> fgrep... /usr/bin/grep -F</span><br><span class="line">checking <span class="keyword">for</span> ld used by gcc... /usr/bin/ld</span><br><span class="line">checking <span class="keyword">if</span> the linker (/usr/bin/ld) is GNU ld... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B</span><br><span class="line">checking the name lister (/usr/bin/nm -B) interface... BSD nm</span><br><span class="line">checking whether <span class="built_in">ln</span> -s works... <span class="built_in">yes</span></span><br><span class="line">checking the maximum length of <span class="built_in">command</span> line arguments... 1572864</span><br><span class="line">checking whether the shell understands some XSI constructs... <span class="built_in">yes</span></span><br><span class="line">checking whether the shell understands <span class="string">"+="</span>... <span class="built_in">yes</span></span><br><span class="line">checking how to convert x86_64-unknown-linux-gnu file names to x86_64-unknown-linux-gnu format... func_convert_file_noop</span><br><span class="line">checking how to convert x86_64-unknown-linux-gnu file names to toolchain format... func_convert_file_noop</span><br><span class="line">checking <span class="keyword">for</span> /usr/bin/ld option to reload object files... -r</span><br><span class="line">checking <span class="keyword">for</span> objdump... objdump</span><br><span class="line">checking how to recognize dependent libraries... pass_all</span><br><span class="line">checking <span class="keyword">for</span> dlltool... no</span><br><span class="line">checking how to associate runtime and <span class="built_in">link</span> libraries... <span class="built_in">printf</span> %s\n</span><br><span class="line">checking <span class="keyword">for</span> ar... ar</span><br><span class="line">checking <span class="keyword">for</span> archiver @FILE support... @</span><br><span class="line">checking <span class="keyword">for</span> strip... strip</span><br><span class="line">checking <span class="keyword">for</span> ranlib... ranlib</span><br><span class="line">checking <span class="built_in">command</span> to parse /usr/bin/nm -B output from gcc object... ok</span><br><span class="line">checking <span class="keyword">for</span> sysroot... no</span><br><span class="line">checking <span class="keyword">for</span> mt... no</span><br><span class="line">checking <span class="keyword">if</span> : is a manifest tool... no</span><br><span class="line">checking how to run the C preprocessor... gcc -E</span><br><span class="line">checking <span class="keyword">for</span> ANSI C header files... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> sys/types.h... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> sys/stat.h... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> stdlib.h... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> string.h... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> memory.h... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> strings.h... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> inttypes.h... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> stdint.h... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> unistd.h... <span class="built_in">yes</span></span><br><span class="line">checking <span class="keyword">for</span> dlfcn.h... <span class="built_in">yes</span></span><br><span class="line">Building page list...</span><br><span class="line">Search <span class="keyword">for</span> main page...</span><br><span class="line">Computing page relations...</span><br><span class="line">Determining the scope of <span class="built_in">groups</span>...</span><br><span class="line">Sorting lists...</span><br><span class="line">Freeing entry tree</span><br><span class="line">Determining <span class="built_in">which</span> enums are documented</span><br><span class="line">Computing member relations...</span><br><span class="line">Building full member lists recursively...</span><br><span class="line">Adding members to member <span class="built_in">groups</span>.</span><br><span class="line">Computing member references...</span><br><span class="line">Inheriting documentation...</span><br><span class="line">Generating disk names...</span><br><span class="line">Adding <span class="built_in">source</span> references...</span><br><span class="line">Adding xrefitems...</span><br><span class="line">Sorting member lists...</span><br><span class="line">Computing dependencies between directories...</span><br><span class="line">Generating citations page...</span><br><span class="line">Counting data structures...</span><br><span class="line">Resolving user defined references...</span><br><span class="line">Finding anchors and sections <span class="keyword">in</span> the documentation...</span><br><span class="line">Transferring <span class="keyword">function</span> references...</span><br><span class="line">Combining using relations...</span><br><span class="line">Adding members to index pages...</span><br><span class="line">Generating style sheet...</span><br><span class="line">Generating example documentation...</span><br><span class="line">Generating file sources...</span><br><span class="line">Generating file documentation...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/alert.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/alert.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/architecture.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/configuration.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/configuration.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/core.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/core.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/datamuxer.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/datamuxer.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/datastream.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/datastream.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/fxmanager.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/fxmanager.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mark5bfile.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mark5bfile.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mark5bmark5.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mark5bmark5.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mark5bmark5_stubs.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mark5dir.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mark5dir.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mark5directorystructs.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mark5directorystructs.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mark5utils.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mark5utils.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mk5.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mk5.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mk5mode.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mk5mode.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mode.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mode.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/model.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/model.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mpifxcorr.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/mpifxcorr.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/nativemk5.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/nativemk5.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/nativemk5_stubs.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/pcal.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/pcal.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/pcal_impl.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/polyco.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/polyco.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/pthreadbarrier.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/switchedpower.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/switchedpower.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/vdiffake.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/vdiffake.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/vdiffile.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/vdiffile.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/vdifmark5.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/vdifmark5.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/vdifmark5_stubs.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/vdifnetwork.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/vdifnetwork.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/visibility.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/visibility.h...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/watchdog.cpp...</span><br><span class="line">Generating docs <span class="keyword">for</span> file src/watchdog.h...</span><br><span class="line">Generating page documentation...</span><br><span class="line">Generating group documentation...</span><br><span class="line">Generating class documentation...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Alert...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Configuration...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound Configuration::baselinedata...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound Configuration::configdata...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound Configuration::datastreamdata...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound Configuration::freqdata...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound Configuration::ruledata...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound Configuration::telescopedata...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Core...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound Core::processslot...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound Core::processthreadinfo...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound Core::threadscratchspace...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound DataMuxer...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound DataStream...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound DataStream::readinfo...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound DriveInformation...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound FxManager...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound LBA16BitMode...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound LBA8BitMode...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound LBAMode...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Mark5BDataStream...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Mark5BMark5DataStream...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Mark5DirectoryHeaderVer1...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Mark5DirectoryInfo...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Mark5DirectoryLegacyBodyVer1...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Mark5DirectoryScanHeaderVer1...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Mark5DirectoryVDIFBodyVer1...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Mark5LegacyDirectory...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Mark5Module...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Mark5NeoLegacyDirectory...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Mark5Scan...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Mk5DataStream...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Mk5Mode...</span><br><span class="line">/home/leo/Downloads/DiFX_Install/DiFX-2.4.1/mpifxcorr/src/mk5mode.h:36: warning: The following parameters of Mk5Mode::Mk5Mode(Configuration *conf, int confindex, int dsindex, int recordedbandchan, int chanstoavg, int bpersend, int gsamples, int nrecordedfreqs, double recordedbw, double *recordedfreqclkoffs, double *recordedfreqclkoffsdelta, double *recordedfreqphaseoffs, double *recordedfreqlooffs, int nrecordedbands, int nzoombands, int nbits, Configuration::datasampling sampling, Configuration::complextype tcomplex, bool fbank, bool linear2circular, int fringerotorder, int arraystridelen, bool cacorrs, int framebytes, int framesamples, Configuration::dataformat format) are not documented:</span><br><span class="line">  parameter <span class="string">'recordedfreqclkoffsdelta'</span></span><br><span class="line">  parameter <span class="string">'recordedfreqphaseoffs'</span></span><br><span class="line">Generating docs <span class="keyword">for</span> compound Mode...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Model...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound Model::eop...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound Model::scan...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound Model::<span class="built_in">source</span>...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound Model::spacecraft...</span><br><span class="line">Generating docs <span class="keyword">for</span> nested compound Model::station...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound NativeMk5DataStream...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound PCal...</span><br><span class="line">/home/leo/Downloads/DiFX_Install/DiFX-2.4.1/mpifxcorr/src/pcal.cpp:252: warning: argument <span class="string">'pcalout'</span> of <span class="built_in">command</span> @param is not found <span class="keyword">in</span> the argument list of PCal::extractAndIntegrate_reference(f32 const *data, const size_t len, cf32 *out, const uint64_t sampleoffset)</span><br><span class="line">Generating docs <span class="keyword">for</span> compound pcal_config_pimpl...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound PCalExtractorComplex...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound PCalExtractorDummy...</span><br><span class="line">/home/leo/Downloads/DiFX_Install/DiFX-2.4.1/mpifxcorr/src/pcal.cpp:1248: warning: argument <span class="string">'pointer'</span> of <span class="built_in">command</span> @param is not found <span class="keyword">in</span> the argument list of PCalExtractorDummy::getFinalPCal(cf32 *out)</span><br><span class="line">Generating docs <span class="keyword">for</span> compound PCalExtractorImplicitShift...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound PCalExtractorShifting...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound PCalExtractorTrivial...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Polyco...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound pthread_barrier_t...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound SwitchedPower...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound VDIFDataStream...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound VDIFFakeDataStream...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound VDIFMark5DataStream...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound VDIFMuxer...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound VDIFNetworkDataStream...</span><br><span class="line">Generating docs <span class="keyword">for</span> compound Visibility...</span><br><span class="line">Generating namespace index...</span><br><span class="line">Generating docs <span class="keyword">for</span> namespace fxcorr</span><br><span class="line">Generating graph info page...</span><br><span class="line">Generating directory documentation...</span><br><span class="line">Generating index page...</span><br><span class="line">Generating page index...</span><br><span class="line">Generating module index...</span><br><span class="line">Generating namespace index...</span><br><span class="line">Generating namespace member index...</span><br><span class="line">Generating annotated compound index...</span><br><span class="line">Generating alphabetical compound index...</span><br><span class="line">Generating hierarchical class index...</span><br><span class="line">Generating member index...</span><br><span class="line">Generating file index...</span><br><span class="line">Generating file member index...</span><br><span class="line">Generating example index...</span><br><span class="line">finalizing index lists...</span><br><span class="line">lookup cache used 2381/65536 hits=8086 misses=2456</span><br><span class="line">finished...</span><br><span class="line">Done!</span><br></pre></td></tr></tbody></table></figure>
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/astronomy/" rel="tag"># astronomy</a>
+              <a href="/tags/portmap/" rel="tag"># portmap</a>
+              <a href="/tags/CentOS/" rel="tag"># CentOS</a>
+              <a href="/tags/DiFX/" rel="tag"># DiFX</a>
+              <a href="/tags/calcif2/" rel="tag"># calcif2</a>
+              <a href="/tags/calcserver/" rel="tag"># calcserver</a>
+              <a href="/tags/difx2fits/" rel="tag"># difx2fits</a>
+              <a href="/tags/difx2mark4/" rel="tag"># difx2mark4</a>
+              <a href="/tags/difx2profile/" rel="tag"># difx2profile</a>
+              <a href="/tags/difxio/" rel="tag"># difxio</a>
+              <a href="/tags/difxmessage/" rel="tag"># difxmessage</a>
+              <a href="/tags/fftw/" rel="tag"># fftw</a>
+              <a href="/tags/ipp/" rel="tag"># ipp</a>
+              <a href="/tags/mark5acess/" rel="tag"># mark5acess</a>
+              <a href="/tags/mpich/" rel="tag"># mpich</a>
+              <a href="/tags/mpifxcorr/" rel="tag"># mpifxcorr</a>
+              <a href="/tags/pgplot/" rel="tag"># pgplot</a>
+              <a href="/tags/rpc/" rel="tag"># rpc</a>
+              <a href="/tags/vdifio/" rel="tag"># vdifio</a>
+              <a href="/tags/vex2difx/" rel="tag"># vex2difx</a>
+              <a href="/tags/vsi2screen/" rel="tag"># vsi2screen</a>
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/PGPLOT/" rel="tag"># PGPLOT</a>
+              <a href="/tags/AstroSoft/" rel="tag"># AstroSoft</a>
+              <a href="/tags/%E5%A4%A9%E6%96%87/" rel="tag"># 天文</a>
+              <a href="/tags/%E5%B0%84%E7%94%B5/" rel="tag"># 射电</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/01/23/python-conda/" rel="prev" title="python 虚拟环境conda">
+      <i class="fa fa-chevron-left"></i> python 虚拟环境conda
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/01/25/casa-casavlbi2020-plot/" rel="next" title="CASA VLBI 2020 - Plot tools in CASA">
+      CASA VLBI 2020 - Plot tools in CASA <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E4%B8%8A%E5%AE%89%E8%A3%85DiFX"><span class="nav-number">1.</span> <span class="nav-text">如何在CentOS上安装DiFX</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.1.</span> <span class="nav-text">操作系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DiFX%E7%89%88%E6%9C%AC"><span class="nav-number">1.2.</span> <span class="nav-text">DiFX版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%E9%85%8D%E7%BD%AE%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">前提配置：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">1.4.</span> <span class="nav-text">安装步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%EF%BC%89%E3%80%81%E5%AE%89%E8%A3%85-Intel-Integrated-Performance-Primitives%EF%BC%88IPP%EF%BC%89"><span class="nav-number">1.4.1.</span> <span class="nav-text">(一）、安装 Intel.Integrated.Performance.Primitives（IPP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E3%80%81pgplot5-2-tar-gz%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">1.4.2.</span> <span class="nav-text">（二）、pgplot5.2.tar.gz的安装.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%89%EF%BC%89%E3%80%81mpich%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">1.4.3.</span> <span class="nav-text">（三）、mpich的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E5%9B%9B%EF%BC%89%E3%80%81-fftw%E7%9A%84%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">1.4.4.</span> <span class="nav-text">（四）、 fftw的的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%BA%94%EF%BC%89%E3%80%81-DiFX%E2%80%902-4-1%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">1.4.5.</span> <span class="nav-text">（五）、 DiFX‐2.4.1的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E5%85%AD%EF%BC%89%E3%80%81%E6%9C%80%E5%90%8E%E5%AE%89%E8%A3%85-portmap-%E7%A8%8B%E5%BA%8F%E5%8C%85%E4%BB%A5%E5%90%AF%E5%8A%A8rpc-%EF%BC%88yum-install-portmap-%E3%80%81yum-install-rpc%EF%BC%89"><span class="nav-number">1.4.6.</span> <span class="nav-text">（六）、最后安装  portmap 程序包以启动rpc （yum install portmap 、yum install rpc）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E4%B8%83%EF%BC%89%E3%80%81%E6%80%BB%E7%BB%93%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="nav-number">1.4.7.</span> <span class="nav-text">（七）、总结如下：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OUTPUT"><span class="nav-number">1.5.</span> <span class="nav-text">OUTPUT</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2018/01/24/astronomy-difx-install-on-centos/";
+    this.page.identifier = "2018/01/24/astronomy-difx-install-on-centos/";
+    this.page.title = "CentOS 安装 DiFX";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

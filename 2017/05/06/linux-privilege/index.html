@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="在linux下修改权限1234567chmod g+r path&#x2F;file 加读权限 当前目录chmod -R g+r path&#x2F;file 加读权限 当前目录以及子目录g-r 减读权限g+w 加写权限g-wg+x 加执行权限g-x  chgrp修改文件所属组简单使用，将文本test.txt所属组改为gourp1 1chgrp gourp1 test.txt  2.chown修改文件拥有者##将te">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 权限设置">
+<meta property="og:url" content="http://shaoguangleo.github.io/2017/05/06/linux-privilege/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="在linux下修改权限1234567chmod g+r path&#x2F;file 加读权限 当前目录chmod -R g+r path&#x2F;file 加读权限 当前目录以及子目录g-r 减读权限g+w 加写权限g-wg+x 加执行权限g-x  chgrp修改文件所属组简单使用，将文本test.txt所属组改为gourp1 1chgrp gourp1 test.txt  2.chown修改文件拥有者##将te">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdn.net/20160421110042664">
+<meta property="og:image" content="https://img-blog.csdn.net/20160421112520173">
+<meta property="article:published_time" content="2017-05-06T14:11:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.901Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="usermod">
+<meta property="article:tag" content="chgrp">
+<meta property="article:tag" content="chmod">
+<meta property="article:tag" content="chown">
+<meta property="article:tag" content="whoami">
+<meta property="article:tag" content="useradd">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20160421110042664">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2017/05/06/linux-privilege/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux 权限设置 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2017/05/06/linux-privilege/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux 权限设置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-05-06 22:11:00" itemprop="dateCreated datePublished" datetime="2017-05-06T22:11:00+08:00">2017-05-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2017/05/06/linux-privilege/" class="post-meta-item leancloud_visitors" data-flag-title="Linux 权限设置" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2017/05/06/linux-privilege/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/05/06/linux-privilege/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2017/05/06/linux-privilege/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2017/05/06/linux-privilege/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="在linux下修改权限"><a href="#在linux下修改权限" class="headerlink" title="在linux下修改权限"></a>在linux下修改权限</h1><figure class="highlight css"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">chmod <span class="selector-tag">g</span>+<span class="attribute">r</span> <span class="selector-tag">path</span>/file 加读权限 当前目录</span><br><span class="line">chmod -<span class="attribute">R</span> <span class="selector-tag">g</span>+<span class="attribute">r</span> <span class="selector-tag">path</span>/file 加读权限 当前目录以及子目录</span><br><span class="line"><span class="selector-tag">g</span>-<span class="attribute">r</span> 减读权限</span><br><span class="line"><span class="selector-tag">g</span>+w 加写权限</span><br><span class="line"><span class="selector-tag">g</span>-w</span><br><span class="line"><span class="selector-tag">g</span>+<span class="attribute">x</span> 加执行权限</span><br><span class="line"><span class="selector-tag">g</span>-<span class="attribute">x</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="chgrp修改文件所属组"><a href="#chgrp修改文件所属组" class="headerlink" title="chgrp修改文件所属组"></a>chgrp修改文件所属组</h2><p>简单使用，将文本test.txt所属组改为gourp1</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chgrp</span> gourp1 test.txt</span><br></pre></td></tr></tbody></table></figure>
+
+<p>2.chown修改文件拥有者<br>##将test.txt文件所属用户修改为user1</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chown</span> user1 test.txt</span><br></pre></td></tr></tbody></table></figure>
+
+<p>##同时修改test.txt的所属用户和所属组</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chown</span> user1:group1 test.txt</span><br></pre></td></tr></tbody></table></figure>
+
+<p>3.chmod修改文件属性</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 755 <span class="built_in">test</span></span><br><span class="line"><span class="built_in">chmod</span> u+x <span class="built_in">test</span></span><br><span class="line"><span class="built_in">chmod</span> u-x <span class="built_in">test</span></span><br><span class="line"><span class="built_in">chmod</span> g+x <span class="built_in">test</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>4.usrmod修改用户所属组<br>一般的话只是将当前用户添加到其它组中去</p>
+<figure class="highlight css"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usrmod -<span class="selector-tag">a</span> -<span class="selector-tag">G</span> group1 user1</span><br></pre></td></tr></tbody></table></figure>
+
+<p>如果要彻底更改用户所属的组的话使用</p>
+<figure class="highlight css"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usrmod -<span class="selector-tag">g</span> group1 user1</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>使用Linux时，需要以一个用户的身份登陆，从而限制一个使用者能够访问的资源；而组则是用来方便组织管理用户。</p>
+<h2 id="用户与组"><a href="#用户与组" class="headerlink" title="用户与组"></a>用户与组</h2><p>•每个用户拥有一个UserID<br>•每个用户属于一个主组，属于一个或多个附属组<br>•每个组拥有一个GroupID<br>•每个进程以一个用户身份运行，并受该用户可访问的资源限制<br>•每个可登陆用户有一个指定的SHELL</p>
+<p>系统中的文件都有一个所属用户及所属组，用户、组信息保存在以下三个文件中：</p>
+<figure class="highlight awk"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/etc/</span>passwd   用户信息</span><br><span class="line"></span><br><span class="line"><span class="regexp">/etc/</span>shadow  用户密码</span><br><span class="line"></span><br><span class="line"><span class="regexp">/edc/g</span>roup 　组信息</span><br></pre></td></tr></tbody></table></figure>
+
+<p>命令id用以显示当前用户的信息，命令passwd可以修改当前用户的密码；以下命令可以显示登陆用户信息：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">whoami</span>   显示当前用户</span><br><span class="line"></span><br><span class="line"><span class="built_in">who</span>       显示当前登陆的用户信息</span><br><span class="line"></span><br><span class="line">w          显示登陆用户的详细信息</span><br></pre></td></tr></tbody></table></figure>
+
+<p>命令usermod修改一个用户的信息：</p>
+<p>usermod 参数　用户名<br>-l 　修改用户名<br>-u   修改uid<br>-g   修改用户主组<br>-G   修改用户附属组<br>-L   锁定用户<br>-U  解锁用户</p>
+<p>命令userdel用户删除一个用户：</p>
+<p>userdel　用户名<br>userdel -l 用户名　删除用户的同时删除该用户家目录</p>
+<p>命令groupadd、groupmod用以创建、修改一个组：<br>groupadd 组名</p>
+<p>groupmod -n 新组名　旧组名<br>groupmod -g 新组ID　旧组ID</p>
+<p>例如：</p>
+<h2 id="userdel-r-sam"><a href="#userdel-r-sam" class="headerlink" title="userdel -r sam"></a>userdel -r sam</h2><p>此命令删除用户sam在系统文件（主要是/etc/passwd，/etc/shadow，/etc/group等）中的记录，同时删除用户的主目录。</p>
+<p>删除一个组</p>
+<p>同样的，我们有时会需要删除一个组，命令groupde用以删除一个组</p>
+<h2 id="Linux文件特殊权限：SUID、SGID和SBIT"><a href="#Linux文件特殊权限：SUID、SGID和SBIT" class="headerlink" title="Linux文件特殊权限：SUID、SGID和SBIT"></a>Linux文件特殊权限：SUID、SGID和SBIT</h2><h3 id="SUID"><a href="#SUID" class="headerlink" title="SUID"></a>SUID</h3><p>当s这个标志出现在 <strong>文件所有者的x权限上</strong>时，例如文件权限状态“-rwsr-xr-x”，此时就称为 Set UID，简称为SUID的特殊权限。SUID有这样的限制和功能：</p>
+<p>（1）SUID权限仅对 <strong>二进制程序</strong>有效；</p>
+<p>（2）执行者对于该程序需要 <strong>具有x的可执行权限</strong>；</p>
+<p>（3）本权限仅在 <strong>执行该程序的过程中</strong>有效；</p>
+<p>（4）执行者将具有该程序所有者的权限。</p>
+<p>举个例子，在Linux中，所有账号的密码记录在/etc/shadow这个文件中，并且只有root可以读和强制写入这个文件。那么，如果另一个账号vbird需要修改自己的密码，就需要访问/etc/shadow这个文件，但是上面明明说了只有root能访问/etc/shadow这个文件，是不是矛盾？但事实上，vbird是可以修改/etc/shadow这个文件内的密码的，这就是SUID的功能。</p>
+<p>通过上述的功能说明，我们知道，</p>
+<p>（1）vbird对于/usr/bin/passwd这个程序具有x权限，表明vbird可以执行passwd；</p>
+<p>（2）passwd的所有者为root；</p>
+<p>（3）vbird执行passwd的过程中会暂时获得root的权限；</p>
+<p>（4）/etc/shadow因此可以被vbird所执行的passwd所修改。</p>
+<p> 但是vbird如果使用cat去读取/etc/shadow这个文件时，是不能读取的。</p>
+<p><img src="https://img-blog.csdn.net/20160421110042664" alt="img"> </p>
+<p>（SUID只能用在文件上，不能用在目录）</p>
+<h3 id="SGID"><a href="#SGID" class="headerlink" title="SGID"></a>SGID</h3><p>当s标志出现在文件所有者的x权限时称为SUID，那么s出现在用户组的x权限时称为SGID。（U表示user，G表示group）。SGID有如下功能：</p>
+<p>（1）SGID对二进制程序有用；</p>
+<p>（2）程序执行者对该程序需具备x权限；</p>
+<p>（3）执行者在执行过程中会获得该程序用户组的支持。</p>
+<p>举个例子，/usr/bin/locate这个程序可以去查询/var/lib/mlocate/mlocate.db这个文件的内容，mlocate.db的权限如下：</p>
+<p>-rwx–s–x root  slocate /usr/bin/locate</p>
+<p>-rw-r—–  root slocate /var/lib/mlocate/mlocate.db</p>
+<p>若使用vbird这个账号执行locate时，vbird就会获得用户组slocate支持，又由于用户组slocate对mlocate.db具有r权限，所以vbird就可以读取mlocate.db了。</p>
+<p><img src="https://img-blog.csdn.net/20160421112520173" alt="img"> </p>
+<p>除二进制程序外，SGID也可以用目录上。当一个目录设置了SGID权限后，它具有如下功能：</p>
+<p>（1）用户若对此目录具有r和x权限，该用户能够进入该目录；</p>
+<p>（2）用户在此目录下的有效用户组将变成该目录的用户组；</p>
+<p>（3）若用户在此目录下拥有w权限，则用户所创建的新文件的用户组与该目录的用户组相同。</p>
+<h3 id="SBIT"><a href="#SBIT" class="headerlink" title="SBIT"></a>SBIT</h3><p>SBIT目前只对目录有效。</p>
+<p>SBIT对目录的作用是：</p>
+<p>（1）当用户对此目录具有w和x权限时，即具有写入权限时；</p>
+<p>（2）当用户在该目录下创建新文件或目录时，仅有自己和root才有权力删除。</p>
+<h3 id="SUID-SGID-SBIT权限设置"><a href="#SUID-SGID-SBIT权限设置" class="headerlink" title="SUID\SGID\SBIT权限设置"></a>SUID\SGID\SBIT权限设置</h3><p>先将其转换成数字：</p>
+<p>SUID-&gt;4</p>
+<p>SGID-&gt;2</p>
+<p>SBIT-&gt;1</p>
+<p>假设要将一个文件权限修改为“-rwsr-xr-x”，由于s在用户权限中，所以是SUID，因此，原先的755前面还要加上4，也就是4755，所以，</p>
+<p>用命令chmod 4755 filename 设置就可以了。此外，还可能出现S和T的情况。</p>
+<p>我们知道，s和t是替代x这个权限的，但是，如果它本身没有x这个权限，修改为s或t时就会变成大S或大T，例如：</p>
+<p>执行chmod 7666 filename。 因为666表示“-rw-rw-rw”，均没有x权限，所以最后变成“-rwSrwSrwT”。</p>
+<h2 id="Linux中的特殊权限粘滞位-sticky-bit-详解"><a href="#Linux中的特殊权限粘滞位-sticky-bit-详解" class="headerlink" title="Linux中的特殊权限粘滞位(sticky bit)详解"></a>Linux中的特殊权限粘滞位(sticky bit)详解</h2><p>在linux下每一个文件和目录都有自己的访问权限，访问权限确定了用户能否访问文件或者目录和怎样进行访问。最为我们熟知的一个文件或目录可能拥有三种权限，分别是读、写、和执行操作。我们创建一个文件后系统会默认地赋予所有者读和写权限。当然我们也可以自己修改它，添加自己需要的权限。 </p>
+<p>除了通用的这些权限，我们来说说在linux下的另一个特殊权限。首先我们来看看在根目录下的一个目录tmp，可以看到tmp目录的other权限是<code>rwt</code>，那么这里的t又是什么权限呢，有什么意义。 </p>
+<p>t就是粘滞位（粘着位） </p>
+<p>上面所说的t权限就是我们在这里要讲的粘滞位(sticky bit),我们给刚刚的cur目录采用chmod o+t的方式给other用户设置粘滞位。 </p>
+<p>可以看到此时我们是没有权限删除root用户创建的文件了，这也就是粘滞位的作用。 </p>
+<p>粘滞位权限便是针对此种情况设置，当⽬录被设置了粘滞位权限以后，即便⽤户对该⽬录有写⼊权限，也不能删除该⽬录中其他⽤户的⽂件数据，⽽是只有该⽂件的所有者和root⽤户才有权将其删除。设置了粘滞位之后，正好可以保持⼀种动态的平衡：允许各⽤户在⽬录中任意写⼊、删除数据，但是禁⽌随意删除其他⽤户的数据。 </p>
+<p>如果去掉了other的执行权限，可以看到本来’t’的位置变成了’T’，，那么原来的执行标志x到哪里去了呢? 系统是这样规定的, 假如本来在该位上有x, 则这些特别标志 (suid, sgid, sticky) 显示为小写字母 (s, s, t).否则, 显示为大写字母 (S, S, T) 。  </p>
+<blockquote>
+<p> 粘滞位权限是针对目录的，对文件无效 </p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/usermod/" rel="tag"># usermod</a>
+              <a href="/tags/chgrp/" rel="tag"># chgrp</a>
+              <a href="/tags/chmod/" rel="tag"># chmod</a>
+              <a href="/tags/chown/" rel="tag"># chown</a>
+              <a href="/tags/whoami/" rel="tag"># whoami</a>
+              <a href="/tags/useradd/" rel="tag"># useradd</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/05/06/linux-centos7-install-gitlab-ce/" rel="prev" title="CentOS7安装gitlab-ce">
+      <i class="fa fa-chevron-left"></i> CentOS7安装gitlab-ce
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/05/07/linux-sudo/" rel="next" title="Linux的sudo命令">
+      Linux的sudo命令 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%A8linux%E4%B8%8B%E4%BF%AE%E6%94%B9%E6%9D%83%E9%99%90"><span class="nav-number">1.</span> <span class="nav-text">在linux下修改权限</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#chgrp%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%89%80%E5%B1%9E%E7%BB%84"><span class="nav-number">1.1.</span> <span class="nav-text">chgrp修改文件所属组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E4%B8%8E%E7%BB%84"><span class="nav-number">1.2.</span> <span class="nav-text">用户与组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#userdel-r-sam"><span class="nav-number">1.3.</span> <span class="nav-text">userdel -r sam</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E6%96%87%E4%BB%B6%E7%89%B9%E6%AE%8A%E6%9D%83%E9%99%90%EF%BC%9ASUID%E3%80%81SGID%E5%92%8CSBIT"><span class="nav-number">1.4.</span> <span class="nav-text">Linux文件特殊权限：SUID、SGID和SBIT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SUID"><span class="nav-number">1.4.1.</span> <span class="nav-text">SUID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SGID"><span class="nav-number">1.4.2.</span> <span class="nav-text">SGID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SBIT"><span class="nav-number">1.4.3.</span> <span class="nav-text">SBIT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SUID-SGID-SBIT%E6%9D%83%E9%99%90%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.4.4.</span> <span class="nav-text">SUID\SGID\SBIT权限设置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E4%B8%AD%E7%9A%84%E7%89%B9%E6%AE%8A%E6%9D%83%E9%99%90%E7%B2%98%E6%BB%9E%E4%BD%8D-sticky-bit-%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.5.</span> <span class="nav-text">Linux中的特殊权限粘滞位(sticky bit)详解</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2017/05/06/linux-privilege/";
+    this.page.identifier = "2017/05/06/linux-privilege/";
+    this.page.title = "Linux 权限设置";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

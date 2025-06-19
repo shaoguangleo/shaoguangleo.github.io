@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GNU Automake 版本(version 1.16.1, 26 February 2018) Permission is granted to copy, distribute and&#x2F;or modify thisdocument under the terms of the GNU Free Documentation License,Version 1.3 or any later v">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Automake 6  解析&#96;configure.ac&#96;">
+<meta property="og:url" content="http://shaoguangleo.github.io/2018/03/16/linux-automake-6-scanning-configure-ac/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="GNU Automake 版本(version 1.16.1, 26 February 2018) Permission is granted to copy, distribute and&#x2F;or modify thisdocument under the terms of the GNU Free Documentation License,Version 1.3 or any later v">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-03-16T14:28:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.867Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="autotools">
+<meta property="article:tag" content="automake">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2018/03/16/linux-automake-6-scanning-configure-ac/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux Automake 6  解析`configure.ac` | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2018/03/16/linux-automake-6-scanning-configure-ac/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux Automake 6  解析`configure.ac`
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-03-16 22:28:00" itemprop="dateCreated datePublished" datetime="2018-03-16T22:28:00+08:00">2018-03-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Automake/" itemprop="url" rel="index"><span itemprop="name">Automake</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/03/16/linux-automake-6-scanning-configure-ac/" class="post-meta-item leancloud_visitors" data-flag-title="Linux Automake 6  解析`configure.ac`" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/03/16/linux-automake-6-scanning-configure-ac/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/03/16/linux-automake-6-scanning-configure-ac/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/03/16/linux-automake-6-scanning-configure-ac/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/03/16/linux-automake-6-scanning-configure-ac/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>GNU Automake 版本(version 1.16.1, 26 February 2018)</p>
+<p>Permission is granted to copy, distribute and/or modify this<br>document under the terms of the GNU Free Documentation License,<br>Version 1.3 or any later version published by the Free Software<br>Foundation; with no Invariant Sections, with no Front-Cover texts,<br>and with no Back-Cover Texts.  A copy of the license is included in<br>the section entitled “GNU Free Documentation License.”</p>
+</blockquote>
+<h1 id="6-使用aclocal解析configure-ac"><a href="#6-使用aclocal解析configure-ac" class="headerlink" title="6 使用aclocal解析configure.ac"></a>6 使用aclocal解析configure.ac</h1><hr>
+<p>Automake通过解析文件 <code>configure.ac</code> 来决定软件包的信息。一些 <code>autoconf</code> 宏需要定义在该文件中。</p>
+<h2 id="6-1-Configuration-requirements"><a href="#6-1-Configuration-requirements" class="headerlink" title="6.1 Configuration requirements"></a>6.1 Configuration requirements</h2><hr>
+<p>Automake需要的一个必须的参数是<code>AM_INIT_AUTOMAKE</code>。</p>
+<p>初次之外还有一些其他的宏，如下所示：</p>
+<p><code>AC_CONFIG_FILES</code><br><code>AC_OUTPUT</code><br>​     这个两个宏一般位于文件的最末尾。</p>
+<pre><code>      AC_CONFIG_FILES([
+        Makefile
+        doc/Makefile
+        src/Makefile
+        src/lib/Makefile
+        ...
+      ])
+      AC_OUTPUT
+</code></pre>
+<p>Automake使用这些信息来确定哪些文件需要被创建，上面的内容就是如果在目录中存在 <code>Makefile.am</code>的文件，那么将生成<code>Makefile</code>文件。<br>When using <code>AC_CONFIG_FILES</code> with multiple input files, as in<br>AC_CONFIG_FILES([Makefile:top.in:Makefile.in:bot.in])<br>​<br><code>automake</code> will generate the first <code>.in</code> input file for which a<br><code>.am</code> file exists.  If no such file exists the output file is not<br>considered to be generated by Automake.<br>​<br> 通过 <code>AC_CONFIG_FILES</code>创建的文件在使用 <code>make distclean</code>的时候都会被清除。  Their inputs are<br>automatically distributed, unless they are the output of prior<br><code>AC_CONFIG_FILES</code> commands.  Finally, rebuild rules are generated<br>in the Automake <code>Makefile</code> existing in the subdirectory of the<br>output file, if there is one, or in the top-level <code>Makefile</code><br>otherwise.</p>
+<p>The above machinery (cleaning, distributing, and rebuilding) works<br>fine if the <code>AC_CONFIG_FILES</code> specifications contain only literals.<br>If part of the specification uses shell variables, <code>automake</code> will<br>not be able to fulfill this setup, and you will have to complete<br>the missing bits by hand.  For instance, on</p>
+<pre><code>      file=input
+      ...
+      AC_CONFIG_FILES([output:$file],, [file=$file])
+</code></pre>
+<p><code>automake</code> will output rules to clean <code>output</code>, and rebuild it.<br>However the rebuild rule will not depend on <code>input</code>, and this file<br>will not be distributed either.  (You must add <code>EXTRA_DIST = input</code><br>to your <code>Makefile.am</code> if <code>input</code> is a source file.)</p>
+<p>Similarly<br>​<br>​     file=output<br>​     file2=out:in<br>​     …<br>​     AC_CONFIG_FILES([$file:input],, [file=$file])<br>​     AC_CONFIG_FILES([$file2],, [file2=$file2])</p>
+<p>will only cause <code>input</code> to be distributed.  No file will be cleaned<br>automatically (add <code>DISTCLEANFILES = output out</code> yourself), and no<br>rebuild rule will be output.</p>
+<p>Obviously <code>automake</code> cannot guess what value <code>$file</code> is going to<br>hold later when <code>configure</code> is run, and it cannot use the shell<br>variable <code>$file</code> in a <code>Makefile</code>.  However, if you make reference<br>to <code>$file</code> as <code>${file}</code> (i.e., in a way that is compatible with<br><code>make``s syntax) and furthermore use </code>AC_SUBST<code>to ensure that</code>${file}<code>is meaningful in a</code>Makefile<code>, then </code>automake<code>will be able to use</code>${file}` to generate all of these rules.  For<br>instance, here is how the Automake package itself generates<br>versioned scripts for its test suite:</p>
+<pre><code> AC_SUBST([APIVERSION], ...)
+ ...
+ AC_CONFIG_FILES(
+   [tests/aclocal-${APIVERSION}:tests/aclocal.in],
+   [chmod +x tests/aclocal-${APIVERSION}],
+   [APIVERSION=$APIVERSION])
+ AC_CONFIG_FILES(
+   [tests/automake-${APIVERSION}:tests/automake.in],
+   [chmod +x tests/automake-${APIVERSION}])
+</code></pre>
+<p>Here cleaning, distributing, and rebuilding are done automatically,<br>because <code>${APIVERSION}</code> is known at <code>make</code>-time.</p>
+<p>Note that you should not use shell variables to declare <code>Makefile</code><br>files for which <code>automake</code> must create <code>Makefile.in</code>.  Even<br><code>AC_SUBST</code> does not help here, because <code>automake</code> needs to know the<br>file name when it runs in order to check whether <code>Makefile.am</code><br>exists.  (In the very hairy case that your setup requires such use<br>of variables, you will have to tell Automake which <code>Makefile.in</code>s<br>to generate on the command-line.)</p>
+<p>It is possible to let <code>automake</code> emit conditional rules for<br><code>AC_CONFIG_FILES</code> with the help of <code>AM_COND_IF</code> .</p>
+<p>To summarize:<br>   • Use literals for <code>Makefile</code>s, and for other files whenever<br>​     possible.<br>   • Use <code>$file</code> (or <code>${file}</code> without <code>AC_SUBST([file])</code>) for<br>​     files that <code>automake</code> should ignore.<br>   • Use <code>${file}</code> and <code>AC_SUBST([file])</code> for files that <code>automake</code><br>​     should not ignore.</p>
+<h2 id="6-2-Other-things-Automake-recognizes"><a href="#6-2-Other-things-Automake-recognizes" class="headerlink" title="6.2 Other things Automake recognizes"></a>6.2 Other things Automake recognizes</h2><hr>
+<p>Every time Automake is run it calls Autoconf to trace <code>configure.ac</code>.<br>This way it can recognize the use of certain macros and tailor the<br>generated <code>Makefile.in</code> appropriately.  Currently recognized macros and<br>their effects are:</p>
+<p><code>AC_CANONICAL_BUILD</code><br><code>AC_CANONICAL_HOST</code><br><code>AC_CANONICAL_TARGET</code><br>​     Automake will ensure that <code>config.guess</code> and <code>config.sub</code> exist.<br>​     Also, the <code>Makefile</code> variables <code>build_triplet</code>, <code>host_triplet</code> and<br>​     <code>target_triplet</code> are introduced.</p>
+<p><code>AC_CONFIG_AUX_DIR</code><br>​     Automake will look for various helper scripts, such as<br>​     <code>install-sh</code>, in the directory named in this macro invocation.<br>​     (The full list of scripts is: <code>ar-lib</code>, <code>config.guess</code>,<br>​     <code>config.sub</code>, <code>depcomp</code>, <code>compile</code>, <code>install-sh</code>, <code>ltmain.sh</code>,<br>​     <code>mdate-sh</code>, <code>missing</code>, <code>mkinstalldirs</code>, <code>py-compile</code>,<br>​     <code>test-driver</code>, <code>texinfo.tex</code>, <code>ylwrap</code>.)  Not all scripts are<br>​     always searched for; some scripts will only be sought if the<br>​     generated <code>Makefile.in</code> requires them.</p>
+<pre><code> If `AC_CONFIG_AUX_DIR` is not given, the scripts are looked for in
+ their standard locations.  For `mdate-sh`, `texinfo.tex`, and
+ `ylwrap`, the standard location is the source directory
+ corresponding to the current `Makefile.am`.  For the rest, the
+ standard location is the first one of `.`, `..`, or `../..`
+ (relative to the top source directory) that provides any one of the
+ helper scripts.  
+
+ Required files from `AC_CONFIG_AUX_DIR` are automatically
+ distributed, even if there is no `Makefile.am` in this directory.
+</code></pre>
+<p><code>AC_CONFIG_LIBOBJ_DIR</code><br>​     Automake will require the sources file declared with <code>AC_LIBSOURCE</code><br>​     (see below) in the directory specified by this macro.</p>
+<p><code>AC_CONFIG_HEADERS</code><br>​     Automake will generate rules to rebuild these headers from the<br>​     corresponding templates (usually, the template for a <code>foo.h</code> header<br>​     being <code>foo.h.in</code>).  Older versions of Automake required the use of<br>​     <code>AM_CONFIG_HEADER</code>; this is no longer the case, and that macro has<br>​     indeed been removed.</p>
+<pre><code> As with `AC_CONFIG_FILES` , parts of the
+ specification using shell variables will be ignored as far as
+ cleaning, distributing, and rebuilding is concerned.
+</code></pre>
+<p><code>AC_CONFIG_LINKS</code><br>​     Automake will generate rules to remove <code>configure</code> generated links<br>​     on <code>make distclean</code> and to distribute named source files as part of<br>​     <code>make dist</code>.</p>
+<pre><code> As for `AC_CONFIG_FILES` parts of the
+ specification using shell variables will be ignored as far as
+ cleaning and distributing is concerned.  (There are no rebuild
+ rules for links.)
+</code></pre>
+<p><code>AC_LIBOBJ</code><br><code>AC_LIBSOURCE</code><br><code>AC_LIBSOURCES</code><br>​     Automake will automatically distribute any file listed in<br>​     <code>AC_LIBSOURCE</code> or <code>AC_LIBSOURCES</code>.</p>
+<pre><code> Note that the `AC_LIBOBJ` macro calls `AC_LIBSOURCE`.  So if an
+ Autoconf macro is documented to call `AC_LIBOBJ([file])`, then
+ `file.c` will be distributed automatically by Automake.  This
+ encompasses many macros like `AC_FUNC_ALLOCA`, `AC_FUNC_MEMCMP`,
+ `AC_REPLACE_FUNCS`, and others.
+
+ By the way, direct assignments to `LIBOBJS` are no longer
+ supported.  You should always use `AC_LIBOBJ` for this purpose.
+ Note `AC_LIBOBJ` vs. `LIBOBJS`: (autoconf)AC_LIBOBJ vs LIBOBJS.
+</code></pre>
+<p><code>AC_PROG_RANLIB</code><br>​     This is required if any libraries are built in the package.  Note<br>​     Particular Program Checks: (autoconf)Particular Programs.</p>
+<p><code>AC_PROG_CXX</code><br>​     This is required if any C++ source is included.  Note Particular<br>​     Program Checks: (autoconf)Particular Programs.</p>
+<p><code>AC_PROG_OBJC</code><br>​     This is required if any Objective C source is included.  Note<br>​     Particular Program Checks: (autoconf)Particular Programs.</p>
+<p><code>AC_PROG_OBJCXX</code><br>​     This is required if any Objective C++ source is included.  Note<br>​     Particular Program Checks: (autoconf)Particular Programs.</p>
+<p><code>AC_PROG_F77</code><br>​     This is required if any Fortran 77 source is included.  Note<br>​     Particular Program Checks: (autoconf)Particular Programs.</p>
+<p><code>AC_F77_LIBRARY_LDFLAGS</code><br>​     This is required for programs and shared libraries that are a<br>​     mixture of languages that include Fortran 77 .  </p>
+<p><code>AC_FC_SRCEXT</code><br>​     Automake will add the flags computed by <code>AC_FC_SRCEXT</code> to<br>​     compilation of files with the respective source extension</p>
+<p><code>AC_PROG_FC</code><br>​     This is required if any Fortran 90/95 source is included.  This<br>​     macro is distributed with Autoconf version 2.58 and later.  Note<br>​     Particular Program Checks: (autoconf)Particular Programs.</p>
+<p><code>AC_PROG_LIBTOOL</code><br>​     Automake will turn on processing for <code>libtool</code></p>
+<p><code>AC_PROG_YACC</code><br>​     If a Yacc source file is seen, then you must either use this macro<br>​     or define the variable <code>YACC</code> in <code>configure.ac</code>.  The former is<br>​     preferred</p>
+<p><code>AC_PROG_LEX</code><br>​     If a Lex source file is seen, then this macro must be used.  Note<br>​     Particular Program Checks: (autoconf)Particular Programs.</p>
+<p><code>AC_REQUIRE_AUX_FILE</code><br>​     For each <code>AC_REQUIRE_AUX_FILE([FILE])</code>, <code>automake</code> will ensure that<br>​     <code>FILE</code> exists in the aux directory, and will complain otherwise.<br>​     It will also automatically distribute the file.  This macro should<br>​     be used by third-party Autoconf macros that require some supporting<br>​     files in the aux directory specified with <code>AC_CONFIG_AUX_DIR</code><br>​     above.  Note Finding <code>configure</code> Input: (autoconf)Input.</p>
+<p><code>AC_SUBST</code><br>​     The first argument is automatically defined as a variable in each<br>​     generated <code>Makefile.in</code>, unless <code>AM_SUBST_NOTMAKE</code> is also used for<br>​     this variable.  Note Setting Output Variables: (autoconf)Setting<br>​     Output Variables.</p>
+<pre><code> For every substituted variable VAR, `automake` will add a line `VAR
+ = VALUE` to each `Makefile.in` file.  Many Autoconf macros invoke
+ `AC_SUBST` to set output variables this way, e.g., `AC_PATH_XTRA`
+ defines `X_CFLAGS` and `X_LIBS`.  Thus, you can access these
+ variables as `$(X_CFLAGS)` and `$(X_LIBS)` in any `Makefile.am` if
+ `AC_PATH_XTRA` is called.
+</code></pre>
+<p><code>AM_CONDITIONAL</code><br>​     This introduces an Automake conditional</p>
+<p><code>AM_COND_IF</code><br>​     This macro allows <code>automake</code> to detect subsequent access within<br>​     <code>configure.ac</code> to a conditional previously introduced with<br>​     <code>AM_CONDITIONAL</code>, thus enabling conditional <code>AC_CONFIG_FILES</code></p>
+<p><code>AM_GNU_GETTEXT</code><br>​     This macro is required for packages that use GNU gettext .  It is distributed with gettext.  If Automake sees this<br>​     macro it ensures that the package meets some of gettext`s<br>​     requirements.</p>
+<p><code>AM_GNU_GETTEXT_INTL_SUBDIR</code><br>​     This macro specifies that the <code>intl/</code> subdirectory is to be built,<br>​     even if the <code>AM_GNU_GETTEXT</code> macro was invoked with a first<br>​     argument of <code>external</code>.</p>
+<p><code>AM_MAINTAINER_MODE([DEFAULT-MODE])</code><br>​     This macro adds an <code>--enable-maintainer-mode</code> option to<br>​     <code>configure</code>.  If this is used, <code>automake</code> will cause<br>​     “maintainer-only” rules to be turned off by default in the<br>​     generated <code>Makefile.in</code>s, unless DEFAULT-MODE is <code>enable</code>.  This<br>​     macro defines the <code>MAINTAINER_MODE</code> conditional, which you can use<br>​     in your own <code>Makefile.am</code>.  Note maintainer-mode::.</p>
+<p><code>AM_SUBST_NOTMAKE(VAR)</code><br>​     Prevent Automake from defining a variable VAR, even if it is<br>​     substituted by <code>config.status</code>.  Normally, Automake defines a<br>​     <code>make</code> variable for each <code>configure</code> substitution, i.e., for each<br>​     <code>AC_SUBST([VAR])</code>.  This macro prevents that definition from<br>​     Automake.  If <code>AC_SUBST</code> has not been called for this variable,<br>​     then <code>AM_SUBST_NOTMAKE</code> has no effects.  Preventing variable<br>​     definitions may be useful for substitution of multi-line values,<br>​     where <code>VAR = @VALUE@</code> might yield unintended results.</p>
+<p><code>m4_include</code><br>​     Files included by <code>configure.ac</code> using this macro will be detected<br>​     by Automake and automatically distributed.  They will also appear<br>​     as dependencies in <code>Makefile</code> rules.</p>
+<pre><code> `m4_include` is seldom used by `configure.ac` authors, but can
+ appear in `aclocal.m4` when `aclocal` detects that some required
+ macros come from files local to your package (as opposed to macros
+ installed in a system-wide directory, note aclocal Invocation::).
+</code></pre>
+<h2 id="6-3-Auto-generating-aclocal-m4"><a href="#6-3-Auto-generating-aclocal-m4" class="headerlink" title="6.3 Auto-generating aclocal.m4"></a>6.3 Auto-generating aclocal.m4</h2><hr>
+<p>Automake includes a number of Autoconf macros that can be used in your<br>package (Macros::); some of them are actually required by Automake<br>in certain situations.  These macros must be defined in your<br><code>aclocal.m4</code>; otherwise they will not be seen by <code>autoconf</code>.</p>
+<p>程序 <code>aclocal</code> 将根据 <code>configure.ac</code>自动生成文件 <code>aclocal.m4</code> 。  This provides a convenient way<br>to get Automake-provided macros, without having to search around.  The<br><code>aclocal</code> mechanism allows other packages to supply their own macros<br>(Extending aclocal::).  You can also use it to maintain your own<br>set of custom macros (Local Macros::).</p>
+<p>   At startup, <code>aclocal</code> scans all the <code>.m4</code> files it can find, looking<br>for macro definitions (Macro Search Path::).  Then it scans<br><code>configure.ac</code>.  Any mention of one of the macros found in the first<br>step causes that macro, and any macros it in turn requires, to be put<br>into <code>aclocal.m4</code>.</p>
+<p>   <em>Putting</em> the file that contains the macro definition into<br><code>aclocal.m4</code> is usually done by copying the entire text of this file,<br>including unused macro definitions as well as both <code>#</code> and <code>dnl</code><br>comments.  If you want to make a comment that will be completely ignored<br>by <code>aclocal</code>, use <code>##</code> as the comment leader.</p>
+<p>   When a file selected by <code>aclocal</code> is located in a subdirectory<br>specified as a relative search path with <code>aclocal``s </code>-I<code>argument,</code>aclocal<code>assumes the file belongs to the package and uses</code>m4_include<code>instead of copying it into</code>aclocal.m4<code>.  This makes the package smaller, eases dependency tracking, and cause the file to be distributed automatically.  (Note Local Macros::, for an example.)  Any macro that is found in a system-wide directory, or via an absolute search path will be copied.  So use </code>-I <code>pwd</code>/reldir<code>instead of</code>-I reldir` whenever<br>some relative directory should be considered outside the package.</p>
+<p>   The contents of <code>acinclude.m4</code>, if this file exists, are also<br>automatically included in <code>aclocal.m4</code>.  We recommend against using<br><code>acinclude.m4</code> in new packages (note Local Macros::).</p>
+<p>   While computing <code>aclocal.m4</code>, <code>aclocal</code> runs <code>autom4te</code> (note Using<br><code>Autom4te</code>: (autoconf)Using autom4te.) in order to trace the macros that<br>are really used, and omit from <code>aclocal.m4</code> all macros that are<br>mentioned but otherwise unexpanded (this can happen when a macro is<br>called conditionally).  <code>autom4te</code> is expected to be in the <code>PATH</code>, just<br>as <code>autoconf</code>.  Its location can be overridden using the <code>AUTOM4TE</code><br>environment variable.</p>
+<h3 id="6-3-1-aclocal-Options"><a href="#6-3-1-aclocal-Options" class="headerlink" title="6.3.1 aclocal Options"></a>6.3.1 aclocal Options</h3><hr>
+<hr>
+<p><code>aclocal</code> accepts the following options:</p>
+<p><code>--automake-acdir=DIR</code><br>​     Look for the automake-provided macro files in DIR instead of in the<br>​     installation directory.  This is typically used for debugging.</p>
+<pre><code> The environment variable `ACLOCAL_AUTOMAKE_DIR` provides another
+ way to set the directory containing automake-provided macro files.
+ However `--automake-acdir` takes precedence over it.
+</code></pre>
+<p><code>--system-acdir=DIR</code><br>​     Look for the system-wide third-party macro files (and the special<br>​     <code>dirlist</code> file) in DIR instead of in the installation directory.<br>​     This is typically used for debugging.</p>
+<p><code>--diff[=COMMAND]</code><br>​     Run COMMAND on M4 file that would be installed or overwritten by<br>​     <code>--install</code>.  The default COMMAND is <code>diff -u</code>.  This option<br>​     implies <code>--install</code> and <code>--dry-run</code>.</p>
+<p><code>--dry-run</code><br>​     Do not actually overwrite (or create) <code>aclocal.m4</code> and M4 files<br>​     installed by <code>--install</code>.</p>
+<p><code>--help</code><br>​     Print a summary of the command line options and exit.</p>
+<p><code>-I DIR</code><br>​     Add the directory DIR to the list of directories searched for <code>.m4</code><br>​     files.</p>
+<p><code>--install</code><br>​     Install system-wide third-party macros into the first directory<br>​     specified with <code>-I DIR</code> instead of copying them in the output file.<br>​     Note that this will happen also if DIR is an absolute path.</p>
+<pre><code> When this option is used, and only when this option is used,
+ `aclocal` will also honor `#serial NUMBER` lines that appear in
+ macros: an M4 file is ignored if there exists another M4 file with
+ the same basename and a greater serial number in the search path
+ (note Serials::).
+</code></pre>
+<p><code>--force</code><br>​     Always overwrite the output file.  The default is to overwrite the<br>​     output file only when really needed, i.e., when its contents<br>​     changes or if one of its dependencies is younger.</p>
+<pre><code> This option forces the update of `aclocal.m4` (or the file
+ specified with `--output` below) and only this file, it has
+ absolutely no influence on files that may need to be installed by
+ `--install`.
+</code></pre>
+<p><code>--output=FILE</code><br>​     Cause the output to be put into FILE instead of <code>aclocal.m4</code>.</p>
+<p><code>--print-ac-dir</code><br>​     Prints the name of the directory that <code>aclocal</code> will search to find<br>​     third-party <code>.m4</code> files.  When this option is given, normal<br>​     processing is suppressed.  This option was used <em>in the past</em> by<br>​     third-party packages to determine where to install <code>.m4</code> macro<br>​     files, but <em>this usage is today discouraged</em>, since it causes<br>​     <code>$(prefix)</code> not to be thoroughly honored (which violates the GNU<br>​     Coding Standards), and a similar semantics can be better obtained<br>​     with the <code>ACLOCAL_PATH</code> environment variable; note Extending<br>​     aclocal::.</p>
+<p><code>--verbose</code><br>​     Print the names of the files it examines.</p>
+<p><code>--version</code><br>​     Print the version number of Automake and exit.</p>
+<p><code>-W CATEGORY</code><br><code>--warnings=CATEGORY</code><br>​     Output warnings falling in CATEGORY.  CATEGORY can be one of:<br>​     <code>syntax</code><br>​          dubious syntactic constructs, underquoted macros, unused<br>​          macros, etc.<br>​     <code>unsupported</code><br>​          unknown macros<br>​     <code>all</code><br>​          all the warnings, this is the default<br>​     <code>none</code><br>​          turn off all the warnings<br>​     <code>error</code><br>​          treat warnings as errors</p>
+<pre><code> All warnings are output by default.
+
+ The environment variable `WARNINGS` is honored in the same way as
+ it is for `automake` (note automake Invocation::).
+</code></pre>
+<h3 id="6-3-2-Macro-Search-Path"><a href="#6-3-2-Macro-Search-Path" class="headerlink" title="6.3.2 Macro Search Path"></a>6.3.2 Macro Search Path</h3><hr>
+<hr>
+<p>默认情况下 <code>aclocal</code> 按照下面的目录顺序来搜索 <code>.m4</code> 文件：</p>
+<p><code>ACDIR-APIVERSION</code><br>​     This is where the <code>.m4</code> macros distributed with Automake itself are<br>​     stored.  APIVERSION depends on the Automake release used; for<br>​     example, for Automake 1.11.x, APIVERSION = <code>1.11</code>.</p>
+<p><code>ACDIR</code><br>​     This directory is intended for third party <code>.m4</code> files, and is<br>​     configured when <code>automake</code> itself is built.  This is<br>​     <code>@datadir@/aclocal/</code>, which typically expands to<br>​     <code>${prefix}/share/aclocal/</code>.  To find the compiled-in value of<br>​     ACDIR, use the <code>--print-ac-dir</code> option (note aclocal Options::).</p>
+<p>   As an example, suppose that <code>automake-1.11.2</code> was configured with<br><code>--prefix=/usr/local</code>.  Then, the search path would be:</p>
+<ol>
+<li><code>/usr/local/share/aclocal-1.11.2/</code></li>
+<li><code>/usr/local/share/aclocal/</code></li>
+</ol>
+<p>   The paths for the ACDIR and ACDIR-APIVERSION directories can be<br>changed respectively through aclocal options <code>--system-acdir</code> and<br><code>--automake-acdir</code> (note aclocal Options::).  Note however that these<br>options are only intended for use by the internal Automake test suite,<br>or for debugging under highly unusual situations; they are not<br>ordinarily needed by end-users.</p>
+<p>   As explained in (note aclocal Options::), there are several options<br>that can be used to change or extend this search path.</p>
+<p>Modifying the Macro Search Path: <code>-I DIR</code><br>…………………………………..</p>
+<p>Any extra directories specified using <code>-I</code> options (note aclocal<br>Options::) are <em>prepended</em> to this search list.  Thus, <code>aclocal -I /foo -I /bar</code> results in the following search path:</p>
+<ol>
+<li><code>/foo</code></li>
+<li><code>/bar</code></li>
+<li>ACDIR-APIVERSION</li>
+<li>ACDIR</li>
+</ol>
+<p>Modifying the Macro Search Path: <code>dirlist</code><br>……………………………………</p>
+<p>There is a third mechanism for customizing the search path.  If a<br><code>dirlist</code> file exists in ACDIR, then that file is assumed to contain a<br>list of directory patterns, one per line.  <code>aclocal</code> expands these<br>patterns to directory names, and adds them to the search list <em>after</em><br>all other directories.  <code>dirlist</code> entries may use shell wildcards such<br>as <code>*</code>, <code>?</code>, or <code>[...]</code>.</p>
+<p>   For example, suppose <code>ACDIR/dirlist</code> contains the following:</p>
+<pre><code> /test1
+ /test2
+ /test3*
+</code></pre>
+<p>and that <code>aclocal</code> was called with the <code>-I /foo -I /bar</code> options.  Then,<br>the search path would be</p>
+<ol>
+<li><code>/foo</code></li>
+<li><code>/bar</code></li>
+<li>ACDIR-APIVERSION</li>
+<li>ACDIR</li>
+<li><code>/test1</code></li>
+<li><code>/test2</code></li>
+</ol>
+<p>and all directories with path names starting with <code>/test3</code>.</p>
+<p>   If the <code>--system-acdir=DIR</code> option is used, then <code>aclocal</code> will<br>search for the <code>dirlist</code> file in DIR; but remember the warnings above<br>against the use of <code>--system-acdir</code>.</p>
+<p>   <code>dirlist</code> is useful in the following situation: suppose that<br><code>automake</code> version <code>1.11.2</code> is installed with <code>--prefix=/usr</code> by the<br>system vendor.  Thus, the default search directories are</p>
+<ol>
+<li><code>/usr/share/aclocal-1.11/</code></li>
+<li><code>/usr/share/aclocal/</code></li>
+</ol>
+<p>   However, suppose further that many packages have been manually<br>installed on the system, with $prefix=/usr/local, as is typical.  In<br>that case, many of these “extra” <code>.m4</code> files are in<br><code>/usr/local/share/aclocal</code>.  The only way to force <code>/usr/bin/aclocal</code> to<br>find these “extra” <code>.m4</code> files is to always call <code>aclocal -I /usr/local/share/aclocal</code>.  This is inconvenient.  With <code>dirlist</code>, one<br>may create a file <code>/usr/share/aclocal/dirlist</code> containing only the<br>single line</p>
+<pre><code> /usr/local/share/aclocal
+</code></pre>
+<p>   Now, the “default” search path on the affected system is</p>
+<ol>
+<li><code>/usr/share/aclocal-1.11/</code></li>
+<li><code>/usr/share/aclocal/</code></li>
+<li><code>/usr/local/share/aclocal/</code></li>
+</ol>
+<p>   without the need for <code>-I</code> options; <code>-I</code> options can be reserved for<br>project-specific needs (<code>my-source-dir/m4/</code>), rather than using it to<br>work around local system-dependent tool installation directories.</p>
+<p>   Similarly, <code>dirlist</code> can be handy if you have installed a local copy<br>of Automake in your account and want <code>aclocal</code> to look for macros<br>installed at other places on the system.</p>
+<p>Modifying the Macro Search Path: <code>ACLOCAL_PATH</code><br>………………………………………..</p>
+<p>The fourth and last mechanism to customize the macro search path is also<br>the simplest.  Any directory included in the colon-separated environment<br>variable <code>ACLOCAL_PATH</code> is added to the search path and takes precedence<br>over system directories (including those found via <code>dirlist</code>), with the<br>exception of the versioned directory ACDIR-APIVERSION (note Macro<br>Search Path::).  However, directories passed via <code>-I</code> will take<br>precedence over directories in <code>ACLOCAL_PATH</code>.</p>
+<p>   Also note that, if the <code>--install</code> option is used, any <code>.m4</code> file<br>containing a required macro that is found in a directory listed in<br><code>ACLOCAL_PATH</code> will be installed locally.  In this case, serial numbers<br>in <code>.m4</code> are honored too, note Serials::.</p>
+<p>   Conversely to <code>dirlist</code>, <code>ACLOCAL_PATH</code> is useful if you are using a<br>global copy of Automake and want <code>aclocal</code> to look for macros somewhere<br>under your home directory.</p>
+<p>Planned future incompatibilities<br>…………………………..</p>
+<p>The order in which the directories in the macro search path are<br>currently looked up is confusing and/or suboptimal in various aspects,<br>and is probably going to be changed in the future Automake release.  In<br>particular, directories in <code>ACLOCAL_PATH</code> and <code>ACDIR</code> might end up<br>taking precedence over <code>ACDIR-APIVERSION</code>, and directories in<br><code>ACDIR/dirlist</code> might end up taking precedence over <code>ACDIR</code>.  <em>This is a<br>possible future incompatibility!</em></p>
+<h3 id="6-3-3-Writing-your-own-aclocal-macros"><a href="#6-3-3-Writing-your-own-aclocal-macros" class="headerlink" title="6.3.3 Writing your own aclocal macros"></a>6.3.3 Writing your own aclocal macros</h3><hr>
+<hr>
+<p>The <code>aclocal</code> program doesn`t have any built-in knowledge of any macros,<br>so it is easy to extend it with your own macros.</p>
+<p>   This can be used by libraries that want to supply their own Autoconf<br>macros for use by other programs.  For instance, the <code>gettext</code> library<br>supplies a macro <code>AM_GNU_GETTEXT</code> that should be used by any package<br>using <code>gettext</code>.  When the library is installed, it installs this macro<br>so that <code>aclocal</code> will find it.</p>
+<p>   A macro file<code>s name should end in </code>.m4<code>.  Such files should be installed in </code>$(datadir)/aclocal`.  This is as simple as writing:</p>
+<pre><code> aclocaldir = $(datadir)/aclocal
+ aclocal_DATA = mymacro.m4 myothermacro.m4
+</code></pre>
+<p>Please do use <code>$(datadir)/aclocal</code>, and not something based on the<br>result of <code>aclocal --print-ac-dir</code> (note Hard-Coded Install Paths::,<br>for arguments).  It might also be helpful to suggest to the user to add<br>the <code>$(datadir)/aclocal</code> directory to his <code>ACLOCAL_PATH</code> variable (note<br>ACLOCAL_PATH::) so that <code>aclocal</code> will find the <code>.m4</code> files installed by<br>your package automatically.</p>
+<p>   A file of macros should be a series of properly quoted <code>AC_DEFUN``s (note (autoconf)Macro Definitions::).  The </code>aclocal<code>programs also understands</code>AC_REQUIRE<code>(note (autoconf)Prerequisite Macros::), so it is safe to put each macro in a separate file.  Each file should have no side effects but macro definitions.  Especially, any call to</code>AC_PREREQ`<br>should be done inside the defined macro, not at the beginning of the<br>file.</p>
+<p>   Starting with Automake 1.8, <code>aclocal</code> will warn about all underquoted<br>calls to <code>AC_DEFUN</code>.  We realize this will annoy a lot of people,<br>because <code>aclocal</code> was not so strict in the past and many third party<br>macros are underquoted; and we have to apologize for this temporary<br>inconvenience.  The reason we have to be stricter is that a future<br>implementation of <code>aclocal</code> (note Future of aclocal::) will have to<br>temporarily include all of these third party <code>.m4</code> files, maybe several<br>times, including even files that are not actually needed.  Doing so<br>should alleviate many problems of the current implementation, however it<br>requires a stricter style from the macro authors.  Hopefully it is easy<br>to revise the existing macros.  For instance,</p>
+<pre><code> # bad style
+ AC_PREREQ(2.68)
+ AC_DEFUN(AX_FOOBAR,
+ [AC_REQUIRE([AX_SOMETHING])dnl
+ AX_FOO
+ AX_BAR
+ ])
+</code></pre>
+<p>should be rewritten as</p>
+<pre><code> AC_DEFUN([AX_FOOBAR],
+ [AC_PREREQ([2.68])dnl
+ AC_REQUIRE([AX_SOMETHING])dnl
+ AX_FOO
+ AX_BAR
+ ])
+</code></pre>
+<p>   Wrapping the <code>AC_PREREQ</code> call inside the macro ensures that Autoconf<br>2.68 will not be required if <code>AX_FOOBAR</code> is not actually used.  Most<br>importantly, quoting the first argument of <code>AC_DEFUN</code> allows the macro<br>to be redefined or included twice (otherwise this first argument would<br>be expanded during the second definition).  For consistency we like to<br>quote even arguments such as <code>2.68</code> that do not require it.</p>
+<p>   If you have been directed here by the <code>aclocal</code> diagnostic but are<br>not the maintainer of the implicated macro, you will want to contact the<br>maintainer of that macro.  Please make sure you have the latest version<br>of the macro and that the problem hasn<code>t already been reported before doing so: people tend to work faster when they aren</code>t flooded by mails.</p>
+<p>   Another situation where <code>aclocal</code> is commonly used is to manage<br>macros that are used locally by the package, note Local Macros::.</p>
+<h3 id="6-3-4-Handling-Local-Macros"><a href="#6-3-4-Handling-Local-Macros" class="headerlink" title="6.3.4 Handling Local Macros"></a>6.3.4 Handling Local Macros</h3><hr>
+<hr>
+<p>Feature tests offered by Autoconf do not cover all needs.  People often<br>have to supplement existing tests with their own macros, or with<br>third-party macros.</p>
+<p>   There are two ways to organize custom macros in a package.</p>
+<p>   The first possibility (the historical practice) is to list all your<br>macros in <code>acinclude.m4</code>.  This file will be included in <code>aclocal.m4</code><br>when you run <code>aclocal</code>, and its macro(s) will henceforth be visible to<br><code>autoconf</code>.  However if it contains numerous macros, it will rapidly<br>become difficult to maintain, and it will be almost impossible to share<br>macros between packages.</p>
+<p>   The second possibility, which we do recommend, is to write each macro<br>in its own file and gather all these files in a directory.  This<br>directory is usually called <code>m4/</code>.  Then it<code>s enough to update </code>configure.ac<code>by adding a proper call to</code>AC_CONFIG_MACRO_DIRS`:</p>
+<pre><code> AC_CONFIG_MACRO_DIRS([m4])
+</code></pre>
+<p>   <code>aclocal</code> will then take care of automatically adding <code>m4/</code> to its<br>search path for m4 files.</p>
+<p>   When <code>aclocal</code> is run, it will build an <code>aclocal.m4</code> that<br><code>m4_include</code>s any file from <code>m4/</code> that defines a required macro.  Macros<br>not found locally will still be searched in system-wide directories, as<br>explained in note Macro Search Path::.</p>
+<p>   Custom macros should be distributed for the same reason that<br><code>configure.ac</code> is: so that other people have all the sources of your<br>package if they want to work on it.  Actually, this distribution happens<br>automatically because all <code>m4_include</code>d files are distributed.</p>
+<p>   However there is no consensus on the distribution of third-party<br>macros that your package may use.  Many libraries install their own<br>macro in the system-wide <code>aclocal</code> directory (note Extending<br>aclocal::).  For instance, Guile ships with a file called <code>guile.m4</code><br>that contains the macro <code>GUILE_FLAGS</code> that can be used to define setup<br>compiler and linker flags appropriate for using Guile.  Using<br><code>GUILE_FLAGS</code> in <code>configure.ac</code> will cause <code>aclocal</code> to copy <code>guile.m4</code><br>into <code>aclocal.m4</code>, but as <code>guile.m4</code> is not part of the project, it will<br>not be distributed.  Technically, that means a user who needs to rebuild<br><code>aclocal.m4</code> will have to install Guile first.  This is probably OK, if<br>Guile already is a requirement to build the package.  However, if Guile<br>is only an optional feature, or if your package might run on<br>architectures where Guile cannot be installed, this requirement will<br>hinder development.  An easy solution is to copy such third-party macros<br>in your local <code>m4/</code> directory so they get distributed.</p>
+<p>   Since Automake 1.10, <code>aclocal</code> offers the option <code>--install</code> to copy<br>these system-wide third-party macros in your local macro directory,<br>helping to solve the above problem.</p>
+<p>   With this setup, system-wide macros will be copied to <code>m4/</code> the first<br>time you run <code>aclocal</code>.  Then the locally installed macros will have<br>precedence over the system-wide installed macros each time <code>aclocal</code> is<br>run again.</p>
+<p>   One reason why you should keep <code>--install</code> in the flags even after<br>the first run is that when you later edit <code>configure.ac</code> and depend on a<br>new macro, this macro will be installed in your <code>m4/</code> automatically.<br>Another one is that serial numbers (note Serials::) can be used to<br>update the macros in your source tree automatically when new system-wide<br>versions are installed.  A serial number should be a single line of the<br>form</p>
+<pre><code> #serial NNN
+</code></pre>
+<p>where NNN contains only digits and dots.  It should appear in the M4<br>file before any macro definition.  It is a good practice to maintain a<br>serial number for each macro you distribute, even if you do not use the<br><code>--install</code> option of <code>aclocal</code>: this allows other people to use it.</p>
+<h3 id="6-3-5-Serial-Numbers"><a href="#6-3-5-Serial-Numbers" class="headerlink" title="6.3.5 Serial Numbers"></a>6.3.5 Serial Numbers</h3><hr>
+<hr>
+<p>Because third-party macros defined in <code>*.m4</code> files are naturally shared<br>between multiple projects, some people like to version them.  This makes<br>it easier to tell which of two M4 files is newer.  Since at least 1996,<br>the tradition is to use a <code>#serial</code> line for this.</p>
+<p>   A serial number should be a single line of the form</p>
+<pre><code> # serial VERSION
+</code></pre>
+<p>where VERSION is a version number containing only digits and dots.<br>Usually people use a single integer, and they increment it each time<br>they change the macro (hence the name of “serial”).  Such a line should<br>appear in the M4 file before any macro definition.</p>
+<p>   The <code>#</code> must be the first character on the line, and it is OK to have<br>extra words after the version, as in</p>
+<pre><code> #serial VERSION GARBAGE
+</code></pre>
+<p>   Normally these serial numbers are completely ignored by <code>aclocal</code> and<br><code>autoconf</code>, like any genuine comment.  However when using <code>aclocal``s </code>–install<code>feature, these serial numbers will modify the way</code>aclocal<code>selects the macros to install in the package: if two files with the same basename exist in your search path, and if at least one of them uses a</code>#serial<code>line,</code>aclocal<code>will ignore the file that has the older</code>#serial` line (or the file that has none).</p>
+<p>   Note that a serial number applies to a whole M4 file, not to any<br>macro it contains.  A file can contains multiple macros, but only one<br>serial.</p>
+<p>   Here is a use case that illustrates the use of <code>--install</code> and its<br>interaction with serial numbers.  Let<code>s assume we maintain a package called MyPackage, the </code>configure.ac<code>of which requires a third-party macro</code>AX_THIRD_PARTY<code>defined in</code>/usr/share/aclocal/thirdparty.m4` as<br>follows:</p>
+<pre><code> # serial 1
+ AC_DEFUN([AX_THIRD_PARTY], [...])
+</code></pre>
+<p>   MyPackage uses an <code>m4/</code> directory to store local macros as explained<br>in note Local Macros::, and has</p>
+<pre><code> AC_CONFIG_MACRO_DIRS([m4])
+</code></pre>
+<p>in its <code>configure.ac</code>.</p>
+<p>   Initially the <code>m4/</code> directory is empty.  The first time we run<br><code>aclocal --install</code>, it will notice that</p>
+<p>   • <code>configure.ac</code> uses <code>AX_THIRD_PARTY</code><br>   • No local macros define <code>AX_THIRD_PARTY</code><br>   • <code>/usr/share/aclocal/thirdparty.m4</code> defines <code>AX_THIRD_PARTY</code> with<br>​     serial 1.</p>
+<p>Because <code>/usr/share/aclocal/thirdparty.m4</code> is a system-wide macro and<br><code>aclocal</code> was given the <code>--install</code> option, it will copy this file in<br><code>m4/thirdparty.m4</code>, and output an <code>aclocal.m4</code> that contains<br><code>m4_include([m4/thirdparty.m4])</code>.</p>
+<p>   The next time <code>aclocal --install</code> is run, something different<br>happens.  <code>aclocal</code> notices that</p>
+<p>   • <code>configure.ac</code> uses <code>AX_THIRD_PARTY</code><br>   • <code>m4/thirdparty.m4</code> defines <code>AX_THIRD_PARTY</code> with serial 1.<br>   • <code>/usr/share/aclocal/thirdparty.m4</code> defines <code>AX_THIRD_PARTY</code> with<br>​     serial 1.</p>
+<p>Because both files have the same serial number, <code>aclocal</code> uses the first<br>it found in its search path order (note Macro Search Path::).<br><code>aclocal</code> therefore ignores <code>/usr/share/aclocal/thirdparty.m4</code> and<br>outputs an <code>aclocal.m4</code> that contains <code>m4_include([m4/thirdparty.m4])</code>.</p>
+<p>   Local directories specified with <code>-I</code> are always searched before<br>system-wide directories, so a local file will always be preferred to the<br>system-wide file in case of equal serial numbers.</p>
+<p>   Now suppose the system-wide third-party macro is changed.  This can<br>happen if the package installing this macro is updated.  Let<code>s suppose the new macro has serial number 2.  The next time </code>aclocal –install` is<br>run the situation is the following:</p>
+<p>   • <code>configure.ac</code> uses <code>AX_THIRD_PARTY</code><br>   • <code>m4/thirdparty.m4</code> defines <code>AX_THIRD_PARTY</code> with serial 1.<br>   • <code>/usr/share/aclocal/thirdparty.m4</code> defines <code>AX_THIRD_PARTY</code> with<br>​     serial 2.</p>
+<p>When <code>aclocal</code> sees a greater serial number, it immediately forgets<br>anything it knows from files that have the same basename and a smaller<br>serial number.  So after it has found <code>/usr/share/aclocal/thirdparty.m4</code><br>with serial 2, <code>aclocal</code> will proceed as if it had never seen<br><code>m4/thirdparty.m4</code>.  This brings us back to a situation similar to that<br>at the beginning of our example, where no local file defined the macro.<br><code>aclocal</code> will install the new version of the macro in<br><code>m4/thirdparty.m4</code>, in this case overriding the old version.  MyPackage<br>just had its macro updated as a side effect of running <code>aclocal</code>.</p>
+<p>   If you are leery of letting <code>aclocal</code> update your local macro, you<br>can run <code>aclocal --diff</code> to review the changes <code>aclocal --install</code> would<br>perform on these macros.</p>
+<p>   Finally,note that the <code>--force</code> option of <code>aclocal</code> has absolutely<br>no effect on the files installed by <code>--install</code>.  For instance, if you<br>have modified your local macros, do not expect <code>--install --force</code> to<br>replace the local macros by their system-wide versions.  If you want to<br>do so, simply erase the local macros you want to revert, and run<br><code>aclocal --install</code>.</p>
+<h3 id="6-3-6-The-Future-of-aclocal"><a href="#6-3-6-The-Future-of-aclocal" class="headerlink" title="6.3.6 The Future of aclocal"></a>6.3.6 The Future of <code>aclocal</code></h3><hr>
+<hr>
+<p><code>aclocal</code> is expected to disappear.  This feature really should not be<br>offered by Automake.  Automake should focus on generating <code>Makefile</code>s;<br>dealing with M4 macros really is Autoconf<code>s job.  The fact that some people install Automake just to use </code>aclocal<code>, but do not use </code>automake`<br>otherwise is an indication of how that feature is misplaced.</p>
+<p>   The new implementation will probably be done slightly differently.<br>For instance, it could enforce the <code>m4/</code>-style layout discussed in note<br>Local Macros::.</p>
+<p>   We have no idea when and how this will happen.  This has been<br>discussed several times in the past, but someone still has to commit to<br>that non-trivial task.</p>
+<p>   From the user point of view, <code>aclocal``s removal might turn out to be painful.  There is a simple precaution that you may take to make that switch more seamless: never call </code>aclocal<code>yourself.  Keep this guy under the exclusive control of</code>autoreconf<code> and Automake</code>s rebuild<br>rules.  Hopefully you won<code>t need to worry about things breaking, when </code>aclocal<code>disappears, because everything will have been taken care of. If otherwise you used to call</code>aclocal` directly yourself or from some<br>script, you will quickly notice the change.</p>
+<p>   Many packages come with a script called <code>bootstrap</code> or <code>autogen.sh</code>,<br>that will just call <code>aclocal</code>, <code>libtoolize</code>, <code>gettextize</code> or<br><code>autopoint</code>, <code>autoconf</code>, <code>autoheader</code>, and <code>automake</code> in the right<br>order.  Actually this is precisely what <code>autoreconf</code> can do for you.  If<br>your package has such a <code>bootstrap</code> or <code>autogen.sh</code> script, consider<br>using <code>autoreconf</code>.  That should simplify its logic a lot (less things<br>to maintain, yum!), it<code>s even likely you will not need the script anymore, and more to the point you will not call </code>aclocal` directly<br>anymore.</p>
+<p>   For the time being, third-party packages should continue to install<br>public macros into <code>/usr/share/aclocal/</code>.  If <code>aclocal</code> is replaced by<br>another tool it might make sense to rename the directory, but supporting<br><code>/usr/share/aclocal/</code> for backward compatibility should be really easy<br>provided all macros are properly written (note Extending aclocal::).</p>
+<h2 id="6-4-Autoconf-macros-supplied-with-Automake"><a href="#6-4-Autoconf-macros-supplied-with-Automake" class="headerlink" title="6.4 Autoconf macros supplied with Automake"></a>6.4 Autoconf macros supplied with Automake</h2><hr>
+<p>Automake ships with several Autoconf macros that you can use from your<br><code>configure.ac</code>.  When you use one of them it will be included by<br><code>aclocal</code> in <code>aclocal.m4</code>.</p>
+<h3 id="6-4-1-Public-Macros"><a href="#6-4-1-Public-Macros" class="headerlink" title="6.4.1 Public Macros"></a>6.4.1 Public Macros</h3><hr>
+<hr>
+<p><code>AM_INIT_AUTOMAKE([OPTIONS])</code><br>​     Runs many macros required for proper operation of the generated<br>​     Makefiles.</p>
+<pre><code> Today, `AM_INIT_AUTOMAKE` is called with a single argument: a
+ space-separated list of Automake options that should be applied to
+ every `Makefile.am` in the tree.  The effect is as if each option
+ were listed in `AUTOMAKE_OPTIONS` (note Options::).
+
+ This macro can also be called in another, _deprecated_ form:
+ `AM_INIT_AUTOMAKE(PACKAGE, VERSION, [NO-DEFINE])`.  In this form,
+ there are two required arguments: the package and the version
+ number.  This usage is mostly obsolete because the PACKAGE and
+ VERSION can be obtained from Autoconf`s `AC_INIT` macro.  However,
+ differently from what happens for `AC_INIT` invocations, this
+ `AM_INIT_AUTOMAKE` invocation supports shell variables` expansions
+ in the `PACKAGE` and `VERSION` arguments (which otherwise defaults,
+ respectively, to the `PACKAGE_TARNAME` and `PACKAGE_VERSION`
+ defined via the `AC_INIT` invocation; note The `AC_INIT` macro:
+ (autoconf)AC_INIT.); and this can be still be useful in some
+ selected situations.  Our hope is that future Autoconf versions
+ will improve their support for package versions defined dynamically
+ at configure runtime; when (and if) this happens, support for the
+ two-args `AM_INIT_AUTOMAKE` invocation will likely be removed from
+ Automake.
+
+ If your `configure.ac` has:
+
+      AC_INIT([src/foo.c])
+      AM_INIT_AUTOMAKE([mumble], [1.5])
+
+ you should modernize it as follows:
+
+      AC_INIT([mumble], [1.5])
+      AC_CONFIG_SRCDIR([src/foo.c])
+      AM_INIT_AUTOMAKE
+
+ Note that if you`re upgrading your `configure.ac` from an earlier
+ version of Automake, it is not always correct to simply move the
+ package and version arguments from `AM_INIT_AUTOMAKE` directly to
+ `AC_INIT`, as in the example above.  The first argument to
+ `AC_INIT` should be the name of your package (e.g., `GNU
+ Automake`), not the tarball name (e.g., `automake`) that you used
+ to pass to `AM_INIT_AUTOMAKE`.  Autoconf tries to derive a tarball
+ name from the package name, which should work for most but not all
+ package names.  (If it doesn`t work for yours, you can use the
+ four-argument form of `AC_INIT` to provide the tarball name
+ explicitly).
+
+ By default this macro `AC_DEFINE``s `PACKAGE` and `VERSION`.  This
+ can be avoided by passing the `no-define` option (note List of
+ Automake options::):
+      AM_INIT_AUTOMAKE([no-define ...])
+</code></pre>
+<p><code>AM_PATH_LISPDIR</code><br>​     Searches for the program <code>emacs</code>, and, if found, sets the output<br>​     variable <code>lispdir</code> to the full path to Emacs` site-lisp directory.</p>
+<pre><code> Note that this test assumes the `emacs` found to be a version that
+ supports Emacs Lisp (such as GNU Emacs or XEmacs).  Other emacsen
+ can cause this test to hang (some, like old versions of MicroEmacs,
+ start up in interactive mode, requiring `C-x C-c` to exit, which is
+ hardly obvious for a non-emacs user).  In most cases, however, you
+ should be able to use `C-c` to kill the test.  In order to avoid
+ problems, you can set `EMACS` to “no” in the environment, or use
+ the `--with-lispdir` option to `configure` to explicitly set the
+ correct path (if you`re sure you have an `emacs` that supports
+ Emacs Lisp).
+</code></pre>
+<p><code>AM_PROG_AR([ACT-IF-FAIL])</code><br>​     You must use this macro when you use the archiver in your project,<br>​     if you want support for unusual archivers such as Microsoft <code>lib</code>.<br>​     The content of the optional argument is executed if the archiver<br>​     interface is not recognized; the default action is to abort<br>​     configure with an error message.</p>
+<p><code>AM_PROG_AS</code><br>​     Use this macro when you have assembly code in your project.  This<br>​     will choose the assembler for you (by default the C compiler) and<br>​     set <code>CCAS</code>, and will also set <code>CCASFLAGS</code> if required.</p>
+<p><code>AM_PROG_CC_C_O</code><br>​     This is an obsolescent macro that checks that the C compiler<br>​     supports the <code>-c</code> and <code>-o</code> options together.  Note that, since<br>​     Automake 1.14, the <code>AC_PROG_CC</code> is rewritten to implement such<br>​     checks itself, and thus the explicit use of <code>AM_PROG_CC_C_O</code> should<br>​     no longer be required.</p>
+<p><code>AM_PROG_LEX</code><br>​     Like <code>AC_PROG_LEX</code> (note Particular Program Checks:<br>​     (autoconf)Particular Programs.), but uses the <code>missing</code> script on<br>​     systems that do not have <code>lex</code>.  HP-UX 10 is one such system.</p>
+<p><code>AM_PROG_GCJ</code><br>​     This macro finds the <code>gcj</code> program or causes an error.  It sets<br>​     <code>GCJ</code> and <code>GCJFLAGS</code>.  <code>gcj</code> is the Java front-end to the GNU<br>​     Compiler Collection.</p>
+<p><code>AM_PROG_UPC([COMPILER-SEARCH-LIST])</code><br>​     Find a compiler for Unified Parallel C and define the <code>UPC</code><br>​     variable.  The default COMPILER-SEARCH-LIST is <code>upcc upc</code>.  This<br>​     macro will abort <code>configure</code> if no Unified Parallel C compiler is<br>​     found.</p>
+<p><code>AM_MISSING_PROG(NAME, PROGRAM)</code><br>​     Find a maintainer tool PROGRAM and define the NAME environment<br>​     variable with its location.  If PROGRAM is not detected, then NAME<br>​     will instead invoke the <code>missing</code> script, in order to give useful<br>​     advice to the user about the missing maintainer tool.   for more information on when the <code>missing</code><br>​     script is appropriate.</p>
+<p><code>AM_SILENT_RULES</code><br>​     Control the machinery for less verbose build output (note Automake<br>​     Silent Rules::).</p>
+<p><code>AM_WITH_DMALLOC</code><br>​     Add support for the Dmalloc package (<a href="http://dmalloc.com/">http://dmalloc.com/</a>).  If the<br>​     user runs <code>configure</code> with <code>--with-dmalloc</code>, then define<br>​     <code>WITH_DMALLOC</code> and add <code>-ldmalloc</code> to <code>LIBS</code>.</p>
+<h3 id="6-4-2-Obsolete-Macros"><a href="#6-4-2-Obsolete-Macros" class="headerlink" title="6.4.2 Obsolete Macros"></a>6.4.2 Obsolete Macros</h3><hr>
+<hr>
+<p>Although using some of the following macros was required in past<br>releases, you should not use any of them in new code.  <em>All these macros<br>will be removed in the next major Automake version</em>; if you are still<br>using them, running <code>autoupdate</code> should adjust your <code>configure.ac</code><br>automatically (note Using <code>autoupdate</code> to Modernize <code>configure.ac</code>:<br>(autoconf)autoupdate Invocation.).  <em>Do it NOW!</em></p>
+<p><code>AM_PROG_MKDIR_P</code></p>
+<pre><code> From Automake 1.8 to 1.9.6 this macro used to define the output
+ variable `mkdir_p` to one of `mkdir -p`, `install-sh -d`, or
+ `mkinstalldirs`.
+
+ Nowadays Autoconf provides a similar functionality with
+ `AC_PROG_MKDIR_P` (note Particular Program Checks:
+ (autoconf)Particular Programs.), however this defines the output
+ variable `MKDIR_P` instead.  In case you are still using the
+ `AM_PROG_MKDIR_P` macro in your `configure.ac`, or its provided
+ variable `$(mkdir_p)` in your `Makefile.am`, you are advised to
+ switch ASAP to the more modern Autoconf-provided interface instead;
+ both the macro and the variable might be removed in a future major
+ Automake release.
+</code></pre>
+<h2 id="6-4-3-Private-Macros"><a href="#6-4-3-Private-Macros" class="headerlink" title="6.4.3 Private Macros***********************"></a>6.4.3 Private Macros<br>***********************</h2><p>The following macros are private macros you should not call directly.<br>They are called by the other public macros when appropriate.  Do not<br>rely on them, as they might be changed in a future version.  Consider<br>them as implementation details; or better, do not consider them at all:<br>skip this section!</p>
+<p><code>_AM_DEPENDENCIES</code><br><code>AM_SET_DEPDIR</code><br><code>AM_DEP_TRACK</code><br><code>AM_OUTPUT_DEPENDENCY_COMMANDS</code><br>​     These macros are used to implement Automake`s automatic dependency<br>​     tracking scheme.  They are called automatically by Automake when<br>​     required, and there should be no need to invoke them manually.</p>
+<p><code>AM_MAKE_INCLUDE</code><br>​     This macro is used to discover how the user<code>s </code>make<code>handles ​    </code>include` statements.  This macro is automatically invoked when<br>​     needed; there should be no need to invoke it manually.</p>
+<p><code>AM_PROG_INSTALL_STRIP</code><br>​     This is used to find a version of <code>install</code> that can be used to<br>​     strip a program at installation time.  This macro is automatically<br>​     included when required.</p>
+<p><code>AM_SANITY_CHECK</code><br>​     This checks to make sure that a file created in the build directory<br>​     is newer than a file in the source directory.  This can fail on<br>​     systems where the clock is set incorrectly.  This macro is<br>​     automatically run from <code>AM_INIT_AUTOMAKE</code>.</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/autotools/" rel="tag"># autotools</a>
+              <a href="/tags/automake/" rel="tag"># automake</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/03/15/linux-automake-5-create-makefile-in/" rel="prev" title="Linux Automake 5  创建`Makefile.in`">
+      <i class="fa fa-chevron-left"></i> Linux Automake 5  创建`Makefile.in`
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/17/linux-automake-7-directories/" rel="next" title="Linux Automake 7 目录">
+      Linux Automake 7 目录 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E4%BD%BF%E7%94%A8aclocal%E8%A7%A3%E6%9E%90configure-ac"><span class="nav-number">1.</span> <span class="nav-text">6 使用aclocal解析configure.ac</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-Configuration-requirements"><span class="nav-number">1.1.</span> <span class="nav-text">6.1 Configuration requirements</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-Other-things-Automake-recognizes"><span class="nav-number">1.2.</span> <span class="nav-text">6.2 Other things Automake recognizes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-Auto-generating-aclocal-m4"><span class="nav-number">1.3.</span> <span class="nav-text">6.3 Auto-generating aclocal.m4</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-1-aclocal-Options"><span class="nav-number">1.3.1.</span> <span class="nav-text">6.3.1 aclocal Options</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-2-Macro-Search-Path"><span class="nav-number">1.3.2.</span> <span class="nav-text">6.3.2 Macro Search Path</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-3-Writing-your-own-aclocal-macros"><span class="nav-number">1.3.3.</span> <span class="nav-text">6.3.3 Writing your own aclocal macros</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-4-Handling-Local-Macros"><span class="nav-number">1.3.4.</span> <span class="nav-text">6.3.4 Handling Local Macros</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-5-Serial-Numbers"><span class="nav-number">1.3.5.</span> <span class="nav-text">6.3.5 Serial Numbers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-6-The-Future-of-aclocal"><span class="nav-number">1.3.6.</span> <span class="nav-text">6.3.6 The Future of aclocal</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-Autoconf-macros-supplied-with-Automake"><span class="nav-number">1.4.</span> <span class="nav-text">6.4 Autoconf macros supplied with Automake</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-1-Public-Macros"><span class="nav-number">1.4.1.</span> <span class="nav-text">6.4.1 Public Macros</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-2-Obsolete-Macros"><span class="nav-number">1.4.2.</span> <span class="nav-text">6.4.2 Obsolete Macros</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-3-Private-Macros"><span class="nav-number">1.5.</span> <span class="nav-text">6.4.3 Private Macros***********************</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2018/03/16/linux-automake-6-scanning-configure-ac/";
+    this.page.identifier = "2018/03/16/linux-automake-6-scanning-configure-ac/";
+    this.page.title = "Linux Automake 6  解析`configure.ac`";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

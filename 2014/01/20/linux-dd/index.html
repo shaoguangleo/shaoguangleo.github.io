@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="低调但大胆的 - dd 命令除了入门介绍的基本功能，今天再加点干货。 测试写入速度1dd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;testfile bs&#x3D;1G count&#x3D;1 oflag&#x3D;direct 这个命令增加了一个选项叫做oflag&#x3D;direct，  oflag&#x3D;direct：确保数据直接写入磁盘，跳过系统缓存。  这个命令将会输出写入速度。完成测试后，可以删除 testfile 文件。 测试读取速">
+<meta property="og:type" content="article">
+<meta property="og:title" content="低调但大胆的 - dd 命令">
+<meta property="og:url" content="http://shaoguangleo.github.io/2014/01/20/linux-dd/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="低调但大胆的 - dd 命令除了入门介绍的基本功能，今天再加点干货。 测试写入速度1dd if&#x3D;&#x2F;dev&#x2F;zero of&#x3D;testfile bs&#x3D;1G count&#x3D;1 oflag&#x3D;direct 这个命令增加了一个选项叫做oflag&#x3D;direct，  oflag&#x3D;direct：确保数据直接写入磁盘，跳过系统缓存。  这个命令将会输出写入速度。完成测试后，可以删除 testfile 文件。 测试读取速">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2014-01-20T13:30:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.874Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="Linux进阶">
+<meta property="article:tag" content="危险命令">
+<meta property="article:tag" content="dd">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2014/01/20/linux-dd/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>低调但大胆的 - dd 命令 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2014/01/20/linux-dd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          低调但大胆的 - dd 命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2014-01-20 21:30:00" itemprop="dateCreated datePublished" datetime="2014-01-20T21:30:00+08:00">2014-01-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2014/01/20/linux-dd/" class="post-meta-item leancloud_visitors" data-flag-title="低调但大胆的 - dd 命令" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2014/01/20/linux-dd/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/01/20/linux-dd/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2014/01/20/linux-dd/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2014/01/20/linux-dd/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="低调但大胆的-dd-命令"><a href="#低调但大胆的-dd-命令" class="headerlink" title="低调但大胆的 - dd 命令"></a><strong>低调但大胆的 - dd 命令</strong></h1><p>除了入门介绍的基本功能，今天再加点干货。</p>
+<h3 id="测试写入速度"><a href="#测试写入速度" class="headerlink" title="测试写入速度"></a>测试写入速度</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=testfile bs=1G count=1 oflag=direct</span><br></pre></td></tr></tbody></table></figure>
+<p>这个命令增加了一个选项叫做<code>oflag=direct</code>，</p>
+<ul>
+<li><code>oflag=direct</code>：确保数据直接写入磁盘，跳过系统缓存。</li>
+</ul>
+<p>这个命令将会输出写入速度。完成测试后，可以删除 <code>testfile</code> 文件。</p>
+<h3 id="测试读取速度"><a href="#测试读取速度" class="headerlink" title="测试读取速度"></a>测试读取速度</h3><p>首先写一个测试文件（可以使用上面的写入命令），然后执行以下读取命令：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=testfile of=/dev/null bs=1G count=1 iflag=direct</span><br></pre></td></tr></tbody></table></figure>
+<p>同样的增加了<code>iflag=direct</code>，可以加速：</p>
+<ul>
+<li><code>iflag=direct</code>：直接读取数据，跳过系统缓存。</li>
+</ul>
+<p>这样可以得到硬盘的读取速度。</p>
+<p>#######TODO</p>
+<h2 id="backup-an-entire-copy-of-a-hard-disk-to-another-hard-disk"><a href="#backup-an-entire-copy-of-a-hard-disk-to-another-hard-disk" class="headerlink" title="backup an entire copy of a hard disk to another hard disk"></a>backup an entire copy of a hard disk to another hard disk</h2><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dd if=/dev/sda of=/dev/sdb conv=sync,noerror</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<pre><code>   cbs=BYTES
+          convert BYTES bytes at a time
+
+   conv=CONVS
+          convert the file as per the comma separated symbol list
+
+
+   ibs=BYTES
+          read up to BYTES bytes at a time (default: 512)
+
+
+   iflag=FLAGS
+          read as per the comma separated symbol list
+
+   obs=BYTES
+          write BYTES bytes at a time (default: 512)
+
+   oflag=FLAGS
+          write as per the comma separated symbol list
+
+   seek=N skip N obs-sized blocks at start of output
+
+   skip=N skip N ibs-sized blocks at start of input
+
+   status=LEVEL
+          The  LEVEL of information to print to stderr; 'none' suppresses everything but error messages, 'noxfer'
+          suppresses the final transfer statistics, 'progress' shows periodic transfer statistics
+
+   N and BYTES may be followed by the following multiplicative suffixes: c =1, w =2, b =512, kB =1000,  K  =1024,
+   MB =1000*1000, M =1024*1024, xM =M, GB =1000*1000*1000, G =1024*1024*1024, and so on for T, P, E, Z, Y.
+
+   Each CONV symbol may be:
+
+   ascii  from EBCDIC to ASCII
+
+   ebcdic from ASCII to EBCDIC
+
+   ibm    from ASCII to alternate EBCDIC
+
+   block  pad newline-terminated records with spaces to cbs-size
+
+   unblock
+          replace trailing spaces in cbs-size records with newline
+
+   lcase  change upper case to lower case
+
+   ucase  change lower case to upper case
+
+   sparse try to seek rather than write the output for NUL input blocks
+
+   swab   swap every pair of input bytes
+
+   sync   pad  every  input  block with NULs to ibs-size; when used with block or unblock, pad with spaces rather
+          than NULs
+
+   excl   fail if the output file already exists
+
+   nocreat
+          do not create the output file
+
+   notrunc
+          do not truncate the output file
+
+   noerror
+          continue after read errors
+
+   fdatasync
+          physically write output file data before finishing
+
+   fsync  likewise, but also write metadata
+
+   Each FLAG symbol may be:
+
+   append append mode (makes sense only for output; conv=notrunc suggested)
+
+   direct use direct I/O for data
+
+   directory
+          fail unless a directory
+
+   dsync  use synchronized I/O for data
+
+   sync   likewise, but also for metadata
+
+   fullblock
+          accumulate full blocks of input (iflag only)
+
+   nonblock
+          use non-blocking I/O
+
+   noatime
+          do not update access time
+
+   nocache
+          Request to drop cache.  See also oflag=sync
+
+   noctty do not assign controlling terminal from file
+
+   nofollow
+          do not follow symlinks
+
+   count_bytes
+          treat 'count=N' as a byte count (iflag only)
+
+   skip_bytes
+          treat 'skip=N' as a byte count (iflag only)
+
+   seek_bytes
+          treat 'seek=N' as a byte count (oflag only)
+
+   Sending a USR1 signal to a running 'dd' process makes it print I/O statistics to standard error and  then  re‐
+   sume copying.
+</code></pre>
+<h2 id="使用dd命令克隆整个系统"><a href="#使用dd命令克隆整个系统" class="headerlink" title="使用dd命令克隆整个系统"></a>使用dd命令克隆整个系统</h2><p>进入Linux操作系统，打开命令行，执行如下命令：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span>  fdisk -u -l</span><br></pre></td></tr></tbody></table></figure>
+
+<p>可以查看所有磁盘上的所有分区的尺寸和布局情况。</p>
+<blockquote>
+<p>-u，让start和end中数字的单位是512字节，也就是一个sector扇区的大小。</p>
+</blockquote>
+<h3 id="具体步骤"><a href="#具体步骤" class="headerlink" title="具体步骤"></a>具体步骤</h3><p>找一个U盘，安装UbuntuLive Cd系统。</p>
+<p>U盘启动，进入盘上的Ubuntu系统，打开命令行，执行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span>  fdisk -u -l /dev/sda</span><br></pre></td></tr></tbody></table></figure>
+
+<p>查看硬件的分区情况。</p>
+<p>然后执行：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span>   bs=512 count=[fdisk命令中最大的end数+1] <span class="keyword">if</span>=/dev/sda of=/ghost.img</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这样，就可以把我需要的分区数据全部copy到ghost.img文件中。镜像制作完成了！</p>
+<p>然后，我们就可以把U盘插到其他系统上，用U盘启动，进入UbuntuLiveCD，打开命令行，执行如下命令：</p>
+<figure class="highlight routeros"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="attribute">if</span>=/ghost.img <span class="attribute">of</span>=/dev/sda</span><br></pre></td></tr></tbody></table></figure>
+
+<p>完成后，拔掉U盘，启动计算机，就可以看到我们的Linux系统已经安装完毕了！</p>
+<blockquote>
+<p>注意：不要直接在计算机上用本地磁盘启动系统后执行dd命令生成本地磁盘的镜像。而应该使用livecd启动计算机。因此计算机运行时会对系统盘产生大量写操作。 直接对运行中的系统盘生成的镜像，在恢复到其他硬盘上时，很可能会无法启动！</p>
+</blockquote>
+<p>一样适用于非Linux操作系统, 在linux上用dd命令实现系统镜像备份和恢复，是不是很简单呢？</p>
+<p>对于Windows系统，甚至Mac等等任意系统，其实都可以用dd命令实现系统镜像的备份和恢复。<br>因为，Linux的fdisk命令能够识别任意系统下的分区格式。fdisk并不关系分区上的文件系统，甚至有无文件系统都不关心。fdisk总是可以报告分区占用了哪些扇区。<br> dd命令也不关心磁盘的文件系统格式，它只是简单地按照要求从指定的位置，复制多少字节数据而已。<br>dd命令实现镜像备份和恢复，比Ghost软件简单和强大多了。使用ghost软件，依然需要用户进行复杂而危险的磁盘分区操作。<br>而使用fdisk和dd这两条命令，一切都免了！</p>
+<h3 id="压缩和解压缩"><a href="#压缩和解压缩" class="headerlink" title="压缩和解压缩"></a>压缩和解压缩</h3><p>可能我们需要备份的分区很大，使用dd命令生成的镜像文件也就很大。存储和传输这些镜像不太方便。  我们也可以使用压缩程序压缩生成的镜像文件。 这里，我选择使用gzip程序，配合dd命令一起使用。</p>
+<p>gzip参数：</p>
+<ul>
+<li>-c 表示输出到stdout</li>
+<li>-d  表示解压缩</li>
+<li>-1 表示最快压缩</li>
+<li>-9 表示最好压缩</li>
+</ul>
+<p>默认使用的是-6压缩级别。</p>
+<p>要使用 dd 和 gzip 生成压缩的镜像文件，可以执行命令：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">dd</span> bs=512 count=[fdisk命令中最大的end数+1] <span class="keyword">if</span>=/dev/sda | gzip -6 &gt; /ghost.img.gz</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>还原时，可以执行下列命令： # gzip -dc /ghost.img.gz.gz | dd of=/dev/sda</p>
+<p>提醒：<br>如果你把镜像恢复到另一台计算机上，你可能会发现你的网卡是eth1，而不是eth0。这是因为<br>/etc/udev/rules.d/70-persistent-net.rules   文件把你做镜像的计算机的网卡作为eth0登记了。<br>如果你的网络脚本对eth0进行了处理，而没有对eth1进行处理，那么不修改网络脚本，你可能就无法上网了。</p>
+<p>也许你会希望在做镜像之前，先删除 /etc/udev/rules.d/70-persistent-net.rules 文件。这样你恢复镜像时，网卡的名字就是eth0。   就不会造成你在恢复后的计算机上无法上网的问题了。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/Linux%E8%BF%9B%E9%98%B6/" rel="tag"># Linux进阶</a>
+              <a href="/tags/%E5%8D%B1%E9%99%A9%E5%91%BD%E4%BB%A4/" rel="tag"># 危险命令</a>
+              <a href="/tags/dd/" rel="tag"># dd</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2014/01/20/linux-execute-history-command/" rel="prev" title="执行以特定字开头的历史命令">
+      <i class="fa fa-chevron-left"></i> 执行以特定字开头的历史命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2014/01/20/linux-chown/" rel="next" title="linux 设置文件所有者命令 chmod">
+      linux 设置文件所有者命令 chmod <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%8E%E8%B0%83%E4%BD%86%E5%A4%A7%E8%83%86%E7%9A%84-dd-%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">低调但大胆的 - dd 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E5%86%99%E5%85%A5%E9%80%9F%E5%BA%A6"><span class="nav-number">1.0.1.</span> <span class="nav-text">测试写入速度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%AF%BB%E5%8F%96%E9%80%9F%E5%BA%A6"><span class="nav-number">1.0.2.</span> <span class="nav-text">测试读取速度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#backup-an-entire-copy-of-a-hard-disk-to-another-hard-disk"><span class="nav-number">1.1.</span> <span class="nav-text">backup an entire copy of a hard disk to another hard disk</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8dd%E5%91%BD%E4%BB%A4%E5%85%8B%E9%9A%86%E6%95%B4%E4%B8%AA%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.2.</span> <span class="nav-text">使用dd命令克隆整个系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.2.1.</span> <span class="nav-text">具体步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%BC%A9"><span class="nav-number">1.2.2.</span> <span class="nav-text">压缩和解压缩</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2014/01/20/linux-dd/";
+    this.page.identifier = "2014/01/20/linux-dd/";
+    this.page.title = "低调但大胆的 - dd 命令";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

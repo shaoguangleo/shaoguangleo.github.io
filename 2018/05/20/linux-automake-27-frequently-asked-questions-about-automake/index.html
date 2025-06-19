@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GNU Automake 版本(version 1.16.1, 26 February 2018) Permission is granted to copy, distribute and&#x2F;or modify thisdocument under the terms of the GNU Free Documentation License,Version 1.3 or any later v">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Automake 27 Frequently Asked Questions about Automake">
+<meta property="og:url" content="http://shaoguangleo.github.io/2018/05/20/linux-automake-27-frequently-asked-questions-about-automake/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="GNU Automake 版本(version 1.16.1, 26 February 2018) Permission is granted to copy, distribute and&#x2F;or modify thisdocument under the terms of the GNU Free Documentation License,Version 1.3 or any later v">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-05-20T14:28:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.867Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="autotools">
+<meta property="article:tag" content="automake">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2018/05/20/linux-automake-27-frequently-asked-questions-about-automake/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux Automake 27 Frequently Asked Questions about Automake | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2018/05/20/linux-automake-27-frequently-asked-questions-about-automake/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux Automake 27 Frequently Asked Questions about Automake
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-05-20 22:28:00" itemprop="dateCreated datePublished" datetime="2018-05-20T22:28:00+08:00">2018-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Automake/" itemprop="url" rel="index"><span itemprop="name">Automake</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2018/05/20/linux-automake-27-frequently-asked-questions-about-automake/" class="post-meta-item leancloud_visitors" data-flag-title="Linux Automake 27 Frequently Asked Questions about Automake" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2018/05/20/linux-automake-27-frequently-asked-questions-about-automake/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/05/20/linux-automake-27-frequently-asked-questions-about-automake/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2018/05/20/linux-automake-27-frequently-asked-questions-about-automake/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2018/05/20/linux-automake-27-frequently-asked-questions-about-automake/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>GNU Automake 版本(version 1.16.1, 26 February 2018)</p>
+<p>Permission is granted to copy, distribute and/or modify this<br>document under the terms of the GNU Free Documentation License,<br>Version 1.3 or any later version published by the Free Software<br>Foundation; with no Invariant Sections, with no Front-Cover texts,<br>and with no Back-Cover Texts.  A copy of the license is included in<br>the section entitled “GNU Free Documentation License.”</p>
+</blockquote>
+<p>27 Frequently Asked Questions about Automake</p>
+<hr>
+<p>This chapter covers some questions that often come up on the mailing<br>lists.</p>
+<h1 id="27-1-CVS-and-generated-files"><a href="#27-1-CVS-and-generated-files" class="headerlink" title="27.1 CVS and generated files"></a>27.1 CVS and generated files</h1><h2 id="Background-distributed-generated-Files"><a href="#Background-distributed-generated-Files" class="headerlink" title="Background: distributed generated Files"></a>Background: distributed generated Files</h2><p>Packages made with Autoconf and Automake ship with some generated files<br>like ‘configure’ or ‘Makefile.in’.  These files were generated on the<br>developer’s machine and are distributed so that end-users do not have to<br>install the maintainer tools required to rebuild them.  Other generated<br>files like Lex scanners, Yacc parsers, or Info documentation, are<br>usually distributed on similar grounds.</p>
+<p>   Automake output rules in ‘Makefile’s to rebuild these files.  For<br>instance, ‘make’ will run ‘autoconf’ to rebuild ‘configure’ whenever<br>‘configure.ac’ is changed.  This makes development safer by ensuring a<br>‘configure’ is never out-of-date with respect to ‘configure.ac’.</p>
+<p>   As generated files shipped in packages are up-to-date, and because<br>‘tar’ preserves times-tamps, these rebuild rules are not triggered when<br>a user unpacks and builds a package.</p>
+<h2 id="Background-CVS-and-Timestamps"><a href="#Background-CVS-and-Timestamps" class="headerlink" title="Background: CVS and Timestamps"></a>Background: CVS and Timestamps</h2><p>Unless you use CVS keywords (in which case files must be updated at<br>commit time), CVS preserves timestamp during ‘cvs commit’ and ‘cvs<br>import -d’ operations.</p>
+<p>   When you check out a file using ‘cvs checkout’ its timestamp is set<br>to that of the revision that is being checked out.</p>
+<p>   However, during ‘cvs update’, files will have the date of the update,<br>not the original timestamp of this revision.  This is meant to make sure<br>that ‘make’ notices sources files have been updated.</p>
+<p>   This timestamp shift is troublesome when both sources and generated<br>files are kept under CVS.  Because CVS processes files in lexical order,<br>‘configure.ac’ will appear newer than ‘configure’ after a ‘cvs update’<br>that updates both files, even if ‘configure’ was newer than<br>‘configure.ac’ when it was checked in.  Calling ‘make’ will then trigger<br>a spurious rebuild of ‘configure’.</p>
+<h2 id="Living-with-CVS-in-Autoconfiscated-Projects"><a href="#Living-with-CVS-in-Autoconfiscated-Projects" class="headerlink" title="Living with CVS in Autoconfiscated Projects"></a>Living with CVS in Autoconfiscated Projects</h2><p>There are basically two clans amongst maintainers: those who keep all<br>distributed files under CVS, including generated files, and those who<br>keep generated files <em>out</em> of CVS.</p>
+<p>All Files in CVS<br>…………….</p>
+<p>   • The CVS repository contains all distributed files so you know<br>     exactly what is distributed, and you can checkout any prior version<br>     entirely.</p>
+<p>   • Maintainers can see how generated files evolve (for instance, you<br>     can see what happens to your ‘Makefile.in’s when you upgrade<br>     Automake and make sure they look OK).</p>
+<p>   • Users do not need the autotools to build a checkout of the project,<br>     it works just like a released tarball.</p>
+<p>   • If users use ‘cvs update’ to update their copy, instead of ‘cvs<br>     checkout’ to fetch a fresh one, timestamps will be inaccurate.<br>     Some rebuild rules will be triggered and attempt to run developer<br>     tools such as ‘autoconf’ or ‘automake’.</p>
+<pre><code> Calls to such tools are all wrapped into a call to the ‘missing’
+ script discussed later (*note maintainer-mode::), so that the user
+ will see more descriptive warnings about missing or out-of-date
+ tools, and possible suggestions about how to obtain them, rather
+ than just some “command not found” error, or (worse) some obscure
+ message from some older version of the required tool they happen to
+ have installed.
+
+ Maintainers interested in keeping their package buildable from a
+ CVS checkout even for those users that lack maintainer-specific
+ tools might want to provide an helper script (or to enhance their
+ existing bootstrap script) to fix the timestamps after a ‘cvs
+ update’ or a ‘git checkout’, to prevent spurious rebuilds.  In case
+ of a project committing the Autotools-generated files, as well as
+ the generated ‘.info’ files, such script might look something like
+ this:
+
+      #!/bin/sh
+      # fix-timestamp.sh: prevents useless rebuilds after "cvs update"
+      sleep 1
+      # aclocal-generated aclocal.m4 depends on locally-installed
+      # '.m4' macro files, as well as on 'configure.ac'
+      touch aclocal.m4
+      sleep 1
+      # autoconf-generated configure depends on aclocal.m4 and on
+      # configure.ac
+      touch configure
+      # so does autoheader-generated config.h.in
+      touch config.h.in
+      # and all the automake-generated Makefile.in files
+      touch `find . -name Makefile.in -print`
+      # finally, the makeinfo-generated '.info' files depend on the
+      # corresponding '.texi' files
+      touch doc/*.info
+</code></pre>
+<p>   • In distributed development, developers are likely to have different<br>     version of the maintainer tools installed.  In this case rebuilds<br>     triggered by timestamp lossage will lead to spurious changes to<br>     generated files.  There are several solutions to this:</p>
+<pre><code>    • All developers should use the same versions, so that the
+      rebuilt files are identical to files in CVS.  (This starts to
+      be difficult when each project you work on uses different
+      versions.)
+    • Or people use a script to fix the timestamp after a checkout
+      (the GCC folks have such a script).
+    • Or ‘configure.ac’ uses ‘AM_MAINTAINER_MODE’, which will
+      disable all of these rebuild rules by default.  This is
+      further discussed in *note maintainer-mode::.
+</code></pre>
+<p>   • Although we focused on spurious rebuilds, the converse can also<br>     happen.  CVS’s timestamp handling can also let you think an<br>     out-of-date file is up-to-date.</p>
+<pre><code> For instance, suppose a developer has modified ‘Makefile.am’ and
+ has rebuilt ‘Makefile.in’, and then decides to do a last-minute
+ change to ‘Makefile.am’ right before checking in both files
+ (without rebuilding ‘Makefile.in’ to account for the change).
+
+ This last change to ‘Makefile.am’ makes the copy of ‘Makefile.in’
+ out-of-date.  Since CVS processes files alphabetically, when
+ another developer ‘cvs update’s his or her tree, ‘Makefile.in’ will
+ happen to be newer than ‘Makefile.am’.  This other developer will
+ not see that ‘Makefile.in’ is out-of-date.
+</code></pre>
+<p>Generated Files out of CVS<br>……………………..</p>
+<p>One way to get CVS and ‘make’ working peacefully is to never store<br>generated files in CVS, i.e., do not CVS-control files that are<br>‘Makefile’ targets (also called <em>derived</em> files).</p>
+<p>   This way developers are not annoyed by changes to generated files.<br>It does not matter if they all have different versions (assuming they<br>are compatible, of course).  And finally, timestamps are not lost,<br>changes to sources files can’t be missed as in the<br>‘Makefile.am’/‘Makefile.in’ example discussed earlier.</p>
+<p>   The drawback is that the CVS repository is not an exact copy of what<br>is distributed and that users now need to install various development<br>tools (maybe even specific versions) before they can build a checkout.<br>But, after all, CVS’s job is versioning, not distribution.</p>
+<p>   Allowing developers to use different versions of their tools can also<br>hide bugs during distributed development.  Indeed, developers will be<br>using (hence testing) their own generated files, instead of the<br>generated files that will be released actually.  The developer who<br>prepares the tarball might be using a version of the tool that produces<br>bogus output (for instance a non-portable C file), something other<br>developers could have noticed if they weren’t using their own versions<br>of this tool.</p>
+<h2 id="Third-party-Files"><a href="#Third-party-Files" class="headerlink" title="Third-party Files"></a>Third-party Files</h2><p>Another class of files not discussed here (because they do not cause<br>timestamp issues) are files that are shipped with a package, but<br>maintained elsewhere.  For instance, tools like ‘gettextize’ and<br>‘autopoint’ (from Gettext) or ‘libtoolize’ (from Libtool), will install<br>or update files in your package.</p>
+<p>   These files, whether they are kept under CVS or not, raise similar<br>concerns about version mismatch between developers’ tools.  The Gettext<br>manual has a section about this, see *note CVS Issues: (gettext)CVS<br>Issues.</p>
+<h1 id="27-2-‘missing’-and-‘AM-MAINTAINER-MODE’"><a href="#27-2-‘missing’-and-‘AM-MAINTAINER-MODE’" class="headerlink" title="27.2 ‘missing’ and ‘AM_MAINTAINER_MODE’"></a>27.2 ‘missing’ and ‘AM_MAINTAINER_MODE’</h1><h2 id="‘missing’"><a href="#‘missing’" class="headerlink" title="‘missing’"></a>‘missing’</h2><p>The ‘missing’ script is a wrapper around several maintainer tools,<br>designed to warn users if a maintainer tool is required but missing.<br>Typical maintainer tools are ‘autoconf’, ‘automake’, ‘bison’, etc.<br>Because file generated by these tools are shipped with the other sources<br>of a package, these tools shouldn’t be required during a user build and<br>they are not checked for in ‘configure’.</p>
+<p>   However, if for some reason a rebuild rule is triggered and involves<br>a missing tool, ‘missing’ will notice it and warn the user, even<br>suggesting how to obtain such a tool (at least in case it is a<br>well-known one, like ‘makeinfo’ or ‘bison’).  This is more helpful and<br>user-friendly than just having the rebuild rules spewing out a terse<br>error message like ‘sh: TOOL: command not found’.  Similarly, ‘missing’<br>will warn the user if it detects that a maintainer tool it attempted to<br>use seems too old (be warned that diagnosing this correctly is typically<br>more difficult that detecting missing tools, and requires cooperation<br>from the tool itself, so it won’t always work).</p>
+<p>   If the required tool is installed, ‘missing’ will run it and won’t<br>attempt to continue after failures.  This is correct during development:<br>developers love fixing failures.  However, users with missing or too old<br>maintainer tools may get an error when the rebuild rule is spuriously<br>triggered, halting the build.  This failure to let the build continue is<br>one of the arguments of the ‘AM_MAINTAINER_MODE’ advocates.</p>
+<h2 id="‘AM-MAINTAINER-MODE’"><a href="#‘AM-MAINTAINER-MODE’" class="headerlink" title="‘AM_MAINTAINER_MODE’"></a>‘AM_MAINTAINER_MODE’</h2><p>‘AM_MAINTAINER_MODE’ allows you to choose whether the so called “rebuild<br>rules” should be enabled or disabled.  With<br>‘AM_MAINTAINER_MODE([enable])’, they are enabled by default, otherwise<br>they are disabled by default.  In the latter case, if you have<br>‘AM_MAINTAINER_MODE’ in ‘configure.ac’, and run ‘./configure &amp;&amp; make’,<br>then ‘make’ will <em>never</em> attempt to rebuild ‘configure’, ‘Makefile.in’s,<br>Lex or Yacc outputs, etc.  I.e., this disables build rules for files<br>that are usually distributed and that users should normally not have to<br>update.</p>
+<p>   The user can override the default setting by passing either<br>‘–enable-maintainer-mode’ or ‘–disable-maintainer-mode’ to<br>‘configure’.</p>
+<p>   People use ‘AM_MAINTAINER_MODE’ either because they do not want their<br>users (or themselves) annoyed by timestamps lossage (*note CVS::), or<br>because they simply can’t stand the rebuild rules and prefer running<br>maintainer tools explicitly.</p>
+<p>   ‘AM_MAINTAINER_MODE’ also allows you to disable some custom build<br>rules conditionally.  Some developers use this feature to disable rules<br>that need exotic tools that users may not have available.</p>
+<p>   Several years ago François Pinard pointed out several arguments<br>against this ‘AM_MAINTAINER_MODE’ macro.  Most of them relate to<br>insecurity.  By removing dependencies you get non-dependable builds:<br>changes to sources files can have no effect on generated files and this<br>can be very confusing when unnoticed.  He adds that security shouldn’t<br>be reserved to maintainers (what ‘–enable-maintainer-mode’ suggests),<br>on the contrary.  If one user has to modify a ‘Makefile.am’, then either<br>‘Makefile.in’ should be updated or a warning should be output (this is<br>what Automake uses ‘missing’ for) but the last thing you want is that<br>nothing happens and the user doesn’t notice it (this is what happens<br>when rebuild rules are disabled by ‘AM_MAINTAINER_MODE’).</p>
+<p>   Jim Meyering, the inventor of the ‘AM_MAINTAINER_MODE’ macro was<br>swayed by François’s arguments, and got rid of ‘AM_MAINTAINER_MODE’ in<br>all of his packages.</p>
+<p>   Still many people continue to use ‘AM_MAINTAINER_MODE’, because it<br>helps them working on projects where all files are kept under version<br>control, and because ‘missing’ isn’t enough if you have the wrong<br>version of the tools.</p>
+<h1 id="27-3-Why-doesn’t-Automake-support-wildcards"><a href="#27-3-Why-doesn’t-Automake-support-wildcards" class="headerlink" title="27.3 Why doesn’t Automake support wildcards?"></a>27.3 Why doesn’t Automake support wildcards?</h1><p>Developers are lazy.  They would often like to use wildcards in<br>‘Makefile.am’s, so that they would not need to remember to update<br>‘Makefile.am’s every time they add, delete, or rename a file.</p>
+<p>   There are several objections to this:<br>   • When using CVS (or similar) developers need to remember they have<br>     to run ‘cvs add’ or ‘cvs rm’ anyway.  Updating ‘Makefile.am’<br>     accordingly quickly becomes a reflex.</p>
+<pre><code> Conversely, if your application doesn’t compile because you forgot
+ to add a file in ‘Makefile.am’, it will help you remember to ‘cvs
+ add’ it.
+</code></pre>
+<p>   • Using wildcards makes it easy to distribute files by mistake.  For<br>     instance, some code a developer is experimenting with (a test case,<br>     say) that should not be part of the distribution.</p>
+<p>   • Using wildcards it’s easy to omit some files by mistake.  For<br>     instance, one developer creates a new file, uses it in many places,<br>     but forgets to commit it.  Another developer then checks out the<br>     incomplete project and is able to run ‘make dist’ successfully,<br>     even though a file is missing.  By listing files, ‘make dist’<br>     <em>will</em> complain.</p>
+<p>   • Wildcards are not portable to some non-GNU ‘make’ implementations,<br>     e.g., NetBSD ‘make’ will not expand globs such as ‘*’ in<br>     prerequisites of a target.</p>
+<p>   • Finally, it’s really hard to <em>forget</em> to add a file to<br>     ‘Makefile.am’: files that are not listed in ‘Makefile.am’ are not<br>     compiled or installed, so you can’t even test them.</p>
+<p>   Still, these are philosophical objections, and as such you may<br>disagree, or find enough value in wildcards to dismiss all of them.<br>Before you start writing a patch against Automake to teach it about<br>wildcards, let’s see the main technical issue: portability.</p>
+<p>   Although ‘$(wildcard …)’ works with GNU ‘make’, it is not portable<br>to other ‘make’ implementations.</p>
+<p>   The only way Automake could support ‘$(wildcard …)’ is by expanding<br>‘$(wildcard …)’ when ‘automake’ is run.  The resulting ‘Makefile.in’s<br>would be portable since they would list all files and not use<br>‘$(wildcard …)’.  However that means developers would need to remember<br>to run ‘automake’ each time they add, delete, or rename files.</p>
+<p>   Compared to editing ‘Makefile.am’, this is a very small gain.  Sure,<br>it’s easier and faster to type ‘automake; make’ than to type ‘emacs<br>Makefile.am; make’.  But nobody bothered enough to write a patch to add<br>support for this syntax.  Some people use scripts to generate file lists<br>in ‘Makefile.am’ or in separate ‘Makefile’ fragments.</p>
+<p>   Even if you don’t care about portability, and are tempted to use<br>‘$(wildcard …)’ anyway because you target only GNU Make, you should<br>know there are many places where Automake needs to know exactly which<br>files should be processed.  As Automake doesn’t know how to expand<br>‘$(wildcard …)’, you cannot use it in these places.  ‘$(wildcard …)’<br>is a black box comparable to ‘AC_SUBST’ed variables as far Automake is<br>concerned.</p>
+<p>   You can get warnings about ‘$(wildcard …’) constructs using the<br>‘-Wportability’ flag.</p>
+<h1 id="27-4-Limitations-on-File-Names"><a href="#27-4-Limitations-on-File-Names" class="headerlink" title="27.4 Limitations on File Names"></a>27.4 Limitations on File Names</h1><p>Automake attempts to support all kinds of file names, even those that<br>contain unusual characters or are unusually long.  However, some<br>limitations are imposed by the underlying operating system and tools.</p>
+<p>   Most operating systems prohibit the use of the null byte in file<br>names, and reserve ‘/’ as a directory separator.  Also, they require<br>that file names are properly encoded for the user’s locale.  Automake is<br>subject to these limits.</p>
+<p>   Portable packages should limit themselves to POSIX file names.  These<br>can contain ASCII letters and digits, ‘_’, ‘.’, and ‘-’.  File names<br>consist of components separated by ‘/’.  File name components cannot<br>begin with ‘-’.</p>
+<p>   Portable POSIX file names cannot contain components that exceed a<br>14-byte limit, but nowadays it’s normally safe to assume the<br>more-generous XOPEN limit of 255 bytes.  POSIX limits file names to 255<br>bytes (XOPEN allows 1023 bytes), but you may want to limit a source<br>tarball to file names of 99 bytes to avoid interoperability problems<br>with old versions of ‘tar’.</p>
+<p>   If you depart from these rules (e.g., by using non-ASCII characters<br>in file names, or by using lengthy file names), your installers may have<br>problems for reasons unrelated to Automake.  However, if this does not<br>concern you, you should know about the limitations imposed by Automake<br>itself.  These limitations are undesirable, but some of them seem to be<br>inherent to underlying tools like Autoconf, Make, M4, and the shell.<br>They fall into three categorie: install directories, build directories,<br>and file names.</p>
+<p>   The following characters:</p>
+<pre><code> newline " # $ ' `
+</code></pre>
+<p>   should not appear in the names of install directories.  For example,<br>the operand of ‘configure’’s ‘–prefix’ option should not contain these<br>characters.</p>
+<p>   Build directories suffer the same limitations as install directories,<br>and in addition should not contain the following characters:</p>
+<pre><code> &amp; @ \
+</code></pre>
+<p>   For example, the full name of the directory containing the source<br>files should not contain these characters.</p>
+<p>   Source and installation file names like ‘main.c’ are limited even<br>further: they should conform to the POSIX/XOPEN rules described above.<br>In addition, if you plan to port to non-POSIX environments, you should<br>avoid file names that differ only in case (e.g., ‘makefile’ and<br>‘Makefile’).  Nowadays it is no longer worth worrying about the 8.3<br>limits of DOS file systems.</p>
+<h1 id="27-5-Errors-with-distclean"><a href="#27-5-Errors-with-distclean" class="headerlink" title="27.5 Errors with distclean"></a>27.5 Errors with distclean</h1><p>This is a diagnostic you might encounter while running ‘make distcheck’.</p>
+<p>   As explained in *note Checking the Distribution::, ‘make distcheck’<br>attempts to build and check your package for errors like this one.</p>
+<p>   ‘make distcheck’ will perform a ‘VPATH’ build of your package (*note<br>VPATH Builds::), and then call ‘make distclean’.  Files left in the<br>build directory after ‘make distclean’ has run are listed after this<br>error.</p>
+<p>   This diagnostic really covers two kinds of errors:</p>
+<p>   • files that are forgotten by distclean;<br>   • distributed files that are erroneously rebuilt.</p>
+<p>   The former left-over files are not distributed, so the fix is to mark<br>them for cleaning (*note Clean::), this is obvious and doesn’t deserve<br>more explanations.</p>
+<p>   The latter bug is not always easy to understand and fix, so let’s<br>proceed with an example.  Suppose our package contains a program for<br>which we want to build a man page using ‘help2man’.  GNU ‘help2man’<br>produces simple manual pages from the ‘–help’ and ‘–version’ output of<br>other commands (*note Overview: (help2man)Top.).  Because we don’t want<br>to force our users to install ‘help2man’, we decide to distribute the<br>generated man page using the following setup.</p>
+<pre><code> # This Makefile.am is bogus.
+ bin_PROGRAMS = foo
+ foo_SOURCES = foo.c
+ dist_man_MANS = foo.1
+
+ foo.1: foo$(EXEEXT)
+         help2man --output=foo.1 ./foo$(EXEEXT)
+</code></pre>
+<p>   This will effectively distribute the man page.  However, ‘make<br>distcheck’ will fail with:</p>
+<pre><code> ERROR: files left in build directory after distclean:
+ ./foo.1
+</code></pre>
+<p>   Why was ‘foo.1’ rebuilt?  Because although distributed, ‘foo.1’<br>depends on a non-distributed built file: ‘foo$(EXEEXT)’.  ‘foo$(EXEEXT)’<br>is built by the user, so it will always appear to be newer than the<br>distributed ‘foo.1’.</p>
+<p>   ‘make distcheck’ caught an inconsistency in our package.  Our intent<br>was to distribute ‘foo.1’ so users do not need to install ‘help2man’,<br>however since this rule causes this file to be always rebuilt, users<br><em>do</em> need ‘help2man’.  Either we should ensure that ‘foo.1’ is not<br>rebuilt by users, or there is no point in distributing ‘foo.1’.</p>
+<p>   More generally, the rule is that distributed files should never<br>depend on non-distributed built files.  If you distribute something<br>generated, distribute its sources.</p>
+<p>   One way to fix the above example, while still distributing ‘foo.1’ is<br>to not depend on ‘foo$(EXEEXT)’.  For instance, assuming ‘foo –version’<br>and ‘foo –help’ do not change unless ‘foo.c’ or ‘configure.ac’ change,<br>we could write the following ‘Makefile.am’:</p>
+<pre><code> bin_PROGRAMS = foo
+ foo_SOURCES = foo.c
+ dist_man_MANS = foo.1
+
+ foo.1: foo.c $(top_srcdir)/configure.ac
+         $(MAKE) $(AM_MAKEFLAGS) foo$(EXEEXT)
+         help2man --output=foo.1 ./foo$(EXEEXT)
+</code></pre>
+<p>   This way, ‘foo.1’ will not get rebuilt every time ‘foo$(EXEEXT)’<br>changes.  The ‘make’ call makes sure ‘foo$(EXEEXT)’ is up-to-date before<br>‘help2man’.  Another way to ensure this would be to use separate<br>directories for binaries and man pages, and set ‘SUBDIRS’ so that<br>binaries are built before man pages.</p>
+<p>   We could also decide not to distribute ‘foo.1’.  In this case it’s<br>fine to have ‘foo.1’ dependent upon ‘foo$(EXEEXT)’, since both will have<br>to be rebuilt.  However it would be impossible to build the package in a<br>cross-compilation, because building ‘foo.1’ involves an <em>execution</em> of<br>‘foo$(EXEEXT)’.</p>
+<p>   Another context where such errors are common is when distributed<br>files are built by tools that are built by the package.  The pattern is<br>similar:</p>
+<pre><code> distributed-file: built-tools distributed-sources
+         build-command
+</code></pre>
+<p>should be changed to</p>
+<pre><code> distributed-file: distributed-sources
+         $(MAKE) $(AM_MAKEFLAGS) built-tools
+         build-command
+</code></pre>
+<p>or you could choose not to distribute ‘distributed-file’, if<br>cross-compilation does not matter.</p>
+<p>   The points made through these examples are worth a summary:</p>
+<p>   • Distributed files should never depend upon non-distributed built<br>     files.<br>   • Distributed files should be distributed with all their<br>     dependencies.<br>   • If a file is <em>intended</em> to be rebuilt by users, then there is no<br>     point in distributing it.</p>
+<p>   For desperate cases, it’s always possible to disable this check by<br>setting ‘distcleancheck_listfiles’ as documented in *note Checking the<br>Distribution::.  Make sure you do understand the reason why ‘make<br>distcheck’ complains before you do this.  ‘distcleancheck_listfiles’ is<br>a way to <em>hide</em> errors, not to fix them.  You can always do better.</p>
+<h1 id="27-6-Flag-Variables-Ordering"><a href="#27-6-Flag-Variables-Ordering" class="headerlink" title="27.6 Flag Variables Ordering"></a>27.6 Flag Variables Ordering</h1><pre><code> What is the difference between ‘AM_CFLAGS’, ‘CFLAGS’, and
+ ‘mumble_CFLAGS’?
+
+ Why does ‘automake’ output ‘CPPFLAGS’ after
+ ‘AM_CPPFLAGS’ on compile lines?  Shouldn’t it be the converse?
+
+ My ‘configure’ adds some warning flags into ‘CXXFLAGS’.  In
+ one ‘Makefile.am’ I would like to append a new flag, however if I
+ put the flag into ‘AM_CXXFLAGS’ it is prepended to the other
+ flags, not appended.
+</code></pre>
+<h2 id="Compile-Flag-Variables"><a href="#Compile-Flag-Variables" class="headerlink" title="Compile Flag Variables"></a>Compile Flag Variables</h2><p>This section attempts to answer all the above questions.  We will mostly<br>discuss ‘CPPFLAGS’ in our examples, but actually the answer holds for<br>all the compile flags used in Automake: ‘CCASFLAGS’, ‘CFLAGS’,<br>‘CPPFLAGS’, ‘CXXFLAGS’, ‘FCFLAGS’, ‘FFLAGS’, ‘GCJFLAGS’, ‘LDFLAGS’,<br>‘LFLAGS’, ‘LIBTOOLFLAGS’, ‘OBJCFLAGS’, ‘OBJCXXFLAGS’, ‘RFLAGS’,<br>‘UPCFLAGS’, and ‘YFLAGS’.</p>
+<p>   ‘CPPFLAGS’, ‘AM_CPPFLAGS’, and ‘mumble_CPPFLAGS’ are three variables<br>that can be used to pass flags to the C preprocessor (actually these<br>variables are also used for other languages like C++ or preprocessed<br>Fortran).  ‘CPPFLAGS’ is the user variable (*note User Variables::),<br>‘AM_CPPFLAGS’ is the Automake variable, and ‘mumble_CPPFLAGS’ is the<br>variable specific to the ‘mumble’ target (we call this a per-target<br>variable, *note Program and Library Variables::).</p>
+<p>   Automake always uses two of these variables when compiling C sources<br>files.  When compiling an object file for the ‘mumble’ target, the first<br>variable will be ‘mumble_CPPFLAGS’ if it is defined, or ‘AM_CPPFLAGS’<br>otherwise.  The second variable is always ‘CPPFLAGS’.</p>
+<p>   In the following example,</p>
+<pre><code> bin_PROGRAMS = foo bar
+ foo_SOURCES = xyz.c
+ bar_SOURCES = main.c
+ foo_CPPFLAGS = -DFOO
+ AM_CPPFLAGS = -DBAZ
+</code></pre>
+<p>‘xyz.o’ will be compiled with ‘$(foo_CPPFLAGS) $(CPPFLAGS)’, (because<br>‘xyz.o’ is part of the ‘foo’ target), while ‘main.o’ will be compiled<br>with ‘$(AM_CPPFLAGS) $(CPPFLAGS)’ (because there is no per-target<br>variable for target ‘bar’).</p>
+<p>   The difference between ‘mumble_CPPFLAGS’ and ‘AM_CPPFLAGS’ being<br>clear enough, let’s focus on ‘CPPFLAGS’.  ‘CPPFLAGS’ is a user variable,<br>i.e., a variable that users are entitled to modify in order to compile<br>the package.  This variable, like many others, is documented at the end<br>of the output of ‘configure –help’.</p>
+<p>   For instance, someone who needs to add ‘/home/my/usr/include’ to the<br>C compiler’s search path would configure a package with</p>
+<pre><code> ./configure CPPFLAGS='-I /home/my/usr/include'
+</code></pre>
+<p>and this flag would be propagated to the compile rules of all<br>‘Makefile’s.</p>
+<p>   It is also not uncommon to override a user variable at ‘make’-time.<br>Many installers do this with ‘prefix’, but this can be useful with<br>compiler flags too.  For instance, if, while debugging a C++ project,<br>you need to disable optimization in one specific object file, you can<br>run something like</p>
+<pre><code> rm file.o
+ make CXXFLAGS=-O0 file.o
+ make
+</code></pre>
+<p>   The reason ‘$(CPPFLAGS)’ appears after ‘$(AM_CPPFLAGS)’ or<br>‘$(mumble_CPPFLAGS)’ in the compile command is that users should always<br>have the last say.  It probably makes more sense if you think about it<br>while looking at the ‘CXXFLAGS=-O0’ above, which should supersede any<br>other switch from ‘AM_CXXFLAGS’ or ‘mumble_CXXFLAGS’ (and this of course<br>replaces the previous value of ‘CXXFLAGS’).</p>
+<p>   You should never redefine a user variable such as ‘CPPFLAGS’ in<br>‘Makefile.am’.  Use ‘automake -Woverride’ to diagnose such mistakes.<br>Even something like</p>
+<pre><code> CPPFLAGS = -DDATADIR=\"$(datadir)\" @CPPFLAGS@
+</code></pre>
+<p>is erroneous.  Although this preserves ‘configure’’s value of<br>‘CPPFLAGS’, the definition of ‘DATADIR’ will disappear if a user<br>attempts to override ‘CPPFLAGS’ from the ‘make’ command line.</p>
+<pre><code> AM_CPPFLAGS = -DDATADIR=\"$(datadir)\"
+</code></pre>
+<p>is all that is needed here if no per-target flags are used.</p>
+<p>   You should not add options to these user variables within ‘configure’<br>either, for the same reason.  Occasionally you need to modify these<br>variables to perform a test, but you should reset their values<br>afterwards.  In contrast, it is OK to modify the ‘AM_’ variables within<br>‘configure’ if you ‘AC_SUBST’ them, but it is rather rare that you need<br>to do this, unless you really want to change the default definitions of<br>the ‘AM_’ variables in all ‘Makefile’s.</p>
+<p>   What we recommend is that you define extra flags in separate<br>variables.  For instance, you may write an Autoconf macro that computes<br>a set of warning options for the C compiler, and ‘AC_SUBST’ them in<br>‘WARNINGCFLAGS’; you may also have an Autoconf macro that determines<br>which compiler and which linker flags should be used to link with<br>library ‘libfoo’, and ‘AC_SUBST’ these in ‘LIBFOOCFLAGS’ and<br>‘LIBFOOLDFLAGS’.  Then, a ‘Makefile.am’ could use these variables as<br>follows:</p>
+<pre><code> AM_CFLAGS = $(WARNINGCFLAGS)
+ bin_PROGRAMS = prog1 prog2
+ prog1_SOURCES = ...
+ prog2_SOURCES = ...
+ prog2_CFLAGS = $(LIBFOOCFLAGS) $(AM_CFLAGS)
+ prog2_LDFLAGS = $(LIBFOOLDFLAGS)
+</code></pre>
+<p>   In this example both programs will be compiled with the flags<br>substituted into ‘$(WARNINGCFLAGS)’, and ‘prog2’ will additionally be<br>compiled with the flags required to link with ‘libfoo’.</p>
+<p>   Note that listing ‘AM_CFLAGS’ in a per-target ‘CFLAGS’ variable is a<br>common idiom to ensure that ‘AM_CFLAGS’ applies to every target in a<br>‘Makefile.in’.</p>
+<p>   Using variables like this gives you full control over the ordering of<br>the flags.  For instance, if there is a flag in $(WARNINGCFLAGS) that<br>you want to negate for a particular target, you can use something like<br>‘prog1_CFLAGS = $(AM_CFLAGS) -no-flag’.  If all of these flags had been<br>forcefully appended to ‘CFLAGS’, there would be no way to disable one<br>flag.  Yet another reason to leave user variables to users.</p>
+<p>   Finally, we have avoided naming the variable of the example<br>‘LIBFOO_LDFLAGS’ (with an underscore) because that would cause Automake<br>to think that this is actually a per-target variable (like<br>‘mumble_LDFLAGS’) for some non-declared ‘LIBFOO’ target.</p>
+<h2 id="Other-Variables"><a href="#Other-Variables" class="headerlink" title="Other Variables"></a>Other Variables</h2><p>There are other variables in Automake that follow similar principles to<br>allow user options.  For instance, Texinfo rules (*note Texinfo::) use<br>‘MAKEINFOFLAGS’ and ‘AM_MAKEINFOFLAGS’.  Similarly, DejaGnu tests (*note<br>DejaGnu Tests::) use ‘RUNTESTDEFAULTFLAGS’ and ‘AM_RUNTESTDEFAULTFLAGS’.<br>The tags and ctags rules (*note Tags::) use ‘ETAGSFLAGS’,<br>‘AM_ETAGSFLAGS’, ‘CTAGSFLAGS’, and ‘AM_CTAGSFLAGS’.  Java rules (*note<br>Java::) use ‘JAVACFLAGS’ and ‘AM_JAVACFLAGS’.  None of these rules<br>support per-target flags (yet).</p>
+<p>   To some extent, even ‘AM_MAKEFLAGS’ (*note Subdirectories::) obeys<br>this naming scheme.  The slight difference is that ‘MAKEFLAGS’ is passed<br>to sub-‘make’s implicitly by ‘make’ itself.</p>
+<p>   ‘ARFLAGS’ (*note A Library::) is usually defined by Automake and has<br>neither ‘AM_’ nor per-target cousin.</p>
+<p>   Finally you should not think that the existence of a per-target<br>variable implies the existence of an ‘AM_’ variable or of a user<br>variable.  For instance, the ‘mumble_LDADD’ per-target variable<br>overrides the makefile-wide ‘LDADD’ variable (which is not a user<br>variable), and ‘mumble_LIBADD’ exists only as a per-target variable.<br>*Note Program and Library Variables::.</p>
+<h1 id="27-7-Why-are-object-files-sometimes-renamed"><a href="#27-7-Why-are-object-files-sometimes-renamed" class="headerlink" title="27.7 Why are object files sometimes renamed?"></a>27.7 Why are object files sometimes renamed?</h1><p>This happens when per-target compilation flags are used.  Object files<br>need to be renamed just in case they would clash with object files<br>compiled from the same sources, but with different flags.  Consider the<br>following example.</p>
+<pre><code> bin_PROGRAMS = true false
+ true_SOURCES = generic.c
+ true_CPPFLAGS = -DEXIT_CODE=0
+ false_SOURCES = generic.c
+ false_CPPFLAGS = -DEXIT_CODE=1
+</code></pre>
+<p>Obviously the two programs are built from the same source, but it would<br>be bad if they shared the same object, because ‘generic.o’ cannot be<br>built with both ‘-DEXIT_CODE=0’ <em>and</em> ‘-DEXIT_CODE=1’.  Therefore<br>‘automake’ outputs rules to build two different objects:<br>‘true-generic.o’ and ‘false-generic.o’.</p>
+<p>   ‘automake’ doesn’t actually look whether source files are shared to<br>decide if it must rename objects.  It will just rename all objects of a<br>target as soon as it sees per-target compilation flags used.</p>
+<p>   It’s OK to share object files when per-target compilation flags are<br>not used.  For instance, ‘true’ and ‘false’ will both use ‘version.o’ in<br>the following example.</p>
+<pre><code> AM_CPPFLAGS = -DVERSION=1.0
+ bin_PROGRAMS = true false
+ true_SOURCES = true.c version.c
+ false_SOURCES = false.c version.c
+</code></pre>
+<p>   Note that the renaming of objects is also affected by the<br>‘_SHORTNAME’ variable (*note Program and Library Variables::).</p>
+<h1 id="27-8-Per-Object-Flags-Emulation"><a href="#27-8-Per-Object-Flags-Emulation" class="headerlink" title="27.8 Per-Object Flags Emulation"></a>27.8 Per-Object Flags Emulation</h1><pre><code> One of my source files needs to be compiled with different flags.  How
+ do I do?
+</code></pre>
+<p>   Automake supports per-program and per-library compilation flags (see<br>*note Program and Library Variables:: and *note Flag Variables<br>Ordering::).  With this you can define compilation flags that apply to<br>all files compiled for a target.  For instance, in</p>
+<pre><code> bin_PROGRAMS = foo
+ foo_SOURCES = foo.c foo.h bar.c bar.h main.c
+ foo_CFLAGS = -some -flags
+</code></pre>
+<p>‘foo-foo.o’, ‘foo-bar.o’, and ‘foo-main.o’ will all be compiled with<br>‘-some -flags’.  (If you wonder about the names of these object files,<br>see *note Renamed Objects::.)  Note that ‘foo_CFLAGS’ gives the flags to<br>use when compiling all the C sources of the <em>program</em> ‘foo’, it has<br>nothing to do with ‘foo.c’ or ‘foo-foo.o’ specifically.</p>
+<p>   What if ‘foo.c’ needs to be compiled into ‘foo.o’ using some specific<br>flags, that none of the other files requires?  Obviously per-program<br>flags are not directly applicable here.  Something like per-object flags<br>are expected, i.e., flags that would be used only when creating<br>‘foo-foo.o’.  Automake does not support that, however this is easy to<br>simulate using a library that contains only that object, and compiling<br>this library with per-library flags.</p>
+<pre><code> bin_PROGRAMS = foo
+ foo_SOURCES = bar.c bar.h main.c
+ foo_CFLAGS = -some -flags
+ foo_LDADD = libfoo.a
+ noinst_LIBRARIES = libfoo.a
+ libfoo_a_SOURCES = foo.c foo.h
+ libfoo_a_CFLAGS = -some -other -flags
+</code></pre>
+<p>   Here ‘foo-bar.o’ and ‘foo-main.o’ will all be compiled with ‘-some<br>-flags’, while ‘libfoo_a-foo.o’ will be compiled using ‘-some -other<br>-flags’.  Eventually, all three objects will be linked to form ‘foo’.</p>
+<p>   This trick can also be achieved using Libtool convenience libraries,<br>for instance ‘noinst_LTLIBRARIES = libfoo.la’ (*note Libtool Convenience<br>Libraries::).</p>
+<p>   Another tempting idea to implement per-object flags is to override<br>the compile rules ‘automake’ would output for these files.  Automake<br>will not define a rule for a target you have defined, so you could think<br>about defining the ‘foo-foo.o: foo.c’ rule yourself.  We recommend<br>against this, because this is error prone.  For instance, if you add<br>such a rule to the first example, it will break the day you decide to<br>remove ‘foo_CFLAGS’ (because ‘foo.c’ will then be compiled as ‘foo.o’<br>instead of ‘foo-foo.o’, *note Renamed Objects::).  Also in order to<br>support dependency tracking, the two ‘.o’/‘.obj’ extensions, and all the<br>other flags variables involved in a compilation, you will end up<br>modifying a copy of the rule previously output by ‘automake’ for this<br>file.  If a new release of Automake generates a different rule, your<br>copy will need to be updated by hand.</p>
+<h1 id="27-9-Handling-Tools-that-Produce-Many-Outputs"><a href="#27-9-Handling-Tools-that-Produce-Many-Outputs" class="headerlink" title="27.9 Handling Tools that Produce Many Outputs"></a>27.9 Handling Tools that Produce Many Outputs</h1><p>This section describes a ‘make’ idiom that can be used when a tool<br>produces multiple output files.  It is not specific to Automake and can<br>be used in ordinary ‘Makefile’s.</p>
+<p>   Suppose we have a program called ‘foo’ that will read one file called<br>‘data.foo’ and produce two files named ‘data.c’ and ‘data.h’.  We want<br>to write a ‘Makefile’ rule that captures this one-to-two dependency.</p>
+<p>   The naive rule is incorrect:</p>
+<pre><code> # This is incorrect.
+ data.c data.h: data.foo
+         foo data.foo
+</code></pre>
+<p>What the above rule really says is that ‘data.c’ and ‘data.h’ each<br>depend on ‘data.foo’, and can each be built by running ‘foo data.foo’.<br>In other words it is equivalent to:</p>
+<pre><code> # We do not want this.
+ data.c: data.foo
+         foo data.foo
+ data.h: data.foo
+         foo data.foo
+</code></pre>
+<p>which means that ‘foo’ can be run twice.  Usually it will not be run<br>twice, because ‘make’ implementations are smart enough to check for the<br>existence of the second file after the first one has been built; they<br>will therefore detect that it already exists.  However there are a few<br>situations where it can run twice anyway:</p>
+<p>   • The most worrying case is when running a parallel ‘make’.  If<br>     ‘data.c’ and ‘data.h’ are built in parallel, two ‘foo data.foo’<br>     commands will run concurrently.  This is harmful.<br>   • Another case is when the dependency (here ‘data.foo’) is (or<br>     depends upon) a phony target.</p>
+<p>   A solution that works with parallel ‘make’ but not with phony<br>dependencies is the following:</p>
+<pre><code> data.c data.h: data.foo
+         foo data.foo
+ data.h: data.c
+</code></pre>
+<p>The above rules are equivalent to</p>
+<pre><code> data.c: data.foo
+         foo data.foo
+ data.h: data.foo data.c
+         foo data.foo
+</code></pre>
+<p>therefore a parallel ‘make’ will have to serialize the builds of<br>‘data.c’ and ‘data.h’, and will detect that the second is no longer<br>needed once the first is over.</p>
+<p>   Using this pattern is probably enough for most cases.  However it<br>does not scale easily to more output files (in this scheme all output<br>files must be totally ordered by the dependency relation), so we will<br>explore a more complicated solution.</p>
+<p>   Another idea is to write the following:</p>
+<pre><code> # There is still a problem with this one.
+ data.c: data.foo
+         foo data.foo
+ data.h: data.c
+</code></pre>
+<p>The idea is that ‘foo data.foo’ is run only when ‘data.c’ needs to be<br>updated, but we further state that ‘data.h’ depends upon ‘data.c’.  That<br>way, if ‘data.h’ is required and ‘data.foo’ is out of date, the<br>dependency on ‘data.c’ will trigger the build.</p>
+<p>   This is almost perfect, but suppose we have built ‘data.h’ and<br>‘data.c’, and then we erase ‘data.h’.  Then, running ‘make data.h’ will<br>not rebuild ‘data.h’.  The above rules just state that ‘data.c’ must be<br>up-to-date with respect to ‘data.foo’, and this is already the case.</p>
+<p>   What we need is a rule that forces a rebuild when ‘data.h’ is<br>missing.  Here it is:</p>
+<pre><code> data.c: data.foo
+         foo data.foo
+ data.h: data.c
+ ## Recover from the removal of $@
+         @if test -f $@; then :; else \
+           rm -f data.c; \
+           $(MAKE) $(AM_MAKEFLAGS) data.c; \
+         fi
+</code></pre>
+<p>   The above scheme can be extended to handle more outputs and more<br>inputs.  One of the outputs is selected to serve as a witness to the<br>successful completion of the command, it depends upon all inputs, and<br>all other outputs depend upon it.  For instance, if ‘foo’ should<br>additionally read ‘data.bar’ and also produce ‘data.w’ and ‘data.x’, we<br>would write:</p>
+<pre><code> data.c: data.foo data.bar
+         foo data.foo data.bar
+ data.h data.w data.x: data.c
+ ## Recover from the removal of $@
+         @if test -f $@; then :; else \
+           rm -f data.c; \
+           $(MAKE) $(AM_MAKEFLAGS) data.c; \
+         fi
+</code></pre>
+<p>   However there are now three minor problems in this setup.  One is<br>related to the timestamp ordering of ‘data.h’, ‘data.w’, ‘data.x’, and<br>‘data.c’.  Another one is a race condition if a parallel ‘make’ attempts<br>to run multiple instances of the recover block at once.  Finally, the<br>recursive rule breaks ‘make -n’ when run with GNU ‘make’ (as well as<br>some other ‘make’ implementations), as it may remove ‘data.h’ even when<br>it should not (*note How the ‘MAKE’ Variable Works: (make)MAKE<br>Variable.).</p>
+<p>   Let us deal with the first problem.  ‘foo’ outputs four files, but we<br>do not know in which order these files are created.  Suppose that<br>‘data.h’ is created before ‘data.c’.  Then we have a weird situation.<br>The next time ‘make’ is run, ‘data.h’ will appear older than ‘data.c’,<br>the second rule will be triggered, a shell will be started to execute<br>the ‘if…fi’ command, but actually it will just execute the ‘then’<br>branch, that is: nothing.  In other words, because the witness we<br>selected is not the first file created by ‘foo’, ‘make’ will start a<br>shell to do nothing each time it is run.</p>
+<p>   A simple riposte is to fix the timestamps when this happens.</p>
+<pre><code> data.c: data.foo data.bar
+         foo data.foo data.bar
+ data.h data.w data.x: data.c
+         @if test -f $@; then \
+           touch $@; \
+         else \
+ ## Recover from the removal of $@
+           rm -f data.c; \
+           $(MAKE) $(AM_MAKEFLAGS) data.c; \
+         fi
+</code></pre>
+<p>   Another solution is to use a different and dedicated file as witness,<br>rather than using any of ‘foo’’s outputs.</p>
+<pre><code> data.stamp: data.foo data.bar
+         @rm -f data.tmp
+         @touch data.tmp
+         foo data.foo data.bar
+         @mv -f data.tmp $@
+ data.c data.h data.w data.x: data.stamp
+ ## Recover from the removal of $@
+         @if test -f $@; then :; else \
+           rm -f data.stamp; \
+           $(MAKE) $(AM_MAKEFLAGS) data.stamp; \
+         fi
+</code></pre>
+<p>   ‘data.tmp’ is created before ‘foo’ is run, so it has a timestamp<br>older than output files output by ‘foo’.  It is then renamed to<br>‘data.stamp’ after ‘foo’ has run, because we do not want to update<br>‘data.stamp’ if ‘foo’ fails.</p>
+<p>   This solution still suffers from the second problem: the race<br>condition in the recover rule.  If, after a successful build, a user<br>erases ‘data.c’ and ‘data.h’, and runs ‘make -j’, then ‘make’ may start<br>both recover rules in parallel.  If the two instances of the rule<br>execute ‘$(MAKE) $(AM_MAKEFLAGS) data.stamp’ concurrently the build is<br>likely to fail (for instance, the two rules will create ‘data.tmp’, but<br>only one can rename it).</p>
+<p>   Admittedly, such a weird situation does not arise during ordinary<br>builds.  It occurs only when the build tree is mutilated.  Here ‘data.c’<br>and ‘data.h’ have been explicitly removed without also removing<br>‘data.stamp’ and the other output files.  ‘make clean; make’ will always<br>recover from these situations even with parallel makes, so you may<br>decide that the recover rule is solely to help non-parallel make users<br>and leave things as-is.  Fixing this requires some locking mechanism to<br>ensure only one instance of the recover rule rebuilds ‘data.stamp’.  One<br>could imagine something along the following lines.</p>
+<pre><code> data.c data.h data.w data.x: data.stamp
+ ## Recover from the removal of $@
+         @if test -f $@; then :; else \
+           trap 'rm -rf data.lock data.stamp' 1 2 13 15; \
+ ## mkdir is a portable test-and-set
+           if mkdir data.lock 2&gt;/dev/null; then \
+ ## This code is being executed by the first process.
+             rm -f data.stamp; \
+             $(MAKE) $(AM_MAKEFLAGS) data.stamp; \
+             result=$$?; rm -rf data.lock; exit $$result; \
+           else \
+ ## This code is being executed by the follower processes.
+ ## Wait until the first process is done.
+             while test -d data.lock; do sleep 1; done; \
+ ## Succeed if and only if the first process succeeded.
+             test -f data.stamp; \
+           fi; \
+         fi
+</code></pre>
+<p>   Using a dedicated witness, like ‘data.stamp’, is very handy when the<br>list of output files is not known beforehand.  As an illustration,<br>consider the following rules to compile many ‘*.el’ files into ‘*.elc’<br>files in a single command.  It does not matter how ‘ELFILES’ is defined<br>(as long as it is not empty: empty targets are not accepted by POSIX).</p>
+<pre><code> ELFILES = one.el two.el three.el ...
+ ELCFILES = $(ELFILES:=c)
+
+ elc-stamp: $(ELFILES)
+         @rm -f elc-temp
+         @touch elc-temp
+         $(elisp_comp) $(ELFILES)
+         @mv -f elc-temp $@
+
+ $(ELCFILES): elc-stamp
+         @if test -f $@; then :; else \
+ ## Recover from the removal of $@
+           trap 'rm -rf elc-lock elc-stamp' 1 2 13 15; \
+           if mkdir elc-lock 2&gt;/dev/null; then \
+ ## This code is being executed by the first process.
+             rm -f elc-stamp; \
+             $(MAKE) $(AM_MAKEFLAGS) elc-stamp; \
+             rmdir elc-lock; \
+           else \
+ ## This code is being executed by the follower processes.
+ ## Wait until the first process is done.
+             while test -d elc-lock; do sleep 1; done; \
+ ## Succeed if and only if the first process succeeded.
+             test -f elc-stamp; exit $$?; \
+           fi; \
+         fi
+</code></pre>
+<p>   These solutions all still suffer from the third problem, namely that<br>they break the promise that ‘make -n’ should not cause any actual<br>changes to the tree.  For those solutions that do not create lock files,<br>it is possible to split the recover rules into two separate recipe<br>commands, one of which does all work but the recursion, and the other<br>invokes the recursive ‘$(MAKE)’.  The solutions involving locking could<br>act upon the contents of the ‘MAKEFLAGS’ variable, but parsing that<br>portably is not easy (*note (autoconf)The Make Macro MAKEFLAGS::).  Here<br>is an example:</p>
+<pre><code> ELFILES = one.el two.el three.el ...
+ ELCFILES = $(ELFILES:=c)
+
+ elc-stamp: $(ELFILES)
+         @rm -f elc-temp
+         @touch elc-temp
+         $(elisp_comp) $(ELFILES)
+         @mv -f elc-temp $@
+
+ $(ELCFILES): elc-stamp
+ ## Recover from the removal of $@
+         @dry=; for f in x $$MAKEFLAGS; do \
+           case $$f in \
+             *=*|--*);; \
+             *n*) dry=:;; \
+           esac; \
+         done; \
+         if test -f $@; then :; else \
+           $$dry trap 'rm -rf elc-lock elc-stamp' 1 2 13 15; \
+           if $$dry mkdir elc-lock 2&gt;/dev/null; then \
+ ## This code is being executed by the first process.
+             $$dry rm -f elc-stamp; \
+             $(MAKE) $(AM_MAKEFLAGS) elc-stamp; \
+             $$dry rmdir elc-lock; \
+           else \
+ ## This code is being executed by the follower processes.
+ ## Wait until the first process is done.
+             while test -d elc-lock &amp;&amp; test -z "$$dry"; do \
+               sleep 1; \
+             done; \
+ ## Succeed if and only if the first process succeeded.
+             $$dry test -f elc-stamp; exit $$?; \
+           fi; \
+         fi
+</code></pre>
+<p>   For completeness it should be noted that GNU ‘make’ is able to<br>express rules with multiple output files using pattern rules (*note<br>Pattern Rule Examples: (make)Pattern Examples.).  We do not discuss<br>pattern rules here because they are not portable, but they can be<br>convenient in packages that assume GNU ‘make’.</p>
+<h1 id="27-10-Installing-to-Hard-Coded-Locations"><a href="#27-10-Installing-to-Hard-Coded-Locations" class="headerlink" title="27.10 Installing to Hard-Coded Locations"></a>27.10 Installing to Hard-Coded Locations</h1><pre><code> My package needs to install some configuration file.  I tried to use
+ the following rule, but ‘make distcheck’ fails.  Why?
+
+      # Do not do this.
+      install-data-local:
+              $(INSTALL_DATA) $(srcdir)/afile $(DESTDIR)/etc/afile
+
+ My package needs to populate the installation directory of another
+ package at install-time.  I can easily compute that installation
+ directory in ‘configure’, but if I install files therein,
+ ‘make distcheck’ fails.  How else should I do?
+</code></pre>
+<p>   These two setups share their symptoms: ‘make distcheck’ fails because<br>they are installing files to hard-coded paths.  In the later case the<br>path is not really hard-coded in the package, but we can consider it to<br>be hard-coded in the system (or in whichever tool that supplies the<br>path).  As long as the path does not use any of the standard directory<br>variables (‘$(prefix)’, ‘$(bindir)’, ‘$(datadir)’, etc.), the effect<br>will be the same: user-installations are impossible.</p>
+<p>   As a (non-root) user who wants to install a package, you usually have<br>no right to install anything in ‘/usr’ or ‘/usr/local’.  So you do<br>something like ‘./configure –prefix <del>/usr’ to install a package in your<br>own ‘</del>/usr’ tree.</p>
+<p>   If a package attempts to install something to some hard-coded path<br>(e.g., ‘/etc/afile’), regardless of this ‘–prefix’ setting, then the<br>installation will fail.  ‘make distcheck’ performs such a ‘–prefix’<br>installation, hence it will fail too.</p>
+<p>   Now, there are some easy solutions.</p>
+<p>   The above ‘install-data-local’ example for installing ‘/etc/afile’<br>would be better replaced by</p>
+<pre><code> sysconf_DATA = afile
+</code></pre>
+<p>by default ‘sysconfdir’ will be ‘$(prefix)/etc’, because this is what<br>the GNU Standards require.  When such a package is installed on an FHS<br>compliant system, the installer will have to set ‘–sysconfdir=/etc’.<br>As the maintainer of the package you should not be concerned by such<br>site policies: use the appropriate standard directory variable to<br>install your files so that the installer can easily redefine these<br>variables to match their site conventions.</p>
+<p>   Installing files that should be used by another package is slightly<br>more involved.  Let’s take an example and assume you want to install a<br>shared library that is a Python extension module.  If you ask Python<br>where to install the library, it will answer something like this:</p>
+<pre><code> % python -c 'from distutils import sysconfig;
+              print sysconfig.get_python_lib(1,0)'
+ /usr/lib/python2.5/site-packages
+</code></pre>
+<p>   If you indeed use this absolute path to install your shared library,<br>non-root users will not be able to install the package, hence distcheck<br>fails.</p>
+<p>   Let’s do better.  The ‘sysconfig.get_python_lib()’ function actually<br>accepts a third argument that will replace Python’s installation prefix.</p>
+<pre><code> % python -c 'from distutils import sysconfig;
+              print sysconfig.get_python_lib(1,0,"${exec_prefix}")'
+ ${exec_prefix}/lib/python2.5/site-packages
+</code></pre>
+<p>   You can also use this new path.  If you do<br>   • root users can install your package with the same ‘–prefix’ as<br>     Python (you get the behavior of the previous attempt)</p>
+<p>   • non-root users can install your package too, they will have the<br>     extension module in a place that is not searched by Python but they<br>     can work around this using environment variables (and if you<br>     installed scripts that use this shared library, it’s easy to tell<br>     Python were to look in the beginning of your script, so the script<br>     works in both cases).</p>
+<p>   The ‘AM_PATH_PYTHON’ macro uses similar commands to define<br>‘$(pythondir)’ and ‘$(pyexecdir)’ (*note Python::).</p>
+<p>   Of course not all tools are as advanced as Python regarding that<br>substitution of PREFIX.  So another strategy is to figure the part of<br>the installation directory that must be preserved.  For instance, here<br>is how ‘AM_PATH_LISPDIR’ (*note Emacs Lisp::) computes ‘$(lispdir)’:</p>
+<pre><code> $EMACS -batch -Q -eval '(while load-path
+   (princ (concat (car load-path) "\n"))
+   (setq load-path (cdr load-path)))' &gt;conftest.out
+ lispdir=`sed -n
+   -e 's,/$,,'
+   -e '/.*\/lib\/x*emacs\/site-lisp$/{
+         s,.*/lib/\(x*emacs/site-lisp\)$,${libdir}/\1,;p;q;
+       }'
+   -e '/.*\/share\/x*emacs\/site-lisp$/{
+         s,.*/share/\(x*emacs/site-lisp\),${datarootdir}/\1,;p;q;
+       }'
+   conftest.out`
+</code></pre>
+<p>   I.e., it just picks the first directory that looks like<br>‘*/lib/<em>emacs/site-lisp’ or ‘</em>/share/*emacs/site-lisp’ in the search<br>path of emacs, and then substitutes ‘${libdir}’ or ‘${datadir}’<br>appropriately.</p>
+<p>   The emacs case looks complicated because it processes a list and<br>expects two possible layouts, otherwise it’s easy, and the benefits for<br>non-root users are really worth the extra ‘sed’ invocation.</p>
+<h1 id="27-11-Debugging-Make-Rules"><a href="#27-11-Debugging-Make-Rules" class="headerlink" title="27.11 Debugging Make Rules"></a>27.11 Debugging Make Rules</h1><p>The rules and dependency trees generated by ‘automake’ can get rather<br>complex, and leave the developer head-scratching when things don’t work<br>as expected.  Besides the debug options provided by the ‘make’ command<br>(*note (make)Options Summary::), here’s a couple of further hints for<br>debugging makefiles generated by ‘automake’ effectively:</p>
+<p>   • If less verbose output has been enabled in the package with the use<br>     of silent rules (*note Automake Silent Rules::), you can use ‘make<br>     V=1’ to see the commands being executed.<br>   • ‘make -n’ can help show what would be done without actually doing<br>     it.  Note however, that this will <em>still execute</em> commands prefixed<br>     with ‘+’, and, when using GNU ‘make’, commands that contain the<br>     strings ‘$(MAKE)’ or ‘${MAKE}’ (*note (make)Instead of<br>     Execution::).  Typically, this is helpful to show what recursive<br>     rules would do, but it means that, in your own rules, you should<br>     not mix such recursion with actions that change any files.(1)<br>     Furthermore, note that GNU ‘make’ will update prerequisites for the<br>     ‘Makefile’ file itself even with ‘-n’ (*note (make)Remaking<br>     Makefiles::).<br>   • ‘make SHELL=”/bin/bash -vx”’ can help debug complex rules.  *Note<br>     (autoconf)The Make Macro SHELL::, for some portability quirks<br>     associated with this construct.<br>   • ‘echo ‘print: ; @echo “$(VAR)”‘ | make -f Makefile -f - print’ can<br>     be handy to examine the expanded value of variables.  You may need<br>     to use a target other than ‘print’ if that is already used or a<br>     file with that name exists.<br>   • <a href="http://bashdb.sourceforge.net/remake/">http://bashdb.sourceforge.net/remake/</a> provides a modified GNU<br>     ‘make’ command called ‘remake’ that copes with complex GNU<br>     ‘make’-specific Makefiles and allows to trace execution, examine<br>     variables, and call rules interactively, much like a debugger.</p>
+<p>   ———- Footnotes ———-</p>
+<p>   (1) Automake’s ‘dist’ and ‘distcheck’ rules had a bug in this regard<br>in that they created directories even with ‘-n’, but this has been fixed<br>in Automake 1.11.</p>
+<h1 id="27-12-Reporting-Bugs"><a href="#27-12-Reporting-Bugs" class="headerlink" title="27.12 Reporting Bugs"></a>27.12 Reporting Bugs</h1><p>Most nontrivial software has bugs.  Automake is no exception.  Although<br>we cannot promise we can or will fix a bug, and we might not even agree<br>that it is a bug, we want to hear about problems you encounter.  Often<br>we agree they are bugs and want to fix them.</p>
+<p>   To make it possible for us to fix a bug, please report it.  In order<br>to do so effectively, it helps to know when and how to do it.</p>
+<p>   Before reporting a bug, it is a good idea to see if it is already<br>known.  You can look at the GNU Bug Tracker (<a href="https://debbugs.gnu.org/">https://debbugs.gnu.org/</a>)<br>and the bug-automake mailing list archives<br>(<a href="https://lists.gnu.org/archive/html/bug-automake/">https://lists.gnu.org/archive/html/bug-automake/</a>) for previous bug<br>reports.  We previously used a Gnats database<br>(<a href="http://sourceware.org/cgi-bin/gnatsweb.pl?database=automake">http://sourceware.org/cgi-bin/gnatsweb.pl?database=automake</a>) for bug<br>tracking, so some bugs might have been reported there already.  Please<br>do not use it for new bug reports, however.</p>
+<p>   If the bug is not already known, it should be reported.  It is very<br>important to report bugs in a way that is useful and efficient.  For<br>this, please familiarize yourself with How to Report Bugs Effectively<br>(<a href="http://www.chiark.greenend.org.uk/~sgtatham/bugs.html">http://www.chiark.greenend.org.uk/~sgtatham/bugs.html</a>) and How to Ask<br>Questions the Smart Way<br>(<a href="http://catb.org/~esr/faqs/smart-questions.html">http://catb.org/~esr/faqs/smart-questions.html</a>).  This helps you and<br>developers to save time which can then be spent on fixing more bugs and<br>implementing more features.</p>
+<p>   For a bug report, a feature request or other suggestions, please send<br>email to <a href="mailto:bug-automake@gnu.org">bug-automake@gnu.org</a>.  This will then open a new bug in the<br>bug tracker (<a href="https://debbugs.gnu.org/automake">https://debbugs.gnu.org/automake</a>).  Be sure to include the<br>versions of Autoconf and Automake that you use.  Ideally, post a minimal<br>‘Makefile.am’ and ‘configure.ac’ that reproduces the problem you<br>encounter.  If you have encountered test suite failures, please attach<br>the ‘test-suite.log’ file.</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/autotools/" rel="tag"># autotools</a>
+              <a href="/tags/automake/" rel="tag"># automake</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/05/08/astronomy-radio-recommend-reading/" rel="prev" title="天文学推荐读物">
+      <i class="fa fa-chevron-left"></i> 天文学推荐读物
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/06/06/gpu-cuda-install/" rel="next" title="CUDA的安装">
+      CUDA的安装 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#27-1-CVS-and-generated-files"><span class="nav-number">1.</span> <span class="nav-text">27.1 CVS and generated files</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Background-distributed-generated-Files"><span class="nav-number">1.1.</span> <span class="nav-text">Background: distributed generated Files</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Background-CVS-and-Timestamps"><span class="nav-number">1.2.</span> <span class="nav-text">Background: CVS and Timestamps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Living-with-CVS-in-Autoconfiscated-Projects"><span class="nav-number">1.3.</span> <span class="nav-text">Living with CVS in Autoconfiscated Projects</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Third-party-Files"><span class="nav-number">1.4.</span> <span class="nav-text">Third-party Files</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#27-2-%E2%80%98missing%E2%80%99-and-%E2%80%98AM-MAINTAINER-MODE%E2%80%99"><span class="nav-number">2.</span> <span class="nav-text">27.2 ‘missing’ and ‘AM_MAINTAINER_MODE’</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%98missing%E2%80%99"><span class="nav-number">2.1.</span> <span class="nav-text">‘missing’</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%98AM-MAINTAINER-MODE%E2%80%99"><span class="nav-number">2.2.</span> <span class="nav-text">‘AM_MAINTAINER_MODE’</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#27-3-Why-doesn%E2%80%99t-Automake-support-wildcards"><span class="nav-number">3.</span> <span class="nav-text">27.3 Why doesn’t Automake support wildcards?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#27-4-Limitations-on-File-Names"><span class="nav-number">4.</span> <span class="nav-text">27.4 Limitations on File Names</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#27-5-Errors-with-distclean"><span class="nav-number">5.</span> <span class="nav-text">27.5 Errors with distclean</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#27-6-Flag-Variables-Ordering"><span class="nav-number">6.</span> <span class="nav-text">27.6 Flag Variables Ordering</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Compile-Flag-Variables"><span class="nav-number">6.1.</span> <span class="nav-text">Compile Flag Variables</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Other-Variables"><span class="nav-number">6.2.</span> <span class="nav-text">Other Variables</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#27-7-Why-are-object-files-sometimes-renamed"><span class="nav-number">7.</span> <span class="nav-text">27.7 Why are object files sometimes renamed?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#27-8-Per-Object-Flags-Emulation"><span class="nav-number">8.</span> <span class="nav-text">27.8 Per-Object Flags Emulation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#27-9-Handling-Tools-that-Produce-Many-Outputs"><span class="nav-number">9.</span> <span class="nav-text">27.9 Handling Tools that Produce Many Outputs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#27-10-Installing-to-Hard-Coded-Locations"><span class="nav-number">10.</span> <span class="nav-text">27.10 Installing to Hard-Coded Locations</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#27-11-Debugging-Make-Rules"><span class="nav-number">11.</span> <span class="nav-text">27.11 Debugging Make Rules</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#27-12-Reporting-Bugs"><span class="nav-number">12.</span> <span class="nav-text">27.12 Reporting Bugs</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2018/05/20/linux-automake-27-frequently-asked-questions-about-automake/";
+    this.page.identifier = "2018/05/20/linux-automake-27-frequently-asked-questions-about-automake/";
+    this.page.title = "Linux Automake 27 Frequently Asked Questions about Automake";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

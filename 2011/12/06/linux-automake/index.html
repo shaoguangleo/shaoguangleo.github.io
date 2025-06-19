@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="[TOC] 自动化编译autotools的使用具体操作步骤 准备好源码文件helloworld.c 及 Makefile.am文件。 执行autoscan生成configure.ac并修改configure.ac aclocal; autoheader; touch README NEWS AUTHORS ChangeLog autoconf; automake –add-missing; .&#x2F;c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 自动化编译autotools的使用">
+<meta property="og:url" content="http://shaoguangleo.github.io/2011/12/06/linux-automake/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="[TOC] 自动化编译autotools的使用具体操作步骤 准备好源码文件helloworld.c 及 Makefile.am文件。 执行autoscan生成configure.ac并修改configure.ac aclocal; autoheader; touch README NEWS AUTHORS ChangeLog autoconf; automake –add-missing; .&#x2F;c">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2011-12-06T14:11:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.868Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="autotools">
+<meta property="article:tag" content="automake">
+<meta property="article:tag" content="autoconf">
+<meta property="article:tag" content="aclocal">
+<meta property="article:tag" content="autoscan">
+<meta property="article:tag" content="autoheader">
+<meta property="article:tag" content="configure">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2011/12/06/linux-automake/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linux 自动化编译autotools的使用 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2011/12/06/linux-automake/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux 自动化编译autotools的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2011-12-06 22:11:00" itemprop="dateCreated datePublished" datetime="2011-12-06T22:11:00+08:00">2011-12-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2011/12/06/linux-automake/" class="post-meta-item leancloud_visitors" data-flag-title="Linux 自动化编译autotools的使用" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2011/12/06/linux-automake/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2011/12/06/linux-automake/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2011/12/06/linux-automake/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2011/12/06/linux-automake/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>[TOC]</p>
+<h1 id="自动化编译autotools的使用"><a href="#自动化编译autotools的使用" class="headerlink" title="自动化编译autotools的使用"></a>自动化编译autotools的使用</h1><h2 id="具体操作步骤"><a href="#具体操作步骤" class="headerlink" title="具体操作步骤"></a>具体操作步骤</h2><ul>
+<li>准备好源码文件helloworld.c 及 Makefile.am文件。</li>
+<li>执行autoscan生成configure.ac并修改configure.ac</li>
+<li>aclocal;</li>
+<li>autoheader;</li>
+<li>touch README NEWS AUTHORS ChangeLog</li>
+<li>autoconf;</li>
+<li>automake –add-missing;</li>
+<li>./configure;</li>
+<li>make;</li>
+<li>./helloworld ;         —运行程序</li>
+<li>make dist            —制作发布的包</li>
+<li>make dist            —制作发布的包并对其进行测试检查</li>
+<li>make clean        —清除make命令产生的目标文件及可执行文件</li>
+</ul>
+<h2 id="automake-autoconf-自动化编译说明"><a href="#automake-autoconf-自动化编译说明" class="headerlink" title="automake autoconf 自动化编译说明"></a>automake autoconf 自动化编译说明</h2><p>利用autotools自动生成makefile文件，自动化编译自己的工程，autotools工具只需要用户输入简单的目标文件、依赖文件、文件目录就可以轻松地生成Makefile了。</p>
+<p>首先安装autotools系列工具，包括aclocal、autoscan、automake、autoheader、autoconf等。</p>
+<p>可以通过rpm –qa | grep auto来查看各个应用程序，如果没有</p>
+<p><code>yum install automake</code> 即可安装。</p>
+<h2 id="详细步骤："><a href="#详细步骤：" class="headerlink" title="详细步骤："></a>详细步骤：</h2><h3 id="1-建立自己的工程，编写源文件并创建Makefile-am"><a href="#1-建立自己的工程，编写源文件并创建Makefile-am" class="headerlink" title="1 建立自己的工程，编写源文件并创建Makefile.am"></a>1 建立自己的工程，编写源文件并创建Makefile.am</h3><p>1)最顶层目录名为模块名 helloworld</p>
+<p>源文件放在模块下面的src子目录,例如helloworld/src</p>
+<ol start="2">
+<li><p>在src 下面，创建源文件main.c</p>
+</li>
+<li><p>在helloworld目录下面创建Makefile.am文件—（为Makefile.in的模板文件，.am扩展名是automake的缩写）,内容如下:</p>
+</li>
+</ol>
+<figure class="highlight abnf"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">SUBDIRS</span><span class="operator">=</span>src</span><br></pre></td></tr></tbody></table></figure>
+
+<ol start="4">
+<li>在helloworld/src 目录下创建Makefile.am文件 内容如下：</li>
+</ol>
+<figure class="highlight ini"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">bin_PROGRAMS</span>=helloworld</span><br><span class="line"></span><br><span class="line"><span class="attr">helloworld_SOURCES</span>=main.c</span><br></pre></td></tr></tbody></table></figure>
+
+<p>其中，PROGRAMS表示要产生的是可执行文件，有多个可执行文件文件时，可用空格分开，而bin表示可执行文件的安装目录SOURCES表示生成可执行文件需要的源文件，有多个源文件时，也用空格分开。比如想生成两个可执行程序helloworld1和helloworld2，那么就需要写成：</p>
+<figure class="highlight ini"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">bin_PROGRAMS</span>=helloworld1 helloworld2</span><br><span class="line"></span><br><span class="line"><span class="attr">helloworld1_SOURCES</span>=main1.c</span><br><span class="line"></span><br><span class="line"><span class="attr">helloworld2_SOURCES</span>=main2.c</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="2-autoscan-—创建autoconf的模板"><a href="#2-autoscan-—创建autoconf的模板" class="headerlink" title="2. autoscan —创建autoconf的模板"></a>2. autoscan —创建autoconf的模板</h3><p>autoscan—将生成configure.ac和autoscan.log文件，它会在给定目录及其子目录树中检查源文件，若没有给定目录，就在当前目录及其子目录树中进行检查。它会搜索源文件以寻找一般的移植性问题并且创建一个文件configure.ac，通过这个文件我们可以创建autoconf需要的模版文件。</p>
+<p>1).目录下面生成了configure.ac 文件，利用命令</p>
+<p>configure.ac 文件为autoconf 的模板文件，内容如下所示，其中#行为注释行：</p>
+<figure class="highlight prolog"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"># -*- <span class="symbol">Autoconf</span> -*-</span><br><span class="line"></span><br><span class="line"># <span class="symbol">Process</span> this file with autoconf to produce a configure script.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="symbol">AC_PREREQ</span>([<span class="number">2.68</span>])</span><br><span class="line"></span><br><span class="line"><span class="symbol">AC_INIT</span>([<span class="symbol">FULL</span>-<span class="symbol">PACKAGE</span>-<span class="symbol">NAME</span>], [<span class="symbol">VERSION</span>], [<span class="symbol">BUG</span>-<span class="symbol">REPORT</span>-<span class="symbol">ADDRESS</span>])</span><br><span class="line"></span><br><span class="line"><span class="symbol">AC_CONFIG_SRCDIR</span>([src/main.c])</span><br><span class="line"></span><br><span class="line"><span class="symbol">AC_CONFIG_HEADERS</span>([config.h])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># <span class="symbol">Checks</span> for programs.</span><br><span class="line"></span><br><span class="line"><span class="symbol">AC_PROG_CC</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># <span class="symbol">Checks</span> for libraries.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># <span class="symbol">Checks</span> for header files.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># <span class="symbol">Checks</span> for typedefs, structures, and compiler characteristics.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># <span class="symbol">Checks</span> for library functions.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="symbol">AC_CONFIG_FILES</span>([<span class="symbol">Makefile</span></span><br><span class="line">src/<span class="symbol">Makefile</span>])</span><br><span class="line"></span><br><span class="line"><span class="symbol">AC_OUTPUT</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>2). 修改configure.ac文件</p>
+<p>将</p>
+<figure class="highlight css"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AC_INIT(<span class="selector-attr">[FULL-PACKAGE-NAME]</span>, <span class="selector-attr">[VERSION]</span>, <span class="selector-attr">[BUG-REPORT-ADDRESS]</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>修改为：</p>
+<figure class="highlight stylus"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">AC_INIT</span><span class="params">(helloworld, <span class="number">0.1</span>, shaoguangleo@gmail.com)</span></span>     =–初始化autoconf</span><br></pre></td></tr></tbody></table></figure>
+<p>并添加</p>
+<figure class="highlight stylus"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">AM_INIT_AUTOMAKE</span><span class="params">(helloworld, <span class="number">0.1</span>)</span></span>         =–初始化automake 必须的宏，这个如果不添加就会导致在autoconf时出错，信息大概为configure<span class="selector-class">.in</span>:no proper invocation of AM_INIT_AUTOMAKE was found</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="3-运行-aclocal-—-复制所有的宏命令"><a href="#3-运行-aclocal-—-复制所有的宏命令" class="headerlink" title="3.运行 aclocal — 复制所有的宏命令"></a>3.运行 aclocal — 复制所有的宏命令</h3><figure class="highlight ebnf"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">aclocal</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>备注：configure.ac 里面包含了一系列的宏命令，运行aclocal的目的是把工程需要的宏命令展开。（aclocal.m4 就是configure.ac中用到的宏定义）会生成autom4te.cache文件夹和aclocal.m4文件。</p>
+<h3 id="4-运行autoheader-—生成配置头文件的模板config-h-in并创建4个必要的文件"><a href="#4-运行autoheader-—生成配置头文件的模板config-h-in并创建4个必要的文件" class="headerlink" title="4.运行autoheader —生成配置头文件的模板config.h.in并创建4个必要的文件"></a>4.运行autoheader —生成配置头文件的模板config.h.in并创建4个必要的文件</h3><figure class="highlight angelscript"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">auto</span>header</span><br></pre></td></tr></tbody></table></figure>
+
+<p>备注：此时再创建4个必要的文件</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> README NEWS AUTHORS ChangeLog</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>README :描述模块的功能，用法和注意事项</li>
+<li>NEWS : 描述模块最新的动态</li>
+<li>AUTHORS : 模块的作者及联系方式</li>
+<li>ChangeLog : 记录模块的修改历史</li>
+</ul>
+<p>上述几个文件可以暂时为空。</p>
+<h3 id="5-automake-–add-missing-—-生成Makefiel-in和所需要的脚本"><a href="#5-automake-–add-missing-—-生成Makefiel-in和所需要的脚本" class="headerlink" title="5. automake –add-missing   — 生成Makefiel.in和所需要的脚本"></a>5. automake –add-missing   — 生成Makefiel.in和所需要的脚本</h3><figure class="highlight sas"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">automake –<span class="keyword">add</span>-<span class="keyword">missing</span>   —其中<span class="keyword">add</span>-<span class="keyword">missing</span>选项会让automake自动添加一些必须的脚本文件。</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="6-autoconf-—-生成configure脚本"><a href="#6-autoconf-—-生成configure脚本" class="headerlink" title="6. autoconf — 生成configure脚本"></a>6. autoconf — 生成configure脚本</h3><figure class="highlight angelscript"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">auto</span>conf</span><br></pre></td></tr></tbody></table></figure>
+
+<p>—生成configure脚本</p>
+<h3 id="7-x2F-configure-—-生成最终的Makefile文件"><a href="#7-x2F-configure-—-生成最终的Makefile文件" class="headerlink" title="7. ./configure — 生成最终的Makefile文件"></a>7. ./configure — 生成最终的Makefile文件</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure</span><br></pre></td></tr></tbody></table></figure>
+
+<p>configure 通常有两个参数</p>
+<ol>
+<li>–prefix 用来指定安装目录 linux默认/usr/local</li>
+<li>–host 用于交叉编译</li>
+</ol>
+<h3 id="8-编译"><a href="#8-编译" class="headerlink" title="8 编译"></a>8 编译</h3><figure class="highlight ebnf"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">make</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="9-安装"><a href="#9-安装" class="headerlink" title="9 安装"></a>9 安装</h3><figure class="highlight cmake"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make <span class="keyword">install</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+<h3 id="10-发布软件包"><a href="#10-发布软件包" class="headerlink" title="10 发布软件包"></a>10 发布软件包</h3><figure class="highlight gauss"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">make</span> dist或者<span class="built_in">make</span> distcheck</span><br></pre></td></tr></tbody></table></figure>
+
+<p>生成helloworld-0.1.tar.gz</p>
+<p>autotools生成Makefile流程图</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/autotools/" rel="tag"># autotools</a>
+              <a href="/tags/automake/" rel="tag"># automake</a>
+              <a href="/tags/autoconf/" rel="tag"># autoconf</a>
+              <a href="/tags/aclocal/" rel="tag"># aclocal</a>
+              <a href="/tags/autoscan/" rel="tag"># autoscan</a>
+              <a href="/tags/autoheader/" rel="tag"># autoheader</a>
+              <a href="/tags/configure/" rel="tag"># configure</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2011/12/01/linux-ubuntu11.10-initial-configuration/" rel="prev" title="Ubuntu11.10初始配置">
+      <i class="fa fa-chevron-left"></i> Ubuntu11.10初始配置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2011/12/11/linux-fedora-install-gnome/" rel="next" title="Linux Fedora安装gnome-gtk开发环境">
+      Linux Fedora安装gnome-gtk开发环境 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E7%BC%96%E8%AF%91autotools%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">自动化编译autotools的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.1.</span> <span class="nav-text">具体操作步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#automake-autoconf-%E8%87%AA%E5%8A%A8%E5%8C%96%E7%BC%96%E8%AF%91%E8%AF%B4%E6%98%8E"><span class="nav-number">1.2.</span> <span class="nav-text">automake autoconf 自动化编译说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">详细步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%B7%B1%E7%9A%84%E5%B7%A5%E7%A8%8B%EF%BC%8C%E7%BC%96%E5%86%99%E6%BA%90%E6%96%87%E4%BB%B6%E5%B9%B6%E5%88%9B%E5%BB%BAMakefile-am"><span class="nav-number">1.3.1.</span> <span class="nav-text">1 建立自己的工程，编写源文件并创建Makefile.am</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-autoscan-%E2%80%94%E5%88%9B%E5%BB%BAautoconf%E7%9A%84%E6%A8%A1%E6%9D%BF"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. autoscan —创建autoconf的模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%BF%90%E8%A1%8C-aclocal-%E2%80%94-%E5%A4%8D%E5%88%B6%E6%89%80%E6%9C%89%E7%9A%84%E5%AE%8F%E5%91%BD%E4%BB%A4"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.运行 aclocal — 复制所有的宏命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%BF%90%E8%A1%8Cautoheader-%E2%80%94%E7%94%9F%E6%88%90%E9%85%8D%E7%BD%AE%E5%A4%B4%E6%96%87%E4%BB%B6%E7%9A%84%E6%A8%A1%E6%9D%BFconfig-h-in%E5%B9%B6%E5%88%9B%E5%BB%BA4%E4%B8%AA%E5%BF%85%E8%A6%81%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.4.</span> <span class="nav-text">4.运行autoheader —生成配置头文件的模板config.h.in并创建4个必要的文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-automake-%E2%80%93add-missing-%E2%80%94-%E7%94%9F%E6%88%90Makefiel-in%E5%92%8C%E6%89%80%E9%9C%80%E8%A6%81%E7%9A%84%E8%84%9A%E6%9C%AC"><span class="nav-number">1.3.5.</span> <span class="nav-text">5. automake –add-missing   — 生成Makefiel.in和所需要的脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-autoconf-%E2%80%94-%E7%94%9F%E6%88%90configure%E8%84%9A%E6%9C%AC"><span class="nav-number">1.3.6.</span> <span class="nav-text">6. autoconf — 生成configure脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-x2F-configure-%E2%80%94-%E7%94%9F%E6%88%90%E6%9C%80%E7%BB%88%E7%9A%84Makefile%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.7.</span> <span class="nav-text">7. .&#x2F;configure — 生成最终的Makefile文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E7%BC%96%E8%AF%91"><span class="nav-number">1.3.8.</span> <span class="nav-text">8 编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E5%AE%89%E8%A3%85"><span class="nav-number">1.3.9.</span> <span class="nav-text">9 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E5%8F%91%E5%B8%83%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="nav-number">1.3.10.</span> <span class="nav-text">10 发布软件包</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2011/12/06/linux-automake/";
+    this.page.identifier = "2011/12/06/linux-automake/";
+    this.page.title = "Linux 自动化编译autotools的使用";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

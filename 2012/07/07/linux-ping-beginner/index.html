@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="网络中不中，先看ping行不行在linux系统里面如果想判断网络的好坏，脑海中蹦出的第一个命令就是ping了。 官方定义为：  ping - send ICMP ECHO_REQUEST to network hosts  ping命令基本是最常用的网络命令，它可以用来测试与目标主机的连通性。 ping使用ICMP传输协议，通过发送ICMP ECHO_REQUEST数据包到网络主机，并显示返回的相">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络中不中，先看ping行不行">
+<meta property="og:url" content="http://shaoguangleo.github.io/2012/07/07/linux-ping-beginner/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="网络中不中，先看ping行不行在linux系统里面如果想判断网络的好坏，脑海中蹦出的第一个命令就是ping了。 官方定义为：  ping - send ICMP ECHO_REQUEST to network hosts  ping命令基本是最常用的网络命令，它可以用来测试与目标主机的连通性。 ping使用ICMP传输协议，通过发送ICMP ECHO_REQUEST数据包到网络主机，并显示返回的相">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2012-07-07T14:28:00.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.900Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="ping">
+<meta property="article:tag" content="网络命令">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2012/07/07/linux-ping-beginner/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>网络中不中，先看ping行不行 | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2012/07/07/linux-ping-beginner/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网络中不中，先看ping行不行
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2012-07-07 22:28:00" itemprop="dateCreated datePublished" datetime="2012-07-07T22:28:00+08:00">2012-07-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">Linux入门</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2012/07/07/linux-ping-beginner/" class="post-meta-item leancloud_visitors" data-flag-title="网络中不中，先看ping行不行" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2012/07/07/linux-ping-beginner/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/07/07/linux-ping-beginner/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2012/07/07/linux-ping-beginner/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2012/07/07/linux-ping-beginner/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="网络中不中，先看ping行不行"><a href="#网络中不中，先看ping行不行" class="headerlink" title="网络中不中，先看ping行不行"></a>网络中不中，先看ping行不行</h1><p>在<strong>linux</strong>系统里面如果想判断网络的好坏，脑海中蹦出的第一个命令就是<code>ping</code>了。</p>
+<p>官方定义为：</p>
+<blockquote>
+<p>ping - send ICMP ECHO_REQUEST to network hosts</p>
+</blockquote>
+<p><code>ping</code>命令基本是最常用的网络命令，它可以用来测试与目标主机的连通性。</p>
+<p><code>ping</code>使用ICMP传输协议，通过发送<u>ICMP ECHO_REQUEST</u>数据包到网络主机，并显示返回的相应情况，根据这些信息就可以判断目标主机是否可以访问，在发送的过程中还会有一个时间戳用来计算网络的状态。</p>
+<p>不过有些服务器为了防止通过<code>ping</code>探测到，可能会在防火墙或者内核参数中禁止<code>ping</code>命令，这样的话，可能虽然目标主机可以访问，但是无法<code>ping</code>通，所以并不能说<code>ping</code>不通的网络就是不能访问的。</p>
+<blockquote>
+<p>需要注意linux下的ping和windows下的ping稍有区别,linux下ping不会自动终止,需要按ctrl+c终止或者用参数-c指定要求完成的回应次数。</p>
+</blockquote>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p><code>ping</code>的使用说实话挺复杂，挺多的，不过常用的这篇短文基本就够了。</p>
+<p>详细如下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ALL</span></span><br><span class="line">$ ping  [-aAbBdDfhLnOqrRUvV46]  [-c  count]  [-F  flowlabel]  [-i  interval]  [-I interface] [-l preload] [-m mark] [-M pmtudisc_option] [-N node‐info_option] [-w deadline] [-W <span class="built_in">timeout</span>] [-p pattern] [-Q tos] [-s packetsize] [-S sndbuf] [-t ttl] [-T timestamp option] [hop ...] destination</span><br><span class="line"></span><br><span class="line"><span class="comment"># 较常用的选项如下：</span></span><br><span class="line">$ ping   [-c  count]   [-i  interval]  destination</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>参数说明</strong>：</p>
+<ul>
+<li><p><code>-c</code> &lt;完成次数&gt; 设置完成要求回应的次数。</p>
+</li>
+<li><p><code>-i interval</code> 指定收发信息的间隔时间。</p>
+</li>
+</ul>
+<h2 id="不加任何参数"><a href="#不加任何参数" class="headerlink" title="不加任何参数"></a>不加任何参数</h2><p>如果不加任何参数，查看是否<code>ping</code>通</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ ping www.baidu.com   </span><br><span class="line">PING www.a.shifen.com (115.239.210.27) 56(84) bytes of data.</span><br><span class="line">64 bytes from 115.239.210.27: icmp_seq=1 ttl=52 <span class="keyword">time</span>=6.06 ms</span><br><span class="line">64 bytes from 115.239.210.27: icmp_seq=2 ttl=52 <span class="keyword">time</span>=5.56 ms</span><br><span class="line">64 bytes from 115.239.210.27: icmp_seq=3 ttl=52 <span class="keyword">time</span>=5.67 ms</span><br><span class="line">64 bytes from 115.239.210.27: icmp_seq=4 ttl=52 <span class="keyword">time</span>=5.82 ms</span><br><span class="line">64 bytes from 115.239.210.27: icmp_seq=5 ttl=52 <span class="keyword">time</span>=5.70 ms</span><br><span class="line">64 bytes from 115.239.210.27: icmp_seq=6 ttl=52 <span class="keyword">time</span>=5.79 ms  </span><br><span class="line">^C <span class="comment"># 此处输入了Ctrl+C强制退出</span></span><br><span class="line">--- 192.168.1.123 ping statistics ---</span><br><span class="line">5 packets transmitted, 5 received, 0% packet loss, <span class="keyword">time</span> 3999ms</span><br><span class="line">rtt min/avg/max/mdev = 0.152/0.159/0.172/0.017 ms</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>可以看到可以<code>ping</code>通<a href="http://www.baidu.com,时延还算比较ok,几个毫秒量级./">www.baidu.com，时延还算比较OK，几个毫秒量级。</a></p>
+<blockquote>
+<p>这里看一下几个字段的含义，其中：</p>
+<p>56(84) bytes of data：表示默认的数据包长度为56字节；</p>
+<p>time=5.56ms：表示响应的时间，值越小，证明连接越快；</p>
+<p>TTL=52：TTL是Time To Live的缩写，表示DNS记录在DNS服务器上存在的时间，是IP协议包的一个值，告诉路由器啥时候抛弃这个数据包，（大体上可以通过这个值来判断目标类型的操作系统。）</p>
+</blockquote>
+<h2 id="发送指定数目"><a href="#发送指定数目" class="headerlink" title="发送指定数目"></a>发送指定数目</h2><p>可以通过 参数<code>-c</code> 来发送指定数目的包后停止</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ping www.baidu.com -c 5</span><br><span class="line">PING www.a.shifen.com (115.239.211.112) 56(84) bytes of data.</span><br><span class="line">64 bytes from 115.239.211.112: icmp_seq=1 ttl=52 <span class="keyword">time</span>=6.03 ms</span><br><span class="line">64 bytes from 115.239.211.112: icmp_seq=2 ttl=52 <span class="keyword">time</span>=5.96 ms</span><br><span class="line">64 bytes from 115.239.211.112: icmp_seq=3 ttl=52 <span class="keyword">time</span>=5.79 ms</span><br><span class="line">64 bytes from 115.239.211.112: icmp_seq=4 ttl=52 <span class="keyword">time</span>=5.79 ms</span><br><span class="line">64 bytes from 115.239.211.112: icmp_seq=5 ttl=52 <span class="keyword">time</span>=6.21 ms</span><br><span class="line"></span><br><span class="line">--- www.a.shifen.com ping statistics ---</span><br><span class="line">5 packets transmitted, 5 received, 0% packet loss, <span class="keyword">time</span> 4007ms</span><br><span class="line">rtt min/avg/max/mdev = 5.791/5.958/6.215/0.186 ms</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>此时将在发送5次数据包以后自动停止，在<strong>Linux</strong>里面，如果不加这个参数，是会一直发送运行的。</p>
+<h2 id="设定发送时间间隔"><a href="#设定发送时间间隔" class="headerlink" title="设定发送时间间隔"></a>设定发送时间间隔</h2><p>可以通过 参数 <code>-i N</code>指定每个<u>N</u>秒发送一次信息，如下将每隔3秒发送一次<code>ping</code>信息。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ ping www.baidu.com -i 3</span><br><span class="line">PING www.a.shifen.com (14.215.177.38) 56(84) bytes of data.</span><br><span class="line">64 bytes from 14.215.177.38 (14.215.177.38): icmp_seq=1 ttl=55 <span class="keyword">time</span>=28.6 ms</span><br><span class="line">64 bytes from 14.215.177.38 (14.215.177.38): icmp_seq=2 ttl=55 <span class="keyword">time</span>=28.6 ms</span><br><span class="line">64 bytes from 14.215.177.38 (14.215.177.38): icmp_seq=3 ttl=55 <span class="keyword">time</span>=28.6 ms</span><br><span class="line">64 bytes from 14.215.177.38 (14.215.177.38): icmp_seq=4 ttl=55 <span class="keyword">time</span>=28.6 ms</span><br><span class="line">64 bytes from 14.215.177.38 (14.215.177.38): icmp_seq=5 ttl=55 <span class="keyword">time</span>=28.6 ms</span><br><span class="line">64 bytes from 14.215.177.38 (14.215.177.38): icmp_seq=6 ttl=55 <span class="keyword">time</span>=28.6 ms</span><br><span class="line">^C</span><br><span class="line">--- www.a.shifen.com ping statistics ---</span><br><span class="line">6 packets transmitted, 6 received, 0% packet loss, <span class="keyword">time</span> 15041ms</span><br><span class="line">rtt min/avg/max/mdev = 28.650/28.670/28.697/0.139 ms</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p>如上，每隔3秒会发送一次，对于需要持续检测或者记录的可以考虑适当加大这个时间间隔。</p>
+<blockquote>
+<p>注意，只有管理员可以设置小于0.2秒的时间间隔。所以这个数值可以是浮点数~</p>
+</blockquote>
+<h2 id="组合使用"><a href="#组合使用" class="headerlink" title="组合使用"></a>组合使用</h2><p>上面的几个例子是可以配合使用的，比如</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ping www.baidu.com -c 4 -i 5 </span><br><span class="line">PING www.a.shifen.com (14.215.177.39) 56(84) bytes of data.</span><br><span class="line">64 bytes from 14.215.177.39 (14.215.177.39): icmp_seq=1 ttl=55 <span class="keyword">time</span>=29.4 ms</span><br><span class="line">64 bytes from 14.215.177.39 (14.215.177.39): icmp_seq=2 ttl=55 <span class="keyword">time</span>=29.3 ms</span><br><span class="line">64 bytes from 14.215.177.39 (14.215.177.39): icmp_seq=3 ttl=55 <span class="keyword">time</span>=29.4 ms</span><br><span class="line">64 bytes from 14.215.177.39 (14.215.177.39): icmp_seq=4 ttl=55 <span class="keyword">time</span>=29.4 ms</span><br><span class="line"></span><br><span class="line">--- www.a.shifen.com ping statistics ---</span><br><span class="line">5 packets transmitted, 5 received, 0% packet loss, <span class="keyword">time</span> 20045ms</span><br><span class="line">rtt min/avg/max/mdev = 29.396/29.428/29.461/0.110 ms</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p>这个例子为：每个5秒查询一次，一共查询4次，然后退出。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/ping/" rel="tag"># ping</a>
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E5%91%BD%E4%BB%A4/" rel="tag"># 网络命令</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2012/07/07/linux-ping/" rel="prev" title="Linux的 ping 命令">
+      <i class="fa fa-chevron-left"></i> Linux的 ping 命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2012/08/02/linux-xfs-filesystem/" rel="next" title="Linux xfs文件系统">
+      Linux xfs文件系统 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E4%B8%AD%E4%B8%8D%E4%B8%AD%EF%BC%8C%E5%85%88%E7%9C%8Bping%E8%A1%8C%E4%B8%8D%E8%A1%8C"><span class="nav-number">1.</span> <span class="nav-text">网络中不中，先看ping行不行</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%8A%A0%E4%BB%BB%E4%BD%95%E5%8F%82%E6%95%B0"><span class="nav-number">1.2.</span> <span class="nav-text">不加任何参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E6%8C%87%E5%AE%9A%E6%95%B0%E7%9B%AE"><span class="nav-number">1.3.</span> <span class="nav-text">发送指定数目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E5%AE%9A%E5%8F%91%E9%80%81%E6%97%B6%E9%97%B4%E9%97%B4%E9%9A%94"><span class="nav-number">1.4.</span> <span class="nav-text">设定发送时间间隔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E4%BD%BF%E7%94%A8"><span class="nav-number">1.5.</span> <span class="nav-text">组合使用</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2012/07/07/linux-ping-beginner/";
+    this.page.identifier = "2012/07/07/linux-ping-beginner/";
+    this.page.title = "网络中不中，先看ping行不行";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

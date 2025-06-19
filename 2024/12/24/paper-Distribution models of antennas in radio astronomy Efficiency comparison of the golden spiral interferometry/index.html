@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"shaoguangleo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Distribution models of antennas in radio astronomy: Efficiency comparison of the golden spiral interferometry Elio Quiroga Rodríguez.  射电天文学干涉测量中有不同的天线振兴。文章阐述了包括黄金螺旋、网格、随机排列以及类似于甚大阵列的“Y”形配置。 每种配置均模拟了一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Distribution models of antennas in radio astronomy Efficiency comparison of the golden spiral interferometry">
+<meta property="og:url" content="http://shaoguangleo.github.io/2024/12/24/paper-Distribution%20models%20of%20antennas%20in%20radio%20astronomy%20Efficiency%20comparison%20of%20the%20golden%20spiral%20interferometry/index.html">
+<meta property="og:site_name" content="浩瀚宇宙 灿烂星空">
+<meta property="og:description" content="Distribution models of antennas in radio astronomy: Efficiency comparison of the golden spiral interferometry Elio Quiroga Rodríguez.  射电天文学干涉测量中有不同的天线振兴。文章阐述了包括黄金螺旋、网格、随机排列以及类似于甚大阵列的“Y”形配置。 每种配置均模拟了一">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-24T14:28:30.000Z">
+<meta property="article:modified_time" content="2025-06-19T13:19:18.916Z">
+<meta property="article:author" content="郭大侠">
+<meta property="article:tag" content="imaging">
+<meta property="article:tag" content="UV coverage">
+<meta property="article:tag" content="UV覆盖">
+<meta property="article:tag" content="Synthetic">
+<meta property="article:tag" content="spiral">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://shaoguangleo.github.io/2024/12/24/paper-Distribution%20models%20of%20antennas%20in%20radio%20astronomy%20Efficiency%20comparison%20of%20the%20golden%20spiral%20interferometry/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Distribution models of antennas in radio astronomy Efficiency comparison of the golden spiral interferometry | 浩瀚宇宙 灿烂星空</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=a8cfacb0a536bd846d2fd545cedb4d61"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'a8cfacb0a536bd846d2fd545cedb4d61');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a8cfacb0a536bd846d2fd545cedb4d61";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="浩瀚宇宙 灿烂星空" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">浩瀚宇宙 灿烂星空</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">工作和生活中的七七八八</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://shaoguangleo.github.io/2024/12/24/paper-Distribution%20models%20of%20antennas%20in%20radio%20astronomy%20Efficiency%20comparison%20of%20the%20golden%20spiral%20interferometry/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="郭大侠">
+      <meta itemprop="description" content="郭大侠的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩瀚宇宙 灿烂星空">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Distribution models of antennas in radio astronomy Efficiency comparison of the golden spiral interferometry
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-12-24 22:28:30" itemprop="dateCreated datePublished" datetime="2024-12-24T22:28:30+08:00">2024-12-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-06-19 21:19:18" itemprop="dateModified" datetime="2025-06-19T21:19:18+08:00">2025-06-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/READING/" itemprop="url" rel="index"><span itemprop="name">READING</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2024/12/24/paper-Distribution%20models%20of%20antennas%20in%20radio%20astronomy%20Efficiency%20comparison%20of%20the%20golden%20spiral%20interferometry/" class="post-meta-item leancloud_visitors" data-flag-title="Distribution models of antennas in radio astronomy Efficiency comparison of the golden spiral interferometry" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2024/12/24/paper-Distribution%20models%20of%20antennas%20in%20radio%20astronomy%20Efficiency%20comparison%20of%20the%20golden%20spiral%20interferometry/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/12/24/paper-Distribution models of antennas in radio astronomy Efficiency comparison of the golden spiral interferometry/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2024/12/24/paper-Distribution%20models%20of%20antennas%20in%20radio%20astronomy%20Efficiency%20comparison%20of%20the%20golden%20spiral%20interferometry/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/12/24/paper-Distribution%20models%20of%20antennas%20in%20radio%20astronomy%20Efficiency%20comparison%20of%20the%20golden%20spiral%20interferometry/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Distribution-models-of-antennas-in-radio-astronomy-Efficiency-comparison-of-the-golden-spiral-interferometry"><a href="#Distribution-models-of-antennas-in-radio-astronomy-Efficiency-comparison-of-the-golden-spiral-interferometry" class="headerlink" title="Distribution models of antennas in radio astronomy: Efficiency comparison of the golden spiral interferometry"></a>Distribution models of antennas in radio astronomy: Efficiency comparison of the golden spiral interferometry</h1><blockquote>
+<p>Elio Quiroga Rodríguez.</p>
+</blockquote>
+<p>射电天文学干涉测量中有不同的天线振兴。文章阐述了包括黄金螺旋、网格、随机排列以及类似于甚大阵列的“Y”形配置。</p>
+<p>每种配置均模拟了一百个天线，并对所得的UV覆盖范围和图像质量进行了分析。</p>
+<p>结果表明，黄金螺旋提供了更均匀的UV覆盖，没有明显的间隙，通过减少旁瓣和伪影提高了图像质量。</p>
+<p>相比之下，网格在UV覆盖中呈现周期性结构，由于间隙和伪影可能会降低图像质量。</p>
+<p>随机排列提供了更自然的覆盖，但在分辨率和旁瓣控制方面效率较低。</p>
+<p>“Y”形配置在其臂上实现了高分辨率，但在某些方向上缺乏完整覆盖，这可能会对这些角度的图像质量产生负面影响。</p>
+<p>黄金螺旋的自相似性允许有效捕获观测源中的大结构和小结构，最大限度地获取空间信息。</p>
+<p>结论为，对于分辨率和灵敏度至关重要的应用，黄金螺旋是最佳配置，其次是“Y”形配置，网格是最不合适的。</p>
+<p> 黄金螺旋在几个关键方面已被证明是优越的，包括UV覆盖、图像质量和捕获空间信息的效率。其分布最大限度地减少了基线长度的冗余，并在观测空间尺度之间提供了平滑过渡，使其对大结构和小结构都有利。相比之下，“Y”形配置因其在臂上提供高分辨率的能力而脱颖而出，但其在垂直于臂的方向上缺乏覆盖限制了其在某些情况下的应用。另一方面，随机排列比网格提供更均匀的覆盖，但在旁瓣控制方面没有达到相同水平，并且在分辨率方面可能效率较低。最后，网格是最不理想的配置，因为其周期性结构存在固有问题，导致所得图像中存在明显的间隙和伪影。</p>
+<p>具体的描述如下：</p>
+<h2 id="黄金螺旋构型"><a href="#黄金螺旋构型" class="headerlink" title="黄金螺旋构型"></a>黄金螺旋构型</h2><p>UV覆盖特性：黄金螺旋构型提供了更为均匀的UV覆盖，不存在显著间隙。这一特性归因于其对数性质，使得在UV平面上的采样点分布更加合理，能够有效减少因覆盖不均匀而产生的成像问题。例如，在模拟图像中可以观察到其成像特性更为平滑，相较于其他构型，对观测源的空间信息采集更为全面且均衡。</p>
+<p><strong>对成像质量的影响</strong>：通过减少旁瓣和伪影，黄金螺旋构型显著提升了成像质量。均匀的UV覆盖确保了在傅里叶变换过程中，不同空间频率成分能够得到更准确的采样和恢复，从而在最终图像中呈现出更清晰、更真实的天体结构。在与其他构型对比的模拟图像中，该构型所生成的图像在细节呈现和整体清晰度上表现出色，伪影和旁瓣干扰明显减少。 </p>
+<p> <strong>空间尺度敏感性</strong>：其自相似性使得望远镜能够在多个尺度上保持良好的覆盖，对观测对象中的大尺度和小尺度结构均具有较高的敏感性。这意味着无论是大规模的星系结构还是小范围的恒星形成区域，黄金螺旋构型都能够有效地捕捉到相关信息，从而提供更为丰富的天体物理细节。在对不同类型天体的观测模拟中，该构型能够更全面地展现天体的多尺度特征，从宏观结构到微观细节都能清晰分辨。 </p>
+<h2 id="网格构型"><a href="#网格构型" class="headerlink" title="网格构型"></a>网格构型</h2><p> <strong>UV覆盖周期性结构</strong>：正方形网格构型在UV覆盖中呈现出明显的周期性结构。这种周期性导致在图像中容易出现旁瓣，周期性的间隙还会引入显著的伪影，从而严重影响成像质量。例如，在UV覆盖图中可以清晰看到规则的网格图案，这使得在图像重建过程中，某些空间频率成分被过度强调或缺失，进而产生伪影和旁瓣效应。 </p>
+<p> <strong>对成像的负面影响</strong>：由于上述周期性结构带来的问题，网格构型生成的图像整体质量下降。旁瓣会掩盖天体的真实信号，使图像中的微弱结构难以被检测到；伪影则会误导对天体形态和结构的判断。在对天体细节要求较高的观测中，网格构型的这种局限性表现得尤为明显，导致其在四种构型中成像效果最差。 </p>
+<h2 id="随机构型"><a href="#随机构型" class="headerlink" title="随机构型"></a>随机构型</h2><p> <strong>覆盖特性</strong>：随机排列构型提供了相对自然的覆盖，但这种随机性也带来了一些问题。虽然它在一定程度上避免了像网格构型那样的周期性结构，但由于缺乏系统性，其覆盖的均匀性仍不如黄金螺旋构型。在UV覆盖图中，随机构型的采样点分布较为分散，没有明显的规律，这可能导致在某些区域的覆盖不足或过度，从而影响成像效果。 </p>
+<p> <strong>分辨率和旁瓣控制效率</strong>：随机构型在分辨率和旁瓣控制方面的效率较低。由于天线位置的随机性，其形成的基线组合不够优化，使得在傅里叶变换过程中对空间频率的采样不够精确，进而影响了图像的分辨率。同时，随机的基线分布也难以有效抑制旁瓣的产生，导致图像中旁瓣较多，降低了图像的对比度和清晰度，与布恩的观点存在一定矛盾。 </p>
+<h2 id="“Y”形构型"><a href="#“Y”形构型" class="headerlink" title="“Y”形构型"></a>“Y”形构型</h2><p> <strong>臂上的高分辨率</strong>：“Y”形构型在其臂上能够实现高分辨率成像，这得益于其长基线的设计。长基线使得在臂方向上对空间频率的采样更为精细，能够捕捉到更细微的结构信息。在对具有明显线性结构的天体（如星系旋臂、射电喷流等）进行观测时，“Y”形构型在臂上的高分辨率优势得以充分体现，能够清晰地呈现出这些结构的细节。</p>
+<p> <strong>覆盖稀疏问题</strong>：然而，“Y”形构型在垂直于臂的方向上覆盖较为稀疏。这种稀疏性可能导致在这些方向上的空间信息采集不足，从而在图像中产生覆盖不完整的区域，容易出现潜在的成像伪影。在对整体结构较为复杂、不具有明显线性特征的天体进行观测时，“Y”形构型在某些角度的成像质量可能会受到影响，限制了其在更广泛观测场景中的应用。 通过对不同构型在UV覆盖、成像质量、分辨率以及空间尺度敏感性等方面的详细描述和对比，可以清晰地呈现出各种构型的优缺点，为后续关于阵列配置优化及其对干涉成像影响的讨论提供有力依据。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>处无为之事，行不言之教；作而弗始，生而弗有，为而弗恃，功成不居!</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.JPG" alt="郭大侠 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.JPG" alt="郭大侠 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/imaging/" rel="tag"># imaging</a>
+              <a href="/tags/UV-coverage/" rel="tag"># UV coverage</a>
+              <a href="/tags/UV%E8%A6%86%E7%9B%96/" rel="tag"># UV覆盖</a>
+              <a href="/tags/Synthetic/" rel="tag"># Synthetic</a>
+              <a href="/tags/spiral/" rel="tag"># spiral</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/04/09/radio_astronomy_install_smili/" rel="prev" title="SMILI 安装说明">
+      <i class="fa fa-chevron-left"></i> SMILI 安装说明
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/06/19/00-summary-all/" rel="next" title="我们编程吧 集锦">
+      我们编程吧 集锦 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+      <div class="tabs tabs-comment">
+        <ul class="nav-tabs">
+            <li class="tab"><a href="#comment-disqus">disqus</a></li>
+            <li class="tab"><a href="#comment-valine">valine</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane disqus" id="comment-disqus">
+              
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+            </div>
+            <div class="tab-pane valine" id="comment-valine">
+              <div class="comments" id="valine-comments"></div>
+            </div>
+        </div>
+      </div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Distribution-models-of-antennas-in-radio-astronomy-Efficiency-comparison-of-the-golden-spiral-interferometry"><span class="nav-number">1.</span> <span class="nav-text">Distribution models of antennas in radio astronomy: Efficiency comparison of the golden spiral interferometry</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BB%84%E9%87%91%E8%9E%BA%E6%97%8B%E6%9E%84%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">黄金螺旋构型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E6%A0%BC%E6%9E%84%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">网格构型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%9E%84%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">随机构型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%9CY%E2%80%9D%E5%BD%A2%E6%9E%84%E5%9E%8B"><span class="nav-number">1.4.</span> <span class="nav-text">“Y”形构型</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">郭大侠</p>
+  <div class="site-description" itemprop="description">郭大侠的博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">998</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">181</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1450</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http:&#x2F;&#x2F;macshuo.com&#x2F;" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://huhuidong.wordpress.com/" title="https:&#x2F;&#x2F;huhuidong.wordpress.com&#x2F;" rel="noopener" target="_blank">小胡</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2007 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">郭大侠</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz","app_key":"NTHrGJp71GzEGvNUEUFumVcR","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://shaoguangleo.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://shaoguangleo.github.io/2024/12/24/paper-Distribution%20models%20of%20antennas%20in%20radio%20astronomy%20Efficiency%20comparison%20of%20the%20golden%20spiral%20interferometry/";
+    this.page.identifier = "2024/12/24/paper-Distribution models of antennas in radio astronomy Efficiency comparison of the golden spiral interferometry/";
+    this.page.title = "Distribution models of antennas in radio astronomy Efficiency comparison of the golden spiral interferometry";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://shaoguangleo.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : 'vIjrLnlboDVaaseO2yYcVSQF-gzGzoHsz',
+      appKey     : 'NTHrGJp71GzEGvNUEUFumVcR',
+      placeholder: "路过，即是缘分...",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
